@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 #===========================================================================
 # File        : link_file_tests.ksh
 # Date        : xx-xxx-99 : initial definition (CSUN HP lab)
@@ -12,67 +12,31 @@
 #    the files from the DCW library.
 #===========================================================================
 
-if test $# -ne 1; then
+Base=..
 
-   echo "Usage: link_file_tests.ksh <hp | sun | litton>";
-   
-   exit;
-      
-fi
-      
-if test "$1" = "litton"; then
-      
-   export Compiler_Path=/opt/cots/SUNWspro/SC5.0/bin
- 
-   export CPP="$Compiler_Path/CC";
-    
-elif test "$1" = "hp"; then
-    
-   export Compiler_Path=/opt/aCC/bin
-       
-   export CPP="$Compiler_Path/aCC";
-  
-elif test "$1" = "sun"; then
+Root=$Base/C_source
 
-   export Compiler_Path=/opt/cecs/bin
+H_PATH=-I$Root/include/gmsFile
 
-   export CPP="$Compiler_Path/c++";
+L_PATH=-L$Root/lib
 
-else
+L_LIBS="-lGmsFile -lm"
 
-   echo "Usage : link_file_tests.ksh <hp | sun | litton>";
+BIN_DIR=$Base/unixBuild/bin
 
-   exit;
+OPTIONS="-DIS_UNIX -DBIG_ENDIAN"
 
-fi
+cd $Root/mains/gmsFile
 
-export MV=mv
-
-export Base=$HOME/thesis
-
-export Root=$Base/C_source;
-
-export H_PATH=-I$Root/include/gmsFile;
-
-export L_PATH=-L$Root/lib;
-
-export L_LIBS="-lGmsFile -lm"
-
-export BIN_DIR=$Base/unixBuild/bin;
-
-export OPTIONS="-DIS_UNIX -DBIG_ENDIAN";
-
-cd $Root/mains/gmsFile;
-
-export Test_Drivers=`ls *.cpp`;
+Test_Drivers=`ls *.cpp`
 
 for eachCpp in $Test_Drivers; do
 
-   export eachDriver=`echo $eachCpp | sed 's/\.cpp//'`;
+    eachDriver=`echo $eachCpp | sed 's/\.cpp//'`
 
-   export EXE_NAME=$eachDriver.exe;
+    EXE_NAME=$eachDriver.exe
 
-   echo "_______________";
+   echo "_______________"
    echo "Compiling $eachCpp"
 
    $CPP $OPTIONS $H_PATH $L_PATH $eachCpp -o $EXE_NAME $L_LIBS
@@ -83,9 +47,9 @@ for eachCpp in $Test_Drivers; do
 
    else
 
-      echo "Exe $EXE_NAME FAILED to link.";
+      echo "Exe $EXE_NAME FAILED to link."
 
-      exit;
+      exit
 
    fi
 
