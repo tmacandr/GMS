@@ -1,121 +1,121 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsFeatureTable.c
-/* Date : 25-Aug-99 : initial definition
-/*        11-Sep-99 : major surgery to the interface (re : Mil-D-89009)
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*        17-Nov-99 : get feature tbl routine figures out index file
-/*
-/* Description:
-/*    Utilities to read/process any "Feature Table" file (except from BROWSE)
-/*    of the Digital Chart of the World (DCW) database.  Consider the following
-/*    definitions:
-/*
-/*       Feature:
-/*       --------
-/*          A model of a real world geographic entity.  [It is a] zero-,
-/*          one-, or two-dimensional entity of uniform attribute scheme
-/*          from an exhaustive attribute distribution across a plane,
-/*          or a set of such entities sharing common attribute values.
-/*          The three subtypes are simple features, complex features,
-/*          and text features.  The types of simple features are point
-/*          features, line features, and area features.
-/*
-/*       Feature Class:
-/*       --------------
-/*          A set of features that shares a homogeneous set of attributes.
-/*          A feature class consists of a set of tables that includes one
-/*          or more primitive tables and one or more attribute tables.
-/*          A feature class has the same columns of attribute information
-/*          for each feature.  Every feature class has one and only one
-/*          feature table.  The two types of feature classes are the simple
-/*          feature class and the complex feature class.  The subtypes of
-/*          the simple feature class are the "point", "line", "area", and
-/*          "text" feature classes.
-/*
-/*    Ok, so there's some inconsistency in their (NIMA) defintions.  In
-/*    general, there are 4 types of "feature" tables managed by this
-/*    component.  They are:
-/*
-/*                   area  (*.AFT files)
-/*                   line  (*.LFT files)
-/*                   point (*.PFT files)
-/*                   text  (*.TFT files)
-/*
-/*    The table below maps "feature-tables" to "themes".  A "y" means a
-/*    feature table exists for that theme (i.e. directory).
-/*
-/*    ___________________________________________________________________
-/*    |                           |          Feature Table              |
-/*    |      DCW Theme            |-------------------------------------|
-/*    |                           | *.AFT  |  *.LFT  |  *.PFT  |  *.TFT | 
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Aeronautical (AE)         |   n    |    n    |   y     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Cultural Landmarks (CL)   |   y    |    y    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Data Quality (DQ)         |   y    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Drainage (DN)             |   y    |    y    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | DN - Supplemental (DS)    |   n    |    n    |   y     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Hypsography (HY)          |   y    |    n    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | HY - Supplemental (HS)    |   n    |    y    |   y     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Land Cover (LC)           |   y    |    n    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Ocean Features (OF)       |   n    |    y    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Physiography (PH)         |   n    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Political/Oceans (PO)     |   y    |    y    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Populated Places (PP)     |   y    |    n    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Railroads (RR)            |   n    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Roads (RD)                |   n    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Transportation Struct (TS)|   n    |    y    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Utilites (UT)             |   n    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Vegetation (VG)           |   y    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Gazeteer                  |   n    |    n    |   y     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Tile Reference            |   y    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Library Reference         |   n    |    y    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsFeatureTable.c
+// Date : 25-Aug-99 : initial definition
+//        11-Sep-99 : major surgery to the interface (re : Mil-D-89009)
+//        07-Oct-99 : Clean-up due to code-inspection
+//        17-Nov-99 : get feature tbl routine figures out index file
+//
+// Description:
+//    Utilities to read/process any "Feature Table" file (except from BROWSE)
+//    of the Digital Chart of the World (DCW) database.  Consider the following
+//    definitions:
+//
+//       Feature:
+//       --------
+//          A model of a real world geographic entity.  [It is a] zero-,
+//          one-, or two-dimensional entity of uniform attribute scheme
+//          from an exhaustive attribute distribution across a plane,
+//          or a set of such entities sharing common attribute values.
+//          The three subtypes are simple features, complex features,
+//          and text features.  The types of simple features are point
+//          features, line features, and area features.
+//
+//       Feature Class:
+//       --------------
+//          A set of features that shares a homogeneous set of attributes.
+//          A feature class consists of a set of tables that includes one
+//          or more primitive tables and one or more attribute tables.
+//          A feature class has the same columns of attribute information
+//          for each feature.  Every feature class has one and only one
+//          feature table.  The two types of feature classes are the simple
+//          feature class and the complex feature class.  The subtypes of
+//          the simple feature class are the "point", "line", "area", and
+//          "text" feature classes.
+//
+//    Ok, so there's some inconsistency in their (NIMA) defintions.  In
+//    general, there are 4 types of "feature" tables managed by this
+//    component.  They are:
+//
+//                   area  (*.AFT files)
+//                   line  (*.LFT files)
+//                   point (*.PFT files)
+//                   text  (*.TFT files)
+//
+//    The table below maps "feature-tables" to "themes".  A "y" means a
+//    feature table exists for that theme (i.e. directory).
+//
+//    ___________________________________________________________________
+//    |                           |          Feature Table              |
+//    |      DCW Theme            |-------------------------------------|
+//    |                           | *.AFT  |  *.LFT  |  *.PFT  |  *.TFT | 
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Aeronautical (AE)         |   n    |    n    |   y     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Cultural Landmarks (CL)   |   y    |    y    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Data Quality (DQ)         |   y    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Drainage (DN)             |   y    |    y    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | DN - Supplemental (DS)    |   n    |    n    |   y     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Hypsography (HY)          |   y    |    n    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | HY - Supplemental (HS)    |   n    |    y    |   y     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Land Cover (LC)           |   y    |    n    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Ocean Features (OF)       |   n    |    y    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Physiography (PH)         |   n    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Political/Oceans (PO)     |   y    |    y    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Populated Places (PP)     |   y    |    n    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Railroads (RR)            |   n    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Roads (RD)                |   n    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Transportation Struct (TS)|   n    |    y    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Utilites (UT)             |   n    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Vegetation (VG)           |   y    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Gazeteer                  |   n    |    n    |   y     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Tile Reference            |   y    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Library Reference         |   n    |    y    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsFeatureTable.h>
 #include <gmsIndexFile.h>
@@ -126,10 +126,10 @@
 #include <string.h>
 
 
-/*-----------------------------*/
-/*     Local Constants         */
-/*-----------------------------*/
-#define Size_Of_AE_Point_Record 99 /* ... if there were no unused bytes */
+//-----------------------------*/
+//     Local Constants         */
+//-----------------------------*/
+#define Size_Of_AE_Point_Record 99 // ... if there were no unused bytes */
 #define Size_Of_CL_Point_Record 60
 #define Size_Of_PO_Point_Record 18
 #define Size_Of_PP_Point_Record 58
@@ -148,15 +148,15 @@
 #define Size_Of_General_Line_Record    18
 
 
-/*-----------------------------*/
-/*     Local Variables         */
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables         */
+//-----------------------------*/
 static FILE *feature_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void buildAreaFeatureTable
                (gmsThematicType  whichTheme,
                 featureTableType *theTbl);
@@ -224,9 +224,9 @@ static void build_OF_PH_UT_LineFeatureTable
 static void buildGeneralLineFeatureTable
                (featureTableType *theTbl);
 
-      /*-----------------------*/
-      /* Print utilities       */
-      /*-----------------------*/
+      //-----------------------*/
+      // Print utilities       */
+      //-----------------------*/
 
 static void printTextFeatureTable
                (int                numRecs,
@@ -301,29 +301,29 @@ static void printGeneralLineFeatureTable
                 generalLineFeatureRecType *theTbl);
 
 
-/*---------------------------------------------*/
-/* gmsGetFeatureTable
-/*
-/* Description:
-/*    This utility reads the specified "feature
-/*    table" and builds a corresponding data
-/*    structure.  The kind of data-structure is
-/*    specified by the parameter "whichTheme".
-/*    A pointer to a newly allocated table is
-/*    returned to the caller.  The caller is then
-/*    able to type-cast the "void *" to the
-/*    corresponding data-structure.
-/*
-/*    Note:
-/*       If the file to be read is a "text-feature
-/*       table, then the name of the "text-index"
-/*       file ("*.tfx") is determined by this
-/*       routine.
-/*
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeFeatureTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetFeatureTable
+//
+// Description:
+//    This utility reads the specified "feature
+//    table" and builds a corresponding data
+//    structure.  The kind of data-structure is
+//    specified by the parameter "whichTheme".
+//    A pointer to a newly allocated table is
+//    returned to the caller.  The caller is then
+//    able to type-cast the "void *" to the
+//    corresponding data-structure.
+//
+//    Note:
+//       If the file to be read is a "text-feature
+//       table, then the name of the "text-index"
+//       file ("*.tfx") is determined by this
+//       routine.
+//
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeFeatureTable" (see below).
+//---------------------------------------------*/
 featureTableType *gmsGetFeatureTable
                            (gmsThematicType whichTheme,
                             const char      *featureFilePath,
@@ -440,14 +440,14 @@ featureTableType *gmsGetFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeFeatureTable
-/*
-/* Description:
-/*    This utility frees a "Feature Table" that had
-/*    been previously allocated using
-/*    "gmsGetFeatureTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeFeatureTable
+//
+// Description:
+//    This utility frees a "Feature Table" that had
+//    been previously allocated using
+//    "gmsGetFeatureTable".
+//---------------------------------------------*/
 void gmsFreeFeatureTable
            (featureTableType *theFeatureTable)
 
@@ -462,13 +462,13 @@ void gmsFreeFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintFeatureTable	
-/*
-/* Description:
-/*    This function will print the "Feature Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintFeatureTable	
+//
+// Description:
+//    This function will print the "Feature Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintFeatureTable
            (featureTableType *theTbl)
 
@@ -623,7 +623,7 @@ void gmsPrintFeatureTable
 
                break;
               }
-          } /* end switch */
+          } // end switch */
       }
 
    else if (theTbl->whichFeature == gmsArea)
@@ -685,7 +685,7 @@ void gmsPrintFeatureTable
 
                break;
               }
-          } /* end switch */
+          } // end switch */
       }
 
    else if (theTbl->whichFeature == gmsLine)
@@ -742,24 +742,24 @@ void gmsPrintFeatureTable
 
                break;
               }
-          } /* end switch */
+          } // end switch */
       }
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the "Feature Table"
-/*    file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the "Feature Table"
+//    file.
+//---------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -786,15 +786,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* getNumBytesOfData
-/*
-/* Description:
-/*    This function determines the number of
-/*    bytes of data in the file AFTER the header.
-/*    The file-descriptor is returned to the top
-/*    of the file after this routine completes.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getNumBytesOfData
+//
+// Description:
+//    This function determines the number of
+//    bytes of data in the file AFTER the header.
+//    The file-descriptor is returned to the top
+//    of the file after this routine completes.
+//---------------------------------------------*/
 static int getNumBytesOfData ()
 
 {
@@ -820,17 +820,17 @@ static int getNumBytesOfData ()
 }
 
 
-/*---------------------------------------------*/
-/* allocateBufferForFeatureTable
-/*
-/* Description:
-/*    This utility allocates a buffer to accomodate
-/*    the data from a feature table.  The number
-/*    of records from the file (the feature table)
-/*    is determined.  Then a buffer is allocated
-/*    for these records.  The the attributes of the
-/*    feature table object ("theTbl") is constructed.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// allocateBufferForFeatureTable
+//
+// Description:
+//    This utility allocates a buffer to accomodate
+//    the data from a feature table.  The number
+//    of records from the file (the feature table)
+//    is determined.  Then a buffer is allocated
+//    for these records.  The the attributes of the
+//    feature table object ("theTbl") is constructed.
+//---------------------------------------------*/
 static void allocateBufferForFeatureTable
                (int              exactSizeOfRecord,
                 int              structSizeOfRecord,
@@ -856,24 +856,24 @@ static void allocateBufferForFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildAreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an AREA feature
-/*    table.  This applies to the following
-/*    themes:
-/*
-/*               CL - Cultural Landmarks
-/*               DQ - Data Quality
-/*               PO - Political/Oceans
-/*               DN - Drainage
-/*               HY - Hypsographic
-/*               LC - Land Coverage
-/*               PP - Populated Places
-/*               VG - Vegetation
-/*               TileRef
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildAreaFeatureTable
+//
+// Description:
+//    Utility that constructs an AREA feature
+//    table.  This applies to the following
+//    themes:
+//
+//               CL - Cultural Landmarks
+//               DQ - Data Quality
+//               PO - Political/Oceans
+//               DN - Drainage
+//               HY - Hypsographic
+//               LC - Land Coverage
+//               PP - Populated Places
+//               VG - Vegetation
+//               TileRef
+//---------------------------------------------*/
 static void buildAreaFeatureTable
                (gmsThematicType  whichTheme,
                 featureTableType *theTbl)
@@ -926,31 +926,31 @@ static void buildAreaFeatureTable
 
            break;
           }
-      } /* end switch */
+      } // end switch */
 }
 
 
-/*---------------------------------------------*/
-/* buildPointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a POINT feature
-/*    table.  This applies to the following
-/*    themes:
-/*
-/*               AE - Aeronautical
-/*               CL - Cultural Landmarks
-/*               TS - Transportation Structures
-/*               PO - Political/Oceans
-/*               DN - Drainage
-/*               DS - Drainage (supplemental)
-/*               HY - Hypsographic
-/*               HS - Hypsograhpic (supplemental)
-/*               LC - Land Coverage
-/*               PP - Populated Places
-/*               OF - Ocean Features
-/*               Gazetteer
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildPointFeatureTable
+//
+// Description:
+//    Utility that constructs a POINT feature
+//    table.  This applies to the following
+//    themes:
+//
+//               AE - Aeronautical
+//               CL - Cultural Landmarks
+//               TS - Transportation Structures
+//               PO - Political/Oceans
+//               DN - Drainage
+//               DS - Drainage (supplemental)
+//               HY - Hypsographic
+//               HS - Hypsograhpic (supplemental)
+//               LC - Land Coverage
+//               PP - Populated Places
+//               OF - Ocean Features
+//               Gazetteer
+//---------------------------------------------*/
 static void buildPointFeatureTable
                (gmsThematicType  whichTheme,
                 featureTableType *theTbl)
@@ -1024,31 +1024,31 @@ static void buildPointFeatureTable
 
            break;
           }
-      } /* end switch */
+      } // end switch */
 }
 
 
-/*---------------------------------------------*/
-/* buildLineFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a LINE feature
-/*    table.  This applies to the following
-/*    themes:
-/*
-/*               CL - Cultural Landmarks
-/*               DQ - Data Quality
-/*               OF - Ocean Features
-/*               PH - Physiography
-/*               UT - Utilities
-/*               DN - Drainage
-/*               HY - Hypsographic
-/*               HS - Hypsographic (supplemental)
-/*               PO - Political/Oceans
-/*               RR - Railroads
-/*               RD - Roads
-/*               TS - Transportation Structures
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildLineFeatureTable
+//
+// Description:
+//    Utility that constructs a LINE feature
+//    table.  This applies to the following
+//    themes:
+//
+//               CL - Cultural Landmarks
+//               DQ - Data Quality
+//               OF - Ocean Features
+//               PH - Physiography
+//               UT - Utilities
+//               DN - Drainage
+//               HY - Hypsographic
+//               HS - Hypsographic (supplemental)
+//               PO - Political/Oceans
+//               RR - Railroads
+//               RD - Roads
+//               TS - Transportation Structures
+//---------------------------------------------*/
 static void buildLineFeatureTable
                (gmsThematicType  whichTheme,
                 featureTableType *theTbl)
@@ -1098,17 +1098,17 @@ static void buildLineFeatureTable
 
            break;
           }
-      } /* end switch */
+      } // end switch */
 }
 
 
-/*---------------------------------------------*/
-/* buildTextFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a TEXT feature
-/*    table.  This applies to ALL themes.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildTextFeatureTable
+//
+// Description:
+//    Utility that constructs a TEXT feature
+//    table.  This applies to ALL themes.
+//---------------------------------------------*/
 static void buildTextFeatureTable
                (featureTableType *theTbl,
                 indexTableType   *theTFX)
@@ -1172,13 +1172,13 @@ static void buildTextFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_AE_PointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Aeronautical (AE)
-/*    POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_AE_PointFeatureTable
+//
+// Description:
+//    Utility that constructs an Aeronautical (AE)
+//    POINT feature table.
+//---------------------------------------------*/
 static void build_AE_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1232,13 +1232,13 @@ static void build_AE_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_CL_PointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Cultural-Landmarks
-/*    (CL) POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_CL_PointFeatureTable
+//
+// Description:
+//    Utility that constructs an Cultural-Landmarks
+//    (CL) POINT feature table.
+//---------------------------------------------*/
 static void build_CL_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1273,13 +1273,13 @@ static void build_CL_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_PO_PointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Political/Oceans
-/*    (PO) POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_PO_PointFeatureTable
+//
+// Description:
+//    Utility that constructs an Political/Oceans
+//    (PO) POINT feature table.
+//---------------------------------------------*/
 static void build_PO_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1321,13 +1321,13 @@ static void build_PO_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_PP_PointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Populated Places
-/*    (PP) POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_PP_PointFeatureTable
+//
+// Description:
+//    Utility that constructs an Populated Places
+//    (PP) POINT feature table.
+//---------------------------------------------*/
 static void build_PP_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1369,13 +1369,13 @@ static void build_PP_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_TS_PointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Transportation-
-/*    Structure (TS) POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_TS_PointFeatureTable
+//
+// Description:
+//    Utility that constructs an Transportation-
+//    Structure (TS) POINT feature table.
+//---------------------------------------------*/
 static void build_TS_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1409,13 +1409,13 @@ static void build_TS_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildGazetteerPointFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a "Gazetteer"
-/*    POINT feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildGazetteerPointFeatureTable
+//
+// Description:
+//    Utility that constructs a "Gazetteer"
+//    POINT feature table.
+//---------------------------------------------*/
 static void buildGazetteerPointFeatureTable
                (featureTableType *theTbl)
 
@@ -1451,23 +1451,23 @@ static void buildGazetteerPointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_HY_PointFeatureTable
-/*
-/* Description:
-/*    Utility that builds a table of 'hypsographic'
-/*    records:
-/*
-/*       Hypsographic Points;
-/*       --------------------
-/*         ID      =I,1,P,Row Identifier,-,-,:
-/*         HYPTTYPE=I,1,N,Type of Spot Elevation,INT.VDT,-,:
-/*         HYPTVAL =I,1,N,Spot Elevation Value,-,-,:
-/*         TILE_ID =S,1,F,Tile Reference Identifier,-,HYPOINT.PTI,:
-/*         END_ID  =I,1,F,Entity Node Primitive Foreign Key,-,-,:;
-/*
-/*    The reference document is : HYPOINT.DOC
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_HY_PointFeatureTable
+//
+// Description:
+//    Utility that builds a table of 'hypsographic'
+//    records:
+//
+//       Hypsographic Points;
+//       --------------------
+//         ID      =I,1,P,Row Identifier,-,-,:
+//         HYPTTYPE=I,1,N,Type of Spot Elevation,INT.VDT,-,:
+//         HYPTVAL =I,1,N,Spot Elevation Value,-,-,:
+//         TILE_ID =S,1,F,Tile Reference Identifier,-,HYPOINT.PTI,:
+//         END_ID  =I,1,F,Entity Node Primitive Foreign Key,-,-,:;
+//
+//    The reference document is : HYPOINT.DOC
+//---------------------------------------------*/
 static void build_HY_PointFeatureTable
                (featureTableType *theTbl)
 
@@ -1501,18 +1501,18 @@ static void build_HY_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildGeneralPointFeatureTable
-/*
-/* Description:
-/*    Utility that builds POINT feature records for
-/*    the following themes:
-/*           DN - Drainage
-/*           DS - Drainage supplemental
-/*           HY - Hypsographic
-/*           LC - Land Coverage
-/*           OF - Ocean Features
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildGeneralPointFeatureTable
+//
+// Description:
+//    Utility that builds POINT feature records for
+//    the following themes:
+//           DN - Drainage
+//           DS - Drainage supplemental
+//           HY - Hypsographic
+//           LC - Land Coverage
+//           OF - Ocean Features
+//---------------------------------------------*/
 static void buildGeneralPointFeatureTable
                (featureTableType *theTbl)
 
@@ -1544,13 +1544,13 @@ static void buildGeneralPointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_CL_AreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an Cultural-Landmarks
-/*    (CL) AREA feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_CL_AreaFeatureTable
+//
+// Description:
+//    Utility that constructs an Cultural-Landmarks
+//    (CL) AREA feature table.
+//---------------------------------------------*/
 static void build_CL_AreaFeatureTable
                (featureTableType *theTbl)
 
@@ -1585,13 +1585,13 @@ static void build_CL_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_DQ_AreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a Data-Quality
-/*    (DQ) AREA feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_DQ_AreaFeatureTable
+//
+// Description:
+//    Utility that constructs a Data-Quality
+//    (DQ) AREA feature table.
+//---------------------------------------------*/
 static void build_DQ_AreaFeatureTable
                (featureTableType *theTbl)
 
@@ -1656,13 +1656,13 @@ static void build_DQ_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_PO_AreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a Political/Oceans
-/*    (PO) AREA feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_PO_AreaFeatureTable
+//
+// Description:
+//    Utility that constructs a Political/Oceans
+//    (PO) AREA feature table.
+//---------------------------------------------*/
 static void build_PO_AreaFeatureTable
                (featureTableType *theTbl)
 
@@ -1709,13 +1709,13 @@ static void build_PO_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_TileRef_AreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a Tile-Reference
-/*    AREA feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_TileRef_AreaFeatureTable
+//
+// Description:
+//    Utility that constructs a Tile-Reference
+//    AREA feature table.
+//---------------------------------------------*/
 static void build_TileRef_AreaFeatureTable
                (featureTableType *theTbl)
 
@@ -1746,19 +1746,19 @@ static void build_TileRef_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildGeneralAreaFeatureTable
-/*
-/* Description:
-/*    Utility that constructs an AREA feature
-/*    table for the following themes:
-/*
-/*             DN - Drainage
-/*             HY - Hypsographic
-/*             LC - Land Coverage
-/*             PP - Populated Places
-/*             VG - Vegetation
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildGeneralAreaFeatureTable
+//
+// Description:
+//    Utility that constructs an AREA feature
+//    table for the following themes:
+//
+//             DN - Drainage
+//             HY - Hypsographic
+//             LC - Land Coverage
+//             PP - Populated Places
+//             VG - Vegetation
+//---------------------------------------------*/
 static void buildGeneralAreaFeatureTable
                (featureTableType *theTbl)
 
@@ -1793,13 +1793,13 @@ static void buildGeneralAreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_CL_LineFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a Cultural-Landmarks
-/*    (CL) LINE feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_CL_LineFeatureTable
+//
+// Description:
+//    Utility that constructs a Cultural-Landmarks
+//    (CL) LINE feature table.
+//---------------------------------------------*/
 static void build_CL_LineFeatureTable
                (featureTableType *theTbl)
 
@@ -1834,13 +1834,13 @@ static void build_CL_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_DQ_LineFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a Data-Quality
-/*    (DQ) LINE feature table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_DQ_LineFeatureTable
+//
+// Description:
+//    Utility that constructs a Data-Quality
+//    (DQ) LINE feature table.
+//---------------------------------------------*/
 static void build_DQ_LineFeatureTable
                (featureTableType *theTbl)
 
@@ -1882,17 +1882,17 @@ static void build_DQ_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* build_OF_PH_UT_LineFeatureTable
-/*
-/* Description:
-/*    Utility that constructs a LINE feature
-/*    table for the following themes:
-/*
-/*            OF - Ocean Features
-/*            PH - Physiography
-/*            UT - Utilities
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// build_OF_PH_UT_LineFeatureTable
+//
+// Description:
+//    Utility that constructs a LINE feature
+//    table for the following themes:
+//
+//            OF - Ocean Features
+//            PH - Physiography
+//            UT - Utilities
+//---------------------------------------------*/
 static void build_OF_PH_UT_LineFeatureTable
                (featureTableType *theTbl)
 
@@ -1924,20 +1924,20 @@ static void build_OF_PH_UT_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildGeneralLineFeatureTable
-/*
-/* Description:
-/*    This utility build a feature table for the
-/*    following themes:
-/*          DN - Drainage
-/*          HY - Hysographic
-/*          HS - Hysographic supplemental
-/*          PO - Political/Oceans
-/*          RR - Railroads
-/*          RD - Roads
-/*          TS - Transportation Structure
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildGeneralLineFeatureTable
+//
+// Description:
+//    This utility build a feature table for the
+//    following themes:
+//          DN - Drainage
+//          HY - Hysographic
+//          HS - Hysographic supplemental
+//          PO - Political/Oceans
+//          RR - Railroads
+//          RD - Roads
+//          TS - Transportation Structure
+//---------------------------------------------*/
 static void buildGeneralLineFeatureTable
                (featureTableType *theTbl)
 
@@ -1977,16 +1977,16 @@ static void buildGeneralLineFeatureTable
 }
 
 
-           /*-----------------------*/
-           /* Print utilities       */
-           /*-----------------------*/
+           //-----------------------*/
+           // Print utilities       */
+           //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* printTextFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printTextFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void printTextFeatureTable
                (int                numRecs,
                 textFeatureRecType *theTbl)
@@ -2011,11 +2011,11 @@ static void printTextFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_AE_PointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_AE_PointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_AE_PointFeatureTable
                (int                    numRecs,
                 AE_pointFeatureRecType *theTbl)
@@ -2048,11 +2048,11 @@ static void print_AE_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_CL_PointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_CL_PointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_CL_PointFeatureTable
                (int                    numRecs,
                 CL_pointFeatureRecType *theTbl)
@@ -2071,11 +2071,11 @@ static void print_CL_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_PO_PointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_PO_PointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_PO_PointFeatureTable
                (int                    numRecs,
                 PO_pointFeatureRecType *theTbl)
@@ -2096,11 +2096,11 @@ static void print_PO_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_PP_PointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_PP_PointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_PP_PointFeatureTable
                (int                    numRecs,
                 PP_pointFeatureRecType *theTbl)
@@ -2121,11 +2121,11 @@ static void print_PP_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_TS_PointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_TS_PointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_TS_PointFeatureTable
                (int                    numRecs,
                 TS_pointFeatureRecType *theTbl)
@@ -2145,11 +2145,11 @@ static void print_TS_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printGazetteerPointFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printGazetteerPointFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void printGazetteerPointFeatureTable
                (int                          numRecs,
                 gazetteerPointFeatureRecType *theTbl)
@@ -2168,13 +2168,13 @@ static void printGazetteerPointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_HY_PointFeatureTable
-/*
-/* Description:
-/*    Prints out the records from a 'hysographic
-/*    point feature' table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_HY_PointFeatureTable
+//
+// Description:
+//    Prints out the records from a 'hysographic
+//    point feature' table.
+//---------------------------------------------*/
 static void print_HY_PointFeatureTable
                (int                    numRecs,
                 HY_pointFeatureRecType *theTbl)
@@ -2197,18 +2197,18 @@ static void print_HY_PointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printGeneralPointFeatureTable
-/*
-/* Description:
-/*    Prints out 'point feature' records for the
-/*    following themes:
-/*              DN - Drainage
-/*              DS - Drainage supplemental
-/*              HS - Hypsographic supplemental
-/*              LC - Land Coverage
-/*              OF - Ocean Features
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printGeneralPointFeatureTable
+//
+// Description:
+//    Prints out 'point feature' records for the
+//    following themes:
+//              DN - Drainage
+//              DS - Drainage supplemental
+//              HS - Hypsographic supplemental
+//              LC - Land Coverage
+//              OF - Ocean Features
+//---------------------------------------------*/
 static void printGeneralPointFeatureTable
                (int                        numRecs,
                 generalPointFeatureRecType *theTbl)
@@ -2230,11 +2230,11 @@ static void printGeneralPointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_CL_AreaFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_CL_AreaFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_CL_AreaFeatureTable
                (int                   numRecs,
                 CL_AreaFeatureRecType *theTbl)
@@ -2256,11 +2256,11 @@ static void print_CL_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_DQ_AreaFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_DQ_AreaFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_DQ_AreaFeatureTable
                (int                   numRecs,
                 DQ_areaFeatureRecType *theTbl)
@@ -2285,11 +2285,11 @@ static void print_DQ_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_PO_AreaFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_PO_AreaFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_PO_AreaFeatureTable
                (int                   numRecs,
                 PO_areaFeatureRecType *theTbl)
@@ -2311,11 +2311,11 @@ static void print_PO_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_TileRef_AreaFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_TileRef_AreaFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_TileRef_AreaFeatureTable
                (int                        numRecs,
                 tileRef_areaFeatureRecType *theTbl)
@@ -2335,11 +2335,11 @@ static void print_TileRef_AreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printGeneralAreaFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printGeneralAreaFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void printGeneralAreaFeatureTable
                (int                       numRecs,
                 generalAreaFeatureRecType *theTbl)
@@ -2361,11 +2361,11 @@ static void printGeneralAreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_CL_LineFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_CL_LineFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_CL_LineFeatureTable
                (int                   numRecs,
                 CL_lineFeatureRecType *theTbl)
@@ -2387,11 +2387,11 @@ static void print_CL_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_DQ_LineFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_DQ_LineFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_DQ_LineFeatureTable
                (int                   numRecs,
                 DQ_lineFeatureRecType *theTbl)
@@ -2412,11 +2412,11 @@ static void print_DQ_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* print_OF_PH_UT_LineFeatureTable
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// print_OF_PH_UT_LineFeatureTable
+//
+// Description:
+//---------------------------------------------*/
 static void print_OF_PH_UT_LineFeatureTable
                (int                         numRecs,
                 OF_PH_UT_lineFeatureRecType *theTbl)
@@ -2438,20 +2438,20 @@ static void print_OF_PH_UT_LineFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printGeneralLineFeatureTable
-/*
-/* Description:
-/*    Utility to print the contents of feature
-/*    tables of the following themes:
-/*           DN - Drainage
-/*           HY - Hypsographic
-/*           HS - Hysographic supplemental
-/*           PO - Political/Oceans
-/*           RR - Railroads
-/*           RD - Roads
-/*           TS - Transportation Structures
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printGeneralLineFeatureTable
+//
+// Description:
+//    Utility to print the contents of feature
+//    tables of the following themes:
+//           DN - Drainage
+//           HY - Hypsographic
+//           HS - Hysographic supplemental
+//           PO - Political/Oceans
+//           RR - Railroads
+//           RD - Roads
+//           TS - Transportation Structures
+//---------------------------------------------*/
 static void printGeneralLineFeatureTable
                (int                       numRecs,
                 generalLineFeatureRecType *theTbl)

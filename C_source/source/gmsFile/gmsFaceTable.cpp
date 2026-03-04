@@ -1,43 +1,43 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsFaceTable.cpp
-/* Date : 07-Aug-99 : initial definition
-/*        21-Sep-99 : browse record is different from regional-lib record
-/*        13-Oct-99 : routine figures out which format of record
-/*
-/* Description:
-/*    Utilities to "read" any "Face Table" file of the Digital Chart of
-/*    the World (DCW).  Consider the following definition:
-/*
-/*       Face:
-/*       -----
-/*          A region enclosed by an edge or set of
-/*          edges.  Faces are topologically linked
-/*          to their surrounding edges as well as to
-/*          the other faces that surround them.  Faces
-/*          are always non-overlappoing, exhausting
-/*          the area of a plane.
-/*
-/*    There are two types of face tables.  The first is used for the BROWSE
-/*    library.  Its format is:
-/*
-/*       BROWSE Face Record:
-/*       -------------------
-/*             ID      =I,1,P,Row ID                   ,-,-,
-/*             RING_PTR=I,1,F,Foreign Key to Ring Table,-,-,
-/*
-/*    The second type is used for the other REGIONAL libraries.  Its format
-/*    is:
-/*
-/*       REGIONAL Face Record:
-/*       ---------------------
-/*             ID      =I,1,P,Row ID                           ,-,-
-/*             *.AFT_ID=I,1,F,Foreign Key to Area Feature Table,-,-,
-/*             RING_PTR=I,1,F,Foreign Key to Ring Table        ,-,-
-/*
-/*             where * is the name of the corresponding feature class.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsFaceTable.cpp
+// Date : 07-Aug-99 : initial definition
+//        21-Sep-99 : browse record is different from regional-lib record
+//        13-Oct-99 : routine figures out which format of record
+//
+// Description:
+//    Utilities to "read" any "Face Table" file of the Digital Chart of
+//    the World (DCW).  Consider the following definition:
+//
+//       Face:
+//       -----
+//          A region enclosed by an edge or set of
+//          edges.  Faces are topologically linked
+//          to their surrounding edges as well as to
+//          the other faces that surround them.  Faces
+//          are always non-overlappoing, exhausting
+//          the area of a plane.
+//
+//    There are two types of face tables.  The first is used for the BROWSE
+//    library.  Its format is:
+//
+//       BROWSE Face Record:
+//       -------------------
+//             ID      =I,1,P,Row ID                   ,-,-,
+//             RING_PTR=I,1,F,Foreign Key to Ring Table,-,-,
+//
+//    The second type is used for the other REGIONAL libraries.  Its format
+//    is:
+//
+//       REGIONAL Face Record:
+//       ---------------------
+//             ID      =I,1,P,Row ID                           ,-,-
+//             *.AFT_ID=I,1,F,Foreign Key to Area Feature Table,-,-,
+//             RING_PTR=I,1,F,Foreign Key to Ring Table        ,-,-
+//
+//             where * is the name of the corresponding feature class.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsFaceTable.h>
 #include <gmsUtilities.h>
@@ -46,22 +46,22 @@
 #include <stdlib.h>
 
 
-/*-----------------------------*/
-/*     Local Type Declares
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Type Declares
+//-----------------------------*/
 typedef enum { gmsBrowseLibFace,
                gmsRegionalLibFace } gmsKindOfFaceType;
 
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *face_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void readPastFormatInformation ();
 
 static void buildFaceTable
@@ -73,21 +73,21 @@ static void printFaceTable
 static gmsKindOfFaceType determineKindOfFaceRecord ();
 
 
-/*---------------------------------------------*/
-/* gmsGetFaceTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Face Table".  This routine determines
-/*    which format of face-record to use to build
-/*    the table based on the specified file.
-/*
-/*    A pointer to a newly allocated table is
-/*    returned to the caller.  It is the caller's
-/*    responsibility to free the item by using
-/*    the utility
-/*    "gmsFreeFaceTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetFaceTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Face Table".  This routine determines
+//    which format of face-record to use to build
+//    the table based on the specified file.
+//
+//    A pointer to a newly allocated table is
+//    returned to the caller.  It is the caller's
+//    responsibility to free the item by using
+//    the utility
+//    "gmsFreeFaceTable" (see below).
+//---------------------------------------------*/
 faceTableType *gmsGetFaceTable
                    (const char *faceTableFilePath)
 
@@ -124,14 +124,14 @@ faceTableType *gmsGetFaceTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeFaceTable
-/*
-/* Description:
-/*    This utility frees a "Face Table" that had
-/*    been previously allocated using
-/*    "gmsGetFaceTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeFaceTable
+//
+// Description:
+//    This utility frees a "Face Table" that had
+//    been previously allocated using
+//    "gmsGetFaceTable".
+//---------------------------------------------*/
 void gmsFreeFaceTable
            (faceTableType *theFaceTable)
 
@@ -146,13 +146,13 @@ void gmsFreeFaceTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintFaceTable	
-/*
-/* Description:
-/*    This function will print the "Face Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintFaceTable	
+//
+// Description:
+//    This function will print the "Face Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintFaceTable
            (faceTableType *theFaceTable)
 
@@ -172,19 +172,19 @@ void gmsPrintFaceTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the "Face Table"
-/*    file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the "Face Table"
+//    file.
+//---------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -209,15 +209,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* buildFaceTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Face Table file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildFaceTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Face Table file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//---------------------------------------------*/
 static void buildFaceTable
                (faceTableType *theFaceTbl)
 
@@ -295,13 +295,13 @@ static void buildFaceTable
 }
 
 
-/*---------------------------------------------*/
-/* printFaceTable
-/*
-/* Description:
-/*    This function will print the specified
-/*    "face-table" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printFaceTable
+//
+// Description:
+//    This function will print the specified
+//    "face-table" to stdout.
+//---------------------------------------------*/
 static void printFaceTable
                (faceTableType *theFaceTbl)
 
@@ -319,15 +319,15 @@ static void printFaceTable
 }
 
 
-/*---------------------------------------------*/
-/* determineKindOfFaceRecord
-/*
-/* Description:
-/*    This function reads information from the
-/*    file header to determine which of the two
-/*    variants of the face record to use in order
-/*    to build the face-table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// determineKindOfFaceRecord
+//
+// Description:
+//    This function reads information from the
+//    file header to determine which of the two
+//    variants of the face record to use in order
+//    to build the face-table.
+//---------------------------------------------*/
 static gmsKindOfFaceType determineKindOfFaceRecord ()
 
 {

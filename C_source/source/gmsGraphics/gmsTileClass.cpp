@@ -98,31 +98,6 @@ static const int Not_Initialized = -1;
 // Declare Static member functions
 //---------------------------------
 
-static void initializeThemeData
-               (gmsThematicType whichTheme,
-                char            longTileId,
-                char            latTileId);
-
-static void buildMapObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj);
-
-static void buildTextObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj);
-
-static void buildNodeObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj);
-
-static void build_PO_PolygonObjects
-               (gmsThemeTileObjType   *ptrToTileObj);
-
-static void build_DN_PolygonObjects
-               (gmsThemeTileObjType   *ptrToTileObj);
-
-
-
 
 //-----------------------------------------------
 // gmsTileClass
@@ -215,8 +190,7 @@ gmsMapClass **gmsTileClass::gmsGetTileMaps
            ptrToTileObj->latTile);
 
        buildMapObjects
-          (whichTheme,
-           ptrToTileObj);
+          (whichTheme);
       }
 
    numObjs = ptrToTileObj->mapEdgs[whichTheme].numEdgs;
@@ -250,7 +224,7 @@ gms_PO_PolygonMapClass **gmsTileClass::gmsGetTile_PO_Polygons
            ptrToTileObj->longTile,
            ptrToTileObj->latTile);
 
-       build_PO_PolygonObjects (ptrToTileObj);
+       build_PO_PolygonObjects ();
       }
 
    numObjs = ptrToTileObj->num_PO_Polygons;
@@ -292,9 +266,7 @@ gmsTextClass **gmsTileClass::gmsGetTileText
            ptrToTileObj->longTile,
            ptrToTileObj->latTile);
 
-       buildTextObjects
-          (whichTheme,
-           ptrToTileObj);
+       buildTextObjects (whichTheme);
       }
 
    numObjs = ptrToTileObj->mapTxt[whichTheme].numTxtObjs;
@@ -336,9 +308,7 @@ gmsNodeClass **gmsTileClass::gmsGetTileNodes
            ptrToTileObj->longTile,
            ptrToTileObj->latTile);
 
-       buildNodeObjects
-          (whichTheme,
-           ptrToTileObj);
+       buildNodeObjects (whichTheme);
       }
 
    numObjs = ptrToTileObj->mapNodes[whichTheme].numEndObjs;
@@ -372,7 +342,7 @@ gms_DN_PolygonMapClass **gmsTileClass::gmsGetTile_DN_Polygons
            ptrToTileObj->longTile,
            ptrToTileObj->latTile);
 
-       build_DN_PolygonObjects (ptrToTileObj);
+       build_DN_PolygonObjects ();
       }
 
    numObjs = ptrToTileObj->num_DN_Polygons;
@@ -391,7 +361,7 @@ gms_DN_PolygonMapClass **gmsTileClass::gmsGetTile_DN_Polygons
 //
 // Description:
 //-----------------------------------------------
-static void initializeThemeData
+void gmsTileClass::initializeThemeData
                (gmsThematicType whichTheme,
                 char            longTileId,
                 char            latTileId)
@@ -440,9 +410,8 @@ static void initializeThemeData
 //
 // Description:
 //-----------------------------------------------
-static void buildMapObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj)
+void gmsTileClass::buildMapObjects
+               (const gmsThematicType whichTheme)
 
 {
          int                   numEdgFiles;
@@ -457,6 +426,10 @@ static void buildMapObjects
 
    count = 0;
 
+   gmsThemeTileObjType *ptrToTileObj;
+
+   ptrToTileObj = (gmsThemeTileObjType *) gmsTileClass::tileObj;
+
    for (i = 0; i < numEdgFiles; i++)
       {
        isInTile = g_ptrToFileList[whichTheme]->gmsFileIsInTile
@@ -468,7 +441,8 @@ static void buildMapObjects
           count++;
       }
 
-   ptrToTileObj->mapEdgs[whichTheme].edgMaps = new (gmsMapClass *[count]);
+   ptrToTileObj->mapEdgs[whichTheme].edgMaps =
+         (gmsMapClass **) new gmsMapClass*[count];
 
    ptrToTileObj->mapEdgs[whichTheme].numEdgs = count;
 
@@ -506,9 +480,8 @@ static void buildMapObjects
 //
 // Description:
 //-----------------------------------------------
-static void buildTextObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj)
+void gmsTileClass::buildTextObjects
+               (const gmsThematicType whichTheme)
 
 {
          int                   numTxtFiles;
@@ -520,6 +493,10 @@ static void buildTextObjects
    filesList = g_ptrToFileList[whichTheme]->gmsGetFilesList ();
 
    numTxtFiles = filesList.txtTbls.numFiles;
+
+   gmsThemeTileObjType *ptrToTileObj;
+
+   ptrToTileObj = (gmsThemeTileObjType *) gmsTileClass::tileObj;
 
    count = 0;
 
@@ -534,7 +511,8 @@ static void buildTextObjects
           count++;
       }
 
-   ptrToTileObj->mapTxt[whichTheme].txtObjs = new (gmsTextClass *[count]);
+   ptrToTileObj->mapTxt[whichTheme].txtObjs =
+         (gmsTextClass **) new gmsTextClass*[count];
 
    ptrToTileObj->mapTxt[whichTheme].numTxtObjs = count;
 
@@ -571,9 +549,8 @@ static void buildTextObjects
 //
 // Description:
 //-----------------------------------------------
-static void buildNodeObjects
-               (const gmsThematicType whichTheme,
-                gmsThemeTileObjType   *ptrToTileObj)
+void gmsTileClass::buildNodeObjects
+               (const gmsThematicType whichTheme)
 
 {
          int                   numEndFiles;
@@ -585,6 +562,10 @@ static void buildNodeObjects
    filesList = g_ptrToFileList[whichTheme]->gmsGetFilesList ();
 
    numEndFiles = filesList.endTbls.numFiles;
+
+   gmsThemeTileObjType *ptrToTileObj;
+
+   ptrToTileObj = (gmsThemeTileObjType *) gmsTileClass::tileObj;
 
    count = 0;
 
@@ -599,7 +580,8 @@ static void buildNodeObjects
           count++;
       }
 
-   ptrToTileObj->mapNodes[whichTheme].endObjs = new (gmsNodeClass *[count]);
+   ptrToTileObj->mapNodes[whichTheme].endObjs =
+       (gmsNodeClass **) new gmsNodeClass*[count];
 
    ptrToTileObj->mapNodes[whichTheme].numEndObjs = count;
 
@@ -636,8 +618,7 @@ static void buildNodeObjects
 //
 // Description:
 //-----------------------------------------------
-static void build_PO_PolygonObjects
-               (gmsThemeTileObjType *ptrToTileObj)
+void gmsTileClass::build_PO_PolygonObjects(void)
 
 {
          int                   numEdgFiles;
@@ -649,6 +630,10 @@ static void build_PO_PolygonObjects
    filesList = g_ptrToFileList[gms_PO]->gmsGetFilesList ();
 
    numEdgFiles = filesList.edgTbls.numFiles;
+
+   gmsThemeTileObjType *ptrToTileObj;
+
+   ptrToTileObj = (gmsThemeTileObjType *) gmsTileClass::tileObj;
 
    count = 0;
 
@@ -663,7 +648,7 @@ static void build_PO_PolygonObjects
           count++;
       }
 
-   ptrToTileObj->poPolygons      = new (gms_PO_PolygonMapClass *[count]);
+   ptrToTileObj->poPolygons      = new gms_PO_PolygonMapClass *[count];
 
    ptrToTileObj->num_PO_Polygons = count;
 
@@ -703,8 +688,7 @@ static void build_PO_PolygonObjects
 //
 // Description:
 //-----------------------------------------------
-static void build_DN_PolygonObjects
-               (gmsThemeTileObjType   *ptrToTileObj)
+void gmsTileClass::build_DN_PolygonObjects(void)
 
 {
          int                   numEdgFiles;
@@ -716,6 +700,10 @@ static void build_DN_PolygonObjects
    filesList = g_ptrToFileList[gms_DN]->gmsGetFilesList ();
 
    numEdgFiles = filesList.edgTbls.numFiles;
+
+   gmsThemeTileObjType *ptrToTileObj;
+
+   ptrToTileObj = (gmsThemeTileObjType *) gmsTileClass::tileObj;
 
    count = 0;
 
@@ -730,7 +718,8 @@ static void build_DN_PolygonObjects
           count++;
       }
 
-   ptrToTileObj->dnPolygons      = new (gms_DN_PolygonMapClass *[count]);
+   ptrToTileObj->dnPolygons = (gms_DN_PolygonMapClass **)
+                                  new gms_DN_PolygonMapClass*[count];
 
    ptrToTileObj->num_DN_Polygons = count;
 

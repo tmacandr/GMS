@@ -243,11 +243,8 @@ static void build_2D_MbrImage
          gms_3D_ScreenPointType screenPoint_3D;
          gms_2D_ScreenPointType screenPoint_2D;
          int                    i, j;
-         int                    numPoints;
          twoDimCoordType        tempCoord[g_numPoints];
          gmsMapStateStructType  mapState;
-
-   numPoints = 0;
 
    mapState = gmsGetMapState ();
 

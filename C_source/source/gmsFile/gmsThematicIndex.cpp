@@ -1,67 +1,67 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsThematicIndex.cpp
-/* Date : 02-Sep-99 : Initial Definition
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*
-/* Description:
-/*    Utilities to "read" a "thematic index" file from the Digital Chart of
-/*    the World (DCW) database.  Thematic Index files are implemented for
-/*    feature tables in tiled databases.  Consider the following definitions:
-/*
-/*       Theme:
-/*       ------
-/*          An organizational concept used in the
-/*          design of spatial databases.  Common
-/*          themes are transportation, hydrology,
-/*          and soil/land suitability.
-/*
-/*       Thematic Index :
-/*       ----------------
-/*          A file that allows software to access
-/*          the row ids of its associated table.
-/*          In a VPF table, the index is created
-/*          on a column.  Four special indexes are
-/*          used for feature tables: point, line,
-/*          area, and text.
-/*
-/*       Thematic Attribute:
-/*       -------------------
-/*          A column in a table that provides a
-/*          thematic description of a feature.  For
-/*          example, a feature class that contains
-/*          rivers may have attributes such as width
-/*          depth, and name.
-/*
-/*    As mentioned, the following kinds of tables:
-/*
-/*                area features  - ATI
-/*                line features  - LTI
-/*                point features - PTI
-/*                text features  - TTI
-/*
-/*    contain variable length records.  These files have an associated
-/*    "thematic index file" ("*TI").
-/*
-/*    A "thematic index file" is a sequential file of data partitioned into
-/*    three groups:
-/*
-/*         1) a fixed-lenght header of 60 bytes that specifies
-/*            the associated feature table and the column
-/*            within that table being indexed.
-/*
-/*         2) A "directory" consisting of a repeating number
-/*            of records that identifies the location of the
-/*            rows with the following data list (see below).
-/*
-/*         3) A list of data records.  Each record consists of
-/*            row-IDs from the table that is being indexed.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009 (pg 37-38)
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsThematicIndex.cpp
+// Date : 02-Sep-99 : Initial Definition
+//        07-Oct-99 : Clean-up due to code-inspection
+//
+// Description:
+//    Utilities to "read" a "thematic index" file from the Digital Chart of
+//    the World (DCW) database.  Thematic Index files are implemented for
+//    feature tables in tiled databases.  Consider the following definitions:
+//
+//       Theme:
+//       ------
+//          An organizational concept used in the
+//          design of spatial databases.  Common
+//          themes are transportation, hydrology,
+//          and soil/land suitability.
+//
+//       Thematic Index :
+//       ----------------
+//          A file that allows software to access
+//          the row ids of its associated table.
+//          In a VPF table, the index is created
+//          on a column.  Four special indexes are
+//          used for feature tables: point, line,
+//          area, and text.
+//
+//       Thematic Attribute:
+//       -------------------
+//          A column in a table that provides a
+//          thematic description of a feature.  For
+//          example, a feature class that contains
+//          rivers may have attributes such as width
+//          depth, and name.
+//
+//    As mentioned, the following kinds of tables:
+//
+//                area features  - ATI
+//                line features  - LTI
+//                point features - PTI
+//                text features  - TTI
+//
+//    contain variable length records.  These files have an associated
+//    "thematic index file" ("*TI").
+//
+//    A "thematic index file" is a sequential file of data partitioned into
+//    three groups:
+//
+//         1) a fixed-lenght header of 60 bytes that specifies
+//            the associated feature table and the column
+//            within that table being indexed.
+//
+//         2) A "directory" consisting of a repeating number
+//            of records that identifies the location of the
+//            rows with the following data list (see below).
+//
+//         3) A list of data records.  Each record consists of
+//            row-IDs from the table that is being indexed.
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009 (pg 37-38)
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsThematicIndex.h>
 #include <gmsUtilities.h>
@@ -70,17 +70,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*-----------------------------*/
-/*     Local Variables       --*/
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables       --*/
+//-----------------------------*/
 static FILE *theme_fd = (FILE *) NULL;
 
 static int numChars = 0;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms   */
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms   */
+//-----------------------------*/
 static void readThematicIndexFileForDebug ();
 
 static void buildHeaderRecord
@@ -105,17 +105,17 @@ static void printShortIntThematicRecord
                 short                  *bufferOfShorts);
 
 
-/*---------------------------------------------*/
-/* gmsGetThematicIndex
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    "Thematic Index" data.  A pointer to
-/*    a newly allocated table is returned to the
-/*    caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeThematicIndex" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetThematicIndex
+//
+// Description:
+//    This utility reads the file that contains
+//    "Thematic Index" data.  A pointer to
+//    a newly allocated table is returned to the
+//    caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeThematicIndex" (see below).
+//---------------------------------------------*/
 thematicIndexType *gmsGetThematicIndex
                              (const char *filePath)
 
@@ -136,7 +136,7 @@ thematicIndexType *gmsGetThematicIndex
        return (thematicIndexType *) NULL;
       }
 
-   /* readThematicIndexFileForDebug (); */
+   // readThematicIndexFileForDebug (); */
 
    theTI = (thematicIndexType *) malloc (sizeof(thematicIndexType));
 
@@ -152,14 +152,14 @@ thematicIndexType *gmsGetThematicIndex
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeThematicIndex
-/*
-/* Description:
-/*    This utility frees a "Thematic Index"
-/*    object that had been previously allocated
-/*    using "gmsGetThematicIndex".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeThematicIndex
+//
+// Description:
+//    This utility frees a "Thematic Index"
+//    object that had been previously allocated
+//    using "gmsGetThematicIndex".
+//---------------------------------------------*/
 void gmsFreeThematicIndex
            (thematicIndexType *theTI)
 
@@ -177,14 +177,14 @@ void gmsFreeThematicIndex
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintThematicIndex
-/*
-/* Description:
-/*    This function will print the contents of
-/*    the specified "Thematic Index" object.
-/*    to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintThematicIndex
+//
+// Description:
+//    This function will print the contents of
+//    the specified "Thematic Index" object.
+//    to stdout.
+//---------------------------------------------*/
 void gmsPrintThematicIndex
            (thematicIndexType *theTI)
 
@@ -236,22 +236,22 @@ void gmsPrintThematicIndex
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readThematicIndexFileForDebug
-/*
-/* Description:
-/*    This routine is used for debug purposes
-/*    only.  This routine will read the contents
-/*    of the index file ... byte-by-byte ... and
-/*    print the contents as characters to stdout.
-/*    The file-descriptor is reset to the top
-/*    of the file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readThematicIndexFileForDebug
+//
+// Description:
+//    This routine is used for debug purposes
+//    only.  This routine will read the contents
+//    of the index file ... byte-by-byte ... and
+//    print the contents as characters to stdout.
+//    The file-descriptor is reset to the top
+//    of the file.
+//---------------------------------------------*/
 static void readThematicIndexFileForDebug ()
 
 {
@@ -324,14 +324,14 @@ static void readThematicIndexFileForDebug ()
 }
 
 
-/*---------------------------------------------*/
-/* buildHeaderRecord
-/*
-/* Description:
-/*    This utility will construct the "thematic-
-/*    HeaderType" object from the contents of
-/*    the file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildHeaderRecord
+//
+// Description:
+//    This utility will construct the "thematic-
+//    HeaderType" object from the contents of
+//    the file.
+//---------------------------------------------*/
 static void buildHeaderRecord
                (thematicHeaderType *theHdr)
 
@@ -374,15 +374,15 @@ static void buildHeaderRecord
 }
 
 
-/*---------------------------------------------*/
-/* buildThematicIndexObject
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Index file.  The data read will
-/*    be used to build the object (i.e. the
-/*    list of indexes).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildThematicIndexObject
+//
+// Description:
+//    This function will read the actual data
+//    from the Index file.  The data read will
+//    be used to build the object (i.e. the
+//    list of indexes).
+//---------------------------------------------*/
 static void buildThematicIndexObject
                (thematicIndexType *theTI)
 
@@ -441,13 +441,13 @@ static void buildThematicIndexObject
 }
 
 
-/*---------------------------------------------*/
-/* printHeaderRecord
-/*
-/* Description:
-/*    Utility that prints the contents of the
-/*    specified thematic-header record.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printHeaderRecord
+//
+// Description:
+//    Utility that prints the contents of the
+//    specified thematic-header record.
+//---------------------------------------------*/
 static void printHeaderRecord
                (thematicHeaderType theHdr)
 
@@ -470,17 +470,17 @@ static void printHeaderRecord
 }
 
 
-/*---------------------------------------------*/
-/* buildThematicShortIntRecords
-/*
-/* Description:
-/*    This utility reads the data of the thematic
-/*    index file (i.e. the info after the header).
-/*    The "format" of the data is based on the
-/*    record "shortIntThematicRecord" (i.e. the
-/*    "directory" data) followed by an array of
-/*    "short" integers (i.e. the record Ids).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildThematicShortIntRecords
+//
+// Description:
+//    This utility reads the data of the thematic
+//    index file (i.e. the info after the header).
+//    The "format" of the data is based on the
+//    record "shortIntThematicRecord" (i.e. the
+//    "directory" data) followed by an array of
+//    "short" integers (i.e. the record Ids).
+//---------------------------------------------*/
 static void buildThematicShortIntRecords
                (int                    numDirs,
                 shortIntThematicRecord *recordBuffer,
@@ -504,14 +504,14 @@ static void buildThematicShortIntRecords
 }
 
 
-/*---------------------------------------------*/
-/* printShortIntThematicRecord
-/*
-/* Description:
-/*    Utility to print the contents of the
-/*    "directory" data and also the array of
-/*    record Ids.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printShortIntThematicRecord
+//
+// Description:
+//    Utility to print the contents of the
+//    "directory" data and also the array of
+//    record Ids.
+//---------------------------------------------*/
 static void printShortIntThematicRecord
                (int                    numDirs,
                 shortIntThematicRecord *recordBuffer,

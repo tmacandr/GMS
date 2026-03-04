@@ -1,34 +1,34 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsUtilities.cpp
-/* Date : 14-Jun-99 : Initial defintion
-/*        01-Aug-99 : Ported to Sun Solaris
-/*        06-Aug-99 : Ported back to VC++
-/*        25-Sep-99 : Convert x to Long and y to Lat for readability
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*        17-Nov-99 : Added utils to access root dir (et.al.) of VPF files
-/*        18-Nov-99 : Use capital letters for names of VPF files
-/*        21-Dec-99 : Added util to check for existence of a file
-/*        22-Dec-99 : Added mechanism to specify where DCW files are
-/*        06-Jan-00 : Added 'ctype.h' to access 'toupper' util
-/*        11-Feb-00 : HP and SUN C++ compilers complain about init of char *
-/*        21-Feb-00 : 'gmsReadxxx' utils fail on SUN.  Memory mis-align
-/*        03-Mar-00 : look for dcw_path.txt in current working dir too
-/*
-/* Description:
-/*    Utilities that support the "Geographic Map System" (GMS) being
-/*    developed for MS Project at CSUN.
-/*
-/*    See also : Mil-D-89009, pg 11, Table 2
-/*               Mil-Std-600006, pg 45, Table 11
-/*               Mil-Std-600006, pg 79, Table 56
-/*               Mil-Std-600006, pg 80, section 5.4.6
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsUtilities.cpp
+// Date : 14-Jun-99 : Initial defintion
+//        01-Aug-99 : Ported to Sun Solaris
+//        06-Aug-99 : Ported back to VC++
+//        25-Sep-99 : Convert x to Long and y to Lat for readability
+//        07-Oct-99 : Clean-up due to code-inspection
+//        17-Nov-99 : Added utils to access root dir (et.al.) of VPF files
+//        18-Nov-99 : Use capital letters for names of VPF files
+//        21-Dec-99 : Added util to check for existence of a file
+//        22-Dec-99 : Added mechanism to specify where DCW files are
+//        06-Jan-00 : Added 'ctype.h' to access 'toupper' util
+//        11-Feb-00 : HP and SUN C++ compilers complain about init of char *
+//        21-Feb-00 : 'gmsReadxxx' utils fail on SUN.  Memory mis-align
+//        03-Mar-00 : look for dcw_path.txt in current working dir too
+//
+// Description:
+//    Utilities that support the "Geographic Map System" (GMS) being
+//    developed for MS Project at CSUN.
+//
+//    See also : Mil-D-89009, pg 11, Table 2
+//               Mil-Std-600006, pg 45, Table 11
+//               Mil-Std-600006, pg 79, Table 56
+//               Mil-Std-600006, pg 80, section 5.4.6
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,9 +41,9 @@
 #endif
 
 
-/*--------------------------*/
-/* Declare Local Constants
-/*--------------------------*/
+//--------------------------*/
+// Declare Local Constants
+//--------------------------*/
 #define emptyBuffer (unsigned char *) NULL
 
 #define bytesPerShort sizeof(short)
@@ -73,15 +73,15 @@ typedef enum { idMask_empty            = 0x00,
                externalIdMask_twoByte  = 0x08,
                externalIdMask_fourByte = 0x0C } tripletIdMaskType;
 
-/*--------------------------*/
-/* Declare Local Variables
-/*--------------------------*/
+//--------------------------*/
+// Declare Local Variables
+//--------------------------*/
 static unsigned char *swappedBitsBuffer = emptyBuffer;
 
 
-/*--------------------------*/
-/* Declare Local Functions
-/*--------------------------*/
+//--------------------------*/
+// Declare Local Functions
+//--------------------------*/
 static unsigned char swapBitsOfByte
                         (const unsigned char theByte);
 
@@ -95,19 +95,19 @@ static char *buildVpfFileRoot();
 
 
 
-/*---------------------------------------------*/
-/* gmsClearMemory
-/*
-/* Description:
-/*    Utility to zero out the memory of a
-/*    specified data structure.  This is
-/*    essentially the same utility as "ZeroMemory"
-/*    from the Windows API.  It's very useful.
-/*    However, this utility re-defines it just
-/*    in case this code is ever ported to
-/*    another platform that does not have
-/*    "ZeroMemory".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsClearMemory
+//
+// Description:
+//    Utility to zero out the memory of a
+//    specified data structure.  This is
+//    essentially the same utility as "ZeroMemory"
+//    from the Windows API.  It's very useful.
+//    However, this utility re-defines it just
+//    in case this code is ever ported to
+//    another platform that does not have
+//    "ZeroMemory".
+//---------------------------------------------*/
 void gmsClearMemory
         (char       *ptrToBlock,
          const int  numBytes)
@@ -123,22 +123,22 @@ void gmsClearMemory
 }
 
 
-/*---------------------------------------------*/
-/* gmsSwapBitPattern
-/*
-/* Description:
-/*    Utility to swap the bits of a given data-
-/*    item.  The low bits become the high bits,
-/*    the high bits become the low bits.  The
-/*    caller passes in a pointer to a block of
-/*    data and the size (in bytes) of that block.
-/*    This utility then returns a pointer to
-/*    a newly allocated block whose bit pattern
-/*    is the opposite of the specified block.
-/*
-/*    The caller must "free" the block by
-/*    calling "gmsFreeSwappedBits" when finished.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsSwapBitPattern
+//
+// Description:
+//    Utility to swap the bits of a given data-
+//    item.  The low bits become the high bits,
+//    the high bits become the low bits.  The
+//    caller passes in a pointer to a block of
+//    data and the size (in bytes) of that block.
+//    This utility then returns a pointer to
+//    a newly allocated block whose bit pattern
+//    is the opposite of the specified block.
+//
+//    The caller must "free" the block by
+//    calling "gmsFreeSwappedBits" when finished.
+//---------------------------------------------*/
 unsigned char *gmsSwapBitPattern
                  (unsigned char *ptrToBlock,
                   const int     numBytes)
@@ -146,7 +146,7 @@ unsigned char *gmsSwapBitPattern
 {
          int byteIndex;
 
-   /* Do some defensive programming */
+   // Do some defensive programming */
    if ( (ptrToBlock == NULL) || (swappedBitsBuffer != emptyBuffer) )
       {
        printf("---> ERROR : previous bit buffer not freed\n");
@@ -160,14 +160,14 @@ unsigned char *gmsSwapBitPattern
    if (ptrToBlock == emptyBuffer)
       return emptyBuffer;
 
-   /* Allocate the corresponding buffer */
+   // Allocate the corresponding buffer */
    swappedBitsBuffer = (unsigned char *) malloc (numBytes);
 
    gmsClearMemory
       ( (char *) swappedBitsBuffer,
         numBytes);
 
-   /* Do the work ... */
+   // Do the work ... */
    for (byteIndex = 0; byteIndex < numBytes; byteIndex++)
       {
        swappedBitsBuffer[byteIndex] =
@@ -177,18 +177,18 @@ unsigned char *gmsSwapBitPattern
              swapBitsOfByte (swappedBitsBuffer[byteIndex]);
       }
 
-   /* Give the answer */
+   // Give the answer */
    return swappedBitsBuffer;
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeSwappedBits
-/*
-/* Description:
-/*    This utility frees the block of data that
-/*    was allocated by the utility "gmsSwapBitPattern".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeSwappedBits
+//
+// Description:
+//    This utility frees the block of data that
+//    was allocated by the utility "gmsSwapBitPattern".
+//---------------------------------------------*/
 void gmsFreeSwappedBits ()
 
 {
@@ -201,13 +201,13 @@ void gmsFreeSwappedBits ()
 }
 
 
-/*---------------------------------------------*/
-/* gmsSwapBytes
-/*
-/* Description:
-/*    This utility swaps the bytes of the specified
-/*    object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsSwapBytes
+//
+// Description:
+//    This utility swaps the bytes of the specified
+//    object.
+//---------------------------------------------*/
 void gmsSwapBytes
         (unsigned char *ptrToBlock,
          const int     numBytes)
@@ -240,13 +240,13 @@ void gmsSwapBytes
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadShortInteger
-/*
-/* Description:
-/*    This utility reads a short integer from
-/*    the specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadShortInteger
+//
+// Description:
+//    This utility reads a short integer from
+//    the specified file.
+//---------------------------------------------*/
 short gmsReadShortInteger (FILE *theFd)
 
 {
@@ -269,13 +269,13 @@ short gmsReadShortInteger (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadInteger
-/*
-/* Description:
-/*    This utility reads an integer from the
-/*    specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadInteger
+//
+// Description:
+//    This utility reads an integer from the
+//    specified file.
+//---------------------------------------------*/
 int gmsReadInteger (FILE *theFd)
 
 {
@@ -298,13 +298,13 @@ int gmsReadInteger (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadLongInteger
-/*
-/* Description:
-/*    This utility reads a LONG integer from the
-/*    specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadLongInteger
+//
+// Description:
+//    This utility reads a LONG integer from the
+//    specified file.
+//---------------------------------------------*/
 long gmsReadLongInteger (FILE *theFd)
 
 {
@@ -327,13 +327,13 @@ long gmsReadLongInteger (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadFloat 
-/*
-/* Description:
-/*    This utility reads a float from the
-/*    specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadFloat 
+//
+// Description:
+//    This utility reads a float from the
+//    specified file.
+//---------------------------------------------*/
 float gmsReadFloat (FILE *theFd)
 
 {
@@ -356,13 +356,13 @@ float gmsReadFloat (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadDouble
-/*
-/* Description:
-/*    This utility reads a double from the
-/*    specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadDouble
+//
+// Description:
+//    This utility reads a double from the
+//    specified file.
+//---------------------------------------------*/
 double gmsReadDouble (FILE *theFd)
 
 {
@@ -385,13 +385,13 @@ double gmsReadDouble (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadTwoDimCoord
-/*
-/* Description:
-/*    This utility reads a "twoDimCoordType" from
-/*    the specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadTwoDimCoord
+//
+// Description:
+//    This utility reads a "twoDimCoordType" from
+//    the specified file.
+//---------------------------------------------*/
 twoDimCoordType gmsReadTwoDimCoord (FILE *theFd)
 
 {
@@ -405,13 +405,13 @@ twoDimCoordType gmsReadTwoDimCoord (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadTwoDimDoubleCoord
-/*
-/* Description:
-/*    This utility reads a "twoDimDoubleCoordType"
-/*    from the specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadTwoDimDoubleCoord
+//
+// Description:
+//    This utility reads a "twoDimDoubleCoordType"
+//    from the specified file.
+//---------------------------------------------*/
 twoDimDoubleCoordType gmsReadTwoDimDoubleCoord (FILE *theFd)
 
 {
@@ -425,13 +425,13 @@ twoDimDoubleCoordType gmsReadTwoDimDoubleCoord (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadThreeDimCoord
-/*
-/* Description:
-/*    This utility reads a "threeDimCoordType" from
-/*    the specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadThreeDimCoord
+//
+// Description:
+//    This utility reads a "threeDimCoordType" from
+//    the specified file.
+//---------------------------------------------*/
 threeDimCoordType gmsReadThreeDimCoord (FILE *theFd)
 
 {
@@ -447,13 +447,13 @@ threeDimCoordType gmsReadThreeDimCoord (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadThreeDimDoubleCoord
-/*
-/* Description:
-/*    This utility reads a "threeDimDoubleCoordType"
-/*    from the specified file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadThreeDimDoubleCoord
+//
+// Description:
+//    This utility reads a "threeDimDoubleCoordType"
+//    from the specified file.
+//---------------------------------------------*/
 threeDimDoubleCoordType gmsReadThreeDimDoubleCoord (FILE *theFd)
 
 {
@@ -469,46 +469,46 @@ threeDimDoubleCoordType gmsReadThreeDimDoubleCoord (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsReadIdTripletRecord
-/*
-/* Description:
-/*    This utility reads a "idTripletType" from
-/*    the specified file.
-/*
-/*    A triplet ID record is used as a reference
-/*    mechanism for "tiled coverage".  The "triplet
-/*    ID" record is composed of a byte called the
-/*    "type byte".  This byte is broken down in to
-/*    four 2-bit fields.  Each 2-bit field describes
-/*    the length of succeeding fields:
-/*
-/*          2-bit pattern       meaning
-/*          ------------------------------
-/*            00          --> empty field
-/*            01          --> 8-bit field
-/*            10          --> 16-bit field
-/*            11          --> 32-bit field
-/*
-/*    The first 2-bit field (referred to as ID)
-/*    indicates the size of field that represents
-/*    a primitive ID without a tile-id predicate.
-/*
-/*    The second 2-bit field (referred to as
-/*    TILE-ID) indicates the size of the field
-/*    that represents the TILE-REFERENCE-ID
-/*
-/*    The third 2-bit field (referred to as
-/*    EXT-ID) indicates the size of the field
-/*    that represents the "EXTERNAL-PRIMITIVE-ID".
-/*
-/*    The fourth 2-bit field is currently not
-/*    used and is reserved for future growth.
-/*
-/*    See also:
-/*    ---------
-/*       Mil-Std-600006, pg 79-80
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsReadIdTripletRecord
+//
+// Description:
+//    This utility reads a "idTripletType" from
+//    the specified file.
+//
+//    A triplet ID record is used as a reference
+//    mechanism for "tiled coverage".  The "triplet
+//    ID" record is composed of a byte called the
+//    "type byte".  This byte is broken down in to
+//    four 2-bit fields.  Each 2-bit field describes
+//    the length of succeeding fields:
+//
+//          2-bit pattern       meaning
+//          ------------------------------
+//            00          --> empty field
+//            01          --> 8-bit field
+//            10          --> 16-bit field
+//            11          --> 32-bit field
+//
+//    The first 2-bit field (referred to as ID)
+//    indicates the size of field that represents
+//    a primitive ID without a tile-id predicate.
+//
+//    The second 2-bit field (referred to as
+//    TILE-ID) indicates the size of the field
+//    that represents the TILE-REFERENCE-ID
+//
+//    The third 2-bit field (referred to as
+//    EXT-ID) indicates the size of the field
+//    that represents the "EXTERNAL-PRIMITIVE-ID".
+//
+//    The fourth 2-bit field is currently not
+//    used and is reserved for future growth.
+//
+//    See also:
+//    ---------
+//       Mil-Std-600006, pg 79-80
+//---------------------------------------------*/
 idTripletType gmsReadIdTripletRecord (FILE *theFd)
 
 {
@@ -521,9 +521,9 @@ idTripletType gmsReadIdTripletRecord (FILE *theFd)
 
    descriptorByte = (unsigned char) fgetc (theFd);
 
-   /*-------------*/
-   /* ID
-   /*-------------*/
+   //-------------*/
+   // ID
+   //-------------*/
    if (descriptorByte & idMask_oneByte)
       {
        theAnswer.id = fgetc (theFd);
@@ -537,9 +537,9 @@ idTripletType gmsReadIdTripletRecord (FILE *theFd)
        theAnswer.id = gmsReadInteger (theFd);
       }
 
-   /*-------------*/
-   /* Tile-ID
-   /*-------------*/
+   //-------------*/
+   // Tile-ID
+   //-------------*/
    if (descriptorByte & tileIdMask_oneByte)
       {
        theAnswer.tileId = fgetc (theFd);
@@ -553,9 +553,9 @@ idTripletType gmsReadIdTripletRecord (FILE *theFd)
        theAnswer.tileId = gmsReadInteger (theFd);
       }
 
-   /*-------------*/
-   /* External-ID
-   /*-------------*/
+   //-------------*/
+   // External-ID
+   //-------------*/
    if (descriptorByte & externalIdMask_oneByte)
       {
        theAnswer.externalId = fgetc (theFd);
@@ -573,13 +573,13 @@ idTripletType gmsReadIdTripletRecord (FILE *theFd)
 }
 
 
-/*---------------------------------------------*/
-/* gmsDirectoryExists
-/*
-/* Description:
-/*    This utility determines if the specified
-/*    directory exists.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsDirectoryExists
+//
+// Description:
+//    This utility determines if the specified
+//    directory exists.
+//---------------------------------------------*/
 bool gmsDirectoryExists
            (const char *dirName)
 
@@ -613,13 +613,13 @@ bool gmsDirectoryExists
 }
 
 
-/*---------------------------------------------*/
-/* gmsFileExists
-/*
-/* Description:
-/*    This utility determines if the specified
-/*    file exists.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFileExists
+//
+// Description:
+//    This utility determines if the specified
+//    file exists.
+//---------------------------------------------*/
 bool gmsFileExists
            (const char *fileName)
 
@@ -637,19 +637,19 @@ bool gmsFileExists
 }
 
 
-/*---------------------------------------------*/
-/* gmsGetDcwFullPath
-/*
-/* Description:
-/*    This utility returns a string that is the
-/*    path to the root of the "REGIONAL" library
-/*    (i.e. NOAMER, SOAMAFR, EURNASIA, or SASAUS)
-/*    of the VPF database.
-/*
-/*    NOTE:
-/*       The caller must NOT free the string
-/*       returned.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetDcwFullPath
+//
+// Description:
+//    This utility returns a string that is the
+//    path to the root of the "REGIONAL" library
+//    (i.e. NOAMER, SOAMAFR, EURNASIA, or SASAUS)
+//    of the VPF database.
+//
+//    NOTE:
+//       The caller must NOT free the string
+//       returned.
+//---------------------------------------------*/
 char *gmsGetDcwFullPath
                   (const char *whichFile)
 
@@ -685,18 +685,18 @@ char *gmsGetDcwFullPath
 }
 
 
-/*---------------------------------------------*/
-/* gmsGetBrowseFullPath
-/*
-/* Description:
-/*    This utility returns a string that is the
-/*    path to the root of the "BROWSE" files
-/*    of the VPF database.
-/*
-/*    NOTE:
-/*       The caller must NOT free the string
-/*       returned.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetBrowseFullPath
+//
+// Description:
+//    This utility returns a string that is the
+//    path to the root of the "BROWSE" files
+//    of the VPF database.
+//
+//    NOTE:
+//       The caller must NOT free the string
+//       returned.
+//---------------------------------------------*/
 char *gmsGetBrowseFullPath
                   (const char *whichFile)
 
@@ -724,20 +724,20 @@ char *gmsGetBrowseFullPath
 }
 
 
-/*---------------------------------------------*/
-/* getDhtFile
-/*
-/* Description:
-/*    This utility returns a string that is the
-/*    full path to the "Database Header Table"
-/*    of the VPF database.  There is only one
-/*    DHT file per CD-ROM and is located at the
-/*    root of the database.
-/*
-/*    NOTE:
-/*       The caller must NOT free the string
-/*       returned.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getDhtFile
+//
+// Description:
+//    This utility returns a string that is the
+//    full path to the "Database Header Table"
+//    of the VPF database.  There is only one
+//    DHT file per CD-ROM and is located at the
+//    root of the database.
+//
+//    NOTE:
+//       The caller must NOT free the string
+//       returned.
+//---------------------------------------------*/
 char *getDhtFile ()
 
 {
@@ -760,20 +760,20 @@ char *getDhtFile ()
 }
 
 
-/*---------------------------------------------*/
-/* getLatFile
-/*
-/* Description:
-/*    This utility returns a string that is the
-/*    full path to the "Library Attribute Table"
-/*    of the VPF database.  There is only one
-/*    LAT file per CD-ROM and is located at the
-/*    root of the database.
-/*
-/*    NOTE:
-/*       The caller must NOT free the string
-/*       returned.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getLatFile
+//
+// Description:
+//    This utility returns a string that is the
+//    full path to the "Library Attribute Table"
+//    of the VPF database.  There is only one
+//    LAT file per CD-ROM and is located at the
+//    root of the database.
+//
+//    NOTE:
+//       The caller must NOT free the string
+//       returned.
+//---------------------------------------------*/
 char *getLatFile ()
 
 {
@@ -798,27 +798,27 @@ char *getLatFile ()
 
 
 
-        /*--------------------------*/
-        /*     Local Functions
-        /*--------------------------*/
+        //--------------------------*/
+        //     Local Functions
+        //--------------------------*/
 
 
 
 
-/*-------------------------------------------------*/
-/* swapBitsOfByte
-/*
-/* Description:
-/*    This utility swaps the bit pattern of the
-/*    specified byte.  The most-significant bit
-/*    becomes the least significant bit, etc.
-/*-------------------------------------------------*/
+//-------------------------------------------------*/
+// swapBitsOfByte
+//
+// Description:
+//    This utility swaps the bit pattern of the
+//    specified byte.  The most-significant bit
+//    becomes the least significant bit, etc.
+//-------------------------------------------------*/
 static unsigned char swapBitsOfByte
                         (const unsigned char theByte)
 
 {
-         unsigned char testPattern     = 0x80; /* bit pattern = 1000_0000 */
-         unsigned char oppositePattern = 0x01; /* bit pattern = 0000_0001 */
+         unsigned char testPattern     = 0x80; // bit pattern = 1000_0000 */
+         unsigned char oppositePattern = 0x01; // bit pattern = 0000_0001 */
          unsigned char result          = 0x00;
          unsigned char isOne           = 0x00;
          int           bitIndex;
@@ -829,32 +829,32 @@ static unsigned char swapBitsOfByte
 
        if (isOne)
          {
-          result = result | oppositePattern; /* bitwise OR */
+          result = result | oppositePattern; // bitwise OR */
          }
 
-       testPattern = testPattern >> 1;   /* shift right */
+       testPattern = testPattern >> 1;   // shift right */
 
-       oppositePattern = oppositePattern << 1; /* shift left */
+       oppositePattern = oppositePattern << 1; // shift left */
       }
 
    return result;
 }
 
 
-/*---------------------------------------------*/
-/* convertStringToUpperCase
-/*
-/* Description:
-/*    This utility converts the characters of
-/*    the specified string to upper case.  This
-/*    is done because names of the files and
-/*    directories on a VPF CD-ROM are capitalized.
-/*    On a "MS Windows" box, it is not a problem
-/*    if names of files are capitalized or not.
-/*    But on a UNIX box, this matters.  Hence,
-/*    this routine ensures file/directory
-/*    names are capitalized.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// convertStringToUpperCase
+//
+// Description:
+//    This utility converts the characters of
+//    the specified string to upper case.  This
+//    is done because names of the files and
+//    directories on a VPF CD-ROM are capitalized.
+//    On a "MS Windows" box, it is not a problem
+//    if names of files are capitalized or not.
+//    But on a UNIX box, this matters.  Hence,
+//    this routine ensures file/directory
+//    names are capitalized.
+//---------------------------------------------*/
 static void convertStringToUpperCase (char *string)
 
 {
@@ -873,20 +873,20 @@ static void convertStringToUpperCase (char *string)
 }
 
 
-/*---------------------------------------------*/
-/* gmsGetDcwLibrary
-/*
-/* Description:
-/*    This utility is used by the routine
-/*    "gmsGetDcwFullPath".  It determines which
-/*    one of the four REGIONAL libraries is
-/*    present so the path to that directory can
-/*    be constructed and used by a caller.
-/*
-/*    Note: this routine is called once by
-/*          the function 'gmsGetDcwFullPath'
-/*          at startup.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetDcwLibrary
+//
+// Description:
+//    This utility is used by the routine
+//    "gmsGetDcwFullPath".  It determines which
+//    one of the four REGIONAL libraries is
+//    present so the path to that directory can
+//    be constructed and used by a caller.
+//
+//    Note: this routine is called once by
+//          the function 'gmsGetDcwFullPath'
+//          at startup.
+//---------------------------------------------*/
 static char *gmsGetDcwLibrary
                (const char *root)
 
@@ -942,45 +942,45 @@ static char *gmsGetDcwLibrary
 
    #endif
 
-   return dcwLibs[0];  /* default */
+   return dcwLibs[0];  // default */
 }
 
 
-/*---------------------------------------------*/
-/* buildVpfFileRoot
-/*
-/* Description:
-/*    Utility that determines where the DCW
-/*    files are located on the current system.
-/*    The following protocol is used:
-/*
-/*       1) If in a UNIX environment, the
-/*          environmental variable "DCW_PATH"
-/*          is examined.  If it has been
-/*          defined, it specifies the path
-/*          to the DCW files.
-/*
-/*       2) The following files are checked
-/*          in this order.  If a file exists,
-/*          it specifies the path (in ASCII).
-/*
-/*             (a) ./dcw_path.txt
-/*
-/*             (b) /tmp/dcw_path.txt
-/*
-/*             (c) /temp/dcw_path.txt
-/*
-/*             (d) /MyFiles/dcw_path.txt
-/*
-/*             (e) /My Documents/dcw_path.txt
-/*
-/*       5) If in a UNIX environment, the
-/*          "HOME" env is checked.  The
-/*          path will be set to "$HOME/DCW".
-/*
-/*       6) Finally, the default path is set
-/*          to "/DCW".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildVpfFileRoot
+//
+// Description:
+//    Utility that determines where the DCW
+//    files are located on the current system.
+//    The following protocol is used:
+//
+//       1) If in a UNIX environment, the
+//          environmental variable "DCW_PATH"
+//          is examined.  If it has been
+//          defined, it specifies the path
+//          to the DCW files.
+//
+//       2) The following files are checked
+//          in this order.  If a file exists,
+//          it specifies the path (in ASCII).
+//
+//             (a) ./dcw_path.txt
+//
+//             (b) /tmp/dcw_path.txt
+//
+//             (c) /temp/dcw_path.txt
+//
+//             (d) /MyFiles/dcw_path.txt
+//
+//             (e) /My Documents/dcw_path.txt
+//
+//       5) If in a UNIX environment, the
+//          "HOME" env is checked.  The
+//          path will be set to "$HOME/DCW".
+//
+//       6) Finally, the default path is set
+//          to "/DCW".
+//---------------------------------------------*/
 static char *buildVpfFileRoot()
 
 {
@@ -1055,9 +1055,9 @@ static char *buildVpfFileRoot()
 
    #endif
 
-   /*-------------------*/
-   /* Sneak this one in */
-   /*-------------------*/
+   //-------------------*/
+   // Sneak this one in */
+   //-------------------*/
    fileExists = gmsFileExists("/thesis/DCW/DHT");
 
    if (fileExists)
@@ -1067,10 +1067,10 @@ static char *buildVpfFileRoot()
        return thePath;
       }
 
-   /*-------------------*/
-   /* All checks failed.*/
-   /* Go 'default'.     */
-   /*-------------------*/
+   //-------------------*/
+   // All checks failed.*/
+   // Go 'default'.     */
+   //-------------------*/
    sprintf(thePath, "/DCW");
 
    return thePath;

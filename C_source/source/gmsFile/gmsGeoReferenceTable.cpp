@@ -1,15 +1,15 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsGeoReferenceTable.c
-/* Date : 11-Jul-99 : Initial definition
-/*        01-Aug-99 : Convert to utility on port to Sun Solaris
-/*        05-Oct-99 : Clean-up due to code inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Geographic Reference Table" file of the
-/*    Digital Chart of the World (DCW).
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsGeoReferenceTable.c
+// Date : 11-Jul-99 : Initial definition
+//        01-Aug-99 : Convert to utility on port to Sun Solaris
+//        05-Oct-99 : Clean-up due to code inspection
+//
+// Description:
+//    Utilities to "read" the "Geographic Reference Table" file of the
+//    Digital Chart of the World (DCW).
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsGeoReferenceTable.h>
 #include <gmsUtilities.h>
@@ -18,32 +18,32 @@
 #include <stdlib.h>
 
 
-/*---------------------------*/
-/*     Local Variables       */
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       */
+//---------------------------*/
 static FILE *grt_fd = (FILE *) NULL;
 
 
-/*---------------------------*/
-/* Declare Local Subprograms */
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms */
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static void buildGeoReferenceTable
                (GeoRefTableType *theGRT);
 
 
-/*-------------------------------------------*/
-/* gmsGetGeoReferenceTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Geographic Reference Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeGeoReferenceTable" (see below).
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetGeoReferenceTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Geographic Reference Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeGeoReferenceTable" (see below).
+//-------------------------------------------*/
 GeoRefTableType *gmsGetGeoReferenceTable
                              (const char *filePath)
 
@@ -80,14 +80,14 @@ GeoRefTableType *gmsGetGeoReferenceTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeGeoReferenceTable
-/*
-/* Description:
-/*    This utility frees a "Geographic Reference
-/*    Table" that had been previously allocated
-/*    using "gmsGetGeoReferenceTable".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeGeoReferenceTable
+//
+// Description:
+//    This utility frees a "Geographic Reference
+//    Table" that had been previously allocated
+//    using "gmsGetGeoReferenceTable".
+//-------------------------------------------*/
 void gmsFreeGeoReferenceTable
            (GeoRefTableType *theGRT)
 
@@ -99,13 +99,13 @@ void gmsFreeGeoReferenceTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintGeoReferenceTable 
-/*
-/* Description:
-/*    This function will print the "grf" object
-/*    to stdout.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintGeoReferenceTable 
+//
+// Description:
+//    This function will print the "grf" object
+//    to stdout.
+//-------------------------------------------*/
 void gmsPrintGeoReferenceTable 
         (GeoRefTableType *theGRT)
 
@@ -143,19 +143,19 @@ void gmsPrintGeoReferenceTable
 }
 
 
-     /*---------------------*/
-     /*   Local Subprograms */
-     /*---------------------*/
+     //---------------------*/
+     //   Local Subprograms */
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Geographic
-/*    Reference Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Geographic
+//    Reference Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -180,15 +180,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* buildGeoReferenceTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Geographic Reference Table file.
-/*    The data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildGeoReferenceTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Geographic Reference Table file.
+//    The data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildGeoReferenceTable
                (GeoRefTableType *theGRT)
 

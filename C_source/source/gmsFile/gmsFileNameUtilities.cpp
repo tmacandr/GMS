@@ -1,53 +1,53 @@
-/*----------------------------------------------------------------------------*/
-/* File: gmsFileNameUtilities.cpp
-/* Date: 11-Jan-00 : initial definition
-/*       11-Feb-00 : SUN and HP C++ compilers complains about init of char *
-/*       26-Feb-00 : implement tile/theme util to improve performance
-/*
-/* Description:
-/*    Defines utilites to get the names (and number) of the files
-/*    of the DCW database.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File: gmsFileNameUtilities.cpp
+// Date: 11-Jan-00 : initial definition
+//       11-Feb-00 : SUN and HP C++ compilers complains about init of char *
+//       26-Feb-00 : implement tile/theme util to improve performance
+//
+// Description:
+//    Defines utilites to get the names (and number) of the files
+//    of the DCW database.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsFileNameUtilities.h>
 #include <gmsUtilities.h>
 #include <stdlib.h>
-   /*---------*/
+   //---------*/
 #include <gmsDebugUtil.h>
 
 
-/*------------------------*/
-/* Constants
-/*------------------------*/
+//------------------------*/
+// Constants
+//------------------------*/
 
 static const char *dcwFileNames[Num_DCW_Files] =
-              { (char *) "EDG",           /* gmsEdgeTable             */
-                (char *) "FAC",           /* gmsFaceTable             */
-                (char *) "TXT",           /* gmsTextTable             */
-                (char *) "END",           /* gmsNodeTable             */
-                (char *) "EBR",           /* gmsEdgeBoundingRectangle */
-                (char *) "FBR",           /* gmsFaceBoundingRectangle */
-                (char *) "RNG",           /* gmsRingTable             */
-                (char *) "ESI",           /* gmsEdgeSpatialIndex      */
-                (char *) "FSI",           /* gmsFaceSpatialIndex      */
-                (char *) "NSI",           /* gmsNodeSpatialIndex      */
-                (char *) "xxAREA.AFT",    /* gmsAreaFeatureTable      */
-                (char *) "xxLINE.LFT",    /* gmsLineFeatureTable      */
-                (char *) "xxPOINT.PFT",   /* gmsPointFeatureTable     */
-                (char *) "xxTEXT.TFT",    /* gmsTextFeatureTable      */
-                (char *) "xxAREA.DOC",    /* gmsAreaDocTable          */
-                (char *) "xxLINE.DOC",    /* gmsLineDocTable          */
-                (char *) "xxPOINT.DOC",   /* gmsPointDocTable         */
-                (char *) "FCS",           /* gmsFeatureClassSchema    */
-                (char *) "CHAR.VDT",      /* gmsCharVDT               */
-                (char *) "INT.VDT" };     /* gmsIntVDT                */
+              { (char *) "EDG",           // gmsEdgeTable             */
+                (char *) "FAC",           // gmsFaceTable             */
+                (char *) "TXT",           // gmsTextTable             */
+                (char *) "END",           // gmsNodeTable             */
+                (char *) "EBR",           // gmsEdgeBoundingRectangle */
+                (char *) "FBR",           // gmsFaceBoundingRectangle */
+                (char *) "RNG",           // gmsRingTable             */
+                (char *) "ESI",           // gmsEdgeSpatialIndex      */
+                (char *) "FSI",           // gmsFaceSpatialIndex      */
+                (char *) "NSI",           // gmsNodeSpatialIndex      */
+                (char *) "xxAREA.AFT",    // gmsAreaFeatureTable      */
+                (char *) "xxLINE.LFT",    // gmsLineFeatureTable      */
+                (char *) "xxPOINT.PFT",   // gmsPointFeatureTable     */
+                (char *) "xxTEXT.TFT",    // gmsTextFeatureTable      */
+                (char *) "xxAREA.DOC",    // gmsAreaDocTable          */
+                (char *) "xxLINE.DOC",    // gmsLineDocTable          */
+                (char *) "xxPOINT.DOC",   // gmsPointDocTable         */
+                (char *) "FCS",           // gmsFeatureClassSchema    */
+                (char *) "CHAR.VDT",      // gmsCharVDT               */
+                (char *) "INT.VDT" };     // gmsIntVDT                */
 
 
-/*------------------------*/
-/* Local Functions
-/*------------------------*/
+//------------------------*/
+// Local Functions
+//------------------------*/
 
 static int countThemePrimitiveFiles
                (gmsThematicType whichTheme,
@@ -106,30 +106,30 @@ static void buildTileFiles
                gmsThemeFilesListType *newList);
 
 
-/*-----------------------------------------------------*/
-/* gmsGetListOfThemeFiles
-/*
-/* Description:
-/*    This utility builds a data structure that lists
-/*    each of the files (with full path) in a specified
-/*    theme.
-/*
-/*    The caller must deallocate the list using the
-/*    utility 'gmsFreeListOfThemeFiles' (see below).
-/*
-/*    WARNING:
-/*    --------
-/*       This is a very expensive (time) routine.  The
-/*       data structure is for an entire theme and since
-/*       it has to be determined which files exist then
-/*       build the corresponding data structure, the time
-/*       required is significant.  (AMD K6/300 MHz,
-/*       Windows 98 requires about 60 seconds per theme).
-/*
-/*       If only the files of a specific tile within a
-/*       theme are needed, use the utility
-/*       'gmsGetListOfTileFiles' below.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetListOfThemeFiles
+//
+// Description:
+//    This utility builds a data structure that lists
+//    each of the files (with full path) in a specified
+//    theme.
+//
+//    The caller must deallocate the list using the
+//    utility 'gmsFreeListOfThemeFiles' (see below).
+//
+//    WARNING:
+//    --------
+//       This is a very expensive (time) routine.  The
+//       data structure is for an entire theme and since
+//       it has to be determined which files exist then
+//       build the corresponding data structure, the time
+//       required is significant.  (AMD K6/300 MHz,
+//       Windows 98 requires about 60 seconds per theme).
+//
+//       If only the files of a specific tile within a
+//       theme are needed, use the utility
+//       'gmsGetListOfTileFiles' below.
+//-----------------------------------------------------*/
 gmsThemeFilesListType *gmsGetListOfThemeFiles
                              (gmsThematicType whichTheme)
 
@@ -160,17 +160,17 @@ gmsThemeFilesListType *gmsGetListOfThemeFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetListOfTileFiles
-/*
-/* Description:
-/*    This utility builds a data structure that lists
-/*    ONLY the files (with full path) for the specified
-/*    tile and theme.
-/*
-/*    The caller must deallocate the list using the
-/*    utility 'gmsFreeListOfThemeFiles' (see below).
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetListOfTileFiles
+//
+// Description:
+//    This utility builds a data structure that lists
+//    ONLY the files (with full path) for the specified
+//    tile and theme.
+//
+//    The caller must deallocate the list using the
+//    utility 'gmsFreeListOfThemeFiles' (see below).
+//-----------------------------------------------------*/
 gmsThemeFilesListType *gmsGetListOfTileFiles
                              (gmsThematicType whichTheme,
                               char            longTileId,
@@ -204,14 +204,14 @@ gmsThemeFilesListType *gmsGetListOfTileFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsFreeListOfThemeFiles
-/*
-/* Description:
-/*    This utility deallocates the list of theme files
-/*    that was built using 'gmsGetListOfThemeFiles' (see
-/*    above).
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsFreeListOfThemeFiles
+//
+// Description:
+//    This utility deallocates the list of theme files
+//    that was built using 'gmsGetListOfThemeFiles' (see
+//    above).
+//-----------------------------------------------------*/
 void gmsFreeListOfThemeFiles
          (gmsThemeFilesListType **theList)
 
@@ -234,13 +234,13 @@ void gmsFreeListOfThemeFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsPrintListOfThemeFiles
-/*
-/* Description:
-/*    This utility prints (to stdout) the list of theme
-/*    files from 'theList' object.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsPrintListOfThemeFiles
+//
+// Description:
+//    This utility prints (to stdout) the list of theme
+//    files from 'theList' object.
+//-----------------------------------------------------*/
 void gmsPrintListOfThemeFiles
          (gmsThemeFilesListType *theList)
 
@@ -354,17 +354,17 @@ void gmsPrintListOfThemeFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetListOfBrowseFiles
-/*
-/* Description:
-/*    This utility builds a data structure that lists
-/*    each of the files (with full path) in a specified
-/*    BROWSE directory.
-/*
-/*    The caller must deallocate the list using the
-/*    utility 'gmsFreeListOfBrowseFiles' (see below).
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetListOfBrowseFiles
+//
+// Description:
+//    This utility builds a data structure that lists
+//    each of the files (with full path) in a specified
+//    BROWSE directory.
+//
+//    The caller must deallocate the list using the
+//    utility 'gmsFreeListOfBrowseFiles' (see below).
+//-----------------------------------------------------*/
 gmsBrowseFilesListType *gmsGetListOfBrowseFiles
                              (gmsBrowseThematicType whichTheme)
 
@@ -395,14 +395,14 @@ gmsBrowseFilesListType *gmsGetListOfBrowseFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsFreeListOfBrowseFiles
-/*
-/* Description:
-/*    This utility deallocates the list of BROWSE files
-/*    that was built using 'gmsGetListOfThemeFiles' (see
-/*    above).
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsFreeListOfBrowseFiles
+//
+// Description:
+//    This utility deallocates the list of BROWSE files
+//    that was built using 'gmsGetListOfThemeFiles' (see
+//    above).
+//-----------------------------------------------------*/
 void gmsFreeListOfBrowseFiles
            (gmsBrowseFilesListType **theList)
 
@@ -421,13 +421,13 @@ void gmsFreeListOfBrowseFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsPrintListOfBrowseFiles
-/*
-/* Description:
-/*    This utility prints (to stdout) the list of BROWSE
-/*    files from 'theList' object.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsPrintListOfBrowseFiles
+//
+// Description:
+//    This utility prints (to stdout) the list of BROWSE
+//    files from 'theList' object.
+//-----------------------------------------------------*/
 void gmsPrintListOfBrowseFiles
            (gmsBrowseFilesListType *theList)
 
@@ -466,38 +466,38 @@ void gmsPrintListOfBrowseFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetThemeDirName
-/*
-/* Description:
-/*    Returns the name of the directory of the specified
-/*    theme.
-/*
-/*    The caller must NOT deallocate the pointer.  The
-/*    next call will overwrite the previous value.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetThemeDirName
+//
+// Description:
+//    Returns the name of the directory of the specified
+//    theme.
+//
+//    The caller must NOT deallocate the pointer.  The
+//    next call will overwrite the previous value.
+//-----------------------------------------------------*/
 char *gmsGetThemeDirName
               (gmsThematicType whichTheme)
 
 {
          static const char *Theme_Dir_Names[Num_Themes] =
-                         { (char *) "AE", /* Aeronautical Coverage      */
-                           (char *) "CL", /* Cultural Landmarks         */
-                           (char *) "DQ", /* Data Quality               */
-                           (char *) "DN", /* Drainage                   */
-                           (char *) "DS", /* Drainage - supplemental    */
-                           (char *) "HY", /* Hypsography                */
-                           (char *) "HS", /* Hypsography - supplemental */
-                           (char *) "LC", /* Land Coverage              */
-                           (char *) "OF", /* Ocean Features             */
-                           (char *) "PH", /* Physiography               */
-                           (char *) "PO", /* Political Oceans           */
-                           (char *) "PP", /* Populated Places           */
-                           (char *) "RR", /* Railroads                  */
-                           (char *) "RD", /* Roads                      */
-                           (char *) "TS", /* Transportation Sturcture   */
-                           (char *) "UT", /* Utilities                  */
-                           (char *) "VG", /* Vegetation                 */
+                         { (char *) "AE", // Aeronautical Coverage      */
+                           (char *) "CL", // Cultural Landmarks         */
+                           (char *) "DQ", // Data Quality               */
+                           (char *) "DN", // Drainage                   */
+                           (char *) "DS", // Drainage - supplemental    */
+                           (char *) "HY", // Hypsography                */
+                           (char *) "HS", // Hypsography - supplemental */
+                           (char *) "LC", // Land Coverage              */
+                           (char *) "OF", // Ocean Features             */
+                           (char *) "PH", // Physiography               */
+                           (char *) "PO", // Political Oceans           */
+                           (char *) "PP", // Populated Places           */
+                           (char *) "RR", // Railroads                  */
+                           (char *) "RD", // Roads                      */
+                           (char *) "TS", // Transportation Sturcture   */
+                           (char *) "UT", // Utilities                  */
+                           (char *) "VG", // Vegetation                 */
                            (char *) "Gazette",
                            (char *) "TileRef",
                            (char *) "LibRef" };
@@ -516,16 +516,16 @@ char *gmsGetThemeDirName
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetSubtileDirName
-/*
-/* Description:
-/*    Returns the name of the directory of the specified
-/*    subtile.
-/*
-/*    The caller must NOT deallocate the pointer.  The
-/*    next call will overwrite the previous value.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetSubtileDirName
+//
+// Description:
+//    Returns the name of the directory of the specified
+//    subtile.
+//
+//    The caller must NOT deallocate the pointer.  The
+//    next call will overwrite the previous value.
+//-----------------------------------------------------*/
 char *gmsGetSubtileDirName
               (gmsSubtileType whichSubtile)
 
@@ -556,16 +556,16 @@ char *gmsGetSubtileDirName
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetRegionalFileName
-/*
-/* Description:
-/*    Returns the name of a regional (i.e. non-BROWSE)
-/*    DCW file.  The 'whichTheme' parameter is used to
-/*    construct the full name of feature tables.  If
-/*    the 'kindOfFile' is a primitive (e.g. EDG), the
-/*    'whichTheme' parameter is ignored.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetRegionalFileName
+//
+// Description:
+//    Returns the name of a regional (i.e. non-BROWSE)
+//    DCW file.  The 'whichTheme' parameter is used to
+//    construct the full name of feature tables.  If
+//    the 'kindOfFile' is a primitive (e.g. EDG), the
+//    'whichTheme' parameter is ignored.
+//-----------------------------------------------------*/
 char *gmsGetRegionalFileName
               (gmsThematicType whichTheme,
                gmsDcwFileType  kindOfFile)
@@ -590,28 +590,31 @@ char *gmsGetRegionalFileName
       }
 
    if (whichTheme == gms_Gazetteer)
-      {
+   {
        if (kindOfFile == gmsPointFeatureTable)
-          return "GAZETTE.PFT";
-       else
-          return regFileName;
-      }
+       {
+          sprintf(regFileName, "GAZETTE.PFT");
+       }
+       return regFileName;
+   }
 
    else if (whichTheme == gms_TileRef)
       {
        if (kindOfFile == gmsAreaFeatureTable)
-          return "TILEREF.AFT";
-       else
-          return regFileName;
+       {
+          sprintf(regFileName, "TILEREF.AFT");
+       } 
+       return regFileName;
       }
 
    else if (whichTheme == gms_LibRef)
-      {
+   {
        if (kindOfFile == gmsLineFeatureTable)
-          return "LIBREF.LFT";
-       else
-          return regFileName;
-      }
+       {
+          sprintf(regFileName, "LIBREF.LFT");
+       }
+       return regFileName;
+   }
 
    if ( (kindOfFile >= gmsAreaFeatureTable)  &&
         (kindOfFile <= gmsPointDocTable) )
@@ -626,13 +629,13 @@ char *gmsGetRegionalFileName
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsCountNumberOfThemeFiles
-/*
-/* Description:
-/*    Utility that counts the number of files specified
-/*    by 'kindOffile' for a given theme.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsCountNumberOfThemeFiles
+//
+// Description:
+//    Utility that counts the number of files specified
+//    by 'kindOffile' for a given theme.
+//-----------------------------------------------------*/
 int gmsCountNumberOfThemeFiles
                (gmsThematicType whichTheme,
                 gmsDcwFileType  kindOfFile)
@@ -687,30 +690,30 @@ int gmsCountNumberOfThemeFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetBrowseDirName
-/*
-/* Description:
-/*    Returns the name of the directory of the specified
-/*    BROWSE theme.
-/*
-/*    The caller must NOT deallocate the pointer.  The
-/*    next call will overwrite the previous value.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetBrowseDirName
+//
+// Description:
+//    Returns the name of the directory of the specified
+//    BROWSE theme.
+//
+//    The caller must NOT deallocate the pointer.  The
+//    next call will overwrite the previous value.
+//-----------------------------------------------------*/
 char *gmsGetBrowseDirName
                  (gmsBrowseThematicType whichTheme)
 
 {
          static char *browseDirs[Num_Browse_Themes] =
-                        { (char *) "CO",       /* gmsBrowse_CO     */
-                          (char *) "DV",       /* gmsBrowse_DV     */
-                          (char *) "DN",       /* gmsBrowse_DN     */
-                          (char *) "GR",       /* gmsBrowse_GR     */
-                          (char *) "DA",       /* gmsBrowse_DA     */
-                          (char *) "IN",       /* gmsBrowse_IN     */
-                          (char *) "PO",       /* gmsBrowse_PO     */
-                          (char *) "PP",       /* gmsBrowse_PP     */
-                          (char *) "LIBREF" }; /* gmsBrowse_LibRef */
+                        { (char *) "CO",       // gmsBrowse_CO     */
+                          (char *) "DV",       // gmsBrowse_DV     */
+                          (char *) "DN",       // gmsBrowse_DN     */
+                          (char *) "GR",       // gmsBrowse_GR     */
+                          (char *) "DA",       // gmsBrowse_DA     */
+                          (char *) "IN",       // gmsBrowse_IN     */
+                          (char *) "PO",       // gmsBrowse_PO     */
+                          (char *) "PP",       // gmsBrowse_PP     */
+                          (char *) "LIBREF" }; // gmsBrowse_LibRef */
 
    if ( (whichTheme < gmsBrowse_CO) || (whichTheme > gmsBrowse_LibRef) )
       {
@@ -723,13 +726,13 @@ char *gmsGetBrowseDirName
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsGetBrowseFileName
-/*
-/* Description:
-/*    Returns the name of the specified type of BROWSE
-/*    file.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsGetBrowseFileName
+//
+// Description:
+//    Returns the name of the specified type of BROWSE
+//    file.
+//-----------------------------------------------------*/
 char *gmsGetBrowseFileName
                  (gmsBrowseThematicType whichTheme,
                   gmsDcwFileType        kindOfFile)
@@ -739,13 +742,22 @@ char *gmsGetBrowseFileName
          static char browseFileName[64];
 
    if (kindOfFile == gmsFeatureClassSchema)
-      return "FCS";
+   {
+      sprintf(browseFileName, "FCS");
+      return browseFileName;
+   }
 
    if (kindOfFile == gmsCharVDT)
-      return "CHAR.VDT";
+   {
+      sprintf(browseFileName, "CHAR.VDT");
+      return browseFileName;
+   }
 
    if (kindOfFile == gmsIntVDT)
-      return "INT.VDT";
+   {
+      sprintf(browseFileName, "INT.VDT");
+      return browseFileName;
+   }
 
    sprintf(browseFileName, "%s", dcwFileNames[kindOfFile]);
 
@@ -772,13 +784,13 @@ char *gmsGetBrowseFileName
 }
 
 
-/*-----------------------------------------------------*/
-/* gmsCountNumberOfBrowseFiles
-/*
-/* Description:
-/*    Utility that counts the number of BROWSE files
-/*    specified by 'kindOffile' for a given theme.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// gmsCountNumberOfBrowseFiles
+//
+// Description:
+//    Utility that counts the number of BROWSE files
+//    specified by 'kindOffile' for a given theme.
+//-----------------------------------------------------*/
 int gmsCountNumberOfBrowseFiles
                (gmsBrowseThematicType whichTheme,
                 gmsDcwFileType        kindOfFile)
@@ -814,18 +826,18 @@ int gmsCountNumberOfBrowseFiles
 }
 
 
-           /*------------------------*/
-           /*    Local Functions
-           /*------------------------*/
+           //------------------------*/
+           //    Local Functions
+           //------------------------*/
 
 
-/*-----------------------------------------------------*/
-/* countThemePrimitiveFiles
-/*
-/* Description:
-/*    Utility that counts the number of primitive files
-/*    specified by 'kindOffile' for a given theme.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// countThemePrimitiveFiles
+//
+// Description:
+//    Utility that counts the number of primitive files
+//    specified by 'kindOffile' for a given theme.
+//-----------------------------------------------------*/
 static int countThemePrimitiveFiles
                (gmsThematicType whichTheme,
                 gmsDcwFileType  kindOfFile,
@@ -838,8 +850,8 @@ static int countThemePrimitiveFiles
          char           longDir;
          char           latDir;
          static char    tempPath_1[128];
-         static char    tempPath_2[128];
-         static char    filePath[256];
+         static char    tempPath_2[256];
+         static char    filePath[512];
          gmsSubtileType subtile;
          bool           fileExists;
          bool           dirExists;
@@ -858,7 +870,7 @@ static int countThemePrimitiveFiles
 
        if ( ! dirExists )
           {
-           continue;  /* i.e. go to the top of the LONGITUDE loop */
+           continue;  // i.e. go to the top of the LONGITUDE loop */
           }
 
        for (latDir = Lat_Start; latDir <= Lat_End; latDir++)
@@ -874,7 +886,7 @@ static int countThemePrimitiveFiles
 
            if ( ! dirExists )
               {
-               continue;  /* i.e. go to the top of the LATITUDE loop */
+               continue;  // i.e. go to the top of the LATITUDE loop */
               }
 
            subtile = gms_11;
@@ -900,39 +912,39 @@ static int countThemePrimitiveFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* countGazetteFiles
-/*
-/* Description:
-/*    Utility that returns the count of the specified
-/*    file from the "Gazette" library.  The values
-/*    are hard-coded for simplicity.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// countGazetteFiles
+//
+// Description:
+//    Utility that returns the count of the specified
+//    file from the "Gazette" library.  The values
+//    are hard-coded for simplicity.
+//-----------------------------------------------------*/
 static int countGazetteFiles
               (gmsDcwFileType kindOfFile)
 
 {
       const int gazetteCount[Num_DCW_Files] =
-                        { 0,   /* gmsEdgeTable             */
-                          0,   /* gmsFaceTable             */
-                          0,   /* gmsTextTable             */
-                          1,   /* gmsNodeTable             */
-                          0,   /* gmsEdgeBoundingRectangle */
-                          0,   /* gmsFaceBoundingRectangle */
-                          0,   /* gmsRingTable             */
-                          0,   /* gmsEdgeSpatialIndex      */
-                          0,   /* gmsFaceSpatialIndex      */
-                          1,   /* gmsNodeSpatialIndex      */
-                          0,   /* gmsAreaFeatureTable      */
-                          0,   /* gmsLineFeatureTable      */
-                          1,   /* gmsPointFeatureTable     */
-                          0,   /* gmsTextFeatureTable      */
-                          0,   /* gmsAreaDocTable          */
-                          0,   /* gmsLineDocTable          */
-                          0,   /* gmsPointDocTable         */
-                          1,   /* gmsFeatureClassSchema    */
-                          0,   /* gmsCharVDT               */
-                          0 }; /* gmsIntVDT                */
+                        { 0,   // gmsEdgeTable             */
+                          0,   // gmsFaceTable             */
+                          0,   // gmsTextTable             */
+                          1,   // gmsNodeTable             */
+                          0,   // gmsEdgeBoundingRectangle */
+                          0,   // gmsFaceBoundingRectangle */
+                          0,   // gmsRingTable             */
+                          0,   // gmsEdgeSpatialIndex      */
+                          0,   // gmsFaceSpatialIndex      */
+                          1,   // gmsNodeSpatialIndex      */
+                          0,   // gmsAreaFeatureTable      */
+                          0,   // gmsLineFeatureTable      */
+                          1,   // gmsPointFeatureTable     */
+                          0,   // gmsTextFeatureTable      */
+                          0,   // gmsAreaDocTable          */
+                          0,   // gmsLineDocTable          */
+                          0,   // gmsPointDocTable         */
+                          1,   // gmsFeatureClassSchema    */
+                          0,   // gmsCharVDT               */
+                          0 }; // gmsIntVDT                */
 
    if ( (kindOfFile < gmsEdgeTable) || (kindOfFile > gmsIntVDT) )
       {
@@ -945,39 +957,39 @@ static int countGazetteFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* countLibRefFiles
-/*
-/* Description:
-/*    Utility that returns the count of the specified
-/*    file from the "Lib Ref" library.  The values
-/*    are hard-coded for simplicity.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// countLibRefFiles
+//
+// Description:
+//    Utility that returns the count of the specified
+//    file from the "Lib Ref" library.  The values
+//    are hard-coded for simplicity.
+//-----------------------------------------------------*/
 static int countLibRefFiles
               (gmsDcwFileType kindOfFile)
 
 {
       const int libRefCount[Num_DCW_Files] =
-                        { 1,   /* gmsEdgeTable             */
-                          0,   /* gmsFaceTable             */
-                          0,   /* gmsTextTable             */
-                          0,   /* gmsNodeTable             */
-                          1,   /* gmsEdgeBoundingRectangle */
-                          0,   /* gmsFaceBoundingRectangle */
-                          0,   /* gmsRingTable             */
-                          0,   /* gmsEdgeSpatialIndex      */
-                          0,   /* gmsFaceSpatialIndex      */
-                          0,   /* gmsNodeSpatialIndex      */
-                          0,   /* gmsAreaFeatureTable      */
-                          1,   /* gmsLineFeatureTable      */
-                          0,   /* gmsPointFeatureTable     */
-                          0,   /* gmsTextFeatureTable      */
-                          0,   /* gmsAreaDocTable          */
-                          0,   /* gmsLineDocTable          */
-                          0,   /* gmsPointDocTable         */
-                          1,   /* gmsFeatureClassSchema    */
-                          0,   /* gmsCharVDT               */
-                          0 }; /* gmsIntVDT                */
+                        { 1,   // gmsEdgeTable             */
+                          0,   // gmsFaceTable             */
+                          0,   // gmsTextTable             */
+                          0,   // gmsNodeTable             */
+                          1,   // gmsEdgeBoundingRectangle */
+                          0,   // gmsFaceBoundingRectangle */
+                          0,   // gmsRingTable             */
+                          0,   // gmsEdgeSpatialIndex      */
+                          0,   // gmsFaceSpatialIndex      */
+                          0,   // gmsNodeSpatialIndex      */
+                          0,   // gmsAreaFeatureTable      */
+                          1,   // gmsLineFeatureTable      */
+                          0,   // gmsPointFeatureTable     */
+                          0,   // gmsTextFeatureTable      */
+                          0,   // gmsAreaDocTable          */
+                          0,   // gmsLineDocTable          */
+                          0,   // gmsPointDocTable         */
+                          1,   // gmsFeatureClassSchema    */
+                          0,   // gmsCharVDT               */
+                          0 }; // gmsIntVDT                */
 
    if ( (kindOfFile < gmsEdgeTable) || (kindOfFile > gmsIntVDT) )
       {
@@ -990,39 +1002,39 @@ static int countLibRefFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* countTileRefFiles
-/*
-/* Description:
-/*    Utility that returns the count of the specified
-/*    file from the "Tile Ref" library.  The values
-/*    are hard-coded for simplicity.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// countTileRefFiles
+//
+// Description:
+//    Utility that returns the count of the specified
+//    file from the "Tile Ref" library.  The values
+//    are hard-coded for simplicity.
+//-----------------------------------------------------*/
 static int countTileRefFiles
               (gmsDcwFileType kindOfFile)
 
 {
       const int tileRefCount[Num_DCW_Files] =
-                        { 1,   /* gmsEdgeTable             */
-                          1,   /* gmsFaceTable             */
-                          0,   /* gmsTextTable             */
-                          0,   /* gmsNodeTable             */
-                          1,   /* gmsEdgeBoundingRectangle */
-                          1,   /* gmsFaceBoundingRectangle */
-                          1,   /* gmsRingTable             */
-                          0,   /* gmsEdgeSpatialIndex      */
-                          0,   /* gmsFaceSpatialIndex      */
-                          0,   /* gmsNodeSpatialIndex      */
-                          1,   /* gmsAreaFeatureTable      */
-                          0,   /* gmsLineFeatureTable      */
-                          0,   /* gmsPointFeatureTable     */
-                          0,   /* gmsTextFeatureTable      */
-                          0,   /* gmsAreaDocTable          */
-                          0,   /* gmsLineDocTable          */
-                          0,   /* gmsPointDocTable         */
-                          1,   /* gmsFeatureClassSchema    */
-                          0,   /* gmsCharVDT               */
-                          0 }; /* gmsIntVDT                */
+                        { 1,   // gmsEdgeTable             */
+                          1,   // gmsFaceTable             */
+                          0,   // gmsTextTable             */
+                          0,   // gmsNodeTable             */
+                          1,   // gmsEdgeBoundingRectangle */
+                          1,   // gmsFaceBoundingRectangle */
+                          1,   // gmsRingTable             */
+                          0,   // gmsEdgeSpatialIndex      */
+                          0,   // gmsFaceSpatialIndex      */
+                          0,   // gmsNodeSpatialIndex      */
+                          1,   // gmsAreaFeatureTable      */
+                          0,   // gmsLineFeatureTable      */
+                          0,   // gmsPointFeatureTable     */
+                          0,   // gmsTextFeatureTable      */
+                          0,   // gmsAreaDocTable          */
+                          0,   // gmsLineDocTable          */
+                          0,   // gmsPointDocTable         */
+                          1,   // gmsFeatureClassSchema    */
+                          0,   // gmsCharVDT               */
+                          0 }; // gmsIntVDT                */
 
    if ( (kindOfFile < gmsEdgeTable) || (kindOfFile > gmsIntVDT) )
       {
@@ -1035,15 +1047,15 @@ static int countTileRefFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* countBrowseLibRefFiles
-/*
-/* Description:
-/*    Utility that returns the count of the specified
-/*    file from the BROWSE "Lib Ref" library.  In
-/*    reality, the browse libref only contains an
-/*    EDG (and the corresponding EDX) file.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// countBrowseLibRefFiles
+//
+// Description:
+//    Utility that returns the count of the specified
+//    file from the BROWSE "Lib Ref" library.  In
+//    reality, the browse libref only contains an
+//    EDG (and the corresponding EDX) file.
+//-----------------------------------------------------*/
 static int countBrowseLibRefFiles
               (gmsDcwFileType kindOfFile)
 
@@ -1055,21 +1067,21 @@ static int countBrowseLibRefFiles
 }
 
 
-/*-----------------------------------------------------*/
-/* allocateFilePaths
-/*
-/* Description:
-/*    This function allocates a character buffer that
-/*    will be used to contain the paths to the files
-/*    in a theme.  The buffer is contiguous and its
-/*    size is:
-/*
-/*         Num Rows    = Num files (in theme)
-/*         Num Columns = <some max width, e.g. 64 chars>
-/*
-/*    Each attribute of the 'theList' is set to point
-/*    to a row of the buffer.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// allocateFilePaths
+//
+// Description:
+//    This function allocates a character buffer that
+//    will be used to contain the paths to the files
+//    in a theme.  The buffer is contiguous and its
+//    size is:
+//
+//         Num Rows    = Num files (in theme)
+//         Num Columns = <some max width, e.g. 64 chars>
+//
+//    Each attribute of the 'theList' is set to point
+//    to a row of the buffer.
+//-----------------------------------------------------*/
 static void allocateFilePaths
               (gmsThemeFilesListType *theList)
 
@@ -1117,9 +1129,9 @@ static void allocateFilePaths
 
    midIndex = 0;
 
-   /*--------------------------*/
-   /* gmsEdgeTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeTable             */
+   //--------------------------*/
    theList->edgTbls.numFiles = fileCount[(int) gmsEdgeTable];
 
    if (theList->edgTbls.numFiles > 0)
@@ -1136,9 +1148,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsFaceTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceTable             */
+   //--------------------------*/
    theList->facTbls.numFiles = fileCount[(int) gmsFaceTable];
 
    if (theList->facTbls.numFiles > 0)
@@ -1155,9 +1167,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsTextTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsTextTable             */
+   //--------------------------*/
    theList->txtTbls.numFiles = fileCount[(int) gmsTextTable];
 
    if (theList->txtTbls.numFiles > 0)
@@ -1174,9 +1186,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsNodeTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsNodeTable             */
+   //--------------------------*/
    theList->endTbls.numFiles = fileCount[(int) gmsNodeTable];
 
    if (theList->endTbls.numFiles > 0)
@@ -1193,9 +1205,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsEdgeBoundingRectangle */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeBoundingRectangle */
+   //--------------------------*/
    theList->ebrTbls.numFiles = fileCount[(int) gmsEdgeBoundingRectangle];
 
    if (theList->ebrTbls.numFiles > 0)
@@ -1212,9 +1224,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsFaceBoundingRectangle */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceBoundingRectangle */
+   //--------------------------*/
    theList->fbrTbls.numFiles = fileCount[(int) gmsFaceBoundingRectangle];
 
    if (theList->fbrTbls.numFiles > 0)
@@ -1231,9 +1243,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsRingTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsRingTable             */
+   //--------------------------*/
    theList->rngTbls.numFiles = fileCount[(int) gmsRingTable];
 
    if (theList->rngTbls.numFiles > 0)
@@ -1250,9 +1262,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsEdgeSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeSpatialIndex      */
+   //--------------------------*/
    theList->esiTbls.numFiles = fileCount[(int) gmsEdgeSpatialIndex];
 
    if (theList->esiTbls.numFiles > 0)
@@ -1269,9 +1281,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsFaceSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceSpatialIndex      */
+   //--------------------------*/
    theList->fsiTbls.numFiles = fileCount[(int) gmsFaceSpatialIndex];
 
    if (theList->fsiTbls.numFiles > 0)
@@ -1288,9 +1300,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsNodeSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsNodeSpatialIndex      */
+   //--------------------------*/
    theList->nsiTbls.numFiles = fileCount[(int) gmsNodeSpatialIndex];
 
    if (theList->nsiTbls.numFiles > 0)
@@ -1307,9 +1319,9 @@ static void allocateFilePaths
           }
       }
 
-   /*--------------------------*/
-   /* gmsAreaFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsAreaFeatureTable      */
+   //--------------------------*/
    if (fileCount[(int) gmsAreaFeatureTable] == 1)
       {
        theList->areaFeatureTbl = &pathBuffer[pathIndex];
@@ -1317,9 +1329,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsLineFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsLineFeatureTable      */
+   //--------------------------*/
    if (fileCount[(int) gmsLineFeatureTable] == 1)
       {
        theList->lineFeatureTbl = &pathBuffer[pathIndex];
@@ -1327,9 +1339,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsPointFeatureTable     */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsPointFeatureTable     */
+   //--------------------------*/
    if (fileCount[(int) gmsPointFeatureTable] == 1)
       {
        theList->pointFeatureTbl = &pathBuffer[pathIndex];
@@ -1337,9 +1349,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsTextFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsTextFeatureTable      */
+   //--------------------------*/
    if (fileCount[(int) gmsTextFeatureTable] == 1)
       {
        theList->textFeatureTbl = &pathBuffer[pathIndex];
@@ -1347,9 +1359,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsAreaDocTable          */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsAreaDocTable          */
+   //--------------------------*/
    if (fileCount[(int) gmsAreaDocTable] == 1)
       {
        theList->areaDocTbl = &pathBuffer[pathIndex];
@@ -1357,9 +1369,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsLineDocTable          */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsLineDocTable          */
+   //--------------------------*/
    if (fileCount[(int) gmsLineDocTable] == 1)
       {
        theList->lineDocTbl = &pathBuffer[pathIndex];
@@ -1367,9 +1379,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsPointDocTable         */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsPointDocTable         */
+   //--------------------------*/
    if (fileCount[(int) gmsPointDocTable] == 1)
       {
        theList->pointDocTbl = &pathBuffer[pathIndex];
@@ -1377,9 +1389,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsFeatureClassSchema    */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFeatureClassSchema    */
+   //--------------------------*/
    if (fileCount[(int) gmsFeatureClassSchema] == 1)
       {
        theList->fcs = &pathBuffer[pathIndex];
@@ -1387,9 +1399,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsCharVDT               */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsCharVDT               */
+   //--------------------------*/
    if (fileCount[(int) gmsCharVDT] == 1)
       {
        theList->charVDT = &pathBuffer[pathIndex];
@@ -1397,9 +1409,9 @@ static void allocateFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsIntVDT                */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsIntVDT                */
+   //--------------------------*/
    if (fileCount[(int) gmsIntVDT] == 1)
       {
        theList->intVDT = &pathBuffer[pathIndex];
@@ -1413,11 +1425,11 @@ static void allocateFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* constructFilePaths
-/*
-/* Description:
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// constructFilePaths
+//
+// Description:
+//-----------------------------------------------------*/
 static void constructFilePaths
               (gmsThemeFilesListType *theList)
 
@@ -1524,15 +1536,15 @@ static void constructFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* constructPrimitiveFilePaths
-/*
-/* Description:
-/*    Utility that determines the existence of the
-/*    specified primitive files within the specified
-/*    theme.  If the file exists, it is added to the
-/*    file-path record.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// constructPrimitiveFilePaths
+//
+// Description:
+//    Utility that determines the existence of the
+//    specified primitive files within the specified
+//    theme.  If the file exists, it is added to the
+//    file-path record.
+//-----------------------------------------------------*/
 static void constructPrimitiveFilePaths
                (gmsThematicType whichTheme,
                 gmsDcwFileType  kindOfFile,
@@ -1547,8 +1559,8 @@ static void constructPrimitiveFilePaths
          char           latDir;
          char           *themeName;
          static char    tempPath_1[128];
-         static char    tempPath_2[128];
-         static char    filePath[256];
+         static char    tempPath_2[256];
+         static char    filePath[512];
          gmsSubtileType subtile;
          bool           fileExists;
          bool           dirExists;
@@ -1586,7 +1598,7 @@ static void constructPrimitiveFilePaths
 
        if ( ! dirExists )
           {
-           continue;  /* i.e. go to the top of the LONGITUDE loop */
+           continue;  // i.e. go to the top of the LONGITUDE loop */
           }
 
        for (latDir = Lat_Start; latDir <= Lat_End; latDir++)
@@ -1602,7 +1614,7 @@ static void constructPrimitiveFilePaths
 
            if ( ! dirExists )
               {
-               continue;  /* i.e. go to the top of the LATITUDE loop */
+               continue;  // i.e. go to the top of the LATITUDE loop */
               }
 
            subtile = gms_11;
@@ -1634,14 +1646,14 @@ static void constructPrimitiveFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* constructThemeFilePaths
-/*
-/* Description:
-/*    Utility that determines the existence of a non-
-/*    primitive file in a theme directory.  If it
-/*    exists, it is written to the parameter 'filePath'.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// constructThemeFilePaths
+//
+// Description:
+//    Utility that determines the existence of a non-
+//    primitive file in a theme directory.  If it
+//    exists, it is written to the parameter 'filePath'.
+//-----------------------------------------------------*/
 static void constructThemeFilePaths
                (gmsThematicType whichTheme,
                 gmsDcwFileType  kindOfFile,
@@ -1669,11 +1681,11 @@ static void constructThemeFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* allocateBrowseFilePaths
-/*
-/* Description:
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// allocateBrowseFilePaths
+//
+// Description:
+//-----------------------------------------------------*/
 static void allocateBrowseFilePaths
               (gmsBrowseFilesListType *browseList)
 
@@ -1720,11 +1732,11 @@ static void allocateBrowseFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* constructBrowseFilePaths
-/*
-/* Description:
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// constructBrowseFilePaths
+//
+// Description:
+//-----------------------------------------------------*/
 static void constructBrowseFilePaths
               (gmsBrowseFilesListType *browseList)
 
@@ -1831,11 +1843,11 @@ static void constructBrowseFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* buildOneBrowseFilePath
-/*
-/* Description:
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// buildOneBrowseFilePath
+//
+// Description:
+//-----------------------------------------------------*/
 static void buildOneBrowseFilePath
               (gmsBrowseThematicType whichTheme,
                gmsDcwFileType        kindOfFile,
@@ -1870,21 +1882,21 @@ static void buildOneBrowseFilePath
 }
 
 
-/*-----------------------------------------------------*/
-/* allocateTileFilePaths
-/*
-/* Description:
-/*    This function allocates a character buffer that
-/*    will be used to contain the paths to the files
-/*    in one tile of a theme.  The buffer is contiguous
-/*    and its size is:
-/*
-/*         Num Rows    = Num files (in tile of theme)
-/*         Num Columns = <some max width, e.g. 64 chars>
-/*
-/*    Each attribute of the 'theList' is set to point
-/*    to a row of the buffer.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// allocateTileFilePaths
+//
+// Description:
+//    This function allocates a character buffer that
+//    will be used to contain the paths to the files
+//    in one tile of a theme.  The buffer is contiguous
+//    and its size is:
+//
+//         Num Rows    = Num files (in tile of theme)
+//         Num Columns = <some max width, e.g. 64 chars>
+//
+//    Each attribute of the 'theList' is set to point
+//    to a row of the buffer.
+//-----------------------------------------------------*/
 static void allocateTileFilePaths
               (gmsThemeFilesListType *theList)
 
@@ -1918,9 +1930,9 @@ static void allocateTileFilePaths
 
    midIndex = 0;
 
-   /*--------------------------*/
-   /* gmsEdgeTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeTable             */
+   //--------------------------*/
    theList->edgTbls.numFiles = Num_Subtiles;
 
    theList->edgTbls.filePath = &midBuffer[midIndex];
@@ -1934,9 +1946,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsFaceTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceTable             */
+   //--------------------------*/
    theList->facTbls.numFiles = Num_Subtiles;
 
    theList->facTbls.filePath = &midBuffer[midIndex];
@@ -1950,9 +1962,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsTextTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsTextTable             */
+   //--------------------------*/
    theList->txtTbls.numFiles = Num_Subtiles;
 
    theList->txtTbls.filePath = &midBuffer[midIndex];
@@ -1966,9 +1978,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsNodeTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsNodeTable             */
+   //--------------------------*/
    theList->endTbls.numFiles = Num_Subtiles;
 
    theList->endTbls.filePath = &midBuffer[midIndex];
@@ -1982,9 +1994,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsEdgeBoundingRectangle */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeBoundingRectangle */
+   //--------------------------*/
    theList->ebrTbls.numFiles = Num_Subtiles;
 
    theList->ebrTbls.filePath = &midBuffer[midIndex];
@@ -1998,9 +2010,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsFaceBoundingRectangle */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceBoundingRectangle */
+   //--------------------------*/
    theList->fbrTbls.numFiles = Num_Subtiles;
 
    theList->fbrTbls.filePath = &midBuffer[midIndex];
@@ -2014,9 +2026,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsRingTable             */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsRingTable             */
+   //--------------------------*/
    theList->rngTbls.numFiles = Num_Subtiles;
 
    theList->rngTbls.filePath = &midBuffer[midIndex];
@@ -2030,9 +2042,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsEdgeSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsEdgeSpatialIndex      */
+   //--------------------------*/
    theList->esiTbls.numFiles = Num_Subtiles;
 
    theList->esiTbls.filePath = &midBuffer[midIndex];
@@ -2046,9 +2058,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsFaceSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFaceSpatialIndex      */
+   //--------------------------*/
    theList->fsiTbls.numFiles = Num_Subtiles;
 
    theList->fsiTbls.filePath = &midBuffer[midIndex];
@@ -2062,9 +2074,9 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsNodeSpatialIndex      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsNodeSpatialIndex      */
+   //--------------------------*/
    theList->nsiTbls.numFiles = Num_Subtiles;
 
    theList->nsiTbls.filePath = &midBuffer[midIndex];
@@ -2078,72 +2090,72 @@ static void allocateTileFilePaths
        pathIndex = pathIndex + Max_Path_Chars;
       }
 
-   /*--------------------------*/
-   /* gmsAreaFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsAreaFeatureTable      */
+   //--------------------------*/
    theList->areaFeatureTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsLineFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsLineFeatureTable      */
+   //--------------------------*/
    theList->lineFeatureTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsPointFeatureTable     */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsPointFeatureTable     */
+   //--------------------------*/
    theList->pointFeatureTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsTextFeatureTable      */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsTextFeatureTable      */
+   //--------------------------*/
    theList->textFeatureTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsAreaDocTable          */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsAreaDocTable          */
+   //--------------------------*/
    theList->areaDocTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsLineDocTable          */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsLineDocTable          */
+   //--------------------------*/
    theList->lineDocTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsPointDocTable         */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsPointDocTable         */
+   //--------------------------*/
    theList->pointDocTbl = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsFeatureClassSchema    */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsFeatureClassSchema    */
+   //--------------------------*/
    theList->fcs = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsCharVDT               */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsCharVDT               */
+   //--------------------------*/
    theList->charVDT = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
 
-   /*--------------------------*/
-   /* gmsIntVDT                */
-   /*--------------------------*/
+   //--------------------------*/
+   // gmsIntVDT                */
+   //--------------------------*/
    theList->intVDT = &pathBuffer[pathIndex];
 
    pathIndex = pathIndex + Max_Path_Chars;
@@ -2154,15 +2166,15 @@ static void allocateTileFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* constructTileThemeFilePaths
-/*
-/* Description:
-/*    Utility that determines the existence of a non-
-/*    primitive file in one tile of a theme directory.
-/*    If it exists, it is written to the parameter
-/*    'filePath'.
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// constructTileThemeFilePaths
+//
+// Description:
+//    Utility that determines the existence of a non-
+//    primitive file in one tile of a theme directory.
+//    If it exists, it is written to the parameter
+//    'filePath'.
+//-----------------------------------------------------*/
 static void constructTileThemeFilePaths
                (gmsThematicType whichTheme,
                 gmsDcwFileType  kindOfFile,
@@ -2193,11 +2205,11 @@ static void constructTileThemeFilePaths
 }
 
 
-/*-----------------------------------------------------*/
-/* buildTileFiles
-/*
-/* Description:
-/*-----------------------------------------------------*/
+//-----------------------------------------------------*/
+// buildTileFiles
+//
+// Description:
+//-----------------------------------------------------*/
 static void buildTileFiles
               (char                  longTileId,
                char                  latTileId,
@@ -2276,9 +2288,9 @@ static void buildTileFiles
        longTileId, latTileId,
        longTileId, latTileId);
 
-   /*---------------*/
-   /* Feature files */
-   /*---------------*/
+   //---------------*/
+   // Feature files */
+   //---------------*/
    constructTileThemeFilePaths
       (newList->whichTheme,
        gmsAreaFeatureTable,

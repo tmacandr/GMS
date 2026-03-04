@@ -1,83 +1,83 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsBrowseFeatureTable.cpp
-/* Date : 07-Sep-99 : initial definition
-/*        05-Oct-99 : Clean-up due to code inspection
-/*        17-Nov-99 : get feature tbl routine figures out name of index file
-/*
-/* Description:
-/*    Utilities to read/process any "Feature Table" file from the BROWSE area
-/*    of the Digital Chart of the World (DCW) database.  Consider the
-/*    following defintions:
-/*
-/*       Feature:
-/*       --------
-/*          A model of a real world geographic entity.  [It is] a zero-,
-/*          one-, or two-dimensional entity of uniform attribute scheme
-/*          from an exhaustive attribute distribution across a plane,
-/*          or a set of such entities sharing common attribute values.
-/*          The three subtypes are simple features, complex features,
-/*          and text features.  The types of simple features are point
-/*          features, line features, and area features.
-/*
-/*       Feature Class:
-/*       --------------
-/*          A set of features that shares a homogeneous set of attributes.
-/*          A feature class consists of a set of tables that includes one
-/*          or more primitive tables and one or more attribute tables.
-/*          A feature class has the same columns of attribute information
-/*          for each feature.  Every feature class has one and only one
-/*          feature table.  The two types of feature classes are the simple
-/*          feature class and the complex feature class.  The subtypes of
-/*          the simple feature class are the "point", "line", "area", and
-/*          "text" feature classes.
-/*
-/*    OK, so there's some inconsistency in their (NIMA) definitions.  In general,
-/*    there are 4 types of "feature" tables managed by this component.  They
-/*    are:
-/*
-/*                   area  (*.AFT files)
-/*                   line  (*.LFT files)
-/*                   point (*.PFT files)
-/*                   text  (*.TFT files)
-/*
-/*    The table below maps "feature-tables" to "browse-libraries".  A "y"
-/*    means a feature table exists for that browse directory.
-/*
-/*    ___________________________________________________________________
-/*    |                           |          Feature Table              |
-/*    |      Browse Theme         |-------------------------------------|
-/*    |                           | *.AFT  |  *.LFT  |  *.PFT  |  *.TFT | 
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | ONC Compilation Date (CO) |   y    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Avail of Hypsog Data (DA) |   y    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Drainage (DA)             |   y    |    y    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Data Volumes (DV)         |   y    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Geographic Regions (GR)   |   y    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | ONC Index (IN)            |   y    |    n    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Library Ref (Libref)      |   n    |    n    |   n     |   n    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Political/Oceans (PO)     |   y    |    y    |   n     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*    |                           |        |         |         |        |
-/*    | Populated Places (PP)     |   n    |    n    |   y     |   y    |
-/*    |___________________________|________|_________|_________|________|
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsBrowseFeatureTable.cpp
+// Date : 07-Sep-99 : initial definition
+//        05-Oct-99 : Clean-up due to code inspection
+//        17-Nov-99 : get feature tbl routine figures out name of index file
+//
+// Description:
+//    Utilities to read/process any "Feature Table" file from the BROWSE area
+//    of the Digital Chart of the World (DCW) database.  Consider the
+//    following defintions:
+//
+//       Feature:
+//       --------
+//          A model of a real world geographic entity.  [It is] a zero-,
+//          one-, or two-dimensional entity of uniform attribute scheme
+//          from an exhaustive attribute distribution across a plane,
+//          or a set of such entities sharing common attribute values.
+//          The three subtypes are simple features, complex features,
+//          and text features.  The types of simple features are point
+//          features, line features, and area features.
+//
+//       Feature Class:
+//       --------------
+//          A set of features that shares a homogeneous set of attributes.
+//          A feature class consists of a set of tables that includes one
+//          or more primitive tables and one or more attribute tables.
+//          A feature class has the same columns of attribute information
+//          for each feature.  Every feature class has one and only one
+//          feature table.  The two types of feature classes are the simple
+//          feature class and the complex feature class.  The subtypes of
+//          the simple feature class are the "point", "line", "area", and
+//          "text" feature classes.
+//
+//    OK, so there's some inconsistency in their (NIMA) definitions.  In general,
+//    there are 4 types of "feature" tables managed by this component.  They
+//    are:
+//
+//                   area  (*.AFT files)
+//                   line  (*.LFT files)
+//                   point (*.PFT files)
+//                   text  (*.TFT files)
+//
+//    The table below maps "feature-tables" to "browse-libraries".  A "y"
+//    means a feature table exists for that browse directory.
+//
+//    ___________________________________________________________________
+//    |                           |          Feature Table              |
+//    |      Browse Theme         |-------------------------------------|
+//    |                           | *.AFT  |  *.LFT  |  *.PFT  |  *.TFT | 
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | ONC Compilation Date (CO) |   y    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Avail of Hypsog Data (DA) |   y    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Drainage (DA)             |   y    |    y    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Data Volumes (DV)         |   y    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Geographic Regions (GR)   |   y    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | ONC Index (IN)            |   y    |    n    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Library Ref (Libref)      |   n    |    n    |   n     |   n    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Political/Oceans (PO)     |   y    |    y    |   n     |   y    |
+//    |___________________________|________|_________|_________|________|
+//    |                           |        |         |         |        |
+//    | Populated Places (PP)     |   n    |    n    |   y     |   y    |
+//    |___________________________|________|_________|_________|________|
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsBrowseFeatureTable.h>
 #include <gmsIndexFile.h>
@@ -88,15 +88,15 @@
 #include <string.h>
 
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *feature_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void buildBrowseLineOrAreaFeatureTable
                (gmsBrowseThematicType  whichTheme,
                 browseFeatureTableType *theTbl);
@@ -129,30 +129,30 @@ static void printTextFeatureTable
                 browseTextFeatureRecType *buffer);
 
 
-/*---------------------------------------------*/
-/* gmsGetBrowseFeatureTable
-/*
-/* Description:
-/*    This utility reads the specified "feature
-/*    table" and builds a corresponding data
-/*    structure.  The kind of data-structure is
-/*    specified by the parameter "whichTheme".
-/*    A pointer to a newly allocated table is
-/*    returned to the caller.  The caller is then
-/*    able to type-cast the "void *" to the
-/*    corresponding data-structure.
-/*
-/*    Note:
-/*       If the file to be read is a "text-feature
-/*       table, then the name of the "text-index"
-/*       file ("*.tfx") must be specified.  If the
-/*       file is not a "text-feature" table, then
-/*       (simply) pass a null string.
-/*
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeBrowseFeatureTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetBrowseFeatureTable
+//
+// Description:
+//    This utility reads the specified "feature
+//    table" and builds a corresponding data
+//    structure.  The kind of data-structure is
+//    specified by the parameter "whichTheme".
+//    A pointer to a newly allocated table is
+//    returned to the caller.  The caller is then
+//    able to type-cast the "void *" to the
+//    corresponding data-structure.
+//
+//    Note:
+//       If the file to be read is a "text-feature
+//       table, then the name of the "text-index"
+//       file ("*.tfx") must be specified.  If the
+//       file is not a "text-feature" table, then
+//       (simply) pass a null string.
+//
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeBrowseFeatureTable" (see below).
+//---------------------------------------------*/
 browseFeatureTableType *gmsGetBrowseFeatureTable
                            (gmsBrowseThematicType whichTheme,
                             const char            *featureFilePath,
@@ -242,14 +242,14 @@ browseFeatureTableType *gmsGetBrowseFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeBrowseFeatureTable
-/*
-/* Description:
-/*    This utility frees a "Feature Table" that had
-/*    been previously allocated using
-/*    "gmsGetFeatureTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeBrowseFeatureTable
+//
+// Description:
+//    This utility frees a "Feature Table" that had
+//    been previously allocated using
+//    "gmsGetFeatureTable".
+//---------------------------------------------*/
 void gmsFreeBrowseFeatureTable
            (browseFeatureTableType *theFeatureTable)
 
@@ -264,13 +264,13 @@ void gmsFreeBrowseFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintBrowseFeatureTable	
-/*
-/* Description:
-/*    This function will print the "Feature Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintBrowseFeatureTable	
+//
+// Description:
+//    This function will print the "Feature Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintBrowseFeatureTable
            (browseFeatureTableType *theFeatureTable)
 
@@ -362,19 +362,19 @@ void gmsPrintBrowseFeatureTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms   */
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms   */
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the "Feature Table"
-/*    file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the "Feature Table"
+//    file.
+//---------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -399,15 +399,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* getSizeOfFile
-/*
-/* Description:
-/*    This function determines the number of
-/*    bytes of data in the file AFTER the header.
-/*    The file-descriptor is returned to the top
-/*    of the file after this routine completes.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getSizeOfFile
+//
+// Description:
+//    This function determines the number of
+//    bytes of data in the file AFTER the header.
+//    The file-descriptor is returned to the top
+//    of the file after this routine completes.
+//---------------------------------------------*/
 static int getSizeOfFile ()
 
 {
@@ -433,13 +433,13 @@ static int getSizeOfFile ()
 }
 
 
-/*---------------------------------------------*/
-/* buildBrowseLineOrAreaFeatureTable 
-/*
-/* Description:
-/*    This routin is used to build either a
-/*    "area" or "line" featue table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildBrowseLineOrAreaFeatureTable 
+//
+// Description:
+//    This routin is used to build either a
+//    "area" or "line" featue table.
+//---------------------------------------------*/
 static void buildBrowseLineOrAreaFeatureTable
                (gmsBrowseThematicType  whichTheme,
                 browseFeatureTableType *theTbl)
@@ -481,11 +481,11 @@ static void buildBrowseLineOrAreaFeatureTable
 
        readPastFormatInformation ();
 
-       /*----------------------------------*/
-       /* Note:
-       /*    This is used to build either a
-       /*    LINE or AREA (GR) feature table.
-       /*----------------------------------*/
+       //----------------------------------*/
+       // Note:
+       //    This is used to build either a
+       //    LINE or AREA (GR) feature table.
+       //----------------------------------*/
        for (i = 0; i < numRecords; i++)
           {
            GR_buffer[i].ID = gmsReadInteger (feature_fd);
@@ -575,13 +575,13 @@ static void buildBrowseLineOrAreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildBrowsePointFeatureTable 
-/*
-/* Description:
-/*    This utility constructs a POINT feature
-/*    table from the browse library.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildBrowsePointFeatureTable 
+//
+// Description:
+//    This utility constructs a POINT feature
+//    table from the browse library.
+//---------------------------------------------*/
 static void buildBrowsePointFeatureTable
                (browseFeatureTableType *theTbl)
 
@@ -625,14 +625,14 @@ static void buildBrowsePointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* buildBrowseTextFeatureTable
-/*
-/* Description:
-/*    This utility is used to construct any of
-/*    the TEXT feature tables from the BROWSE
-/*    library.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildBrowseTextFeatureTable
+//
+// Description:
+//    This utility is used to construct any of
+//    the TEXT feature tables from the BROWSE
+//    library.
+//---------------------------------------------*/
 static void buildBrowseTextFeatureTable
                (browseFeatureTableType *theTbl,
                 indexTableType         *theTFX)
@@ -693,20 +693,20 @@ static void buildBrowseTextFeatureTable
 }
 
 
-     /*-----------------------*/
-     /*   Print Utilities     */
-     /*-----------------------*/
+     //-----------------------*/
+     //   Print Utilities     */
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* printGRFeatureTable
-/*
-/* Description:
-/*    This function will print the specified
-/*    browse "GR feature records" to stdout.
-/*    This utility is used for both LINE and
-/*    AREA GR feature tables.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printGRFeatureTable
+//
+// Description:
+//    This function will print the specified
+//    browse "GR feature records" to stdout.
+//    This utility is used for both LINE and
+//    AREA GR feature tables.
+//---------------------------------------------*/
 static void printGRFeatureTable
               (int                    numRecords,
                browseGrFeatureRecType *buffer)
@@ -734,13 +734,13 @@ static void printGRFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printINAreaFeatureTable 
-/*
-/* Description:
-/*    This function will print the specified
-/*    browse "IN feature records" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printINAreaFeatureTable 
+//
+// Description:
+//    This function will print the specified
+//    browse "IN feature records" to stdout.
+//---------------------------------------------*/
 static void printINAreaFeatureTable
               (int                        numRecords,
                browseInAreaFeatureRecType *buffer)
@@ -763,13 +763,13 @@ static void printINAreaFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printBaseFeatureTable 
-/*
-/* Description:
-/*    This function will print the specified
-/*    browse "feature records" (generic) to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printBaseFeatureTable 
+//
+// Description:
+//    This function will print the specified
+//    browse "feature records" (generic) to stdout.
+//---------------------------------------------*/
 static void printBaseFeatureTable
               (int                  numRecords,
                browseFeatureRecType *buffer)
@@ -790,13 +790,13 @@ static void printBaseFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printPointFeatureTable 
-/*
-/* Description:
-/*    This function will print the specified
-/*    browse "Point feature records" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printPointFeatureTable 
+//
+// Description:
+//    This function will print the specified
+//    browse "Point feature records" to stdout.
+//---------------------------------------------*/
 static void printPointFeatureTable
           (int                       numRecords,
            browsePointFeatureRecType *buffer)
@@ -820,13 +820,13 @@ static void printPointFeatureTable
 }
 
 
-/*---------------------------------------------*/
-/* printTextFeatureTable
-/*
-/* Description:
-/*    This function will print the specified
-/*    browse "Text feature records" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printTextFeatureTable
+//
+// Description:
+//    This function will print the specified
+//    browse "Text feature records" to stdout.
+//---------------------------------------------*/
 static void printTextFeatureTable
           (int                      numRecords,
            browseTextFeatureRecType *buffer)

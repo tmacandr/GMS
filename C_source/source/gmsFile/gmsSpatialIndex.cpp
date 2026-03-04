@@ -1,47 +1,48 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsSpatialIndex.cpp
-/* Date : 07-Aug-99 : initial definition
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*        08-Oct-99 : Algo in Appendix F (Mil-Std-600006) is hosed - fix
-/*        11-Feb-00 : rename "si_fileDesc" variable re HP C++ compiler choked on it
-/*
-/* Description:
-/*    Utilities to "read" any "Spatial Index" file of the Digital Chart of
-/*    the World (DCW).
-/*
-/*    A "spatial index" file provides the capability to use a set of coord-
-/*    inates to identify a (geographic) primitive and its associated attributes.
-/*    The idea is to provide a mechanism that will reduce the search-time to
-/*    find geographic primitives within the DCW database.  Spatial indexes are
-/*    implemented for FACE, EDGE, NODE, and TEXT primitives and have the
-/*    following file names:
-/*
-/*               FSI - Face Spatial Index
-/*               ESI - Edge Spatial Index
-/*               NSI - Node Spatial Index
-/*               TSI - Text Spatial Index
-/*
-/*    Also, consider:
-/*
-/*       Spatial Index:
-/*       --------------
-/*          A data structure fiel that allows for the rapid
-/*          identification of a primitive by using the values
-/*          of the primitive's coordinates.
-/*
-/*    The "spatial index" is one of the four categories of spatial decomposition
-/*    of a VPF database.  The other three are: 1) tile directory, 2) the
-/*    minimum-bounding-rectangle (of edge/face primitives), and 3) primitive
-/*    coordinates.
-/*
-/*    See also, Apendix F, Mil-Std-600006, pg 139-150.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsSpatialIndex.cpp
+// Date : 07-Aug-99 : initial definition
+//        07-Oct-99 : Clean-up due to code-inspection
+//        08-Oct-99 : Algo in Appendix F (Mil-Std-600006) is hosed - fix
+//        11-Feb-00 : rename "si_fileDesc" variable re HP C++ compiler
+//                    choked on it
+//
+// Description:
+//    Utilities to "read" any "Spatial Index" file of the Digital Chart of
+//    the World (DCW).
+//
+//    A "spatial index" file provides the capability to use a set of coord-
+//    inates to identify a (geographic) primitive and its associated attributes.
+//    The idea is to provide a mechanism that will reduce the search-time to
+//    find geographic primitives within the DCW database.  Spatial indexes are
+//    implemented for FACE, EDGE, NODE, and TEXT primitives and have the
+//    following file names:
+//
+//               FSI - Face Spatial Index
+//               ESI - Edge Spatial Index
+//               NSI - Node Spatial Index
+//               TSI - Text Spatial Index
+//
+//    Also, consider:
+//
+//       Spatial Index:
+//       --------------
+//          A data structure fiel that allows for the rapid
+//          identification of a primitive by using the values
+//          of the primitive's coordinates.
+//
+//    The "spatial index" is one of the four categories of spatial decomposition
+//    of a VPF database.  The other three are: 1) tile directory, 2) the
+//    minimum-bounding-rectangle (of edge/face primitives), and 3) primitive
+//    coordinates.
+//
+//    See also, Apendix F, Mil-Std-600006, pg 139-150.
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsSpatialIndex.h>
 #include <gmsUtilities.h>
@@ -49,15 +50,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *si_fileDesc = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void buildSpatialIndex
                (spatialIndexType *theSpatialIndex);
 
@@ -69,17 +70,17 @@ static boundingRectangleType convertSpatialIndexValuesToLatLong
                                  boundingRectangleType outterRectangle);
 
 
-/*---------------------------------------------*/
-/* gmsGetSpatialIndex
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Spatial Index".  A pointer to a newly
-/*    allocated table is returned to the caller.
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeSpatialIndex" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetSpatialIndex
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Spatial Index".  A pointer to a newly
+//    allocated table is returned to the caller.
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeSpatialIndex" (see below).
+//---------------------------------------------*/
 spatialIndexType *gmsGetSpatialIndex
                            (const char *spatialIndexFilePath)
 
@@ -117,14 +118,14 @@ spatialIndexType *gmsGetSpatialIndex
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeSpatialIndex
-/*
-/* Description:
-/*    This utility frees a "Spatial Index" that had
-/*    been previously allocated using
-/*    "gmsGetSpatialIndex".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeSpatialIndex
+//
+// Description:
+//    This utility frees a "Spatial Index" that had
+//    been previously allocated using
+//    "gmsGetSpatialIndex".
+//---------------------------------------------*/
 void gmsFreeSpatialIndex
            (spatialIndexType *theSpatialIndex)
 
@@ -142,13 +143,13 @@ void gmsFreeSpatialIndex
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintSpatialIndex
-/*
-/* Description:
-/*    This function will print the "Spatial Index"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintSpatialIndex
+//
+// Description:
+//    This function will print the "Spatial Index"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintSpatialIndex
            (spatialIndexType *theSpatialIndex)
 
@@ -200,20 +201,20 @@ void gmsPrintSpatialIndex
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* buildSpatialIndex
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Spatial Index file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildSpatialIndex
+//
+// Description:
+//    This function will read the actual data
+//    from the Spatial Index file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//---------------------------------------------*/
 static void buildSpatialIndex
                (spatialIndexType *theSpatialIndex)
 
@@ -234,9 +235,9 @@ static void buildSpatialIndex
 
    theSpatialIndex->numNodes = gmsReadInteger (si_fileDesc);
 
-   /*-----------------------------*/
-   /* Build the array of node-data
-   /*-----------------------------*/
+   //-----------------------------*/
+   // Build the array of node-data
+   //-----------------------------*/
    numBytes = theSpatialIndex->numNodes * sizeof(nodeRecType);
 
    theSpatialIndex->nodeRecords = (nodeRecType *) malloc (numBytes);
@@ -254,9 +255,9 @@ static void buildSpatialIndex
           gmsReadInteger (si_fileDesc);
       }
 
-   /*----------------------------------*/
-   /* Build the array of primitive-data
-   /*----------------------------------*/
+   //----------------------------------*/
+   // Build the array of primitive-data
+   //----------------------------------*/
    numBytes = theSpatialIndex->numPrimitives * sizeof(primitiveRecType);
 
    theSpatialIndex->primitiveRecords =
@@ -290,37 +291,37 @@ static void buildSpatialIndex
 }
 
 
-/*---------------------------------------------*/
-/* convertSpatialIndexValuesToLatLong
-/*
-/* Description:
-/*    See also : Mil-Std-600006, Appendix F, pg
-/*    140-144.
-/*
-/*    The coordinate system for the spatial index
-/*    is based on 1-byte integers.  Each value
-/*    of a "cell" therefore ranges from 0 .. 255.
-/*    The value represents how much of the "bounding
-/*    rectangle" is covered by the cell in question.
-/*    The byte value is converted to a Lat/Long
-/*    float value as:
-/*
-/*                              CellLatYi
-/*      Cell Lat Yi = MinLat + ----------- * deltaLat
-/*                                255
-/*
-/*    and
-/*
-/*                               CellLonXi
-/*      Cell Lon Xi = MinLong + ---------- * deltaLong
-/*                                  255
-/*
-/*    Note:
-/*    -----
-/*       This algorithm is different from the
-/*       one in Appendix F of Mil-Std-6000006.
-/*       The algo in Appendix F was hosed.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// convertSpatialIndexValuesToLatLong
+//
+// Description:
+//    See also : Mil-Std-600006, Appendix F, pg
+//    140-144.
+//
+//    The coordinate system for the spatial index
+//    is based on 1-byte integers.  Each value
+//    of a "cell" therefore ranges from 0 .. 255.
+//    The value represents how much of the "bounding
+//    rectangle" is covered by the cell in question.
+//    The byte value is converted to a Lat/Long
+//    float value as:
+//
+//                              CellLatYi
+//      Cell Lat Yi = MinLat + ----------- * deltaLat
+//                                255
+//
+//    and
+//
+//                               CellLonXi
+//      Cell Lon Xi = MinLong + ---------- * deltaLong
+//                                  255
+//
+//    Note:
+//    -----
+//       This algorithm is different from the
+//       one in Appendix F of Mil-Std-6000006.
+//       The algo in Appendix F was hosed.
+//---------------------------------------------*/
 static boundingRectangleType convertSpatialIndexValuesToLatLong
                                 (unsigned char         cell_x1_as_byte,
                                  unsigned char         cell_y1_as_byte,

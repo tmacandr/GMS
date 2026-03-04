@@ -1,27 +1,27 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsCoverageAttribTable.c
-/* Date : 12-Jul-99 : Initial definition
-/*        01-Aug-99 : Ported to Sun Solaris
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Coverage Attribute Table" file from the
-/*    BROWSE library of the Digital Chart of the World (DCW) database.
-/*
-/*    This table contains four columns (i.e. records with 4 attributes):
-/*          1) Row ID
-/*          2) Coverage Name
-/*          3) Coverage Description
-/*          4) Topology Level
-/*    The coverage description is equivalent to the name of the thematic
-/*    layer.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsCoverageAttribTable.c
+// Date : 12-Jul-99 : Initial definition
+//        01-Aug-99 : Ported to Sun Solaris
+//        07-Oct-99 : Clean-up due to code-inspection
+//
+// Description:
+//    Utilities to "read" the "Coverage Attribute Table" file from the
+//    BROWSE library of the Digital Chart of the World (DCW) database.
+//
+//    This table contains four columns (i.e. records with 4 attributes):
+//          1) Row ID
+//          2) Coverage Name
+//          3) Coverage Description
+//          4) Topology Level
+//    The coverage description is equivalent to the name of the thematic
+//    layer.
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsCoverageAttribTable.h>
 #include <gmsUtilities.h>
@@ -29,15 +29,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*---------------------------*/
-/*     Local Variables       */
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       */
+//---------------------------*/
 static FILE *cat_fd = (FILE *) NULL;
 
 
-/*---------------------------*/
-/* Declare Local Subprograms */
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms */
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static int countNumRecords ();
@@ -50,17 +50,17 @@ static void buildCovAttribTable
 static void debugPrintCat ();
 
 
-/*-------------------------------------------*/
-/* gmsGetCoverageAttribTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Coverage Attribute Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeCoverageAttribTable" (see below).
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetCoverageAttribTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Coverage Attribute Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeCoverageAttribTable" (see below).
+//-------------------------------------------*/
 CovAttribTableType *gmsGetCoverageAttribTable
                                  (const char *filePath)
 
@@ -95,14 +95,14 @@ CovAttribTableType *gmsGetCoverageAttribTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeCoverageAttribTable
-/*
-/* Description:
-/*    This utility frees a "Coverage Attribute
-/*    Table" that had been previously allocated
-/*    using "gmsGetCoverageAttribTable".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeCoverageAttribTable
+//
+// Description:
+//    This utility frees a "Coverage Attribute
+//    Table" that had been previously allocated
+//    using "gmsGetCoverageAttribTable".
+//-------------------------------------------*/
 void gmsFreeCoverageAttribTable
            (CovAttribTableType *theCAT)
 
@@ -117,13 +117,13 @@ void gmsFreeCoverageAttribTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintCoverageAttribTable	
-/*
-/* Description:
-/*    This function will print the "CAT" object
-/*    to stdout.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintCoverageAttribTable	
+//
+// Description:
+//    This function will print the "CAT" object
+//    to stdout.
+//-------------------------------------------*/
 void gmsPrintCoverageAttribTable
            (CovAttribTableType *theCAT)
 
@@ -156,16 +156,16 @@ void gmsPrintCoverageAttribTable
 }
 
 
-     /*---------------------*/
-     /*   Local Subprograms */
-     /*---------------------*/
+     //---------------------*/
+     //   Local Subprograms */
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* debugPrintCat 
-/*
-/* Description:
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// debugPrintCat 
+//
+// Description:
+//-------------------------------------------*/
 static void debugPrintCat ()
 
 {
@@ -189,14 +189,14 @@ static void debugPrintCat ()
 }
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the "Coverage
-/*    Attribute Table".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the "Coverage
+//    Attribute Table".
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -221,20 +221,20 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* countNumRecords
-/*
-/* Description:
-/*    This function will count the number of
-/*    coverage records contained in the
-/*    "Coverage Attribute Table".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// countNumRecords
+//
+// Description:
+//    This function will count the number of
+//    coverage records contained in the
+//    "Coverage Attribute Table".
+//-------------------------------------------*/
 static int countNumRecords ()
 
 {
          int       tempChar;
          int       numBytes = 0;
-         const int Size_Of_Cov_Attrib_Rec = 66;  /* bytes, no padding */
+         const int Size_Of_Cov_Attrib_Rec = 66;  // bytes, no padding */
          int       numRecords;
 
    rewind (cat_fd);
@@ -256,14 +256,14 @@ static int countNumRecords ()
 }
 
 
-/*-------------------------------------------*/
-/* readOneCoverageRecord
-/*
-/* Description:
-/*    This function will read one "Coverage"
-/*    record from the Coverage Attribute
-/*    Table (i.e. file).
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readOneCoverageRecord
+//
+// Description:
+//    This function will read one "Coverage"
+//    record from the Coverage Attribute
+//    Table (i.e. file).
+//-------------------------------------------*/
 static CoverageRecordType readOneCoverageRecord()
 
 {
@@ -285,15 +285,15 @@ static CoverageRecordType readOneCoverageRecord()
 }
 
 
-/*-------------------------------------------*/
-/* buildCovAttribTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Coverage Attribute file.  The
-/*    data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildCovAttribTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Coverage Attribute file.  The
+//    data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildCovAttribTable
                (CovAttribTableType *theCAT)
 

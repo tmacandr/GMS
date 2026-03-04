@@ -1,48 +1,48 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsValueDescriptionTable.c
-/* Date : 24-Aug-99 : Initial definition
-/*        19-Sep-99 : Browse char VDT different from main themes
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*
-/* Description:
-/*    These utilities are used to "read/process" any "Value Description
-/*    Table" file of the Digital Chart of the World (DCW) database.  There
-/*    are two types of "Value Description Tables".  The first is an "Integer
-/*    VDT" and the other is a "character VDT".  Each record in the "Integer"
-/*    VDT has the format:
-/*
-/*           Integer Value Description Record
-/*               ID         =I,1,N,Row Identifier,-,-,:
-/*               TABLE      =T,12,P,Name of Feature Table,-,-,:
-/*               ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
-/*               VALUE      =I,1,P,Attribute Value,-,-,:
-/*               DESCRIPTION=T,50,N,Attribute Value Description,-,-,:
-/*
-/*    There are two sub-types for the "Character" VDT.  For the BROWSE
-/*    library the record format is:
-/*
-/*           Character Value Description Record
-/*               ID         =I,1,N,Row Identifier,-,-,:
-/*               TABLE      =T,12,P,Name of Feature Table,-,-,:
-/*               ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
-/*               VALUE      =T,3,P,Attribute Value,-,-,:
-/*               DESCRIPTION=T,50,N,Attribute Value Description,-,-,:;
-/*
-/*    However, for the main themes (PO only?), the record format is:
-/*
-/*           Character Value Description Table;-;
-/*              ID         =I,1,N,Row Identifier,-,-,:
-/*              TABLE      =T,12,P,Feature Table Name,-,-,:
-/*              ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
-/*              VALUE      =T,2,P,Attribute Value,-,-,:
-/*              DESCRIPTION=T,50,N,Attribute Value Description,-,-,:;
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsValueDescriptionTable.c
+// Date : 24-Aug-99 : Initial definition
+//        19-Sep-99 : Browse char VDT different from main themes
+//        07-Oct-99 : Clean-up due to code-inspection
+//
+// Description:
+//    These utilities are used to "read/process" any "Value Description
+//    Table" file of the Digital Chart of the World (DCW) database.  There
+//    are two types of "Value Description Tables".  The first is an "Integer
+//    VDT" and the other is a "character VDT".  Each record in the "Integer"
+//    VDT has the format:
+//
+//           Integer Value Description Record
+//               ID         =I,1,N,Row Identifier,-,-,:
+//               TABLE      =T,12,P,Name of Feature Table,-,-,:
+//               ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
+//               VALUE      =I,1,P,Attribute Value,-,-,:
+//               DESCRIPTION=T,50,N,Attribute Value Description,-,-,:
+//
+//    There are two sub-types for the "Character" VDT.  For the BROWSE
+//    library the record format is:
+//
+//           Character Value Description Record
+//               ID         =I,1,N,Row Identifier,-,-,:
+//               TABLE      =T,12,P,Name of Feature Table,-,-,:
+//               ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
+//               VALUE      =T,3,P,Attribute Value,-,-,:
+//               DESCRIPTION=T,50,N,Attribute Value Description,-,-,:;
+//
+//    However, for the main themes (PO only?), the record format is:
+//
+//           Character Value Description Table;-;
+//              ID         =I,1,N,Row Identifier,-,-,:
+//              TABLE      =T,12,P,Feature Table Name,-,-,:
+//              ATTRIBUTE  =T,16,P,Attribute Name,-,-,:
+//              VALUE      =T,2,P,Attribute Value,-,-,:
+//              DESCRIPTION=T,50,N,Attribute Value Description,-,-,:;
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsValueDescriptionTable.h>
 #include <gmsUtilities.h>
@@ -51,15 +51,15 @@
 #include <stdlib.h>
 
 
-/*-----------------------------*/
-/*     Local Variables       --*/
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables       --*/
+//-----------------------------*/
 static FILE *vdt_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms --*/
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms --*/
+//-----------------------------*/
 static void buildIntValueDescriptionTable
                (intValueDescriptionTableType *theVDT);
 
@@ -76,18 +76,18 @@ static void printCharVdtRecord
 static void readPastFormatInformation ();
 
 
-/*---------------------------------------------*/
-/* gmsGetIntValueDescriptionTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    an INTEGER "Value Description Table".  A
-/*    pointer to a newly allocated table is
-/*    returned to the caller.  It is the caller's
-/*    responsibility to free the item by using the
-/*    utility "gmsFreeIntValueDescriptionTable"
-/*    (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetIntValueDescriptionTable
+//
+// Description:
+//    This utility reads the file that contains
+//    an INTEGER "Value Description Table".  A
+//    pointer to a newly allocated table is
+//    returned to the caller.  It is the caller's
+//    responsibility to free the item by using the
+//    utility "gmsFreeIntValueDescriptionTable"
+//    (see below).
+//---------------------------------------------*/
 intValueDescriptionTableType *gmsGetIntValueDescriptionTable
                                     (const char *intVdtFilePath)
 
@@ -124,15 +124,15 @@ intValueDescriptionTableType *gmsGetIntValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeIntValueDescriptionTable
-/*
-/* Description:
-/*    This utility frees an "Integer Value Description
-/*    Table" that had been previously allocated
-/*    using "gmsGetIntValueDescriptionTable"
-/*   (see above).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeIntValueDescriptionTable
+//
+// Description:
+//    This utility frees an "Integer Value Description
+//    Table" that had been previously allocated
+//    using "gmsGetIntValueDescriptionTable"
+//   (see above).
+//---------------------------------------------*/
 void gmsFreeIntValueDescriptionTable
            (intValueDescriptionTableType *theVDT)
 
@@ -147,13 +147,13 @@ void gmsFreeIntValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintIntValueDescriptionTable
-/*
-/* Description:
-/*    This function will print the "Integer Value
-/*    Description Table" object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintIntValueDescriptionTable
+//
+// Description:
+//    This function will print the "Integer Value
+//    Description Table" object to standard out.
+//---------------------------------------------*/
 void gmsPrintIntValueDescriptionTable
            (intValueDescriptionTableType *theVDT)
 
@@ -177,19 +177,19 @@ void gmsPrintIntValueDescriptionTable
 
 
 
-/*---------------------------------------------*/
-/* gmsGetCharValueDescriptionTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    an CHARACTER "Value Description Table".  The
-/*    caller must also specify if the file is from
-/*    the BROWSE library.  A pointer to a newly
-/*    allocated table is returned to the caller.
-/*    It is the caller's responsibility to free the
-/*    item by using the utility
-/*    "gmsFreeCharValueDescriptionTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetCharValueDescriptionTable
+//
+// Description:
+//    This utility reads the file that contains
+//    an CHARACTER "Value Description Table".  The
+//    caller must also specify if the file is from
+//    the BROWSE library.  A pointer to a newly
+//    allocated table is returned to the caller.
+//    It is the caller's responsibility to free the
+//    item by using the utility
+//    "gmsFreeCharValueDescriptionTable" (see below).
+//---------------------------------------------*/
 charValueDescriptionTableType *gmsGetCharValueDescriptionTable
                                     (const char *charVdtFilePath,
                                      bool       isBrowse)
@@ -229,15 +229,15 @@ charValueDescriptionTableType *gmsGetCharValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeCharValueDescriptionTable
-/*
-/* Description:
-/*    This utility frees an "Character Value
-/*    Description Table" that had been previously
-/*    allocated using "gmsGetCharValueDescriptionTable"
-/*   (see above).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeCharValueDescriptionTable
+//
+// Description:
+//    This utility frees an "Character Value
+//    Description Table" that had been previously
+//    allocated using "gmsGetCharValueDescriptionTable"
+//   (see above).
+//---------------------------------------------*/
 void gmsFreeCharValueDescriptionTable
            (charValueDescriptionTableType *theVDT)
 
@@ -252,13 +252,13 @@ void gmsFreeCharValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintCharValueDescriptionTable
-/*
-/* Description:
-/*    This function will print the "Character Value
-/*    Description Table" object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintCharValueDescriptionTable
+//
+// Description:
+//    This function will print the "Character Value
+//    Description Table" object to standard out.
+//---------------------------------------------*/
 void gmsPrintCharValueDescriptionTable
            (charValueDescriptionTableType *theVDT)
 
@@ -281,20 +281,20 @@ void gmsPrintCharValueDescriptionTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* buildIntValueDescriptionTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Integer-Value-Description-Table file.
-/*    The data read will be used to populate the
-/*    attributes of the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildIntValueDescriptionTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Integer-Value-Description-Table file.
+//    The data read will be used to populate the
+//    attributes of the object.
+//---------------------------------------------*/
 static void buildIntValueDescriptionTable
                (intValueDescriptionTableType *theVDT)
 
@@ -303,11 +303,11 @@ static void buildIntValueDescriptionTable
          int       numBytes = 0;
          int       numRecords;
          int       index;
-         const int Size_Of_Int_VDT_Rec = 86; /* no padding */
+         const int Size_Of_Int_VDT_Rec = 86; // no padding */
 
-   /*-------------------------*/
-   /* How big is the file?
-   /*-------------------------*/
+   //-------------------------*/
+   // How big is the file?
+   //-------------------------*/
    rewind (vdt_fd);
 
    readPastFormatInformation ();
@@ -325,9 +325,9 @@ static void buildIntValueDescriptionTable
 
    theVDT->numRecords = numRecords;
 
-   /*-------------------------*/
-   /* Build the data structure
-   /*-------------------------*/
+   //-------------------------*/
+   // Build the data structure
+   //-------------------------*/
    rewind (vdt_fd);
 
    readPastFormatInformation ();
@@ -360,15 +360,15 @@ static void buildIntValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* buildCharValueDescriptionTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Character-Value-Description-Table file.
-/*    The data read will be used to populate the
-/*    attributes of the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildCharValueDescriptionTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Character-Value-Description-Table file.
+//    The data read will be used to populate the
+//    attributes of the object.
+//---------------------------------------------*/
 static void buildCharValueDescriptionTable
                (charValueDescriptionTableType *theVDT,
                 bool                          isBrowse)
@@ -380,12 +380,12 @@ static void buildCharValueDescriptionTable
          int       index;
          const int numBrowseValueChars = 3 + 1;
          const int numThemeValueChars = 2 + 1;
-         const int Size_Of_Browse_Char_VDT_Rec = 85; /* no padding */
-         const int Size_Of_Theme_Char_VDT_Rec  = 84; /* no padding */
+         const int Size_Of_Browse_Char_VDT_Rec = 85; // no padding */
+         const int Size_Of_Theme_Char_VDT_Rec  = 84; // no padding */
 
-   /*-------------------------*/
-   /* How big is the file?
-   /*-------------------------*/
+   //-------------------------*/
+   // How big is the file?
+   //-------------------------*/
    rewind (vdt_fd);
 
    readPastFormatInformation ();
@@ -404,9 +404,9 @@ static void buildCharValueDescriptionTable
    else
       numRecords = numBytes / Size_Of_Theme_Char_VDT_Rec;
 
-   /*-------------------------*/
-   /* Build the data structure
-   /*-------------------------*/
+   //-------------------------*/
+   // Build the data structure
+   //-------------------------*/
    rewind (vdt_fd);
 
    readPastFormatInformation ();
@@ -455,14 +455,14 @@ static void buildCharValueDescriptionTable
 }
 
 
-/*---------------------------------------------*/
-/* printIntVdtRecord
-/*
-/* Description:
-/*    Utility that prints the contents of the
-/*    specified "INTEGER-value-description-
-/*    record" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printIntVdtRecord
+//
+// Description:
+//    Utility that prints the contents of the
+//    specified "INTEGER-value-description-
+//    record" to stdout.
+//---------------------------------------------*/
 static void printIntVdtRecord 
                 (intVdtRecordType theVdtRec)
 
@@ -476,14 +476,14 @@ static void printIntVdtRecord
 }
 
 
-/*---------------------------------------------*/
-/* printCharVdtRecord
-/*
-/* Description:
-/*    Utility that prints the contents of the
-/*    specified "CHARACTER-value-description-
-/*    record" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printCharVdtRecord
+//
+// Description:
+//    Utility that prints the contents of the
+//    specified "CHARACTER-value-description-
+//    record" to stdout.
+//---------------------------------------------*/
 static void printCharVdtRecord 
                 (charVdtRecordType theVdtRec)
 
@@ -497,14 +497,14 @@ static void printCharVdtRecord
 }
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Value Description
-/*    Table.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Value Description
+//    Table.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {

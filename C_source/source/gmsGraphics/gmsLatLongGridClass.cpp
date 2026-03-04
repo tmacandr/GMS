@@ -95,9 +95,11 @@ static void buildFlatLatitudeGrid
 static void buildFlatLongitudeGrid
                (gmsGridStructType *ptrToGrid);
 
+#if 0
 static void switchToFlatEarthGrid
                (gmsGridStructType *ptrToGrid,
                 gmsGridType       buildWhichGrid);
+#endif
 
 
 //-----------------------------------------------
@@ -832,7 +834,7 @@ static void buildFlatLongitudeGrid
       }
 }
 
-
+#if 0
 //-----------------------------------------------
 // switchToFlatEarthGrid
 //
@@ -881,3 +883,5 @@ static void switchToFlatEarthGrid
        buildFlatLongitudeGrid (ptrToGrid);
       }
 }
+#endif
+

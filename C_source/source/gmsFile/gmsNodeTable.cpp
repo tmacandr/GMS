@@ -1,84 +1,84 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsNodeTable.cpp
-/* Date : 18-Aug-99 : Initial definition
-/*        20-Sep-99 : Browse, gazette, themes ... different
-/*        05-Oct-99 : Clean-up due to code-inspection
-/*        16-Nov-99 : mod to make ANSIC C compiler work
-/*
-/* Description:
-/*    Utilities to read/process any "Node Table" file of the Digital Chart of
-/*    the World (DCW) database.  Consider the following definitions:
-/*
-/*       Node:
-/*       -----
-/*          A zero-demensional geometric primitive that is
-/*          composed of a single coordinatge tuple (pair or
-/*          triplet).  There are two types of nodes:
-/*                     1) Entity Nodes
-/*                     2) Connected Nodes
-/*
-/*       Entity Node:
-/*       ------------
-/*          A node that represents isolated features that are
-/*          zero-dimensional at a particular scale.  Entity nodes
-/*          are topologically linked to a containing face when face
-/*          topology is present.  Entity nodes can reside at any
-/*          location, whether or not there is another primitive at
-/*          that same location.
-/*
-/*       Connected Node:
-/*       ---------------
-/*          A node that represents linked features that are zero
-/*          dimensional at a specified scale.  Connected nodes
-/*          are always found at the ends of edges and are topologically
-/*          linked to the edges.  Connected nodes are used in two
-/*          ways:
-/*                 1) to define edges topologically (always).
-/*                    Such nodes are referred to as START and
-/*                    END nodes.
-/*                 2) to represent point features that are
-/*                    found at a juncture of linear features,
-/*                    such as overpasses, locks in a canal,
-/*                    etc.  Attributes are associated with
-/*                    the point features of the connected nodes.
-/*                    If many edges intersect a node, only one
-/*                    edge will be maintained per node.  Other
-/*                    edges are linked using "Winged-Edge
-/*                    Topology".
-/*
-/*    There are three classes of "node tables".  One is specific to the
-/*    BROWSE library.  The second is specific for the GAZETTE library.
-/*    The other is specific to the remaining 17 themes.
-/*
-/*    A BROWSE node record is:
-/*    ------------------------
-/*       Level 1-2 topology Entity Node Primitive Table
-/*          ID             =I,1,P,Row ID,-,-,:
-/*          CONTAINING_FACE=X,1,N,Null column,-,-,:(null)
-/*          FIRST_EDGE     =X,1,N,Null column,-,-,:(null)
-/*          COORDINATE     =C,1,N,Node x and y location,-,-,:
-/*
-/*    A GAZETTE node record is:
-/*    -------------------------
-/*       Entity Node Primitives;-;
-/*       ID             =I, 1,P,Row Identifier,-,-,:
-/*       CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
-/*       FIRST_EDGE     =X, 1,N,Foreign Key to Edge Table (null),-,-,:
-/*       COORDINATE     =C, 1,N,Coordinates of Node,-,-,:;
-/*
-/*    A thematic node record is:
-/*    --------------------------
-/*       Entity Node Primitives;-;
-/*          ID             =I,1,P,Row Identifier,-,-,:
-/*          XXX.PFT_ID     =I,1,F,Foreign Key to Point Feature Table,-,-,:
-/*          CONTAINING_FACE=I,1,F,Foreign Key to Face Table,-,-,:
-/*          FIRST_EDGE     =X,1,N,Foreign Key to Edge Table (null),-,-,:
-/*          COORDINATE     =C,1,N,Coordinates of Node,-,-,:;
-/*
-/*       where XXX = the corresponding name of the 'point-feature class'.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsNodeTable.cpp
+// Date : 18-Aug-99 : Initial definition
+//        20-Sep-99 : Browse, gazette, themes ... different
+//        05-Oct-99 : Clean-up due to code-inspection
+//        16-Nov-99 : mod to make ANSIC C compiler work
+//
+// Description:
+//    Utilities to read/process any "Node Table" file of the Digital Chart of
+//    the World (DCW) database.  Consider the following definitions:
+//
+//       Node:
+//       -----
+//          A zero-demensional geometric primitive that is
+//          composed of a single coordinatge tuple (pair or
+//          triplet).  There are two types of nodes:
+//                     1) Entity Nodes
+//                     2) Connected Nodes
+//
+//       Entity Node:
+//       ------------
+//          A node that represents isolated features that are
+//          zero-dimensional at a particular scale.  Entity nodes
+//          are topologically linked to a containing face when face
+//          topology is present.  Entity nodes can reside at any
+//          location, whether or not there is another primitive at
+//          that same location.
+//
+//       Connected Node:
+//       ---------------
+//          A node that represents linked features that are zero
+//          dimensional at a specified scale.  Connected nodes
+//          are always found at the ends of edges and are topologically
+//          linked to the edges.  Connected nodes are used in two
+//          ways:
+//                 1) to define edges topologically (always).
+//                    Such nodes are referred to as START and
+//                    END nodes.
+//                 2) to represent point features that are
+//                    found at a juncture of linear features,
+//                    such as overpasses, locks in a canal,
+//                    etc.  Attributes are associated with
+//                    the point features of the connected nodes.
+//                    If many edges intersect a node, only one
+//                    edge will be maintained per node.  Other
+//                    edges are linked using "Winged-Edge
+//                    Topology".
+//
+//    There are three classes of "node tables".  One is specific to the
+//    BROWSE library.  The second is specific for the GAZETTE library.
+//    The other is specific to the remaining 17 themes.
+//
+//    A BROWSE node record is:
+//    ------------------------
+//       Level 1-2 topology Entity Node Primitive Table
+//          ID             =I,1,P,Row ID,-,-,:
+//          CONTAINING_FACE=X,1,N,Null column,-,-,:(null)
+//          FIRST_EDGE     =X,1,N,Null column,-,-,:(null)
+//          COORDINATE     =C,1,N,Node x and y location,-,-,:
+//
+//    A GAZETTE node record is:
+//    -------------------------
+//       Entity Node Primitives;-;
+//       ID             =I, 1,P,Row Identifier,-,-,:
+//       CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+//       FIRST_EDGE     =X, 1,N,Foreign Key to Edge Table (null),-,-,:
+//       COORDINATE     =C, 1,N,Coordinates of Node,-,-,:;
+//
+//    A thematic node record is:
+//    --------------------------
+//       Entity Node Primitives;-;
+//          ID             =I,1,P,Row Identifier,-,-,:
+//          XXX.PFT_ID     =I,1,F,Foreign Key to Point Feature Table,-,-,:
+//          CONTAINING_FACE=I,1,F,Foreign Key to Face Table,-,-,:
+//          FIRST_EDGE     =X,1,N,Foreign Key to Edge Table (null),-,-,:
+//          COORDINATE     =C,1,N,Coordinates of Node,-,-,:;
+//
+//       where XXX = the corresponding name of the 'point-feature class'.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsNodeTable.h>
 #include <gmsUtilities.h>
@@ -86,15 +86,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *node_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void readPastFormatInformation ();
 
 static void buildNodeTable
@@ -106,17 +106,17 @@ static void printNodeTable
 static void debugPrintContentsOfFile ();
 
 
-/*---------------------------------------------*/
-/* gmsGetNodeTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Node Table".  A pointer to a newly
-/*    allocated table is returned to the caller.
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeNodeTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetNodeTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Node Table".  A pointer to a newly
+//    allocated table is returned to the caller.
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeNodeTable" (see below).
+//---------------------------------------------*/
 nodeTableType *gmsGetNodeTable
                      (const char  *nodeTableFilePath,
                       gmsNodeType kindOfNode)
@@ -155,14 +155,14 @@ nodeTableType *gmsGetNodeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeNodeTable
-/*
-/* Description:
-/*    This utility frees a "Node Table" that had
-/*    been previously allocated using
-/*    "gmsGetNodeTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeNodeTable
+//
+// Description:
+//    This utility frees a "Node Table" that had
+//    been previously allocated using
+//    "gmsGetNodeTable".
+//---------------------------------------------*/
 void gmsFreeNodeTable
            (nodeTableType *theNodeTable)
 
@@ -177,13 +177,13 @@ void gmsFreeNodeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintNodeTable	
-/*
-/* Description:
-/*    This function will print the "Node Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintNodeTable	
+//
+// Description:
+//    This function will print the "Node Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintNodeTable
            (nodeTableType *theNodeTable)
 
@@ -218,19 +218,19 @@ void gmsPrintNodeTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the "Node Table"
-/*    file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the "Node Table"
+//    file.
+//---------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -257,15 +257,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* buildNodeTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Node Table file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildNodeTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Node Table file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//---------------------------------------------*/
 static void buildNodeTable
                (nodeTableType *theNodeTbl)
 
@@ -274,9 +274,9 @@ static void buildNodeTable
          int       numRecords;
          int       tempChar;
          int       index;
-         const int Size_Of_Thematic_Node_Rec = 20; /* i.e. w/o padding */
-         const int Size_Of_Browse_Node_Rec   = 12; /* i.e. w/o padding */
-         const int Size_Of_Gazette_Node_Rec  = 16; /* i.e. w/o padding */
+         const int Size_Of_Thematic_Node_Rec = 20; // i.e. w/o padding */
+         const int Size_Of_Browse_Node_Rec   = 12; // i.e. w/o padding */
+         const int Size_Of_Gazette_Node_Rec  = 16; // i.e. w/o padding */
 
    readPastFormatInformation ();
 
@@ -364,13 +364,13 @@ static void buildNodeTable
 }
 
 
-/*---------------------------------------------*/
-/* printNodeTable
-/*
-/* Description:
-/*    This function will print the specified
-/*    "Node Table" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printNodeTable
+//
+// Description:
+//    This function will print the specified
+//    "Node Table" to stdout.
+//---------------------------------------------*/
 static void printNodeTable 
                   (nodeTableType *theNodeTbl)
 
@@ -390,14 +390,14 @@ static void printNodeTable
 }
 
 
-/*---------------------------------------------*/
-/* debugPrintContentsOfFile
-/*
-/* Description:
-/*    Debug utility to print the contents of the
-/*    "Node Table" file (in hex-byte format) to
-/*    stdout. 
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// debugPrintContentsOfFile
+//
+// Description:
+//    Debug utility to print the contents of the
+//    "Node Table" file (in hex-byte format) to
+//    stdout. 
+//---------------------------------------------*/
 static void debugPrintContentsOfFile ()
 
 {

@@ -1,66 +1,66 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsTextTable.cpp
-/* Date : 17-Aug-99 : Initial definition
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*        13-Oct-99 : routine figures out which format of record
-/*
-/* Description:
-/*    Utilities to "read/process" any "Text Table" file of the Digital Chart
-/*    of the World (DCW) database.  There are two type of TEXT tables.  One
-/*    is for the BROWSE library and the second is for the REGIONAL libraries.
-/*
-/*       Text Feature:
-/*       -------------
-/*          A cartographic entity that relates a textual
-/*          description to a zero- or one-dimensional location.
-/*          A text feature usually contains information such as
-/*          font, color, and height [i.e. primitives].
-/*
-/*       Text Feature Class:
-/*       -------------------
-/*          A collection of text features that maintains a
-/*          homogeneous set of attributes.  [i.e. it is a set
-/*          of text primitives].
-/*
-/*    A BROWSE "Text Table" is an array of records of the format:
-/*
-/*       Browse : Text Primitive:
-/*       ------------------------
-/*          ID           =I, 1, P, Row ID,-,-,:
-/*          <num-chars>  =I, 1, N, Number of chars in STRING:
-/*          STRING       =T, *, N, Text String,-,-,:
-/*          <num-coords> =I, 1, N, Number of coordinates in SHAPE_LINE:
-/*          SHAPE_LINE   =C, *, N, Shape Coordinate String,-,-,:
-/*
-/*    A "Text Table" from a REGIONAL library has the format:
-/*
-/*       Regional : Text Primitive:
-/*       -----------------------
-/*          ID          =I,1,P,Row Identifier,-,-,:
-/*          *TEXT.TFT_ID=I,1,F,Foreign Key to Text Feature Table,-,-,:
-/*          <num-chars> =I,1,N,Number of chars in STRING:
-/*          STRING      =T,*,N,Text String,-,-,:
-/*          <num-coords>=I,1,N,Number of coordinates in SHAPE_LINE:
-/*          SHAPE_LINE  =C,*,N,Shape of Text String,-,-,:;
-/*
-/*          where the * in "*TEXT.TFT_ID" corresponds to the theme
-/*          of the text feature table.
-/*
-/*    The "string" is an array of n characters.  The "shape-line" is an array
-/*    of coordinates (2-dimensional) that indicate the placement of the
-/*    string (on the map).  The "shape-line" has 1 .. n coordinates.  If
-/*    only one coordinate is defined, then it is the lower-left point in
-/*    the string.  If two coordinates are defined, the second coordinate
-/*    defines the lower right of the string.  If 3 or more coordinates are
-/*    defined, then the array defines a curve and the 2 .. (n - 1) points
-/*    define the control points of the curve.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsTextTable.cpp
+// Date : 17-Aug-99 : Initial definition
+//        07-Oct-99 : Clean-up due to code-inspection
+//        13-Oct-99 : routine figures out which format of record
+//
+// Description:
+//    Utilities to "read/process" any "Text Table" file of the Digital Chart
+//    of the World (DCW) database.  There are two type of TEXT tables.  One
+//    is for the BROWSE library and the second is for the REGIONAL libraries.
+//
+//       Text Feature:
+//       -------------
+//          A cartographic entity that relates a textual
+//          description to a zero- or one-dimensional location.
+//          A text feature usually contains information such as
+//          font, color, and height [i.e. primitives].
+//
+//       Text Feature Class:
+//       -------------------
+//          A collection of text features that maintains a
+//          homogeneous set of attributes.  [i.e. it is a set
+//          of text primitives].
+//
+//    A BROWSE "Text Table" is an array of records of the format:
+//
+//       Browse : Text Primitive:
+//       ------------------------
+//          ID           =I, 1, P, Row ID,-,-,:
+//          <num-chars>  =I, 1, N, Number of chars in STRING:
+//          STRING       =T, *, N, Text String,-,-,:
+//          <num-coords> =I, 1, N, Number of coordinates in SHAPE_LINE:
+//          SHAPE_LINE   =C, *, N, Shape Coordinate String,-,-,:
+//
+//    A "Text Table" from a REGIONAL library has the format:
+//
+//       Regional : Text Primitive:
+//       -----------------------
+//          ID          =I,1,P,Row Identifier,-,-,:
+//          *TEXT.TFT_ID=I,1,F,Foreign Key to Text Feature Table,-,-,:
+//          <num-chars> =I,1,N,Number of chars in STRING:
+//          STRING      =T,*,N,Text String,-,-,:
+//          <num-coords>=I,1,N,Number of coordinates in SHAPE_LINE:
+//          SHAPE_LINE  =C,*,N,Shape of Text String,-,-,:;
+//
+//          where the * in "*TEXT.TFT_ID" corresponds to the theme
+//          of the text feature table.
+//
+//    The "string" is an array of n characters.  The "shape-line" is an array
+//    of coordinates (2-dimensional) that indicate the placement of the
+//    string (on the map).  The "shape-line" has 1 .. n coordinates.  If
+//    only one coordinate is defined, then it is the lower-left point in
+//    the string.  If two coordinates are defined, the second coordinate
+//    defines the lower right of the string.  If 3 or more coordinates are
+//    defined, then the array defines a curve and the 2 .. (n - 1) points
+//    define the control points of the curve.
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsTextTable.h>
 #include <gmsIndexFile.h>
@@ -69,21 +69,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*-----------------------------*/
-/*     Local Type Declares
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Type Declares
+//-----------------------------*/
 typedef enum { gmsBrowseLibText,
                gmsRegionalLibText } gmsKindOfTextType;
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *txt_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void buildTextTable
                (textTableType  *theTxtTbl,
                 indexTableType *theIndexFile);
@@ -101,21 +101,21 @@ static void getTextIndexFileName
 static gmsKindOfTextType determineKindOfTextRecord ();
 
 
-/*---------------------------------------------*/
-/* gmsGetTextTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Text Table".  This routine determines
-/*    the corresponding "Text Index File" (TXX)
-/*    based on the specified "Text Table".  Also,
-/*    this routine determines which format to use
-/*    for the records of the Text Table.
-/*
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeTextTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetTextTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Text Table".  This routine determines
+//    the corresponding "Text Index File" (TXX)
+//    based on the specified "Text Table".  Also,
+//    this routine determines which format to use
+//    for the records of the Text Table.
+//
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeTextTable" (see below).
+//---------------------------------------------*/
 textTableType *gmsGetTextTable
                      (const char *textTableFilePath)
 
@@ -173,14 +173,14 @@ textTableType *gmsGetTextTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeTextTable
-/*
-/* Description:
-/*    This utility frees a "Text Table" that had
-/*    been previously allocated using
-/*    "gmsGetTextTable" (see above).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeTextTable
+//
+// Description:
+//    This utility frees a "Text Table" that had
+//    been previously allocated using
+//    "gmsGetTextTable" (see above).
+//---------------------------------------------*/
 void gmsFreeTextTable
            (textTableType *theTextTbl)
 
@@ -201,13 +201,13 @@ void gmsFreeTextTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintTextTable
-/*
-/* Description:
-/*    This function will print the "Text Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintTextTable
+//
+// Description:
+//    This function will print the "Text Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintTextTable
            (textTableType *theTextTbl)
 
@@ -227,31 +227,31 @@ void gmsPrintTextTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* buildTextTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Text Table file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*
-/*    The "index file" is used to locate the
-/*    beginning of each text record.  Each text
-/*    record is a variant length record.  The "index
-/*    file" specifies the offsets to the start of
-/*    each text record.
-/*
-/*    Note:
-/*    -----
-/*       This utility is "expensive" because it
-/*       does 2 passes through the TEXT file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildTextTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Text Table file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//
+//    The "index file" is used to locate the
+//    beginning of each text record.  Each text
+//    record is a variant length record.  The "index
+//    file" specifies the offsets to the start of
+//    each text record.
+//
+//    Note:
+//    -----
+//       This utility is "expensive" because it
+//       does 2 passes through the TEXT file.
+//---------------------------------------------*/
 static void buildTextTable
                (textTableType  *theTxtTbl,
                 indexTableType *theIndexFile)
@@ -288,14 +288,14 @@ static void buildTextTable
 
    for (i = 0; i < theTxtTbl->numRecords; i++)
       {
-       /*
+       #if 0 
        fseek
           (txt_fd,
            theIndexFile->indexList[i].byteOffset,
            SEEK_SET);
 
        debugPrintTextRecord (theIndexFile->indexList[i].numBytes);
-       */
+       #endif
 
        fseek
           (txt_fd,
@@ -311,7 +311,7 @@ static void buildTextTable
 
        numCharsInRec = gmsReadInteger (txt_fd);
 
-       totalNumChars = totalNumChars + numCharsInRec + 1; /* for '/0' char */
+       totalNumChars = totalNumChars + numCharsInRec + 1; // for '/0' char */
 
        for (j = 0; j < numCharsInRec; j++)
           ignoreInt = fgetc (txt_fd);
@@ -338,10 +338,10 @@ static void buildTextTable
            theIndexFile->indexList[i].byteOffset,
            SEEK_SET);
 
-       ignoreInt = gmsReadInteger (txt_fd);    /* already read the ID  */
+       ignoreInt = gmsReadInteger (txt_fd);    // already read the ID  */
 
        if (kindOfTextRecord == gmsRegionalLibText)
-          ignoreInt = gmsReadInteger (txt_fd); /* already read Fgn-Key */
+          ignoreInt = gmsReadInteger (txt_fd); // already read Fgn-Key */
 
        numCharsInRec = gmsReadInteger (txt_fd);
 
@@ -372,11 +372,11 @@ static void buildTextTable
 }
 
 
-/*---------------------------------------------*/
-/* debugPrintTextRecord 
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// debugPrintTextRecord 
+//
+// Description:
+//---------------------------------------------*/
 static void debugPrintTextRecord
                (int numBytes)
 
@@ -435,13 +435,13 @@ static void debugPrintTextRecord
 }
 
 
-/*---------------------------------------------*/
-/* printTextTable
-/*
-/* Description:
-/*    Utility that prints the contents of the
-/*    specified "text-table" to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printTextTable
+//
+// Description:
+//    Utility that prints the contents of the
+//    specified "text-table" to stdout.
+//---------------------------------------------*/
 static void printTextTable
                   (textTableType *theTbl)
 
@@ -471,17 +471,17 @@ static void printTextTable
 }
 
 
-/*---------------------------------------------*/
-/* getTextIndexFileName 
-/*
-/* Description:
-/*    This function will determine the name of the
-/*    Text-Index-File (TXX) based on the given
-/*    name of the Text-File (TXT).  It is required
-/*    that the caller pass in an "txxFileNameOut"
-/*    string that is the same size or bigger as
-/*    the "txtFileNameIn" string.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getTextIndexFileName 
+//
+// Description:
+//    This function will determine the name of the
+//    Text-Index-File (TXX) based on the given
+//    name of the Text-File (TXT).  It is required
+//    that the caller pass in an "txxFileNameOut"
+//    string that is the same size or bigger as
+//    the "txtFileNameIn" string.
+//---------------------------------------------*/
 static void getTextIndexFileName
                 (const char *txtFileNameIn,
                  char       *txxFileNameOut)
@@ -494,7 +494,7 @@ static void getTextIndexFileName
        txtFileNameIn,
        numChars);
 
-   /* be case sensitive */
+   // be case sensitive */
    if (txtFileNameIn[numChars - 1] == 'T')
 
       txxFileNameOut[numChars - 1] = 'X';
@@ -507,15 +507,15 @@ static void getTextIndexFileName
 }
 
 
-/*---------------------------------------------*/
-/* determineKindOfTextRecord
-/*
-/* Description:
-/*    This function reads information from the
-/*    file header to determine which of the two
-/*    variants of the text record to use in order
-/*    to build the text-table.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// determineKindOfTextRecord
+//
+// Description:
+//    This function reads information from the
+//    file header to determine which of the two
+//    variants of the text record to use in order
+//    to build the text-table.
+//---------------------------------------------*/
 static gmsKindOfTextType determineKindOfTextRecord ()
 
 {

@@ -1,16 +1,16 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsLibHeaderTable.c
-/* Date : 26-Jul-99 : Initial definition
-/*        01-Aug-99 : Convert to utilities on port to Sun Solaris
-/*        05-Oct-99 : Clean-up due to code inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Library Header Table" file of the Digital
-/*    Chart of the World (DCW).  The "Library Header Table" contains the
-/*    data set, source and security information for the library.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsLibHeaderTable.c
+// Date : 26-Jul-99 : Initial definition
+//        01-Aug-99 : Convert to utilities on port to Sun Solaris
+//        05-Oct-99 : Clean-up due to code inspection
+//
+// Description:
+//    Utilities to "read" the "Library Header Table" file of the Digital
+//    Chart of the World (DCW).  The "Library Header Table" contains the
+//    data set, source and security information for the library.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsLibHeaderTable.h>
 #include <gmsUtilities.h>
@@ -19,15 +19,15 @@
 #include <stdlib.h>
 
 
-/*---------------------------*/
-/*     Local Variables       */
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       */
+//---------------------------*/
 static FILE *lht_fd = (FILE *) NULL;
 
 
-/*---------------------------*/
-/* Declare Local Subprograms */
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms */
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static void buildLibHeaderTblRecord
@@ -36,17 +36,17 @@ static void buildLibHeaderTblRecord
 static void debugReadFile();
 
 
-/*-------------------------------------------*/
-/* gmsGetLibHeaderTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Library Header Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeLibHeaderTable" (see below).
-/*---------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetLibHeaderTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Library Header Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeLibHeaderTable" (see below).
+//---------------------------------------------*/
 libHeaderTableType *gmsGetLibHeaderTable
                                  (const char *filePath)
 
@@ -67,7 +67,7 @@ libHeaderTableType *gmsGetLibHeaderTable
        return (libHeaderTableType *) NULL;
       }
 
-   /*debugReadFile (); */
+   //debugReadFile (); */
 
    readPastFormatInformation ();
 
@@ -85,14 +85,14 @@ libHeaderTableType *gmsGetLibHeaderTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeLibHeaderTable
-/*
-/* Description:
-/*    This utility frees a "Library Header
-/*    Table" that had been previously allocated
-/*    using "gmsGetLibHeaderTable".
-/*---------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeLibHeaderTable
+//
+// Description:
+//    This utility frees a "Library Header
+//    Table" that had been previously allocated
+//    using "gmsGetLibHeaderTable".
+//---------------------------------------------*/
 void gmsFreeLibHeaderTable
                   (libHeaderTableType *theLHT)
 
@@ -101,13 +101,13 @@ void gmsFreeLibHeaderTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintLibHeaderTable	
-/*
-/* Description:
-/*    This function will print the "Lht" object
-/*    to stdout.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintLibHeaderTable	
+//
+// Description:
+//    This function will print the "Lht" object
+//    to stdout.
+//-------------------------------------------*/
 void gmsPrintLibHeaderTable
         (libHeaderTableType *theLHT)
 
@@ -152,19 +152,19 @@ void gmsPrintLibHeaderTable
 }
 
 
-     /*---------------------*/
-     /*   Local Subprograms */
-     /*---------------------*/
+     //---------------------*/
+     //   Local Subprograms */
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Library
-/*    Header Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Library
+//    Header Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -189,15 +189,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* buildLibHeaderTblRecord
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Library Header Table file.  The
-/*    data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildLibHeaderTblRecord
+//
+// Description:
+//    This function will read the actual data
+//    from the Library Header Table file.  The
+//    data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildLibHeaderTblRecord
                (libHeaderTableType *theLHT)
 
@@ -256,13 +256,13 @@ static void buildLibHeaderTblRecord
 }
 
 
-/*-------------------------------------------*/
-/* debugReadFile
-/*
-/* Description:
-/*    Debug utility to read the contents of the
-/*    "Lht" file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// debugReadFile
+//
+// Description:
+//    Debug utility to read the contents of the
+//    "Lht" file.
+//-------------------------------------------*/
 static void debugReadFile()
 
 {

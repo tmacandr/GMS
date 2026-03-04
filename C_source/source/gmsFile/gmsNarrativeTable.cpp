@@ -1,14 +1,14 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsNarrativeTable.cpp
-/* Date : 02-Sep-99 : Initial Definition
-/*        05-Oct-99 : Clean-up due to code inspection
-/*
-/* Description:
-/*    Utilities to "read" a "narrative" file from the Digital Chart of
-/*    the World (DCW) database.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsNarrativeTable.cpp
+// Date : 02-Sep-99 : Initial Definition
+//        05-Oct-99 : Clean-up due to code inspection
+//
+// Description:
+//    Utilities to "read" a "narrative" file from the Digital Chart of
+//    the World (DCW) database.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsNarrativeTable.h>
 #include <gmsUtilities.h>
@@ -17,15 +17,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*-----------------------------*/
-/*     Local Variables       --*/
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables       --*/
+//-----------------------------*/
 static FILE *doc_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms   */
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms   */
+//-----------------------------*/
 static void readDocForDebug ();
 
 static void readPastFormatInformation ();
@@ -34,17 +34,17 @@ static void buildNarrativeTableObject
                (narrativeTableType *theDOC);
 
 
-/*---------------------------------------------*/
-/* gmsGetNarrativeTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    "Narrative" data.  A pointer to a newly
-/*    allocated table is returned to the caller.
-/*    It is the caller's responsibility to free
-/*    the item by using the utility
-/*    "gmsFreeNarrativeTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetNarrativeTable
+//
+// Description:
+//    This utility reads the file that contains
+//    "Narrative" data.  A pointer to a newly
+//    allocated table is returned to the caller.
+//    It is the caller's responsibility to free
+//    the item by using the utility
+//    "gmsFreeNarrativeTable" (see below).
+//---------------------------------------------*/
 narrativeTableType *gmsGetNarrativeTable
                              (const char *filePath)
 
@@ -65,7 +65,7 @@ narrativeTableType *gmsGetNarrativeTable
        return (narrativeTableType *) NULL;
       }
 
-   /* readDocForDebug (); */
+   // readDocForDebug (); */
 
    theDOC = (narrativeTableType *) malloc (sizeof(narrativeTableType));
 
@@ -81,14 +81,14 @@ narrativeTableType *gmsGetNarrativeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeNarrativeTable
-/*
-/* Description:
-/*    This utility frees a "Narrative" table that
-/*    had been previously allocated using
-/*    "gmsGetNarrativeTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeNarrativeTable
+//
+// Description:
+//    This utility frees a "Narrative" table that
+//    had been previously allocated using
+//    "gmsGetNarrativeTable".
+//---------------------------------------------*/
 void gmsFreeNarrativeTable
            (narrativeTableType *theDOC)
 
@@ -103,13 +103,13 @@ void gmsFreeNarrativeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintNarrativeTable
-/*
-/* Description:
-/*    This function will print the contents of
-/*    the specified "Narrative" table to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintNarrativeTable
+//
+// Description:
+//    This function will print the contents of
+//    the specified "Narrative" table to stdout.
+//---------------------------------------------*/
 void gmsPrintNarrativeTable
            (narrativeTableType *theDOC)
 
@@ -129,22 +129,22 @@ void gmsPrintNarrativeTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readDocForDebug
-/*
-/* Description:
-/*    This routine is used for debug purposes
-/*    only.  This routine will read the contents
-/*    of the narrative file ... byte-by-byte ... and
-/*    print the contents as characters to stdout.
-/*    The file-descriptor is reset to the top
-/*    of the file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readDocForDebug
+//
+// Description:
+//    This routine is used for debug purposes
+//    only.  This routine will read the contents
+//    of the narrative file ... byte-by-byte ... and
+//    print the contents as characters to stdout.
+//    The file-descriptor is reset to the top
+//    of the file.
+//---------------------------------------------*/
 static void readDocForDebug ()
 
 {
@@ -186,14 +186,14 @@ static void readDocForDebug ()
 }
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Narrative
-/*    Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Narrative
+//    Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -220,14 +220,14 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* buildNarrativeTableObject
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the "Narrative" file.  The data read
-/*    will be used to build the data-structure.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildNarrativeTableObject
+//
+// Description:
+//    This function will read the actual data
+//    from the "Narrative" file.  The data read
+//    will be used to build the data-structure.
+//---------------------------------------------*/
 static void buildNarrativeTableObject
                (narrativeTableType *theDOC)
 
@@ -271,7 +271,7 @@ static void buildNarrativeTableObject
 
    do
       {
-       ID = gmsReadInteger (doc_fd);  /* don't care */
+       ID = gmsReadInteger (doc_fd);  // don't care */
 
        for (i = 0; i < charsPerLine; i++)
           {

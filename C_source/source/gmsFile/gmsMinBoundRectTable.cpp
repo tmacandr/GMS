@@ -1,24 +1,24 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsMinBoundRectTable.cpp
-/* Date : 06-Aug-99 : initial definition
-/*
-/* Description:
-/*    Utilities to "read" any "Minimum-Bounding-Rectangle" file of the Digital
-/*    Chart of the World (DCW).  This includes:
-/*
-/*                Edge Bounding Rectangles
-/*                Face Bounding Rectangles
-/*
-/*    Consider the following definition(s):
-/*
-/*       Minimum Bounding Rectangle:
-/*       ---------------------------
-/*          A rectangle of coordinate tuples that defines
-/*          the minimum and maximum coordinates of an entity.
-/*          Abbreviated as MBR.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsMinBoundRectTable.cpp
+// Date : 06-Aug-99 : initial definition
+//
+// Description:
+//    Utilities to "read" any "Minimum-Bounding-Rectangle" file of the Digital
+//    Chart of the World (DCW).  This includes:
+//
+//                Edge Bounding Rectangles
+//                Face Bounding Rectangles
+//
+//    Consider the following definition(s):
+//
+//       Minimum Bounding Rectangle:
+//       ---------------------------
+//          A rectangle of coordinate tuples that defines
+//          the minimum and maximum coordinates of an entity.
+//          Abbreviated as MBR.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsMinBoundRectTable.h>
 #include <gmsUtilities.h>
@@ -26,15 +26,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*-----------------------------*/
-/*     Local Variables
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables
+//-----------------------------*/
 static FILE *mbr_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms
+//-----------------------------*/
 static void readPastFormatInformation ();
 
 static void buildMbrTable
@@ -44,17 +44,17 @@ static void printMbrTable
                (minBoundRectTableType *mbrTbl);
 
 
-/*---------------------------------------------*/
-/* gmsGetMbrTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Minimum Bounding Rectangle Table".  A
-/*    pointer to a newly allocated table is returned
-/*    to the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeMbrTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetMbrTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Minimum Bounding Rectangle Table".  A
+//    pointer to a newly allocated table is returned
+//    to the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeMbrTable" (see below).
+//---------------------------------------------*/
 minBoundRectTableType *gmsGetMbrTable
                            (const char *mbrTableFilePath)
 
@@ -91,14 +91,14 @@ minBoundRectTableType *gmsGetMbrTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeMbrTable
-/*
-/* Description:
-/*    This utility frees a "MBR Table" that had
-/*    been previously allocated using
-/*    "gmsGetMbrTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeMbrTable
+//
+// Description:
+//    This utility frees a "MBR Table" that had
+//    been previously allocated using
+//    "gmsGetMbrTable".
+//---------------------------------------------*/
 void gmsFreeMbrTable
            (minBoundRectTableType *theMbrTable)
 
@@ -113,13 +113,13 @@ void gmsFreeMbrTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintMbrTable	
-/*
-/* Description:
-/*    This function will print the "MBR Table"
-/*    object to standard out.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintMbrTable	
+//
+// Description:
+//    This function will print the "MBR Table"
+//    object to standard out.
+//---------------------------------------------*/
 void gmsPrintMbrTable
            (minBoundRectTableType *theMbrTable)
 
@@ -139,19 +139,19 @@ void gmsPrintMbrTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the MBR Table
-/*    file.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the MBR Table
+//    file.
+//---------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -176,15 +176,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*---------------------------------------------*/
-/* buildMbrTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the MBR Table file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildMbrTable
+//
+// Description:
+//    This function will read the actual data
+//    from the MBR Table file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//---------------------------------------------*/
 static void buildMbrTable
                (minBoundRectTableType *theMbrTable)
 
@@ -236,14 +236,14 @@ static void buildMbrTable
 }
 
 
-/*---------------------------------------------*/
-/* printMbrTable
-/*
-/* Description:
-/*    This function will print the records of
-/*    the specified "Min-Bounding-Rectangle"
-/*    to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printMbrTable
+//
+// Description:
+//    This function will print the records of
+//    the specified "Min-Bounding-Rectangle"
+//    to stdout.
+//---------------------------------------------*/
 static void printMbrTable
                   (minBoundRectTableType *mbrTbl)
 

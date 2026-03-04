@@ -6,7 +6,7 @@
 //        12-Feb-00 : add <ctype.h> - flagged by SUN C++ compiler
 //
 // Description:
-//    This class defines a "node" object.  As specified in the DCW documentation,
+//    This class defines a "node" object. As specified in the DCW documentation,
 //    a node is a "zero-dimensional geometric primitive that is composed of
 //    a single coordinate tuple (pair or triplet)".  The term "zero-dimensional"
 //    really means the data is a "point" on a map.  For example, a town

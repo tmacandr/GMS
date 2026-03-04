@@ -1,135 +1,135 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsEdgeTable.cpp
-/* Date : 26-Jul-99 : Initial Definition
-/*        01-Aug-99 : Convert to utilites on port to Sun Solaris
-/*        18-Aug-99 : "stumbled" on attribute "Number-of-Coordinates"  
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*        12-Oct-99 : There are 4 variations to the edge record
-/*        16-Nov-99 : mod to let ANSI C compiler work
-/*
-/* Description:
-/*    Utilities to "read" any "Edge Table" file of the Digital Chart of the
-/*    World (DCW).  Consider the following definitions:
-/*
-/*       Edge:
-/*       -----
-/*          A one-dimensional primitive used to represent the
-/*          location of a linear feature and/or the borders
-/*          of faces.  Depending upon the level of topology,
-/*          edges may be topologically linked to nodes, [other]
-/*          edges, and faces.  Edges are composed of an ordered
-/*          collection of two or more coordinate tuples (pairs
-/*          or tiplets).  At least two of the coordinate tuples
-/*          must be distinct.  The orientation of an edge can be
-/*          recognized by the ordering of the coordinate tuples
-/*          [i.e. the first tuple is the start node and the last
-/*          tuple is the end node].
-/*
-/*       Coordinate:
-/*       -----------
-/*          A specified position in Cartesian space.  The
-/*          value takes the form of a short or long floating
-/*          point value.  A Z value (if any) is ignored during
-/*          the enforcement and use of planar graphs.
-/*
-/*       Entity:
-/*       -------
-/*          The terminating node of an edge.
-/*
-/*    There are three types of edge records in the DCW database.  The first
-/*    describes edge records at level-3 topology.  The format is:
-/*
-/*       Topology level 3 Edge Primitive Table;-;
-/*       -----------------------------------------
-/*             ID          =I,1,P,Row ID,-,-,:
-/*             START_NODE  =I,1,N,"Start/Left Node",-,-,:
-/*             END_NODE    =I,1,N,"End/Right Node",-,-,:
-/*             RIGHT_FACE  =K,1,F,Right Face,-,-,:
-/*             LEFT_FACE   =K,1,F,Left Face,-,-,:
-/*             RIGHT_EDGE  =K,1,F,Right Edge from End Node,-,-,:
-/*             LEFT_EDGE   =K,1,F,Left Edge from Start Node,-,-,:
-/*             [num-coords]=I,1,N,Number of coords in array
-/*             COORDINATES =C,*,N,Edge Coordinates,-,-,:;
-/*
-/*          This format applies to the following themes from REGIONAL
-/*          libraries:
-/*
-/*                    VG, PP, LC, and TileRef
-/*
-/*          Also, this format applies to the following themes from the
-/*          BROWSE library:
-/*
-/*                    B-PO      B-GR
-/*                    B-LibRef  B-IN
-/*                    B-DV      B-DN
-/*                    B-DA      B-CO
-/*
-/*    The second variant makes use of the optional attribute called "Foreign
-/*    Key to Line Feature Table".  It too is a level-3 topology record.  The
-/*    format is:
-/*
-/*       Level 3 topology with Fgn Key to Feature Table:
-/*       -----------------------------------------------
-/*             ID           =I,1,P,Row Identifier,-,-,:
-/*             *LINE.LFT_ID =I,1,F,Foreign Key to <Line> Feature Table,-,-,:
-/*             START_NODE   =I,1,F,Start/Left Node,-,-,:
-/*             END_NODE     =I,1,F,End/Right Node,-,-,:
-/*             RIGHT_FACE   =K,1,F,Right Face,-,-,:
-/*             LEFT_FACE    =K,1,F,Left Face,-,-,:
-/*             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
-/*             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
-/*             [num-coords] =I,1,N,Number of coords in array
-/*             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
-/*
-/*          This format applies to the following themes from REGIONAL
-/*          libraries:
-/*
-/*                    PO, HY, DQ, DN, CL
-/*
-/*    The third variant describes edge records at level 1-2 topology.  However,
-/*    this format also makes use of the optional attribute "Foreign Key to
-/*    Line Feature Table"  The format is:
-/*
-/*       Level 1-2 topology - Edge Primitives:
-/*       -------------------------------------
-/*             ID           =I,1,P,Row Identifier,-,-,:
-/*             *LINE.LFT_ID =I,1,F,Foreign Key to Line Feature Table,-,-,:
-/*             START_NODE   =I,1,F,Start/Left Node,-,-,:
-/*             END_NODE     =I,1,F,End/Right Node,-,-,:
-/*             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
-/*             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
-/*             [num-coords] =I,1,N,Number of coords in array
-/*             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
-/*
-/*          This format applies to the following themes from REGIONAL
-/*          libraries:
-/*
-/*                    UT, TS, RR, RD, PH, OF, HS
-/*
-/*    The third variant describes edge records from the LIBREF theme of a
-/*    REGIONAL library.  It is a level 1-2 record but does NOT make use of
-/*    the optional attribute "Foreign Key to Line Feature Table".  The
-/*    format is:
-/*
-/*       LibRef - Edge Primitive;-;
-/*       --------------------------
-/*             ID           =I,1,P,Row Identifier,-,-,:
-/*             START_NODE   =I,1,F,Start/Left Node,-,-,:
-/*             END_NODE     =I,1,F,End/Right Node,-,-,:
-/*             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
-/*             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
-/*             [num-coords] =I,1,N,Number of coords in array
-/*             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
-/*
-/*          This format applies ONLY to the LibRef theme from a
-/*          REGIONAL library.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsEdgeTable.cpp
+// Date : 26-Jul-99 : Initial Definition
+//        01-Aug-99 : Convert to utilites on port to Sun Solaris
+//        18-Aug-99 : "stumbled" on attribute "Number-of-Coordinates"  
+//        07-Oct-99 : Clean-up due to code-inspection
+//        12-Oct-99 : There are 4 variations to the edge record
+//        16-Nov-99 : mod to let ANSI C compiler work
+//
+// Description:
+//    Utilities to "read" any "Edge Table" file of the Digital Chart of the
+//    World (DCW).  Consider the following definitions:
+//
+//       Edge:
+//       -----
+//          A one-dimensional primitive used to represent the
+//          location of a linear feature and/or the borders
+//          of faces.  Depending upon the level of topology,
+//          edges may be topologically linked to nodes, [other]
+//          edges, and faces.  Edges are composed of an ordered
+//          collection of two or more coordinate tuples (pairs
+//          or tiplets).  At least two of the coordinate tuples
+//          must be distinct.  The orientation of an edge can be
+//          recognized by the ordering of the coordinate tuples
+//          [i.e. the first tuple is the start node and the last
+//          tuple is the end node].
+//
+//       Coordinate:
+//       -----------
+//          A specified position in Cartesian space.  The
+//          value takes the form of a short or long floating
+//          point value.  A Z value (if any) is ignored during
+//          the enforcement and use of planar graphs.
+//
+//       Entity:
+//       -------
+//          The terminating node of an edge.
+//
+//    There are three types of edge records in the DCW database.  The first
+//    describes edge records at level-3 topology.  The format is:
+//
+//       Topology level 3 Edge Primitive Table;-;
+//       -----------------------------------------
+//             ID          =I,1,P,Row ID,-,-,:
+//             START_NODE  =I,1,N,"Start/Left Node",-,-,:
+//             END_NODE    =I,1,N,"End/Right Node",-,-,:
+//             RIGHT_FACE  =K,1,F,Right Face,-,-,:
+//             LEFT_FACE   =K,1,F,Left Face,-,-,:
+//             RIGHT_EDGE  =K,1,F,Right Edge from End Node,-,-,:
+//             LEFT_EDGE   =K,1,F,Left Edge from Start Node,-,-,:
+//             [num-coords]=I,1,N,Number of coords in array
+//             COORDINATES =C,*,N,Edge Coordinates,-,-,:;
+//
+//          This format applies to the following themes from REGIONAL
+//          libraries:
+//
+//                    VG, PP, LC, and TileRef
+//
+//          Also, this format applies to the following themes from the
+//          BROWSE library:
+//
+//                    B-PO      B-GR
+//                    B-LibRef  B-IN
+//                    B-DV      B-DN
+//                    B-DA      B-CO
+//
+//    The second variant makes use of the optional attribute called "Foreign
+//    Key to Line Feature Table".  It too is a level-3 topology record.  The
+//    format is:
+//
+//       Level 3 topology with Fgn Key to Feature Table:
+//       -----------------------------------------------
+//             ID           =I,1,P,Row Identifier,-,-,:
+//             *LINE.LFT_ID =I,1,F,Foreign Key to <Line> Feature Table,-,-,:
+//             START_NODE   =I,1,F,Start/Left Node,-,-,:
+//             END_NODE     =I,1,F,End/Right Node,-,-,:
+//             RIGHT_FACE   =K,1,F,Right Face,-,-,:
+//             LEFT_FACE    =K,1,F,Left Face,-,-,:
+//             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
+//             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
+//             [num-coords] =I,1,N,Number of coords in array
+//             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
+//
+//          This format applies to the following themes from REGIONAL
+//          libraries:
+//
+//                    PO, HY, DQ, DN, CL
+//
+//    The third variant describes edge records at level 1-2 topology.  However,
+//    this format also makes use of the optional attribute "Foreign Key to
+//    Line Feature Table"  The format is:
+//
+//       Level 1-2 topology - Edge Primitives:
+//       -------------------------------------
+//             ID           =I,1,P,Row Identifier,-,-,:
+//             *LINE.LFT_ID =I,1,F,Foreign Key to Line Feature Table,-,-,:
+//             START_NODE   =I,1,F,Start/Left Node,-,-,:
+//             END_NODE     =I,1,F,End/Right Node,-,-,:
+//             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
+//             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
+//             [num-coords] =I,1,N,Number of coords in array
+//             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
+//
+//          This format applies to the following themes from REGIONAL
+//          libraries:
+//
+//                    UT, TS, RR, RD, PH, OF, HS
+//
+//    The third variant describes edge records from the LIBREF theme of a
+//    REGIONAL library.  It is a level 1-2 record but does NOT make use of
+//    the optional attribute "Foreign Key to Line Feature Table".  The
+//    format is:
+//
+//       LibRef - Edge Primitive;-;
+//       --------------------------
+//             ID           =I,1,P,Row Identifier,-,-,:
+//             START_NODE   =I,1,F,Start/Left Node,-,-,:
+//             END_NODE     =I,1,F,End/Right Node,-,-,:
+//             RIGHT_EDGE   =K,1,F,Right Edge from End Node,-,-,:
+//             LEFT_EDGE    =K,1,F,Left Edge from Start Node,-,-,:
+//             [num-coords] =I,1,N,Number of coords in array
+//             COORDINATES  =C,*,N,Coordinates of Edge,-,-,:;
+//
+//          This format applies ONLY to the LibRef theme from a
+//          REGIONAL library.
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsEdgeTable.h>
 #include <gmsIndexFile.h>
@@ -144,15 +144,15 @@ typedef enum { gmsUnknownEdge,
                gmsLevel_1_2_With_Feature_Tbl,
                gmsLibRefEdge } kindOfEdgeRecordType;
 
-/*-----------------------------*/
-/*     Local Variables       --*/
-/*-----------------------------*/
+//-----------------------------*/
+//     Local Variables       --*/
+//-----------------------------*/
 static FILE *edg_fd = (FILE *) NULL;
 
 
-/*-----------------------------*/
-/* Declare Local Subprograms --*/
-/*-----------------------------*/
+//-----------------------------*/
+// Declare Local Subprograms --*/
+//-----------------------------*/
 static void getEdgeIndexFileName
                 (const char *edgFileNameIn,
                  char       *edxFileNameOut);
@@ -174,22 +174,22 @@ static void debug_printEdgeRecord
 
 
 
-/*---------------------------------------------*/
-/* gmsGetEdgeTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Edge Table" (EDG).  This routine will
-/*    determine which "Edge Index" (EDX) file to
-/*    use based on the name of the EDG file.
-/*    Furthermore, this routine will determine
-/*    which of the 4 formats of edge records is
-/*    applicable.
-/*
-/*    It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeEdgeTable" (see below).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsGetEdgeTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Edge Table" (EDG).  This routine will
+//    determine which "Edge Index" (EDX) file to
+//    use based on the name of the EDG file.
+//    Furthermore, this routine will determine
+//    which of the 4 formats of edge records is
+//    applicable.
+//
+//    It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeEdgeTable" (see below).
+//---------------------------------------------*/
 edgeTableType *gmsGetEdgeTable
                      (const char *edgeTableFilePath)
 
@@ -249,14 +249,14 @@ edgeTableType *gmsGetEdgeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsFreeEdgeTable
-/*
-/* Description:
-/*    This utility frees an "Edge Table" that had
-/*    been previously allocated using
-/*    "gmsGetEdgeTable".
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsFreeEdgeTable
+//
+// Description:
+//    This utility frees an "Edge Table" that had
+//    been previously allocated using
+//    "gmsGetEdgeTable".
+//---------------------------------------------*/
 void gmsFreeEdgeTable
            (edgeTableType *theEdgTbl)
 
@@ -275,13 +275,13 @@ void gmsFreeEdgeTable
 }
 
 
-/*---------------------------------------------*/
-/* gmsPrintEdgeTable	
-/*
-/* Description:
-/*    This function will print the "Edge Table"
-/*    object to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// gmsPrintEdgeTable	
+//
+// Description:
+//    This function will print the "Edge Table"
+//    object to stdout.
+//---------------------------------------------*/
 void gmsPrintEdgeTable
         (edgeTableType *theEdgTbl)
 
@@ -315,20 +315,20 @@ void gmsPrintEdgeTable
 }
 
 
-     /*-----------------------*/
-     /*   Local Subprograms
-     /*-----------------------*/
+     //-----------------------*/
+     //   Local Subprograms
+     //-----------------------*/
 
 
-/*---------------------------------------------*/
-/* buildEdgeTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Edge Table file.  The data read
-/*    will be used to populate the attributes of
-/*    the object.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// buildEdgeTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Edge Table file.  The data read
+//    will be used to populate the attributes of
+//    the object.
+//---------------------------------------------*/
 static void buildEdgeTable
                (edgeTableType  *theEdgTbl,
                 indexTableType *theIndexFile)
@@ -366,29 +366,29 @@ static void buildEdgeTable
    for (i = 0; i < theIndexFile->numberRecordsInTable; i++)
       numBytes = numBytes + theIndexFile->indexList[i].numBytes;
 
-   /*--------------------------------------------------*/
-   /* To avoid using too much heap memory, adjust
-   /* (i.e. subtract) for the smallest version of the
-   /* 4 versions of the edge records ... which is the
-   /* "LibRef" version.
-   /*
-   /*     ID         - 4 bytes
-   /*     Start Node - 4 bytes
-   /*     End Node   - 4 bytes
-   /*     Right Edge - only 1 byte (don't know if there's more)
-   /*     Left Edge  - only 1 byte (           "              )
-   /*     Num Coords - 4 bytes
-   /*     ----------------------
-   /*                  18 bytes
-   /*--------------------------------------------------*/
+   //--------------------------------------------------*/
+   // To avoid using too much heap memory, adjust
+   // (i.e. subtract) for the smallest version of the
+   // 4 versions of the edge records ... which is the
+   // "LibRef" version.
+   //
+   //     ID         - 4 bytes
+   //     Start Node - 4 bytes
+   //     End Node   - 4 bytes
+   //     Right Edge - only 1 byte (don't know if there's more)
+   //     Left Edge  - only 1 byte (           "              )
+   //     Num Coords - 4 bytes
+   //     ----------------------
+   //                  18 bytes
+   //--------------------------------------------------*/
    numBytes = numBytes - (theIndexFile->numberRecordsInTable * 18);
 
-   /*--------------------------------------------------*/
-   /* Buffer will be just big enough ... or maybe even
-   /* a little too big (due to not subtracting for the
-   /* triplet-id records).  But this is done rather
-   /* than two passes through the file.
-   /*--------------------------------------------------*/
+   //--------------------------------------------------*/
+   // Buffer will be just big enough ... or maybe even
+   // a little too big (due to not subtracting for the
+   // triplet-id records).  But this is done rather
+   // than two passes through the file.
+   //--------------------------------------------------*/
    coordsBuffer = (twoDimCoordType *) malloc (numBytes);
 
    gmsClearMemory
@@ -423,11 +423,11 @@ static void buildEdgeTable
 }
 
 
-/*---------------------------------------------*/
-/* debug_printEdgeRecord 
-/*
-/* Description:
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// debug_printEdgeRecord 
+//
+// Description:
+//---------------------------------------------*/
 static void debug_printEdgeRecord
                (int numBytes)
 
@@ -463,13 +463,13 @@ static void debug_printEdgeRecord
 }
 
 
-/*---------------------------------------------*/
-/* printOneEdgeHeaderRecord
-/*
-/* Description:
-/*    This function will print the specified
-/*    "edgeRecordHeaderType" record to stdout.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// printOneEdgeHeaderRecord
+//
+// Description:
+//    This function will print the specified
+//    "edgeRecordHeaderType" record to stdout.
+//---------------------------------------------*/
 static void printOneEdgeHeaderRecord 
                   (edgeRecordHeaderType headerInfo)
 
@@ -496,15 +496,15 @@ static void printOneEdgeHeaderRecord
               headerInfo.leftEdge.externalId);
 }
 
-/*---------------------------------------------*/
-/* determineKindOfEdgeRecord 
-/*
-/* Description:
-/*    This function will read some of the header
-/*    information and then determine which of the
-/*    4 kinds of edge records is contained in
-/*    the edge table (EDG file).
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// determineKindOfEdgeRecord 
+//
+// Description:
+//    This function will read some of the header
+//    information and then determine which of the
+//    4 kinds of edge records is contained in
+//    the edge table (EDG file).
+//---------------------------------------------*/
 static kindOfEdgeRecordType determineKindOfEdgeRecord ()
 
 {
@@ -542,14 +542,14 @@ static kindOfEdgeRecordType determineKindOfEdgeRecord ()
 }
 
 
-/*---------------------------------------------*/
-/* readOneHeaderRecord 
-/*
-/* Description:
-/*    This function will read the header
-/*    information at the start of a new edge
-/*    record.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// readOneHeaderRecord 
+//
+// Description:
+//    This function will read the header
+//    information at the start of a new edge
+//    record.
+//---------------------------------------------*/
 static edgeRecordHeaderType readOneHeaderRecord
                                (kindOfEdgeRecordType kindOfEdgeRecord)
 
@@ -608,9 +608,9 @@ static edgeRecordHeaderType readOneHeaderRecord
 
        theAnswer.endNode            = gmsReadInteger (edg_fd);
 
-       /* theAnswer.rightFace       = leave blank */
+       // theAnswer.rightFace       = leave blank */
 
-       /* theAnswer.leftFace        = leave blank */
+       // theAnswer.leftFace        = leave blank */
 
        theAnswer.rightEdge          = gmsReadIdTripletRecord (edg_fd);
 
@@ -627,9 +627,9 @@ static edgeRecordHeaderType readOneHeaderRecord
 
        theAnswer.endNode            = gmsReadInteger (edg_fd);
 
-       /* theAnswer.rightFace       = leave blank */
+       // theAnswer.rightFace       = leave blank */
 
-       /* theAnswer.leftFace        = leave blank */
+       // theAnswer.leftFace        = leave blank */
 
        theAnswer.rightEdge          = gmsReadIdTripletRecord (edg_fd);
 
@@ -644,17 +644,17 @@ static edgeRecordHeaderType readOneHeaderRecord
 }
 
 
-/*---------------------------------------------*/
-/* getEdgeIndexFileName 
-/*
-/* Description:
-/*    This function will determine the name of the
-/*    Edge-Index-File (EDX) based on the given
-/*    name of the Edge-File (EDG).  It is required
-/*    that the caller pass in an "edxFileNameOut"
-/*    string that is the same size or bigger as
-/*    the "edgFileNameIn" string.
-/*---------------------------------------------*/
+//---------------------------------------------*/
+// getEdgeIndexFileName 
+//
+// Description:
+//    This function will determine the name of the
+//    Edge-Index-File (EDX) based on the given
+//    name of the Edge-File (EDG).  It is required
+//    that the caller pass in an "edxFileNameOut"
+//    string that is the same size or bigger as
+//    the "edgFileNameIn" string.
+//---------------------------------------------*/
 static void getEdgeIndexFileName
                 (const char *edgFileNameIn,
                  char       *edxFileNameOut)
@@ -667,7 +667,7 @@ static void getEdgeIndexFileName
        edgFileNameIn,
        numChars);
 
-   /* be case sensitive */
+   // be case sensitive */
    if (edgFileNameIn[numChars - 1] == 'G')
 
       edxFileNameOut[numChars - 1] = 'X';

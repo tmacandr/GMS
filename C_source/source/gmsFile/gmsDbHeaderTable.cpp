@@ -1,16 +1,16 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsDbHeaderTable.c
-/* Date : 07-Apr-99 : Initial definition
-/*        14-Jun-99 : Move from Turbo-C to VC++
-/*        07-Jul-99 : Convert to C++ class
-/*        01-Aug-99 : Converted back to utility on port to Sun Solaris
-/*
-/* Description:
-/*    Utilities to "read" the "Database Header Table" file of the
-/*    Digital Chart of the World (DCW).
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsDbHeaderTable.c
+// Date : 07-Apr-99 : Initial definition
+//        14-Jun-99 : Move from Turbo-C to VC++
+//        07-Jul-99 : Convert to C++ class
+//        01-Aug-99 : Converted back to utility on port to Sun Solaris
+//
+// Description:
+//    Utilities to "read" the "Database Header Table" file of the
+//    Digital Chart of the World (DCW).
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsDbHeaderTable.h>
 #include <gmsUtilities.h>
@@ -19,32 +19,32 @@
 #include <stdlib.h>
 
 
-/*---------------------------*/
-/*     Local Variables       /*
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       //
+//---------------------------*/
 static FILE *dht_fd = (FILE *) NULL;
 
 
-/*---------------------------*/
-/* Declare Local Subprograms /*
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms //
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static void buildDbHeaderTblRecord
                (DbHeaderTableType *theDHT);
 
 
-/*-------------------------------------------*/
-/* gmsGetDbHeaderTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Database Header Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeDbHeaderTable" (see below).
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetDbHeaderTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Database Header Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeDbHeaderTable" (see below).
+//-------------------------------------------*/
 DbHeaderTableType *gmsGetDbHeaderTable
                                 (const char *filePath)
 
@@ -81,14 +81,14 @@ DbHeaderTableType *gmsGetDbHeaderTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeDbHeaderTable
-/*
-/* Description:
-/*    This utility frees a "Database Header
-/*    Table" that had been previously allocated
-/*    using "gmsGetDbHeaderTable".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeDbHeaderTable
+//
+// Description:
+//    This utility frees a "Database Header
+//    Table" that had been previously allocated
+//    using "gmsGetDbHeaderTable".
+//-------------------------------------------*/
 void gmsFreeDbHeaderTable
            (DbHeaderTableType *theDHT)
 
@@ -97,13 +97,13 @@ void gmsFreeDbHeaderTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintDbHeaderTable	
-/*
-/* Description:
-/*    This function will print the "dht" object
-/*    to stdout.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintDbHeaderTable	
+//
+// Description:
+//    This function will print the "dht" object
+//    to stdout.
+//-------------------------------------------*/
 void gmsPrintDbHeaderTable
         (DbHeaderTableType *theDHT)
 
@@ -155,19 +155,19 @@ void gmsPrintDbHeaderTable
 }
 
 
-     /*---------------------*/
-     /*   Local Subprograms /*
-     /*---------------------*/
+     //---------------------*/
+     //   Local Subprograms //
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Database
-/*    Header Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Database
+//    Header Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -194,15 +194,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* buildDbHeaderTblRecord
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Database Header Table file.  The
-/*    data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildDbHeaderTblRecord
+//
+// Description:
+//    This function will read the actual data
+//    from the Database Header Table file.  The
+//    data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildDbHeaderTblRecord
               (DbHeaderTableType *theDHT)
 

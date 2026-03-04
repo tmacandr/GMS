@@ -1,16 +1,16 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsLibAttribTable.c
-/* Date : 07-Jul-99 : Initial definition
-/*        01-Aug-99 : Convert to utilites on port to Sun Solaris
-/*        05-Oct-99 : Clean-up due to code inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Library Attribute Table" file of the Digital
-/*    Chart of the World (DCW).  The "Library Attribute Table describes the
-/*    properties of each library in the database.
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsLibAttribTable.c
+// Date : 07-Jul-99 : Initial definition
+//        01-Aug-99 : Convert to utilites on port to Sun Solaris
+//        05-Oct-99 : Clean-up due to code inspection
+//
+// Description:
+//    Utilities to "read" the "Library Attribute Table" file of the Digital
+//    Chart of the World (DCW).  The "Library Attribute Table describes the
+//    properties of each library in the database.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsLibAttribTable.h>
 #include <gmsUtilities.h>
@@ -19,17 +19,17 @@
 #include <stdlib.h>
 
 
-/*---------------------------*/
-/*     Local Variables       */
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       */
+//---------------------------*/
 static FILE *lat_fd = (FILE *) NULL;
 
 static const int numRecords = 5;
 
 
-/*---------------------------*/
-/* Declare Local Subprograms */
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms */
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static void buildLibAttribTblRecord
@@ -37,17 +37,17 @@ static void buildLibAttribTblRecord
 
 
 
-/*-------------------------------------------*/
-/* gmsGetLibAttribTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Library Attribute Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeLibAttribTable" (see below).
-/*---------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetLibAttribTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Library Attribute Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeLibAttribTable" (see below).
+//---------------------------------------------*/
 LibAttribTableType *gmsGetLibAttribTable
                                   (const char *filePath)
 
@@ -84,14 +84,14 @@ LibAttribTableType *gmsGetLibAttribTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeLibAttribTable
-/*
-/* Description:
-/*    This utility frees a "Library Attribute
-/*    Table" that had been previously allocated
-/*    using "gmsGetLibAttribTable".
-/*---------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeLibAttribTable
+//
+// Description:
+//    This utility frees a "Library Attribute
+//    Table" that had been previously allocated
+//    using "gmsGetLibAttribTable".
+//---------------------------------------------*/
 void gmsFreeLibAttribTable
            (LibAttribTableType *theLAT)
 
@@ -100,12 +100,12 @@ void gmsFreeLibAttribTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintLibAttribTable	
-/*
-/* Description:
-/*    This function will read the "lat" file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintLibAttribTable	
+//
+// Description:
+//    This function will read the "lat" file.
+//-------------------------------------------*/
 void gmsPrintLibAttribTable
         (LibAttribTableType *theLAT)
 
@@ -139,19 +139,19 @@ void gmsPrintLibAttribTable
 }
 
 
-     /*---------------------*/
-     /* Local Subprograms   */
-     /*---------------------*/
+     //---------------------*/
+     // Local Subprograms   */
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Library
-/*    Attribute Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Library
+//    Attribute Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -176,15 +176,15 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* buildLibAttribTblRecord
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Library Attribute Table file.  The
-/*    data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildLibAttribTblRecord
+//
+// Description:
+//    This function will read the actual data
+//    from the Library Attribute Table file.  The
+//    data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildLibAttribTblRecord
                (LibAttribTableType *theLAT)
 

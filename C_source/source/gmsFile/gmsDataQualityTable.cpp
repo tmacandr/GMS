@@ -1,28 +1,28 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsDataQualityTable.c
-/* Date : 12-Jul-99 : Initial definition
-/*        01-Aug-99 : Convert to utilities on port to Sun Solaris
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Data Quality Table" file from the BROWSE
-/*    library of the Digital Chart of the World (DCW).
-/*
-/*    The "Data Quality Table" contains information on the completeness,
-/*    consistency, date status, attribute accuracy, and positional accuracy
-/*    of the data.
-/*
-/*    This component implements a "singleton".  There will be (only) one
-/*    "Data Quality" structure allocated.  Multiple references will access
-/*    the same component.  When all references to the object are terminated,
-/*    the single object will then be "freed".
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999 - 2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsDataQualityTable.c
+// Date : 12-Jul-99 : Initial definition
+//        01-Aug-99 : Convert to utilities on port to Sun Solaris
+//        07-Oct-99 : Clean-up due to code-inspection
+//
+// Description:
+//    Utilities to "read" the "Data Quality Table" file from the BROWSE
+//    library of the Digital Chart of the World (DCW).
+//
+//    The "Data Quality Table" contains information on the completeness,
+//    consistency, date status, attribute accuracy, and positional accuracy
+//    of the data.
+//
+//    This component implements a "singleton".  There will be (only) one
+//    "Data Quality" structure allocated.  Multiple references will access
+//    the same component.  When all references to the object are terminated,
+//    the single object will then be "freed".
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #include <gmsDataQualityTable.h>
 #include <gmsUtilities.h>
@@ -32,44 +32,44 @@
 #include <stdlib.h>
 
 
-/*---------------------------*/
-/*     Local Variables       */
-/*---------------------------*/
+//---------------------------*/
+//     Local Variables       */
+//---------------------------*/
 static FILE                 *dqt_fd = (FILE *) NULL;
 
 static DataQualityTableType *theOneDataQualTbl = NULL;
 
-static int                  refCount = 0; /* implement singleton */
+static int                  refCount = 0; // implement singleton */
 
 
-/*---------------------------*/
-/* Declare Local Subprograms */
-/*---------------------------*/
+//---------------------------*/
+// Declare Local Subprograms */
+//---------------------------*/
 static void readPastFormatInformation ();
 
 static void buildDataQualityTable ();
 
 
-/*-------------------------------------------*/
-/* gmsGetDataQualityTable
-/*
-/* Description:
-/*    This utility reads the file that contains
-/*    the "Data Quality Table".  A pointer
-/*    to a newly allocated table is returned to
-/*    the caller.  It is the caller's responsibility
-/*    to free the item by using the utility
-/*    "gmsFreeDataQualityTable" (see below).
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsGetDataQualityTable
+//
+// Description:
+//    This utility reads the file that contains
+//    the "Data Quality Table".  A pointer
+//    to a newly allocated table is returned to
+//    the caller.  It is the caller's responsibility
+//    to free the item by using the utility
+//    "gmsFreeDataQualityTable" (see below).
+//-------------------------------------------*/
 DataQualityTableType *gmsGetDataQualityTable
                                    (const char *filePath)
 
 {
          const char readOnlyMode[] = { "rb" };
 
-   /*--------------------------------------*/
-   /* Actual implementation is a singleton
-   /*--------------------------------------*/
+   //--------------------------------------*/
+   // Actual implementation is a singleton
+   //--------------------------------------*/
 
    if (theOneDataQualTbl != NULL)
       {
@@ -110,14 +110,14 @@ DataQualityTableType *gmsGetDataQualityTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsFreeDataQualityTable
-/*
-/* Description:
-/*    This utility frees a "Data Quality
-/*    Table" that had been previously allocated
-/*    using "gmsGetDataQualityTable".
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsFreeDataQualityTable
+//
+// Description:
+//    This utility frees a "Data Quality
+//    Table" that had been previously allocated
+//    using "gmsGetDataQualityTable".
+//-------------------------------------------*/
 void gmsFreeDataQualityTable
            (DataQualityTableType *theDQT)
 
@@ -135,13 +135,13 @@ void gmsFreeDataQualityTable
 }
 
 
-/*-------------------------------------------*/
-/* gmsPrintDataQualityTable	
-/*
-/* Description:
-/*    This function will print the "Dqt" object
-/*    to stdout.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// gmsPrintDataQualityTable	
+//
+// Description:
+//    This function will print the "Dqt" object
+//    to stdout.
+//-------------------------------------------*/
 void gmsPrintDataQualityTable
         (DataQualityTableType *theDQT)
 
@@ -212,19 +212,19 @@ void gmsPrintDataQualityTable
 }
 
 
-     /*---------------------*/
-     /*   Local Subprograms */
-     /*---------------------*/
+     //---------------------*/
+     //   Local Subprograms */
+     //---------------------*/
 
 
-/*-------------------------------------------*/
-/* readPastFormatInformation
-/*
-/* Description:
-/*    This function will read the format data
-/*    located at the front of the Data
-/*    Quality Table file.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// readPastFormatInformation
+//
+// Description:
+//    This function will read the format data
+//    located at the front of the Data
+//    Quality Table file.
+//-------------------------------------------*/
 static void readPastFormatInformation ()
 
 {
@@ -249,36 +249,36 @@ static void readPastFormatInformation ()
 }
 
 
-/*-------------------------------------------*/
-/* buildDataQualityTable
-/*
-/* Description:
-/*    This function will read the actual data
-/*    from the Data Quality Table file.  The
-/*    data read will be used to populate the
-/*    attributes of the object.
-/*-------------------------------------------*/
+//-------------------------------------------*/
+// buildDataQualityTable
+//
+// Description:
+//    This function will read the actual data
+//    from the Data Quality Table file.  The
+//    data read will be used to populate the
+//    attributes of the object.
+//-------------------------------------------*/
 static void buildDataQualityTable ()
 
 {
          int numChars = 0;
 
-   /* ID */
+   // ID */
    theOneDataQualTbl->ID = gmsReadInteger (dqt_fd);
 
-   /* VPF_level */
+   // VPF_level */
    fgets
       (theOneDataQualTbl->VPF_level,
        sizeof(theOneDataQualTbl->VPF_level),
        dqt_fd);
 
-   /* VPF_levelName */
+   // VPF_levelName */
    fgets
       (theOneDataQualTbl->VPF_levelName,
        sizeof(theOneDataQualTbl->VPF_levelName),
        dqt_fd);
 
-   /* Feature Completeness Percent */
+   // Feature Completeness Percent */
    numChars = gmsReadInteger(dqt_fd);
 
    fgets
@@ -286,7 +286,7 @@ static void buildDataQualityTable ()
        (numChars + 1),
        dqt_fd);
 
-   /* Attribute Completeness Percent */
+   // Attribute Completeness Percent */
    numChars = gmsReadInteger(dqt_fd);
 
    fgets
@@ -294,7 +294,7 @@ static void buildDataQualityTable ()
        (numChars + 1),
        dqt_fd);
 
-   /* Logical Consistency */
+   // Logical Consistency */
    numChars = gmsReadInteger(dqt_fd);
 
    fgets
@@ -302,49 +302,49 @@ static void buildDataQualityTable ()
        (numChars + 1),
        dqt_fd);
 
-   /* Edition Number */
+   // Edition Number */
    fgets
       (theOneDataQualTbl->editionNumber,
        sizeof(theOneDataQualTbl->editionNumber),
        dqt_fd);
 
-   /* Creation Date */
+   // Creation Date */
    fgets
       (theOneDataQualTbl->creationDate,
        sizeof(theOneDataQualTbl->creationDate),
        dqt_fd);
 
-   /* Revision Date */
+   // Revision Date */
    fgets
       (theOneDataQualTbl->revisionDate,
        sizeof(theOneDataQualTbl->revisionDate),
        dqt_fd);
 
-   /* Specification Name */
+   // Specification Name */
    fgets
       (theOneDataQualTbl->specificationName,
        sizeof(theOneDataQualTbl->specificationName),
        dqt_fd);
 
-   /* Specification Date */
+   // Specification Date */
    fgets
       (theOneDataQualTbl->specificationDate,
        sizeof(theOneDataQualTbl->specificationDate),
        dqt_fd);
 
-   /* Date of Earliest Source */
+   // Date of Earliest Source */
    fgets
      (theOneDataQualTbl->dateOfEarliestSrc,
       sizeof(theOneDataQualTbl->dateOfEarliestSrc),
       dqt_fd);
 
-   /* Date of Latest Source */
+   // Date of Latest Source */
    fgets
      (theOneDataQualTbl->dateOfLatestSrc,
       sizeof(theOneDataQualTbl->dateOfLatestSrc),
       dqt_fd);
 
-   /* Standard Deviation of Quatitative Attributes */
+   // Standard Deviation of Quatitative Attributes */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -352,7 +352,7 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Percent Reliability of Qualitative Attributes */
+   // Percent Reliability of Qualitative Attributes */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -360,7 +360,7 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Collection Specification Name */
+   // Collection Specification Name */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -368,13 +368,13 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Name of Included Source File */
+   // Name of Included Source File */
    fgets
      (theOneDataQualTbl->nameOfIncludedSrcFile,
       sizeof(theOneDataQualTbl->nameOfIncludedSrcFile),
       dqt_fd);
 
-   /* Absolute Horizontal Accuracy */
+   // Absolute Horizontal Accuracy */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -382,13 +382,13 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Absolute Horizontal Units */
+   // Absolute Horizontal Units */
    fgets
       (theOneDataQualTbl->absoluteHorizUnits,
        sizeof(theOneDataQualTbl->absoluteHorizUnits),
        dqt_fd);
 
-   /* Absolute Vertical Accuracy */
+   // Absolute Vertical Accuracy */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -396,13 +396,13 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Absolute Vertical Units */
+   // Absolute Vertical Units */
    fgets
       (theOneDataQualTbl->absoluteVertUnits,
        sizeof(theOneDataQualTbl->absoluteVertUnits),
        dqt_fd);
 
-   /* Relative Horizontal Accuracy */
+   // Relative Horizontal Accuracy */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -410,13 +410,13 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Relative Horizontal Units */
+   // Relative Horizontal Units */
    fgets
       (theOneDataQualTbl->relativeHorizUnits,
        sizeof(theOneDataQualTbl->relativeHorizUnits),
        dqt_fd);
 
-   /* Relative Horizontal Accuracy */
+   // Relative Horizontal Accuracy */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets
@@ -424,13 +424,13 @@ static void buildDataQualityTable ()
        numChars + 1,
        dqt_fd);
 
-   /* Relative Vertical Units */
+   // Relative Vertical Units */
    fgets
       (theOneDataQualTbl->relativeVertUnits,
        sizeof(theOneDataQualTbl->relativeVertUnits),
        dqt_fd);
 
-   /* Comments */
+   // Comments */
    numChars = gmsReadInteger (dqt_fd);
 
    fgets

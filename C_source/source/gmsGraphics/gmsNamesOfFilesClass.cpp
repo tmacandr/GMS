@@ -29,8 +29,6 @@
 // Declare some local variables/constants
 //---------------------------------
 
-static char                   errMsg[128];
-
 static gmsThemeFilesListType  *g_filesList[Num_Themes];
 
 static gmsBrowseFilesListType *g_browseFilesList[Num_Browse_Themes];

@@ -116,7 +116,7 @@ static void buildCatString
 //-----------------------------------------------
 // gmsDataTablesClass
 //
-// DesCRiption:
+// Description:
 //    Constructor.  CReates an object that
 //    represents the data tables from a DCW
 //    database.
@@ -133,7 +133,7 @@ gmsDataTablesClass::gmsDataTablesClass ()
 //-----------------------------------------------
 // ~gmsDataTablesClass
 //
-// DesCRiption:
+// Description:
 //    Destructor.  Deletes the text object.
 //-----------------------------------------------
 gmsDataTablesClass::~gmsDataTablesClass ()
@@ -179,7 +179,7 @@ gmsDataTablesClass::~gmsDataTablesClass ()
 //-----------------------------------------------
 // gmsGet_DHT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "database header
 //    table" from the DCW database.
 //-----------------------------------------------
@@ -202,7 +202,7 @@ const char *gmsDataTablesClass::gmsGet_DHT ()
 //-----------------------------------------------
 // gmsGet_LAT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "library attribute
 //    table" from the DCW database.
 //-----------------------------------------------
@@ -225,7 +225,7 @@ const char *gmsDataTablesClass::gmsGet_LAT ()
 //-----------------------------------------------
 // gmsGet_CAT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "Coverage Attribute
 //    Table" from either the current REGIONAL library
 //    or the BROWSE library.  A string that is the
@@ -268,7 +268,7 @@ const char *gmsDataTablesClass::gmsGet_CAT
 //-----------------------------------------------
 // gmsGet_DQT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "Data Quality
 //    Table" from either the current REGIONAL library
 //    or the BROWSE library.  A string that is the
@@ -311,7 +311,7 @@ const char *gmsDataTablesClass::gmsGet_DQT
 //-----------------------------------------------
 // gmsGet_GRT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "Geographic Reference
 //    Table" from either the current REGIONAL library
 //    or the BROWSE library.  A string that is the
@@ -354,7 +354,7 @@ const char *gmsDataTablesClass::gmsGet_GRT
 //-----------------------------------------------
 // gmsGet_LHT
 //
-// DesCRiption:
+// Description:
 //    This method retrieves the "Library Header
 //    Table" from either the current REGIONAL library
 //    or the BROWSE library.  A string that is the
@@ -402,7 +402,7 @@ const char *gmsDataTablesClass::gmsGet_LHT
 //-----------------------------------------------
 // buildDhtString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildDhtString
                (DbHeaderTableType *theDHT,
@@ -429,7 +429,7 @@ static void buildDhtString
           theDHT->databaseName, CR);
    strcat (toBuffer, tempBuffer);
 
-   sprintf(tempBuffer, "   ---> DesCRiption        = %s%s",
+   sprintf(tempBuffer, "   ---> Description        = %s%s",
           theDHT->databaseDesc, CR);
    strcat (toBuffer, tempBuffer);
 
@@ -505,7 +505,7 @@ static void buildDhtString
 //-----------------------------------------------
 // buildLatString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildLatString
                (LibAttribTableType *theLAT,
@@ -562,14 +562,14 @@ static void buildLatString
 //-----------------------------------------------
 // buildDqtString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildDqtString
                (DataQualityTableType *theDQT,
                 char                 *toBuffer)
 
 {
-         static char tempBuffer[256];
+         static char tempBuffer[512];
 
    gmsClearMemory
       (toBuffer, Size_Of_Buffer);
@@ -696,7 +696,7 @@ static void buildDqtString
 //-----------------------------------------------
 // buildGrtString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildGrtString
                (GeoRefTableType *theGRT,
@@ -772,7 +772,7 @@ static void buildGrtString
 //-----------------------------------------------
 // buildLhtString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildLhtString
                (libHeaderTableType *theLHT,
@@ -859,7 +859,7 @@ static void buildLhtString
 //-----------------------------------------------
 // buildCatString
 //
-// DesCRiption:
+// Description:
 //-----------------------------------------------
 static void buildCatString
                (CovAttribTableType *theCAT,
@@ -891,7 +891,7 @@ static void buildCatString
    strcat(toBuffer, tempBuffer);
 
    sprintf(tempBuffer,
-      "ID  Name       DesCRiption                               Level%s", CR);
+      "ID  Name       Description                               Level%s", CR);
 
    strcat(toBuffer, tempBuffer);
 
@@ -904,6 +904,8 @@ static void buildCatString
                           theCAT->theCATRecords[i].description,
                           theCAT->theCATRecords[i].level,
                           CR);
+
+       numChars = numChars;
 
        strcat(toBuffer, tempBuffer);
       }
