@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 #===========================================================================
 # File        : buildFile.ksh
 # Date        : 27-Jul-99 : initial definition (CSUN HP lab)
@@ -11,67 +11,27 @@
 # Description :
 #    Script to build and archive the files that read
 #    the files from the DCW library.
-#
-# Copyright (c), Timothy MacAndrew, all rights reserved
 #===========================================================================
 
-if test $# -ne 1; then
+HERE=`pwd`
 
-   echo "Usage: buildFile.ksh <hp | sun | litton>";
-   
-   exit;
+cd ..
 
-fi
+Root=`pwd`
 
-if test "$1" = "litton"; then
+cd $HERE
 
-   export Compiler_Path=/opt/cots/SUNWspro/SC5.0/bin
- 
-   export CPP="$Compiler_Path/CC";
+Base=$Root/C_source
 
-elif test "$1" = "hp"; then
+H_PATH=-I$Base/include/gmsFile
 
-   export Compiler_Path=/opt/aCC/bin
-
-   export CPP="$Compiler_Path/aCC"; 
-
-elif test "$1" = "sun"; then 
-
-   export Compiler_Path=/opt/cecs/bin
-   
-   export CPP="$Compiler_Path/c++";
-
-else
-
-   echo "Usage : buildFile.ksh <hp | sun | litton>";
-
-   exit;
-
-fi
-
-export MV=mv
-
-export AR="ar -r";
-
-export Root=$HOME/thesis
-
-export Base=$Root/C_source;
-
-export H_PATH=-I$Base/include/gmsFile;
-
-export L_PATH=
-
-export L_LIBS=
-
-export LD_LIBRARY_PATH=
-
-export AR_LIB="$Base/lib/libGmsFile.a";
+AR_LIB="$HERE/lib/libGmsFile.a"
 
 if test -r $AR_LIB; then
 
-   echo "Cleaning old archive file";
+   echo "Cleaning old archive file"
 
-   rm $AR_LIB;
+   rm $AR_LIB
 
 fi
 
@@ -82,37 +42,37 @@ fi
 #    IS_UNIX
 #    BIG_ENDIAN
 #
-export OPTIONS="-DIS_UNIX -DBIG_ENDIAN";
+OPTIONS="-DIS_UNIX"
 
-cd $Base/source/gmsFile;
+cd $Base/source/gmsFile
 
-export FILE_NAME=`ls *.cpp`;
+FILE_NAME=`ls *.cpp`
 
 #
 # Okay ... go for it
 #
 for eachFile in $FILE_NAME; do
 
-   export each=`echo $eachFile | sed 's/\.cpp//g'`;
+   each=`echo $eachFile | sed 's/\.cpp//g'`
 
-   echo "_______________";
-   echo "Compiling $each";
+   echo "_______________"
+   echo "Compiling $each"
 
-   $CPP $OPTIONS $H_PATH -c $each.cpp;
+   gcc $OPTIONS $H_PATH -c $each.cpp
 
    if test -r $each.o; then
 
-      echo "Archiving";
+      echo "Archiving"
 
-      $AR $AR_LIB $each.o;
+      ar -r $AR_LIB $each.o
 
-      rm $each.o;
+      rm $each.o
 
    else
 
-      echo "File : $each did NOT compile";
+      echo "File : $each did NOT compile"
 
-      exit;
+      exit
 
    fi
 

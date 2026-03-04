@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 #========================================================
 # File        : buildGraphics.ksh
 # Date        : 27-Jul-99 : inital definition - CSUN HP
@@ -11,67 +11,26 @@
 # Description :
 #    Script to build and archive the files of the Graphics
 #    toolkit.
-#
-# Copyright (c), Timothy MacAndrew, all rights reserved
 #========================================================
 
-if test $# -ne 1; then
+HERE=`pwd`
 
-   echo "Usage: buildGraphics.ksh <hp | sun | litton>";
-   
-   exit;
-      
-fi
-      
-if test "$1" = "litton"; then
-      
-   export Compiler_Path=/opt/cots/SUNWspro/SC5.0/bin
- 
-   export CPP="$Compiler_Path/CC";
-    
-elif test "$1" = "hp"; then
-    
-   export Compiler_Path=/opt/aCC/bin
-       
-   export CPP="$Compiler_Path/aCC";
-  
-elif test "$1" = "sun"; then
+cd ..
 
+ROOT=`pwd`
 
-   export Compiler_Path=/opt/cecs/bin
+H_PATH="-I$ROOT/C_source/include/gmsGraphics \
+        -I$ROOT/C_source/include/gmsFile"
 
-   export CPP="$Compiler_Path/c++";
+cd $HERE
 
-else
-
-   echo "Usage : buildGraphics.ksh <hp | sun | litton>";
-
-   exit;
-
-fi
-
-export MV=mv
-
-export AR="ar -r";
-
-export Root="$HOME/thesis/C_source";
-
-export H_PATH="-I$Root/include/gmsGraphics
-               -I$Root/include/gmsFile";
-
-export L_PATH=
-
-export L_LIBS=
-
-export LD_LIBRARY_PATH=
-
-export AR_LIB="$Root/lib/libGmsGraph.a";
+AR_LIB="$HERE/lib/libGmsGraph.a"
 
 if test -r $AR_LIB; then
 
-   echo "---> Deleting old archive lib";
+   echo "---> Deleting old archive lib"
 
-   rm $AR_LIB;
+   rm $AR_LIB
 
 fi
 
@@ -80,39 +39,38 @@ fi
 # ------------
 #    NOT_CPP
 #    IS_UNIX
-#    BIG_ENDIAN
 #
-export OPTIONS="-DIS_UNIX -DBIG_ENDIAN";
+OPTIONS="-DIS_UNIX -Wall"
 
-cd $Root/source/gmsGraphics;
+cd $ROOT/C_source/source/gmsGraphics
 
-export FILE_NAME=`ls *.cpp | sed '/gmsBitmap/d'`;
+FILE_NAME=`ls *.cpp | sed '/gmsBitmap/d'`
 
 #
 # Okay ... go for it
 #
 for eachFile in $FILE_NAME; do
 
-   export each=`echo $eachFile | sed 's/\.cpp//g'`;
+   each=`echo $eachFile | sed 's/\.cpp//g'`
 
-   echo "_______________";
-   echo "Compiling $each";
+   echo "_______________"
+   echo "Compiling $each"
 
-   $CPP $OPTIONS $H_PATH -c $each.cpp;
+   gcc $OPTIONS $H_PATH -c $each.cpp
 
    if test -r $each.o; then
 
-      echo "Archiving";
+      echo "Archiving"
 
-      $AR $AR_LIB $each.o;
+      ar -r $AR_LIB $each.o
 
-      rm $each.o;
+      rm $each.o
 
    else
 
-      echo "File : $each did NOT compile";
+      echo "File : $each did NOT compile"
 
-      exit;
+      exit
 
    fi
 

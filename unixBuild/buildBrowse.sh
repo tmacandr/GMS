@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/bash
 #----------------------------------------------------------------------
 # File: buildBrowse.ksh
 # Date: 12-Feb-00 : initial def - took from buildFlatBrowse.ksh
@@ -8,84 +8,50 @@
 # Description:
 #    Script that uses the SUNWspro C++ compiler to compile and
 #    link the "browse.cpp" program.
-#
-# Copyright (c), Timothy MacAndrew, all rights reserved
 #----------------------------------------------------------------------
 
-if test $# -ne 1; then
+CPP=gcc
 
-   echo "Usage: buildBrowse.ksh <hp | sun | litton>";
+Root=..
 
-   exit;
+Base=$Root/C_source
 
-fi
+H_PATH="-I/usr/include
+        -I/usr/openwin/include
+        -I/usr/dt/share/include
+        -I$Base/include/gmsFile
+        -I$Base/include/gmsGraphics"
 
-if test "$1" = "litton"; then
+L_PATH="-L/usr/dt/lib
+        -L/usr/openwin/lib
+        -L$Base/lib"
 
-   export Compiler_Path=/opt/cots/SUNWspro/SC5.0/bin
+MOTIF="-lXm -lXt -lX11"
 
-   export CPP="$Compiler_Path/CC";
+GMS="-lGmsGraph -lGmsFile"
 
-elif test "$1" = "hp"; then
+L_LIBS="$GMS $MOTIF -lnsl -lm"
 
-   export Compiler_Path=/opt/aCC/bin
+OPTIONS="-DIS_UNIX"
 
-   export CPP="$Compiler_Path/aCC";
+Src=$Root/unixBuild/mains
 
-elif test "$1" = "sun"; then
+cd $Src
 
-   export Compiler_Path=/opt/cecs/bin
+echo "________________________"
+echo "---> Build: "
 
-   export CPP="$Compiler_Path/c++";
+Exe=browseExe
 
-else
-
-   echo "Usage : buildBrowse.ksh <hp | sun | litton>";
-
-   exit;
-
-fi
-
-export Root=$HOME/thesis
-
-export Base=$Root/C_source
-
-export H_PATH="-I/usr/include
-               -I/usr/openwin/include
-               -I/usr/dt/share/include
-               -I$Base/include/gmsFile
-               -I$Base/include/gmsGraphics";
-
-export L_PATH="-L/usr/dt/lib
-               -L/usr/openwin/lib
-               -L$Base/lib";
-
-export MOTIF="-lXm -lXt -lX11";
-
-export GMS="-lGmsGraph -lGmsFile";
-
-export L_LIBS="$GMS $MOTIF -lnsl -lm";
-
-export OPTIONS="-DIS_UNIX -DBIG_ENDIAN"
-
-export Src=$Root/unixBuild/mains;
-
-cd $Src;
-
-echo "________________________";
-echo "---> Build: ";
-
-export Exe=browseExe;
-
-$CPP $OPTIONS $H_PATH $L_PATH unix_browse.cpp $L_LIBS -o $Exe;
+$CPP $OPTIONS $H_PATH $L_PATH unix_browse.cpp $L_LIBS -o $Exe
 
 if test -x $Exe; then
 
-   mv $Exe $Root/unixBuild/bin;
+   mv $Exe $Root/unixBuild/bin
 
 else
 
-   echo "Compile/Link failed";
+   echo "Compile/Link failed"
 
 fi
 
