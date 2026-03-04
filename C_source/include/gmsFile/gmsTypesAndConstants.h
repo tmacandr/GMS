@@ -1,25 +1,25 @@
-/*---------------------------------------------------------------------------*/
-/* File: gmsTypesAndConstants.h
-/* Date: 27-Sep-99 : initial definition
-/*       14-Oct-99 : distinguish between screen coords and real-world coords
-/*       09-Dec-99 : had to remove constants "a" and "b" due to VC++ bug!
-/*       10-Dec-99 : earth model type moved here
-/*       21-Dec-99 : moved enum lists of (browse and regional) themes here
-/*       21-Dec-99 : added subtile and file-type enumerations
-/*       07-Jan-00 : re-order enums in 'gmsDcwFileType', add more 'doc'
-/*
-/* Description:
-/*    Common types and useful constants.
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
+ * File: gmsTypesAndConstants.h
+ * Date: 27-Sep-99 : initial definition
+ *       14-Oct-99 : distinguish between screen coords and real-world coords
+ *       09-Dec-99 : had to remove constants "a" and "b" due to VC++ bug!
+ *       10-Dec-99 : earth model type moved here
+ *       21-Dec-99 : moved enum lists of (browse and regional) themes here
+ *       21-Dec-99 : added subtile and file-type enumerations
+ *       07-Jan-00 : re-order enums in 'gmsDcwFileType', add more 'doc'
+ *
+ * Description:
+ *    Common types and useful constants.
+ *
+ * Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+ *---------------------------------------------------------------------------*/
 #ifndef GMS_TYPES
 
    #define GMS_TYPES
 
-   /*-------------------------------------------------------*/
-   /*                 Type Declarations
-   /*-------------------------------------------------------*/
+   /*-------------------------------------------------------
+    *                 Type Declarations
+    *-------------------------------------------------------*/
 
    typedef enum { gmsFlat,
                   gmsSphere,
@@ -186,9 +186,9 @@
       } gms_3D_WorldImageType;
 
 
-   /*-------------------------------------------------------*/
-   /*                   General Constants:
-   /*-------------------------------------------------------*/
+   /*-------------------------------------------------------
+    *                   General Constants:
+    *-------------------------------------------------------*/
    static const float Max_Lat  = 90.00f;
 
    static const float Max_Long = 180.00f;
@@ -208,19 +208,19 @@
    static const double Km_Per_Meter = 0.001;
 
 
-   /*-------------------------------------------------------*/
-   /* Ellipsoid constants:
-   /* --------------------
-   /*     Ellipsoid          = WGS 84
-   /*     Ellipsoid Details  = A=6378137,B=6356752 Meters
-   /*     Datum Vertical Ref = MEAN SEA LEVEL
-   /*     Vertical Datum Code= 015
-   /*     Sounding Datuam    = MEAN SEA LEVEL
-   /*     Sounding Datum Code= 015
-   /*     Datum Geodetic Name= WGS 84
-   /*     Datum Geodetic Code= WGE
-   /*     Projection Name    = ROBINSON
-   /*-------------------------------------------------------*/
+   /*-------------------------------------------------------
+    * Ellipsoid constants:
+    * --------------------
+    *     Ellipsoid          = WGS 84
+    *     Ellipsoid Details  = A=6378137,B=6356752 Meters
+    *     Datum Vertical Ref = MEAN SEA LEVEL
+    *     Vertical Datum Code= 015
+    *     Sounding Datuam    = MEAN SEA LEVEL
+    *     Sounding Datum Code= 015
+    *     Datum Geodetic Name= WGS 84
+    *     Datum Geodetic Code= WGE
+    *     Projection Name    = ROBINSON
+    *-------------------------------------------------------*/
    static const float Semi_Major_Axis_Meters = 6378137.0f;
 
    static const float a_squared = 

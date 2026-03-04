@@ -1,23 +1,23 @@
-/*--------------------------------------------------------------------------*/
-/* File : gmsDataQualityTable.h
-/* Date : 12-Jul-99 : Initial Definition
-/*        01-Aug-99 : Convert to utilities on port to Sun Solaris
-/*        07-Oct-99 : Clean-up due to code-inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Data Quality Table" file from the BROWSE
-/*    library of the Digital Chart of the World (DCW).
-/*
-/*    The "Data Quality Table" contains information on the completeness,
-/*    consistency, date status, attribute accuracy, and positional accuracy
-/*    of the data.
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*--------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------
+ * File : gmsDataQualityTable.h
+ * Date : 12-Jul-99 : Initial Definition
+ *        01-Aug-99 : Convert to utilities on port to Sun Solaris
+ *        07-Oct-99 : Clean-up due to code-inspection
+ *
+ * Description:
+ *    Utilities to "read" the "Data Quality Table" file from the BROWSE
+ *    library of the Digital Chart of the World (DCW).
+ *
+ *    The "Data Quality Table" contains information on the completeness,
+ *    consistency, date status, attribute accuracy, and positional accuracy
+ *    of the data.
+ *
+ *    Reference:
+ *        1) Mil-Std-600006
+ *        2) Mil-D-89009
+ *
+ * Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+ *--------------------------------------------------------------------------*/
 
 #ifndef DQT
 
@@ -54,40 +54,40 @@
       } DataQualityTableType;
 
 
-   /*-------------------------------------------*/
-   /* gmsGetDataQualityTable
-   /*
-   /* Description:
-   /*    This utility reads the file that contains
-   /*    the "Data Quality Table".  A pointer
-   /*    to a newly allocated table is returned to
-   /*    the caller.  It is the caller's responsibility
-   /*    to free the item by using the utility
-   /*    "gmsFreeDataQualityTable" (see below).
-   /*-------------------------------------------*/
+   /*-------------------------------------------
+    * gmsGetDataQualityTable
+    *
+    * Description:
+    *    This utility reads the file that contains
+    *    the "Data Quality Table".  A pointer
+    *    to a newly allocated table is returned to
+    *    the caller.  It is the caller's responsibility
+    *    to free the item by using the utility
+    *    "gmsFreeDataQualityTable" (see below).
+    *-------------------------------------------*/
    DataQualityTableType *gmsGetDataQualityTable
                                    (const char *filePath);
 
 
-   /*-------------------------------------------*/
-   /* gmsFreeDataQualityTable
-   /*
-   /* Description:
-   /*    This utility frees a "Data Quality
-   /*    Table" that had been previously allocated
-   /*    using "gmsGetDataQualityTable".
-   /*-------------------------------------------*/
+   /*-------------------------------------------
+    * gmsFreeDataQualityTable
+    *
+    * Description:
+    *    This utility frees a "Data Quality
+    *    Table" that had been previously allocated
+    *    using "gmsGetDataQualityTable".
+    *-------------------------------------------*/
    void gmsFreeDataQualityTable
            (DataQualityTableType *theDQT);
 
 
-   /*-------------------------------------------*/
-   /* gmsPrintDataQualityTable	
-   /*
-   /* Description:
-   /*    This function will print the "Dqt" object
-   /*    to standard out.
-   /*-------------------------------------------*/
+   /*-------------------------------------------
+    * gmsPrintDataQualityTable	
+    *
+    * Description:
+    *    This function will print the "Dqt" object
+    *    to standard out.
+    *-------------------------------------------*/
    void gmsPrintDataQualityTable
            (DataQualityTableType *theDQT);
 

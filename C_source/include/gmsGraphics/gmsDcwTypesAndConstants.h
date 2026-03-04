@@ -1,24 +1,24 @@
-/*---------------------------------------------------------------------------*/
-/* File: gmsDcwTypesAndConstants.h
-/* Date: 25-Jan-00 : initial definition
-/*       27-Jan-00 : add <stdio.h> dependency for NULL
-/*
-/* Description:
-/*    Common DCW types and useful constants.
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*---------------------------------------------------------------------------*/
+//---------------------------------------------------------------------------*/
+// File: gmsDcwTypesAndConstants.h
+// Date: 25-Jan-00 : initial definition
+//       27-Jan-00 : add <stdio.h> dependency for NULL
+//
+// Description:
+//    Common DCW types and useful constants.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//---------------------------------------------------------------------------*/
 #ifndef GMS_DCW_TYPES
 
    #define GMS_DCW_TYPES
 
-   #include <stdio.h> /* get access to "NULL" */
+   #include <stdio.h> // get access to "NULL" */
    #include <gmsTypesAndConstants.h>
 
 
-   /*-------------------------------------------------------*/
-   /*                 Type Declarations
-   /*-------------------------------------------------------*/
+   //-------------------------------------------------------*/
+   //                 Type Declarations
+   //-------------------------------------------------------*/
 
    typedef enum 
       {

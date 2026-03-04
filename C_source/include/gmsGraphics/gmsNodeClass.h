@@ -4,12 +4,13 @@
 //        18-Jan-00 : implement flat-map model
 //
 // Description:
-//    This class defines a "node" object.  As specified in the DCW documentation,
-//    a node is a "zero-dimensional geometric primitive that is composed of
-//    a single coordinate tuple (pair or triplet)".  The term "zero-dimensional"
-//    really means the data is a "point" on a map.  For example, a town
-//    or village is often small enough that it is represented as a point.
-//    This class permits manipulation of "Entity Nodes" from the DCW database.
+//    This class defines a "node" object.  As specified in the DCW
+//    documentation, a node is a "zero-dimensional geometric primitive that is
+//    composed of a single coordinate tuple (pair or triplet)".  The term
+//    "zero-dimensional" really means the data is a "point" on a map.  For
+//    example, a town or village is often small enough that it is represented
+//    as a point.  This class permits manipulation of "Entity Nodes" from the
+//    DCW database.
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //-----------------------------------------------------------------------------

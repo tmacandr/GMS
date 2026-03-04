@@ -1,36 +1,36 @@
-/*----------------------------------------------------------------------------*/
-/* File: gmsFeatureTypes.h
-/* Date: 07-Sep-99 : Initial definition
-/*       11-Sep-99 : Major surgery to the interface (re : Mil-D-89009)
-/*       05-Oct-99 : Clean-up due to code-inspection
-/*       21-Dec-99 : Move enumeration list of themes to global types pkg
-/*
-/* Description:
-/*    Defines the various types/structs used to manage/manipulate "feature"
-/*    data from the THEMATIC section of the DCW database.  A "feature" is ...
-/*
-/*       ... a model of a real world geographic entity.  [It is] a
-/*       zero-, one-, or two-dimensional entity of uniform attribute
-/*       scheme from an exhaustive attribute distribution across a
-/*       plane, or a set of such entities sharing common attribute values.
-/*       The three subtypes are simple features, complex features,
-/*       and text features.  The types of simple features are point
-/*       features, line features, and area features.
-/*
-/*    There are 4 types of "feature" tables managed by this utility.  They
-/*    are:
-/*
-/*                   area  (*.AFT files)
-/*                   line  (*.LFT files)
-/*                   point (*.PFT files)
-/*                   text  (*.TFT files)
-/*
-/*    Reference:
-/*        1) Mil-Std-600006
-/*        2) Mil-D-89009
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File: gmsFeatureTypes.h
+// Date: 07-Sep-99 : Initial definition
+//       11-Sep-99 : Major surgery to the interface (re : Mil-D-89009)
+//       05-Oct-99 : Clean-up due to code-inspection
+//       21-Dec-99 : Move enumeration list of themes to global types pkg
+//
+// Description:
+//    Defines the various types/structs used to manage/manipulate "feature"
+//    data from the THEMATIC section of the DCW database.  A "feature" is ...
+//
+//       ... a model of a real world geographic entity.  [It is] a
+//       zero-, one-, or two-dimensional entity of uniform attribute
+//       scheme from an exhaustive attribute distribution across a
+//       plane, or a set of such entities sharing common attribute values.
+//       The three subtypes are simple features, complex features,
+//       and text features.  The types of simple features are point
+//       features, line features, and area features.
+//
+//    There are 4 types of "feature" tables managed by this utility.  They
+//    are:
+//
+//                   area  (*.AFT files)
+//                   line  (*.LFT files)
+//                   point (*.PFT files)
+//                   text  (*.TFT files)
+//
+//    Reference:
+//        1) Mil-Std-600006
+//        2) Mil-D-89009
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 #ifndef FEATURE_TYPES
 
    #define FEATURE_TYPES
@@ -44,9 +44,9 @@
 
    #define Num_Features 4
 
-   /*------------------------------*/
-   /* Point Features               */
-   /*------------------------------*/
+   //------------------------------*/
+   // Point Features               */
+   //------------------------------*/
    typedef struct _AE_pointFeatureRecType
       {
        int   ID;
@@ -57,7 +57,7 @@
        char  internCivilOrgNum[4 + 1];
        char  DafifRefNum[7 + 1];
        short tileRefId;
-       int   END_foreignKey;  /* Note: END = Entity Node */
+       int   END_foreignKey;  // Note: END = Entity Node */
       } AE_pointFeatureRecType;
 
    typedef struct _CL_pointFeatureRecType
@@ -115,16 +115,16 @@
 
    typedef struct _generalPointFeatureRecType
       {
-       int   ID;               /*---------------------------*/
-       int   value;            /* Use for:                  */
-       short tileRefId;        /*    DN, DS, HS, LC, OF     */
-       int   END_foreignKey;   /*---------------------------*/
+       int   ID;               //---------------------------*/
+       int   value;            // Use for:                  */
+       short tileRefId;        //    DN, DS, HS, LC, OF     */
+       int   END_foreignKey;   //---------------------------*/
       } generalPointFeatureRecType;
 
 
-   /*------------------------------*/
-   /* Area Features                */
-   /*------------------------------*/
+   //------------------------------*/
+   // Area Features                */
+   //------------------------------*/
    typedef struct _CL_areaFeatureRecType
       {
        int   ID;
@@ -166,16 +166,16 @@
 
    typedef struct _generalAreaFeatureRecType
       {
-       int   ID;                      /*------------------------*/
-       int   type;                    /* Used for:              */
-       short tileId;                  /*    DN, HY, LC, PP, VG  */
-       int   faceForeignKey;          /*------------------------*/
+       int   ID;                      //------------------------*/
+       int   type;                    // Used for:              */
+       short tileId;                  //    DN, HY, LC, PP, VG  */
+       int   faceForeignKey;          //------------------------*/
       } generalAreaFeatureRecType;
 
 
-   /*------------------------------*/
-   /* Line Feature                 */
-   /*------------------------------*/
+   //------------------------------*/
+   // Line Feature                 */
+   //------------------------------*/
    typedef struct _CL_lineFeatureRecType
       {
        int   ID;
@@ -202,28 +202,28 @@
        int   edgeForeignKey;
       } OF_PH_UT_lineFeatureRecType;
 
-   /*------------------------------------*/
-   /* Line-Feature-Table for LibRef:
-   /*    This was NOT included in
-   /*    Mil-D-89009
-   /*
-   /*    Library Reference Lines:
-   /*       ID=I,1,P,Row Identifier,-,-,:;
-   /*------------------------------------*/
+   //------------------------------------*/
+   // Line-Feature-Table for LibRef:
+   //    This was NOT included in
+   //    Mil-D-89009
+   //
+   //    Library Reference Lines:
+   //       ID=I,1,P,Row Identifier,-,-,:;
+   //------------------------------------*/
 
    typedef struct _generalLineFeatureRecType
       {
        int   ID;
-       int   type;                   /*--------------------------------*/
-       int   status;                 /* Use for:                       */
-       short tileId;                 /*    DN, HY, HS, PO, RR, RD, TS  */
-       int   edgeForeignKey;         /*--------------------------------*/
+       int   type;                   //--------------------------------*/
+       int   status;                 // Use for:                       */
+       short tileId;                 //    DN, HY, HS, PO, RR, RD, TS  */
+       int   edgeForeignKey;         //--------------------------------*/
       } generalLineFeatureRecType;
 
 
-   /*------------------------------*/
-   /* Text Feature (for all themes)*/
-   /*------------------------------*/
+   //------------------------------*/
+   // Text Feature (for all themes)*/
+   //------------------------------*/
 
    #define NUM_CHARS 128
 

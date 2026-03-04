@@ -127,6 +127,24 @@
        private:
 
           void *tileObj;
+
+          void initializeThemeData
+                         (gmsThematicType whichTheme,
+                          char            longTileId,
+                          char            latTileId);
+
+          void buildMapObjects
+                     (const gmsThematicType whichTheme);
+
+          void buildTextObjects
+                     (const gmsThematicType whichTheme);
+
+          void buildNodeObjects
+                     (const gmsThematicType whichTheme);
+
+          void build_PO_PolygonObjects(void);
+
+          void build_DN_PolygonObjects(void);
       };
 
 #endif

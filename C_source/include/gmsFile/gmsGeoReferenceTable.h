@@ -1,14 +1,14 @@
-/*--------------------------------------------------------------------------*/
-/* File : gmsGeoReferenceTable.h
-/* Date : 11-Jul-99 : Initial Definition
-/*        01-Aug-99 : Convert to utility on port to Sun Solaris
-/*
-/* Description:
-/*    Utilities to "read" the "Geographic Reference Table" file of the
-/*    Digital Chart of the World (DCW).
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*--------------------------------------------------------------------------*/
+//--------------------------------------------------------------------------*/
+// File : gmsGeoReferenceTable.h
+// Date : 11-Jul-99 : Initial Definition
+//        01-Aug-99 : Convert to utility on port to Sun Solaris
+//
+// Description:
+//    Utilities to "read" the "Geographic Reference Table" file of the
+//    Digital Chart of the World (DCW).
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//--------------------------------------------------------------------------*/
 
 #ifndef GRT
 
@@ -31,40 +31,40 @@
       } GeoRefTableType;
 
 
-   /*-------------------------------------------*/
-   /* gmsGetGeoReferenceTable
-   /*
-   /* Description:
-   /*    This utility reads the file that contains
-   /*    the "Geographic Reference Table".  A pointer
-   /*    to a newly allocated table is returned to
-   /*    the caller.  It is the caller's responsibility
-   /*    to free the item by using the utility
-   /*    "gmsFreeGeoReferenceTable" (see below).
-   /*-------------------------------------------*/
+   //-------------------------------------------*/
+   // gmsGetGeoReferenceTable
+   //
+   // Description:
+   //    This utility reads the file that contains
+   //    the "Geographic Reference Table".  A pointer
+   //    to a newly allocated table is returned to
+   //    the caller.  It is the caller's responsibility
+   //    to free the item by using the utility
+   //    "gmsFreeGeoReferenceTable" (see below).
+   //-------------------------------------------*/
    GeoRefTableType *gmsGetGeoReferenceTable
                              (const char *filePath);
 
 
-   /*-------------------------------------------*/
-   /* gmsFreeGeoReferenceTable 
-   /*
-   /* Description:
-   /*    This utility frees a "Geographic Reference
-   /*    Table" that had been previously allocated
-   /*    using "gmsGetGeoReferenceTable".
-   /*-------------------------------------------*/
+   //-------------------------------------------*/
+   // gmsFreeGeoReferenceTable 
+   //
+   // Description:
+   //    This utility frees a "Geographic Reference
+   //    Table" that had been previously allocated
+   //    using "gmsGetGeoReferenceTable".
+   //-------------------------------------------*/
    void gmsFreeGeoReferenceTable
            (GeoRefTableType *theGRT);
 
 
-   /*-------------------------------------------*/
-   /* gmsPrintGeoReferenceTable	
-   /*
-   /* Description:
-   /*    This function will print the "grt" object
-   /*    to standard out.
-   /*-------------------------------------------*/
+   //-------------------------------------------*/
+   // gmsPrintGeoReferenceTable	
+   //
+   // Description:
+   //    This function will print the "grt" object
+   //    to standard out.
+   //-------------------------------------------*/
    void gmsPrintGeoReferenceTable 
            (GeoRefTableType *theGRT);
 

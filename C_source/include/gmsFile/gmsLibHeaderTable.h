@@ -1,16 +1,16 @@
-/*----------------------------------------------------------------------------*/
-/* File : gmsLibHeaderTable.h
-/* Date : 26-Jul-99 : Initial Definition
-/*        01-Aug-99 : Convert to utilities on port to Sun Solaris
-/*        05-Oct-99 : Clean-up due to code inspection
-/*
-/* Description:
-/*    Utilities to "read" the "Library Header Table" file of the Digital
-/*    Chart of the World (DCW).  The "Library Header Table" contains the
-/*    data set, source and security information for the library.
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : gmsLibHeaderTable.h
+// Date : 26-Jul-99 : Initial Definition
+//        01-Aug-99 : Convert to utilities on port to Sun Solaris
+//        05-Oct-99 : Clean-up due to code inspection
+//
+// Description:
+//    Utilities to "read" the "Library Header Table" file of the Digital
+//    Chart of the World (DCW).  The "Library Header Table" contains the
+//    data set, source and security information for the library.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
 
 #ifndef LHT
 
@@ -36,40 +36,40 @@
       } libHeaderTableType;
 
 
-   /*---------------------------------------------*/
-   /* gmsGetLibHeaderTable
-   /*
-   /* Description:
-   /*    This utility reads the file that contains
-   /*    the "Library Header Table".  A pointer
-   /*    to a newly allocated table is returned to
-   /*    the caller.  It is the caller's responsibility
-   /*    to free the item by using the utility
-   /*    "gmsFreeLibHeaderTable" (see below).
-   /*---------------------------------------------*/
+   //---------------------------------------------*/
+   // gmsGetLibHeaderTable
+   //
+   // Description:
+   //    This utility reads the file that contains
+   //    the "Library Header Table".  A pointer
+   //    to a newly allocated table is returned to
+   //    the caller.  It is the caller's responsibility
+   //    to free the item by using the utility
+   //    "gmsFreeLibHeaderTable" (see below).
+   //---------------------------------------------*/
    libHeaderTableType *gmsGetLibHeaderTable
                                  (const char *filePath);
 
 
-   /*---------------------------------------------*/
-   /* gmsFreeLibHeaderTable 
-   /*
-   /* Description:
-   /*    This utility frees a "Library Header
-   /*    Table" that had been previously allocated
-   /*    using "gmsGetLibHeaderTable".
-   /*---------------------------------------------*/
+   //---------------------------------------------*/
+   // gmsFreeLibHeaderTable 
+   //
+   // Description:
+   //    This utility frees a "Library Header
+   //    Table" that had been previously allocated
+   //    using "gmsGetLibHeaderTable".
+   //---------------------------------------------*/
    void gmsFreeLibHeaderTable
                   (libHeaderTableType *theLHT);
 
 
-   /*---------------------------------------------*/
-   /* gmsPrintLibHeaderTable	
-   /*
-   /* Description:
-   /*    This function will print the "Lht" object
-   /*    to standard out.
-   /*---------------------------------------------*/
+   //---------------------------------------------*/
+   // gmsPrintLibHeaderTable	
+   //
+   // Description:
+   //    This function will print the "Lht" object
+   //    to standard out.
+   //---------------------------------------------*/
    void gmsPrintLibHeaderTable
            (libHeaderTableType *theLHT);
 

@@ -1,29 +1,33 @@
-/*----------------------------------------------------------------------------*/
-/* File : colors.h
-/* Date : 03-Jul-99 : initial definition
-/*        01-Aug-99 : "Stole" the rgb.txt file from X
-/*        22-Nov-99 : had some colors wrong.  Fixed 'em.
-/*
-/* Description:
-/*    This file lists a series of macros that define commonly used
-/*    colors.  It appears that the Windows API has a ridiculously short
-/*    list of colors and that colors outside of this list must be defined
-/*    using the RGB(r, g, b) macro.  Ok ...
-/*
-/*    Copied (i.e. stole) the file "/usr/openwin/lib/X11/rgb.txt"
-/*    (from Solaris) and then used "awk" to make the list below.
-/*    Maybe I can get away with this because it's for academic
-/*    purposes only.
-/*
-/* Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
-/*----------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------*/
+// File : colors.h
+// Date : 03-Jul-99 : initial definition
+//        01-Aug-99 : "Stole" the rgb.txt file from X
+//        22-Nov-99 : had some colors wrong.  Fixed 'em.
+//
+// Description:
+//    This file lists a series of macros that define commonly used
+//    colors.  It appears that the Windows API has a ridiculously short
+//    list of colors and that colors outside of this list must be defined
+//    using the RGB(r, g, b) macro.  Ok ...
+//
+//    Copied (i.e. stole) the file "/usr/openwin/lib/X11/rgb.txt"
+//    (from Solaris) and then used "awk" to make the list below.
+//    Maybe I can get away with this because it's for academic
+//    purposes only.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
+//----------------------------------------------------------------------------*/
+#ifndef WIN32
+   #error Package for Windows build
+#endif
+
 #include <windows.h>
 
-/*-------------------------------------------------*/
-/* From:
-/*    "Programming Windows", C. Petzold, Microsoft
-/*    Press, 1999, Ch 14, pg 645.
-/*-------------------------------------------------*/
+//-------------------------------------------------*/
+// From:
+//    "Programming Windows", C. Petzold, Microsoft
+//    Press, 1999, Ch 14, pg 645.
+//-------------------------------------------------*/
 #define BLACK         RGB(0  ,   0,   0)
 #define DARK_BLUE     RGB(0  ,   0, 128)
 #define DARK_GREEN    RGB(0  , 128,   0)
@@ -42,9 +46,9 @@
 #define WHITE         RGB(255, 255, 255)
 
 
-/*-------------------------------------------------*/
-/* Trial and error ...
-/*-------------------------------------------------*/
+//-------------------------------------------------*/
+// Trial and error ...
+//-------------------------------------------------*/
 #define ORANGE        RGB(255, 165, 0)
 #define DODGER_BLUE   RGB(0  , 128, 255)
 #define WEIRD_RED     RGB(255, 128, 128)
@@ -53,9 +57,9 @@
 
 
 
-/*-------------------------------------------------*/
-/* These are from "/usr/openwin/lib/X11/rgb.txt"
-/*-------------------------------------------------*/
+//-------------------------------------------------*/
+// These are from "/usr/openwin/lib/X11/rgb.txt"
+//-------------------------------------------------*/
 #define snow                     RGB(255, 250, 250)
 #define ghost                    RGB(248, 248, 255)
 #define GhostWhite               RGB(248, 248, 255)
@@ -512,7 +516,7 @@
 #define maroon3                  RGB(205, 41, 144)
 #define maroon4                  RGB(139, 28, 98)
 #define VioletRed1               RGB(255, 62, 150)
-/* why do I have to do this ?? */
+// why do I have to do this ?? */
 #define VioletRed2               RGB(238, 58, 140)
 #define VioletRed3               RGB(205, 50, 120)
 #define VioletRed4               RGB(139, 34, 82)
