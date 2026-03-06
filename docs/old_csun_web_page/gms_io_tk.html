@@ -1,0 +1,239 @@
+<HTML>
+
+<HEAD>
+   <TITLE>
+   GMS I/O Library
+   </TITLE>
+</HEAD>
+
+<BODY>
+
+<H1><FONT SIZE="4"><B><U>
+   Source Code : GMS I/O Toolkit
+</U></B></FONT></H1>
+
+The source code for the <I>GMS I/O Toolkit</I> is listed here.
+<P>
+<H2><FONT SIZE="3"><U>Build Requirements:</U></FONT></H2>
+
+<UL>
+   <LI>ANSI C compiler
+   <LI>Compiler options:
+      <UL>
+         <LI>MS Windows : <B>None</B>
+         <LI>UNIX :<A HREF="../unixBuild/build/buildbrowse.ksh">Build Script</A>
+      </UL>
+</UL>
+
+<H2><FONT SIZE="3"><U>Utilities to Read VPF Database:</U></FONT></H2>
+
+These files are used to read the files from a <I>DCW</I> database:
+<BR><BR>
+
+<!-- ************************************************************* -->
+<!-- Table of base-types and utilities                             -->
+<!-- ************************************************************* -->
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION ALIGN="center"><B><U>Base Types and Utilities</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsTypesAndConstants.h">gmsTypesAndConstants.h</A></TD>
+      <TD> </TD>
+   </TR>
+
+   <TR>
+     <TD><A HREF="../C_source/include/gmsFile/gmsUtilities.h">gmsUtilities.h</A></TD>
+     <TD><A HREF="../C_source/source/gmsFile/gmsUtilities.cpp">gmsUtilities.cpp</A></TD>
+   </TR>
+
+   <TR>
+     <TD><A HREF="../C_source/include/gmsFile/gmsDebugUtil.h">gmsDebugUtil.h</A></TD>
+     <TD><A HREF="../C_source/source/gmsFile/gmsDebugUtil.cpp">gmsDebugUtil.cpp</A></TD>
+   </TR>
+
+</TABLE>
+
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- Database Utilities                                            -->
+<!-- ************************************************************* -->
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION ALIGN="center"><B><U>Database-level Utilities</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsDbHeaderTable.h">gmsDbHeaderTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsDbHeaderTable.cpp">gmsDbHeaderTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsLibAttribTable.h">gmsLibAttribTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsLibAttribTable.cpp">gmsLibAttribTable.cpp</A></TD>
+   </TR>
+
+</TABLE>
+
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- Library  Utilities                                            -->
+<!-- ************************************************************* -->
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION ALIGN="center"><B><U>Library-level Utilities</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsGeoReferenceTable.h">gmsGeoReferenceTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsGeoReferenceTable.cpp">gmsGeoReferenceTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsLibHeaderTable.h">gmsLibHeaderTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsLibHeaderTable.cpp">gmsLibHeaderTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsCoverageAttribTable.h">gmsCoverageAttribTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsCoverageAttribTable.cpp">gmsCoverageAttribTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsDataQualityTable.h">gmsDataQualityTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsDataQualityTable.cpp">gmsDataQualityTable.cpp</A></TD>
+   </TR>
+
+</TABLE>
+
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- Coverage (Theme) Utilities                                    -->
+<!-- ************************************************************* -->
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION ALIGN="center"><B><U>Coverage-level Utilities</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsNarrativeTable.h">gmsNarrativeTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsNarrativeTable.cpp">gmsNarrativeTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsFeatureClassSchemaTable.h">gmsFeatureClassSchemaTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsFeatureClassSchemaTable.cpp">gmsFeatureClassSchemaTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsFeatureTypes.h">gmsFeatureTypes.h</A><BR>
+          <A HREF="../C_source/include/gmsFile/gmsFeatureTable.h">gmsFeatureTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsFeatureTable.cpp">gmsFeatureTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsBrowseFeatureTypes.h">gmsBrowseFeatureTypes.h</A><BR>
+          <A HREF="../C_source/include/gmsFile/gmsBrowseFeatureTable.h">gmsBrowseFeatureTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsBrowseFeatureTable.cpp">gmsBrowseFeatureTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsThematicIndex.h">gmsThematicIndex.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsThematicIndex.cpp">gmsThematicIndex.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsValueDescriptionTable.h">gmsValueDescriptionTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsValueDescriptionTable.cpp">gmsValueDescriptionTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsJoinTable.h">gmsJoinTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsJoinTable.cpp">gmsJoinTable.cpp</A></TD>
+   </TR>
+
+</TABLE>
+
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- Primitives                                                    -->
+<!-- ************************************************************* -->
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION ALIGN="center"><B><U>Primitive-level Utilities</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsEdgeTable.h">gmsEdgeTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsEdgeTable.cpp">gmsEdgeTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsFaceTable.h">gmsFaceTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsFaceTable.cpp">gmsFaceTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsTextTable.h">gmsTextTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsTextTable.cpp">gmsTextTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsRingTable.h">gmsRingTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsRingTable.cpp">gmsRingTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsMinBoundRectTable.h">gmsMinBoundRectTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsMinBoundRectTable.cpp">gmsMinBoundRectTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsNodeTable.h">gmsNodeTable.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsNodeTable.cpp">gmsNodeTable.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsIndexFile.h">gmsIndexFile.h</A></TD>
+      <TD><A HREF="../C_source/source/gmsFile/gmsIndexFile.cpp">gmsIndexFile.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../C_source/include/gmsFile/gmsSpatialIndex.h">gmsSpatialIndex.h</A>
+      <TD><A HREF="../C_source/source/gmsFile/gmsSpatialIndex.cpp">gmsSpatialIndex.cpp</A></TD>
+   </TR>
+
+</TABLE>
+
+</BODY>
+
+</HTML>
