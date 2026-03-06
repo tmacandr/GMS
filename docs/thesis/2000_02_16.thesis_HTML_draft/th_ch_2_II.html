@@ -1,0 +1,797 @@
+<HTML>
+
+<HEAD> 
+   <TITLE>
+      Chapter 2 - VPF Database
+   </TITLE>
+
+   <STYLE>
+      <!--
+         P { text-indent : 7% }
+         BODY { line-height : 130% }
+         UL { line-height : 100% }
+         OL { line-height : 100% }
+      -->
+   </STYLE>
+
+</HEAD>
+
+<BODY>
+
+<!-- ************************************************************* -->
+<!-- 3.0 Basic File-Types in DCW Database                          -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.3 Basic File-Types in DCW Database
+</U></B></FONT></H1>
+
+<P>
+The previous section described how the DCW database is
+organized (i.e. its architecture).  However, it is the files
+within that architecture that contain the raw geographic
+information.  This section describes
+the types of files found within that architecture.  The files of
+the DCW database are classified into the following four
+categories:
+
+<UL>
+   <LI>Database Tables
+   <LI>Library Tables
+   <LI>Primitive Tables
+   <LI>Coverage Tables
+</UL>
+
+Note that the term <I>table</I> is equivalent to <I>file</I>.  The
+<I>database tables</I> contain general information about
+the whole DCW database (i.e. are not specific to a particular
+library).  The <I>library tables</I> contain information about
+a specific library (i.e. NOAMER, SOAMAFR, EURNASIA, SASAUS, or
+BROWSE).  The <I>primitive tables</I> contain
+low-level geographic information (such as borders of countries,
+outlines of continents, etc) for a given library.  The
+<I>coverage tables</I> contain descriptive
+information about a given region (such as soil conditions,
+maximum elevations, reefs, etc).
+
+        <!-- ******** Database Tables *********** -->
+
+<P>
+<B><U>The Database Tables:</U></B>
+As mentioned, the <I>Database Tables</I> give a general description
+of the whole DCW database.  These files are duplicated on each
+CD-ROM and reside at the root directory.  There are two database
+files:
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="60%">
+   <CAPTION><B><U>Table 2.4 : Database Tables</U></B></CAPTION>
+
+   <TR>
+      <TD>
+        <OL>
+           <LI>Database Header Table<BR>
+               File Name : <B>DHT</B><BR><BR>
+
+           <LI>Library Attribute Table<BR>
+               File Name : <B>LAT</B>
+        </OL>
+      </TD>
+   </TR>
+
+</TABLE>
+<BR>
+The <I>Database Header Table</I> contains general information
+of the DCW database such as its name, the mailing address of
+NIMA, and date of creation.  It is essentially the title page
+of the database.  The <I>Library Attribute Table</I> contains
+records that define the boundaries of each of the libraries.
+
+
+        <!-- ********* Library Tables *********** -->
+
+<P>
+<B><U>The Library Tables:</U></B>
+These files are placed in each of the library directories
+(e.g. SOAMAFR).  These files give descriptions of the specified
+library (regional or browse).  Each library directory consists
+of one copy of the following tables:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="60%">
+   <CAPTION><B><U>Table 2.x : Database Tables</U></B></CAPTION>
+
+   <TR>
+      <TD>
+        <OL>
+           <LI>Library Header Table<BR>
+               File Name : <B>LHT</B><BR><BR>
+
+           <LI>Coverage Attribute Table<BR>
+               File Name : <B>CAT</B><BR><BR>
+
+           <LI>Geographic Reference Table<BR>
+               File Name : <B>GRT</B><BR><BR>
+
+           <LI>Data Quality Table<BR>
+               File Name : <B>DQT</B><BR><BR>
+
+           <LI>Lineage Narrative Table<BR>
+               File Name : <B>LINEAGE.DOC</B>
+
+        </OL>
+      </TD>
+   </TR>
+
+</TABLE>
+<BR>
+The <I>Library Header Table</I> gives a general description of
+the particular library.  It is like a title-page for that
+library.  The <I>Coverage Attribute Table</I> lists each of
+the themes contained in the library.  The names of the
+directories for each theme are also specified.  It is like
+a table-of-contents for the library.  The <I>Geographic Reference
+Table</I> contains information about the earth-model used to
+construct the data.  For example, it specifies if the earth-model
+is ellipsoid and what the lengths are of the semi-major and
+semi-minor axes.  The <I>Data Quality Table</I> lists attributes
+about the accuracy of the information in the database.  For example,
+it specifies the absolute horizontal accuracy between points.
+The <I>Lineage Narrative Table</I> gives supplemental quality
+and accuracy information about the database and is written
+in a prose format.  The browse library does not contain
+a <I>LINEAGE.DOC</I> file.
+
+
+        <!-- *********  Primitive Tables  ********* -->
+
+<P>
+<B><U>The Primitive Tables:</U></B>
+These files contain low-level geographic information.  First
+consider the following types of tables referred to here as
+<I>core primitive tables</I>.  There are 4 types of these
+core tables and are described in Table 2.5:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>Table 2.5 : Core Primitive Tables</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <UL>
+            <LI><U>Edge Tables</U><BR>
+                File Name : <B>EDG</B><BR>
+                An edge table contains information that defines
+                borders of geographic items.  Because edge tables
+                contain variant-length records each EDG table
+                is matched with a file called an <I>index</I>
+                table.  The index table is simply a list of
+                offsets.  There is one offset value for each
+                edge record in the matching edge table.  The
+                offset specifies the start of the corresponding
+                edge record.  All edge index files are
+                named: <B>EDX</B>.
+                <BR><BR>
+
+            <LI><U>Text Tables</U><BR>
+                File Name : <B>TXT</B><BR>
+                A text table contains the names of geographic
+                regions (e.g. the name "Pacific Ocean"). A text
+                record specifies the text/string and the
+                [longitude, latitude] where the string is to
+                be written on a map.  Text tables are
+                files with variant-length records (e.g.
+                "Ohio" vs "Indian Ocean").  Therefore, text
+                tables are matched with a <I>text index table</I>.
+                Similar to the edge index table, the records
+                of the text index specify the offset to the
+                start of the text record.  All text index tables
+                are named: <B>TXX</B>.
+                <BR><BR>
+
+            <LI><U>Face Tables</U><BR>
+                File Name : <B>FAC</B><BR>
+                These tables are used to define a <I>join
+                relationship</I> between a set of edges
+                (from an edge table) and a <I>feature table</I>
+                (which is described below).  A region that is
+                enclosed by a series of edges is called a
+                <I>face</I>.  Often, it is necessary to determine
+                the features (i.e. characteristics) of that
+                region.  Such characteristics are defined in
+                a <I>feature table</I>.  The face table
+                connects the region to those features.
+                <BR><BR>
+
+            <LI><U>(Entity) Node Tables</U><BR>
+                File Name : <B>END</B><BR>
+                These tables define a geographic object that
+                is a single point (e.g. a water-tower).  Each
+                (entity) node record contains a foreign key to
+                a <I>feature table</I> (described below).  This
+                pointer (i.e. foreign key) identifies what
+                kind of geographic object the node is.  For
+                example, it identifies the node as a water-tower
+                as opposed to an oil-well.  Cities, towns, and
+                villages are sometimes defined as (entity) nodes.
+
+         </UL>
+      </TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+<P>
+There are 3 other types of primitive files.  These files are
+used to support <I>query</I> functionality to the
+database.  Often, a GIS product will allow an operator to
+specify a geographic region to be studied.  These files allow
+applications to access data more quickly than by searching
+edge and node tables directly.  These files are described in
+Table 2.6:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>Table 2.6 : Query Primitive Tables</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <UL>
+
+            <LI><U>Bounding Rectangles</U><BR>
+                These files define the boundaries of many
+                sets of edges and faces.  Edge bounding
+                rectangles (file name : <B>EBR</B>)
+                define regions that enclose a set of
+                edges (e.g. all the edges of the continent
+                Australia).  Face bounding rectangles
+                (File Name : <B>FBR</B>) define regions
+                that enclose a set of faces.
+                <BR><BR>
+
+            <LI><U>Ring Tables</U><BR>
+                File Name : <B>RNG</B><BR>
+                These tables define a series of concentric
+                faces (i.e. a face inside a face, etc).  Each
+                record in a ring table references
+                one face record (from a face table) and also
+                one edge record (from an edge table).
+                The edge record defines the first edge
+                of the face.  The first ring record defines
+                the outer face.  The next ring record defines
+                the inner face, etc.
+                <BR><BR>
+
+            <LI><U>Spatial Indexes</U><BR>
+                Each spatial record defines
+                a geographic region as well as a file offset into
+                either an EDGE, TEXT, FACE, or NODE table.  Thus,
+                there are 4 types of spatial index files:
+                <UL>
+                   <LI>Edge:<BR>
+                       File Name : <B>ESI</B><BR>
+                   <LI>Text:<BR>
+                       File Name : <B>TSI</B><BR>
+                   <LI>Face:<BR>
+                       File Name : <B>FSI</B><BR>
+                   <LI>Node:<BR>
+                       File Name : <B>NSI</B><BR>
+                </UL>
+                For example, if an operator
+                is allowed to ask, "what are all the nodes within
+                a specified region", a node spatial index file is
+                searched to find a "matching region".  If one (or
+                more) is found then the index into the node table
+                specifies the node (or nodes) that is of interest
+                to the operator.
+
+         </UL>
+      </TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+
+        <!-- **********  Coverage Tables  ********** -->
+
+<P>
+<B><U>The Coverage Tables:</U></B>
+These tables contain descriptive information
+about a particular geographic entity.  Also, these files are
+used in a <I>relational</I> method with respect to the
+primitive tables.  These files allow GIS applications to
+implement functionality to allow an operator to query
+the DCW database, or to apply filtering of what information
+is displayed on a map.
+<P>
+As with the primitive tables, there are many instances of the
+coverage tables for each library.  A theme will likely have several
+coverage tables, each of the same name, but located in different
+tiles (i.e. directories).
+<P>
+The coverage tables are further categorized into five sub-types.
+This hierarchy is described in Table 2.7:
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>Table 2.7 : Coverage Tables</U></B></CAPTION>
+
+   <TR>
+      <TD>
+        <OL>
+           <LI><U>Value Description Tables</U><BR>
+           A <I>VDT</I> is a list of text strings that describes
+           (or names) geographic entities that were defined from
+           a given <I>core primitive table</I>.  VDTs and
+           core primitive tables are related to each other.
+           <I>Feature tables</I> (described below) are used to
+           define the <I>join relationship</I> between a VDT
+           and a primitive table.  There are two types of value
+           description tables:
+           <UL>
+              <LI><U>Integer:</U><BR>
+                  File Name: <B>INT.VDT</B><BR>
+                  The records from an <I>INT.VDT</I> contain
+                  a unique ID and a string.  The string is used
+                  to describe a geographic entity.  For
+                  example, a given INT.VDT may be a list that
+                  describes geographic points as water-towers, or
+                  oil-wells, or railroad stations.
+              <LI><U>Character:</U><BR>
+                  File Name: <B>CHAR.VDT</B><BR>
+                  A <I>CHAR.VDT</I> (also) contains records
+                  of IDs and strings.  However, instead of
+                  describing a geographic feature, these records
+                  give the name of it.  Actually, each library
+                  in the DCW database has only one <I>CHAR.VDT</I>
+                  table, one in each <I>PO</I> theme.  It lists
+                  the names of countries and their abbreviations
+                  (e.g. "Albania" is "AL").
+           </UL>
+           The rationale behind <I>VDTs</I> is to prevent
+           duplication of data (in primitive tables).
+           <BR><BR>
+
+           <LI><U>Feature Tables</U><BR>
+           A feature table is used to associate <I>value
+           description tables</I> with <I>core primitive
+           tables</I>.  Feature tables establish a <I>join</I>
+           relationship between VDTs and core primitive
+           tables.  Thus, there are four types of feature tables
+           described as follows.  Note that the "*" in the file
+           names that follow represent one of the themes of a
+           library (e.g. AE, PO, RD, RR, etc):
+           <UL>
+              <LI><U>Point:</U><BR>
+                  File Name: <B>*POINT.PFT</B><BR>
+                  Each record from a <I>point-feature-table</I>
+                  contains IDs (i.e. keys) that join records
+                  from node tables to records in value description
+                  tables.  For example, given a node record that
+                  defines a populated point (i.e. from the <B>PP</B>
+                  theme).  Along with the node table is a
+                  corresponding feature table
+                  called <I>PPPOINT.PFT</I>.  Each record from
+                  this feature table specifies the ID of a node
+                  record and the ID of a record from a value
+                  description table.  Thus, the node record is
+                  matched to a value-description record that
+                  specifies the point to be a "village".
+              <LI><U>Text</U><BR>
+                  File Name: <B>*TEXT.TFT</B><BR>
+                  <I>Text feature tables</I> join records
+                  from <I>primitive text tables</I> to records
+                  in <I>value description tables</I>.  For
+                  example, given a text record from the
+                  <I>drainage</I> (DN) theme and let the
+                  text string be "falls".  Along with the
+                  text table is the feature table called
+                  <I>DNTEXT.TFT</I>.  Each record from
+                  this feature table specifies the ID of a text
+                  record (from the text table) and the ID of
+                  a record from a value description table.  Thus,
+                  the text record is joined to a value-description
+                  record that specifies the text to describe
+                  a "running stream".
+              <LI><U>Area</U><BR>
+                  File Name: <B>*AREA.AFT</B><BR>
+                  Each record from a <I>area-feature-table</I>
+                  contains IDs (i.e. keys) that join records
+                  from <B>face</B> tables to records in value
+                  description tables.  For example, given a face
+                  record that defines a geographic region (e.g.
+                  from the <B>PO</B> theme).  Along with the face
+                  table is a corresponding feature table
+                  called: <I>POAREA.AFT</I>.  Each record from
+                  this feature table specifies the ID of a face
+                  record and the ID of a record from a value
+                  description table.  Thus, the face record can
+                  be identified as "polar ice" from the "Antarctic
+                  Area".
+
+              <LI><U>Line</U><BR>
+                  File Name: <B>*LINE.LFT</B><BR>
+                  Each record from a <I>line-feature-table</I>
+                  contains IDs (i.e. keys) that join records
+                  from edge tables to records in value description
+                  tables.  For example, given an edge record that
+                  defines a railroad (i.e. from the <B>RR</B>
+                  theme).  Along with the node table is a
+                  corresponding feature table
+                  called <I>RRLINE.LFT</I>.  Each record from
+                  this feature table specifies the ID of an edge
+                  record and the ID of a record from a value
+                  description table.  Thus, the edge record can
+                  be identified as a "single track" railway and
+                  its current status is "functional".
+           </UL>
+           Note that a theme has one or more feature tables based
+           on the kind of primitive information contained in that
+           theme.  Consider the theme <I>vegetation</I>.  In this
+           theme there are only <I>area</I> feature tables since
+           the theme describes areas of vegetation.  A "corn field"
+           is described as an <I>area</I> and can not be described
+           as a <I>line</I> on a map.  Also, consider the theme
+           <I>populated places</I> (PP).  This theme contains
+           <I>points</I> since some populated locations are small
+           enough to be represented as a point on a map (e.g. a
+           village).  Also, the theme contains <I>areas</I> that
+           describe larger population centers (e.g. New York City).
+           However, the theme does not contain <I>line</I> features
+           since a population center can not be described as a line.           
+           <BR><BR>
+
+           <LI><U>Feature Class Schema Tables</U><BR>
+           File Name : <B>FCS</B><BR>
+           There is one <I>feature class schema table</I> in each
+           theme.  The table describes what feature tables exist
+           in a theme and what join relationships exists to the
+           core primitive tables.  The FCS table identifies the
+           <I>foreign keys</I> between the primitive tables and
+           the feature tables (and vice-versa).
+           <BR><BR>
+
+           <LI><U>Narrative Tables</U><BR>
+           File Name : <B>*<feature>.DOC</B><BR>
+           These tables describe each of the features
+           (point, line, area, and/or text) within a given
+           theme (VG, AE, RR, etc).  The description is in a
+           prose format so it is readable by an operator.  This
+           information augments the value description tables.
+        </OL>
+      </TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+        <!-- *********  Winged Edge Topology  ********* -->
+
+<P>
+<B><U>Winged Edge Topology:</U></B>
+The DCW database was constructed to support many different types
+of GIS products.  Therefore, the DCW database was meant to be
+used for more than just drawing images on a computer screen.  It
+was constructed to also support <I>query</I> capabilities.  Consider
+the case where an operator wants to study the geography of the
+country <I>Spain</I>.  As Figure 2.3 shows, the tiles <B>MJ22</B>,
+<B>MJ23</B>, <B>MJ32</B>, and <B>MJ33</B> all contain information
+about this region of the globe.  It would be the resposibility of
+a GIS product to retrieve all the geographic information from
+this region.
+<P>
+Winged-Edge Topology is an algorithm that allows information to be
+retrieved about geographic entities that are separated across
+tiles.  A better name would probably be <I>Cross Tile Retrieval
+System</I>, but <I>Mil-Std-600006</I> defines it otherwise.
+<P>
+A given edge table can be read from top to bottom and the points
+used to display lines on an image.  However, this does not define
+the "areas" of a map.  If regions are to be distinguished by
+shading/coloring, it is necessary to know the "areas" defined
+in the edge table.  Furthermore, many "areas" cross from one
+sub-tile to another.  The Winged-Edge Topology Algorithm uses
+additional information in each edge record to determine which
+edge records are "connected" to a given edge record.  Also,
+if the "neighbors" of an edge record reside in another edge
+table, that edge table can be "interpreted" from the current
+edge record.  Thus, the Winged-Edge Topology Algorithm provides
+a means to concatenate edge records into a polygon that represents
+a geographic area.
+
+
+<!-- ************************************************************* -->
+<!-- 4.0) Basic Data-types of the DCW Database                     -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.4 Basic Data-types of the DCW Database:
+</U></B></FONT></H1> 
+
+<P>
+Any file in the DCW database consists of one or more records.  Each
+record is constructed from a primitive data type such as a
+32-bit integer, or 32-bit floating point value.
+Table 2.8 lists each of the primitive data types used in the
+DCW database.
+
+<BR><BR>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Table 2.8 : Primitive Data Types</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Data Symbol</B></TH>
+      <TH><B>Description</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>T</TD>
+      <TD>String of n characters</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>F</TD>
+      <TD>32-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>R</TD>
+      <TD>64-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>S</TD>
+      <TD>16-bit integer (i.e. short)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>I</TD>
+      <TD>32-bit integer</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>C</TD>
+      <TD>Two dimensional coordinate (x, y) (two 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>B</TD>
+      <TD>Two dimensional coordinate (x,y) (two 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Z</TD>
+      <TD>Three dimensional coord (x, y, z) (three 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Y</TD>
+      <TD>Three dimensional coord (x, y, z) (three 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>D</TD>
+      <TD>Date - 20 character string "YYYYMMDDhhmmss.xxxxx"</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>X</TD>
+      <TD>NULL field (i.e. will be defined in future releases)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>K</TD>
+      <TD>Triplet-ID record (see below)</TD>
+   </TR>
+
+</TABLE>
+
+<P>
+Except for <I>triplet-id record</I>, each of the data types listed
+corresponds to data types that are directly supported by programming
+languages.  But for some reason, the designers of the DCW database
+decided to be unnecessarily complex with respect to the
+triplet-id as a data type.
+
+<P>
+<B><U>The Triplet ID Record:</U></B>
+This data type is found in edge records and is used
+in support of the <I>winged-edge-topology</I> algorithm.  It
+is a way to specify the locations of the <I>Left Face</I>,
+<I>Right Face</I>, and <I>Left Edge</I> of a given edge record.
+Three values are specified in a triplet-id record:
+<UL>
+   <LI>Primitive ID
+   <LI>Tile ID
+   <LI>External Primitive ID
+</UL>
+The <I>Primitive ID</I> specifies the ID of a joining record
+(face or edge) within the current tile.  The <I>Tile ID</I> specifies
+the ID of a joining record (face or edge) that is outside of
+the current tile (i.e. the edge or face record resides in a table
+that is in a different tile).  The <I>External Primitive
+ID</I> specifies the ID of the record from that external table.
+
+<P>
+A <I>triplet-id record</I> is a sequence of bytes.  The first byte,
+called the <I>type byte</I>, is used to specify a syntax that
+defines the values for the <I>Primitive ID</I>, the
+<I>Tile ID</I>, and the <I>External Primitive ID</I>.  The <I>type
+byte</I> is divided into four 2-bit sections.  The first two
+2-bit section indicates how many bytes are used to define the
+value of the <I>Primitive ID</I>.  The second 2-bit section indicates
+how many bytes are used to define the <I>Tile ID</I>.  The
+third 2-bit section indicates how many bytes are used to define
+the value of the <I>External Primitive ID</I>.  The fourth 2-bit
+section is not used.  Each 2-bit section will have a value
+of 0, 1, 2 or 3 that indicates how many bytes
+follow the <I>type byte</I>.  The number of bytes for each value
+is shown in Table 2.9:
+<BR><BR>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>
+         Table 2.9<BR>
+         Length of Triplet-ID Values
+   </U></B></CAPTION>
+
+   <TR>
+      <TH><B>2-bit Value</B></TH>
+      <TH><B>Number of Bytes</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">0</TD>
+      <TD ALIGN = "center">0</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">1</TD>
+      <TD ALIGN = "center">1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">2</TD>
+      <TD ALIGN = "center">2</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">3</TD>
+      <TD ALIGN = "center">4</TD>
+   </TR>
+
+</TABLE>
+<BR>
+For example, if the <I>type byte</I> is 01_00_00_00, then there is
+one byte following the <I>type byte</I> and it is used to define
+the value of the <I>Primitive ID</I>.  Furthermore, no values are
+specified for the <I>Tile ID</I> nor the <I>External Primitive
+ID</I>.  If the <I>type byte</I> is 00_11_10_00, then there
+are 4 + 2 bytes following the <I>type
+byte</I>.  The first four bytes are used to define the value for
+the <I>Tile ID</I> and the last two bytes are used to define
+the <I>External Primitive ID</I>.  Note that there is no value
+for the <I>Primitive Id</I> for this case.
+<P>
+Although there are 64 different combinations possible
+with a triplet-id record, the actual number encountered is fewer.
+This is because if a <I>Primitive ID</I> is specified, then the
+corresponding record is in a file that is co-resident in the tile.
+Thus, the <I>Tile ID</I> and the <I>External Primitve ID</I> are
+not applicable.  Also, if the record is in another tile,
+then the <I>Primitive ID</I> value will not be specified but
+both the <I>Tile ID</I> and the <I>External Primitive ID</I> must
+be specified.
+<BR><BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- 5.0) Basic Format of DCW Files                                -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.5 Basic Format of DCW Files
+</U></B></FONT></H1> 
+
+<P>
+Each file in the DCW database consists of two sections, the
+<I>header</I> and the <I>body</I>.  The first four bytes of the
+header is an integer specifying the size (in bytes) of the
+header section.  Then, the header describes the format
+of the records in the body of the file.  The body is one or
+more records of geographic or relational data.  The <I>Data
+Symbol</I> column in Table 2.8 (above) is important because those
+symbols are used in the header section of each file.  The
+data type of each attribute of a record is defined using one of
+those symbols.
+<P>
+As an example of a header, consider the definition of an
+<I>entity node record</I> (from an entity node table).
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Table 2.10 : Example Header</U></B></CAPTION>
+
+   <TR>
+      <TD>
+<PRE>xxxx;
+Entity Node Primitives;-;
+ID=I,              1,P,Row Identifier,-,-,:
+POPOINT.PFT_ID=I,  1,F,Foreign Key to Point Feature Table,-,-,:
+CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+FIRST_EDGE=X,      1,N,Foreign Key to Edge Table (null),-,-,:
+COORDINATE=C,      1,N,Coordinates of Node,-,-,:;</PRE>
+     </TD>
+   </TR>
+</TABLE>
+<BR>
+A bit of "doctoring" has been done here for readability purposes.
+For example, the <I>carriage returns</I> are not present in any
+of the DCW files.  The <I>xxxx</I> symbolizes the 4-byte integer
+that defines the size of the header section.  The next item is
+the name of the record, <I>Entity Node Primitives</I>.  If
+a narrative table (*.doc) had been associated with this node table,
+then the name would have been specified after the name of the
+record.  Next, the format of the record is defined.  The general
+syntax is:<BR>
+
+<PRE>[attribute]=[data-type],[num-elements],[key-type],[vdt],[theme-index]:</PRE>
+
+For example, the attribute:
+
+<PRE>
+CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+</PRE>
+
+specifies an attribute with the name "CONTAINING_FACE" whose
+data type is Integer (32-bit).  The attribute is one integer
+long.  The <B>F</B> indicates that the attribute is a foreign
+key and the description indicates how the key is used.  The fifth
+specifier is simply a <B>-</B> and indicates that no <I>Value
+Description Table</I> (VDT) applies.  The sixth specifier is
+also a <B>-</B> and indicates that no <I>thematic-index table</I>
+applies.  Attributes that are of varying length would be indicated by
+the symbol <B>*</B> for [num-elements] (third specifier).  For
+example, character strings and arrays of latitude/longitude
+coordinates are specified this way.  All definitions of attributes
+are terminated by the symbol <B>:</B>.  The end of the header
+section is indicated by the consecutive symbols <B>:;</B>.
+<P>
+As an example, the above record would have the following C struct:
+<BR><BR>
+<TABLE BORDER=0 ALIGN=CENTER>
+   <TR>
+      <TD>
+<PRE>
+typedef struct
+   {
+    int   ID;
+    int   fgnKeyToPntFeatureTbl;
+    int   fgnKeyToFaceTbl;
+    float coordLongitude;
+    float coordLatitude;
+   } nodeRecType;
+</PRE>
+      </TD>
+   </TR>
+</TABLE>
+
+where the attribute <I>FIRST_EDGE</I> is not included since
+(as Table 2.10 shows) the attribute does not exist for this
+version of the DCW database and is reserved for furture versions.
+
+
+<!-- ************************************************************* -->
+<!-- Links                                                         -->
+<!-- ************************************************************* -->
+
+<HR>
+
+<A HREF="th_3_toc.html">Table of Contents</A><BR>
+<A HREF="th_ch_1.html">Chapter 1</A><BR>
+<A HREF="th_ch_2_I.html">Back</A><BR>
+<A HREF="th_ch_3.html">Chapter 3</A><BR>
+<A HREF="th_ref_bibl.html">Bibliography</A><BR>
+
+</BODY>
+
+</HTML>

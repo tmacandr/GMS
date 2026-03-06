@@ -1,0 +1,566 @@
+<HTML>
+
+<HEAD> 
+   <TITLE>Chapter 2 - The DCW Database</TITLE>
+
+   <STYLE>
+      <!--
+         P { text-indent : 7% }
+         BODY { line-height : 130% }
+         UL { line-height : 100% }
+         OL { line-height : 100% }
+      -->
+   </STYLE>
+
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER"><FONT SIZE="5"><B><U>
+   Chapter 2 - The DCW Database
+</U></B></FONT></P>
+
+
+<!-- ************************************************************* -->
+<!-- 1) Introduction:                                              -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.1 Introduction:
+</U></B></FONT></H1> 
+
+<P>
+The Digital Chart of the World (DCW) is a database of
+geographic information.  The information is stored on 4 CD-ROMs and
+covers the entire earth.  The DCW database was developed in the
+early 1990's by the <I>National Imagery and Mapping Agency</I>
+(NIMA).  Other agencies that supplied source maps were the [9]:
+<UL>
+   <LI><I>Australian Army Survey</I>
+   <LI><I>Canadian Directorate of Geographic Operations</I>
+   <LI><I>United Kingdom Military Survey</I>.
+   <LI><I>US Geological Survey</I>
+</UL>
+At the time of the DCW project, NIMA was called the
+<I>Defense Mapping Agency</I>.
+<P>
+NIMA (<I>http://www.nima.mil</I>) is part of the US Department of
+Defense (DoD).  Its function is to provide geographic information to
+other members of the Department of Defense.  The purpose of the
+DCW product is to provide a datbase of <I>neutral format</I> that
+can be used by several different types of geographic information
+systems (GIS).  The objective was to support GIS products in
+the military, scientific, and educational communities.
+<P>
+As mentioned in Chapter 1, the DCW database is a vector map system.
+The data is organized as tuples of longitude, latitude, and
+altitude (when applicable).  For example, the political
+borders of a country are specified as an array of latitude/longitude
+pairs.  The DCW database actually conforms to a rigorous definition
+that is called the <I>Vector Product Format</I> (VPF) and is
+specified in the document <I>Mil-Std-2407</I>.  The
+VPF is a protocol of how certain types of vector
+map data are to be organized.  A vector map system that conforms
+to the VPF standard is said to be VPF compliant.  The DCW database
+is VPF compliant.
+<P>
+The DCW database was constructed using several types of paper
+maps.  Specifically, the <I>Operational Navigation
+Chart</I> (ONC) map series and the <I>Jet Navigation Chart</I>
+(JNC) series were used.  Rather than scanning these paper maps into
+raster images (as was done for the ADRG systems), the data from
+the ONC and JNC maps were further processed into vector data.
+The DCW database was constructed using 270 sheets of ONC map
+data (whose resolution is 1:1,000,000).  The ONC map series was
+developed for the military and is typically used by pilots and
+planners.  The DCW database was augmented using the JNC map series
+because the ONC series does not cover the region of Antarctica.  The
+JNC series is also used for navigational purposes, but its
+resolution is less (than ONC) at 1:2,000,000 [9].  The companies that
+produced the DCW database for NIMA were:
+<UL>
+   <LI><I>Environmental Systems Researth Institute, Inc.</I>
+   <LI><I>Loral Defense Systems</I> (Akron OH)
+   <LI><I>GEOVISION Inc.</I> (Norcross, GA)
+   <LI><I>Chicago Aerial Survey</I> (Des Plaines, IL)
+   <LI><I>Aerial Information Systems</I> (Redlands, CA)
+   <LI><I>Philips/Dupont Optical Disk Manufacturing</I> (Wilmington, DE)
+   <LI><I>Geocode</I> (Eau Claire, WI)
+</UL>
+<P>
+The DCW database contains supplemental information to the ONC and
+JNC maps.  Information about airports was added using data called
+<I>Digital Aeronautical Flight Information File</I> (DAFIF).  Also,
+the US Geological Survey provided information called <I>Advanced
+Very High Resolution Radiometer</I> (AVHRR) that describes vegetation.
+Two other map types were used to provide details about 355 world
+cities.  These maps were the <I>Joint Operations Graphic</I> (JOG) and 
+the <I>Tactical Pilotage Chart</I> (TPC) [9].
+<BR><BR><BR><BR>
+
+<!-- ************************************************************* -->
+<!-- Architecture of DCW Database                                  -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.2 Architecture of the DCW Database:
+</U></B></FONT></H1> 
+<P>
+As mentioned, the DCW database consists of 4 CD-ROMs.  On each CD
+is a series of directories (readable on DOS, UNIX, etc. systems)
+that are called <I>libraries</I>.  Each library further contains
+subdirectories and eventually files of geographic data.  Therefore,
+the term <I>library</I> is synonymous with <I>directory</I>.
+<P>
+The DCW is not a <I>relational database</I> in the way that
+Oracle &reg and Sybase &reg are constructed.  However, the DCW does
+contain <I>relational information</I>.  Furthermore, an
+effort was made to reduce the amount of duplicate information
+which is another characteristic of a relational database.
+However, in its simplest view, the DCW database is a
+hierarchy of flat files.
+<P>
+First, consider the highest-level libraries.  The DCW database is
+divided into 5 such libraries:
+<UL>
+   <LI>NOAMER - North America
+   <LI>EURNASIA - Europe and North Asia
+   <LI>SOAMAFR - South America and Africa (and Antarctica)
+   <LI>SASAUS - South Asia and Australia
+   <LI>BROWSE - whole Earth
+</UL>
+The first four libraries (NOAMER, EURNASIA, SOAMAFR, and SASAUS)
+are called <I>regional</I> libraries and contain detailed geographic
+information about a specific area of the world.  The <I>BROWSE</I>
+library contains high-level geographic information about the
+entire earth.  Each of the first 4 regional libraries is installed
+on one CD-ROM (i.e. one regional library per CD).  The browse library
+is duplicated on each of the 4 CDs.  This is described in Figure 2.1
+below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 2.1 Organization of DCW Database</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="./diagrams/dcw_db_arch.gif">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+At the root of each CD-ROM are two directories.
+One is the regional library (i.e. a directory called NOAMER, or
+SOAMAFR, etc).  The other is the browse library (i.e. a directory
+called BROWSE).  Recall that the browse library is duplicated on
+each CD.
+
+        <!-- ********   Themes    ******* -->
+
+<P>
+<B><U>Themes (Coverages) in the DCW Database:</U></B>
+Each library (on a given CD) is further divided into what are
+called <I>themes</I> (also called <I>coverages</I>).  These
+are categories of geographical information
+such as transportation, hydrology, and cities.  A <I>theme</I> is
+also equivalent to a directory.  Therefore, each theme is a
+subdirectory of a regional library.  Each regional library
+contains 17 themes.  The themes of a regional-library are
+summarized in Table 2.1 below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>
+      Table 2.1 Regional Themes of DCW Database (non-BROWSE)
+   </U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <OL>
+
+      <LI><B>Aeronautical Information</B><BR>
+          Directory Name : <B>AE</B><BR>
+          This directory contains details
+          about civil and military airports.
+          <BR><BR>
+
+      <LI><B>Cultural Landmarks</B><BR>
+          Directory Name : <B>CL</B><BR>
+          This directory contains data about
+          landmarks of significance for a
+          specified region.
+          <BR><BR>
+
+      <LI><B>Data Quality</B><BR>
+          Directory Name : <B>DQ</B><BR>
+          This directory contains data about
+          the resolution and accuracy of the
+          geographic data in a specified region.
+          <BR><BR>
+
+      <LI><B>Drainage Information</B><BR>
+          Directory Name : <B>DN</B><BR>
+          This directory contains data about
+          such geographic entities as glaciers,
+          canals, aqueducts, wells, resevoirs,
+          and dams.
+          <BR><BR>
+
+      <LI><B>Drainage (supplemental)</B><BR>
+          Directory Name : <B>DS</B><BR>
+          This directory contains additional
+          drainage information about small
+          lakes, and small islands of inland
+          waters.
+          <BR><BR>
+
+      <LI><B>Hypsographic Information</B><BR>
+          Directory Name : <B>HY</B><BR>
+          This directory contains elevation data.  Regions
+          of equal elevation are specified.  This data can
+          be used to draw elevation contours on a map.  Hypsography
+          is the branch of geography dealing with the measurement
+          of elevations above sea level.
+          <BR><BR>
+
+      <LI><B>Hyspsographic (supplemental)</B><BR>
+          Directory Name : <B>HS</B><BR>
+          This directory contains additional elevation data that
+          was made available from different sources.  For example,
+          this directory typically contains information called
+          <I>spot elevation</I> 
+          <BR><BR>
+
+      <LI><B>Land Cover Information</B><BR>
+          Directory Name : <B>LC</B><BR>
+          This directory contains data about geographic entities
+          such as rock quarries, strip mines, and oil
+          fields.
+          <BR><BR>
+
+      <LI><B>Ocean Features</B><BR>
+          Directory Name : <B>OF</B><BR>
+          This directory contains data about exposed ship wrecks,
+          lighthouses, and reefs.
+          <BR><BR>
+
+      <LI><B>Physiography</B><BR>
+          Directory Name : <B>PH</B><BR>
+          This directory contains data about physical geography.
+          This is information about tectonic plates,
+          fault-lines, etc.
+          <BR><BR>
+
+      <LI><B>Political/Oceans</B><BR>
+          Directory Name : <B>PO</B><BR>
+          This directory contains data about the boundaries of all
+          the continents and the borders of countries.
+          <BR><BR>
+
+      <LI><B>Populated Places</B><BR>
+          Directory Name : <B>PP</B><BR>
+          This directory contains details of cities, towns, villages,
+          and built-up areas.
+          <BR><BR>
+
+      <LI><B>Railroads</B><BR>
+          Directory Name : <B>RR</B><BR>
+          This directory contains data about single and multi-track
+          railroad systems.
+          <BR><BR>
+
+      <LI><B>Roads</B><BR>
+          Directory Name : <B>RD</B><BR>
+          This directory contains data about highways, dual and
+          single lane roads, trails, etc.
+          <BR><BR>
+
+      <LI><B>Transportation Structures</B><BR>
+          Directory Name : <B>TS</B><BR>
+          This directory contains data about commuter stations,
+          highway overpasses, etc.
+          <BR><BR>
+
+      <LI><B>Utilities</B><BR>
+          Directory Name : <B>UT</B><BR>
+          This directory contains data about electical power
+          plants, water pumping stations, and other utility
+          systems.
+          <BR><BR>
+
+      <LI><B>Vegetation</B><BR>
+          Directory Name : <B>VG</B><BR>
+          This directory contains data about forests,
+          fields, agricultural crops, etc.  Most of the VG
+          information is only available for North America due
+          to the supplemental information provided by the USGS.
+
+         </OL>
+
+      </TD>
+
+   </TR>
+
+</TABLE>
+
+<P>
+The browse library is likewise divided into themes.  However, there
+are 8 such themes.  Some themes are the same as the
+regional libraries and some are unique to the browse library.  In
+any case, there is less detail and resolution than in the
+regional libraries.  The 8 themes of the browse-library are
+summarized in Table 2.2 below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>
+      Table 2.2 Browse Themes of DCW Database
+   </U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <OL>
+
+      <LI><B>ONC Compilation Date</B><BR>
+          Directory Name : <B>CO</B><BR>
+          This directory contains data about the dates of
+          ONC charts used in the DCW database.
+          <BR><BR>
+
+      <LI><B>Data Volume</B><BR>
+          Directory Name : <B>DV</B><BR>
+          This diretory contains information about the
+          storage and memory requirements of the DCW database.
+          <BR><BR>
+
+      <LI><B>Drainage</B><BR>
+          Directory Name : <B>DN</B><BR>
+          This directory contains data about lakes, rivers,
+          and inland water ways.
+          <BR><BR>
+
+      <LI><B>Geographic Reference</B><BR>
+          Directory Name : <B>GR</B><BR>
+          Describes the limits/boundaries of the browse data.
+          <BR><BR>
+
+      <LI><B>Availability of Hypsographic Data</B><BR>
+          Directory Name : <B>DA</B><BR>
+          This directory specifies the regions on the
+          globe for which hypsographic data is defined
+          (i.e. contained in the database).
+          <BR><BR>
+
+      <LI><B>ONC Index</B><BR>
+          Directory Name : <B>IN</B><BR>
+          Reference/Index to the ONC charts used in the database.
+          <BR><BR>
+
+      <LI><B>Political/Oceans</B><BR>
+          Directory Name : <B>PO</B><BR>
+          This directory contains data about the boundaries of
+          the continents, countries, etc.
+          <BR><BR>
+
+      <LI><B>Populated Places</B><BR>
+          Directory Name : <B>PP</B><BR>
+          This directory contains general information about
+          cities and towns.
+
+         </OL>
+
+      </TD>
+
+   </TR>
+
+</TABLE>
+<BR>
+
+Before describing the architecture of the <I>themes</I> (i.e
+sub-directories), it will be helpful to first describe what
+is called the <I>Geographic Reference System</I>.
+
+        <!-- ********   Geographic Reference System   ******* -->
+
+<P>
+<B><U>The Geographic Reference System (GEOREF):</U></B>
+The GEOREF system is a coordinate scheme that partitions the
+earth into equal sized regions.  This system uses a flat-earth
+model and then divides regions into equal sized areas called
+<I>tiles</I>.  Each tile is a 15&deg by 15&deg cell as shown
+in Figure 2.2 below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 2.2 GEOREF Tile Scheme</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="./diagrams/tile_ref.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+There are 24 longitude zones identified by the letters A through Z
+(except the letters I and O).  The longitude zones start at -180&deg
+and move to 180&deg in 15&deg increments.  Also, there are 12
+latitude zones identified by the letters A through M (skipping I).
+The latitude zones start at -90&deg and move to 90&deg in 15&deg
+increments.  A tile is identified by the tuple <B>XY</B> where
+<B>X</B> is the longitude zone and <B>Y</B> is the latitude
+zone.  For example, the tile <B>GJ</B> is the area
+-90&deg .. -75&deg longitude and 30&deg .. 45&deg latitude
+(i.e. much of the eastern United States) [10]. 
+<P>
+Each tile is then further divided into smaller 5&deg by 5&deg
+sub-tiles.  The longitude sub-tiles are numbered column-wise
+1 through 3 and the latitude sub-tiles are numbered row-wise
+1 through 3.  The first tile is <B>11</B> and is in the lower
+left corner of the outer tile [10].  See Figure 2.3 below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 2.3 GEOREF Sub-Tiles</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="./diagrams/tile_ref_2.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+For example, much of the country of Spain is contained in the
+tiles <B>MJ22</B>, <B>MJ23</B>, <B>MJ32</B>, and <B>MJ33</B>
+
+        <!-- ********   Tiling Scheme   ******* -->
+
+<P>
+<B><U>Tiling Scheme of DCW Database:</U></B>
+Now, back to the DCW database.  Data within a particular theme
+from a DCW library is partioned into a directory scheme based
+on the <I>Geographic Reference System</I>.  The first series of
+sub-directories of a theme are the longitude-zones from the
+GEOREF system.  Thus, there are one or more subdirectories
+named <B>A, B, ... Z</B>.  Going into one of these sub-directories
+shows one or more directories that correspond to the
+latitude-zones (i.e. directories with names <B>A, B, ... M</B>).
+Continuing into the latitude sub-directories yields one or
+more sub-directories whose names correspond to the sub-tiles
+of the GEOREF system (i.e. directories with the names
+<B>11, 12, ... 33</B>).  Going into one of these sub-tile
+directories finally yields a series of files of raw
+geographic data (which will be described shortly).
+Therefore, certain data for a given region can be accessed by
+specifying the tiles.  This directory hierarchy of the themes
+of the DCW database is shown in Figure 2.4 below:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>
+   Figure 2.4 Directory Hierarchy of DCW Themes
+   </U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="./diagrams/tile_arch.gif">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+This essentially describes the "skeleton" of the DCW database.  It
+is how geographic information is distributed in the database.
+
+        <!-- ********   Gazette/LibRef/TileRef   ******* -->
+
+<P>
+<B><U>Exceptions to the Rule:</U></B>
+For a given <I>regional</I> library, there are 3 directories
+that are different.  These directories are at the same level
+as the <I>theme</I> sub-directories.  However, each directory
+simply contains files of raw geographic data.  There is no
+application of the GEOREF tiling scheme to these directories.
+Table 2.3 summarizes the contents of these 3 directories:
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION><B><U>
+      Table 2.3 Other Directories (non-BROWSE)
+   </U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <UL>
+
+      <LI><B>Gazetteer</B><BR>
+          Directory Name : <B>GAZETTE</B><BR>
+          This directory is a geographic dictionary.
+          <BR><BR>
+
+      <LI><B>Library Reference</B><BR>
+          Directory Name : <B>LIBREF</B><BR>
+          This directory contains high level boundary data
+          for a particular library.  It specifies the general
+          area of coverage for that library.
+          <BR><BR>
+
+      <LI><B>Tile Reference</B><BR>
+          Directory Name : <B>TILEREF</B><BR>
+          This directory contains what is called <I>tile</I> data.
+          These are frames that define a region of the globe.
+          (see <I>Tiling Scheme of DCW Database</I> below).
+
+         </UL>
+
+      </TD>
+
+   </TR>
+
+</TABLE>
+<BR>
+Hence, in addition to the 17 thematic directories, each regional
+library contains these 3 sub-directories for a total of 20.  The
+<I>TILEREF</I> directory is interesting because it contains the
+data that describes which GEOREF tiles are defined for the whole
+library.
+Hence, an application can use the data from the TILEREF directory
+to access data from any of the 17 themes.  For example, the data
+from the TILEREF directory was used to construct the display of
+Figure 2.3 (above).
+<P>
+The Browse library also has a LIBREF directory.  It
+specifies the boundaries of continents and countries for
+the whole globe (whereas the LIBREF of a regional library
+specifies only the geography of that particular region of
+the globe).  For example, data from the LIBREF directory of
+the Browse library was used to construct the display of
+Figure 2.2 (above).  Hence, in addition to the 8 thematic
+directories, each browse library contains this LIBREF
+sub-directory for a total of 9.
+<P>
+Now it is time to describe the files of this DCW architecture
+that contain geographic information.
+
+
+<!-- ************************************************************* -->
+<!-- Links                                                         -->
+<!-- ************************************************************* -->
+
+<HR>
+
+<A HREF="th_3_toc.html">Table of Contents</A><BR>
+<A HREF="th_ch_1.html">Chapter 1</A><BR>
+<A HREF="th_ch_2_II.html">Continue</A><BR>
+<A HREF="th_ch_3.html">Chapter 3</A><BR>
+<A HREF="th_ref_bibl.html">Bibliography</A><BR>
+
+</BODY>
+
+</HTML>

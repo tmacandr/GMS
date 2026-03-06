@@ -1,0 +1,888 @@
+<HTML>
+
+<HEAD> 
+
+   <TITLE>Chapter 4 - Graphics Toolkit</TITLE>
+
+   <STYLE>
+      <!--
+         P { text-indent : 7% }
+         BODY { line-height : 130% }
+         UL { line-height : 100% }
+         OL { line-height : 100% }
+      -->
+   </STYLE>
+
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER"><FONT SIZE="5"><B><U>
+   Chapter 4 - The GMS DCW Graphics Toolkit
+</U></B></FONT></P>
+
+
+<!-- ************************************************************* -->
+<!-- 1) Objectives and Requirements                                -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   4.1 - Objectives and Requirements
+</U></B></FONT></H1>
+
+<P>
+The second main component of GIS products is the <I>Graphics/Data
+Operations</I>.  The objective of this module is to provide
+a set of utilities that manipulate the geographic data so
+it can be presented to an operator.  Also, most GIS products
+include functions that perform analytic services for an
+operator [17].  The <I>Graphics/Data Operations</I> component is
+sandwiched between the utilities that directly access the
+database and the user interface.  This is illustrated in
+Figure 4.1.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 4.1 : Architecture</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/gms_graphics_toolkit.gif">
+         </TD>
+   </TR>
+
+</TABLE>
+
+<P>
+The objective of <I>GMS DCW Graphics Toolkit</I> is to manipulate
+the data structures from the <I>GMS Extabula Toolkit</I> in
+such a way as to be useful to several types of user-interface
+applications.
+To acheive this the requirements of Table 4.1 were defined.  Several
+of the requirements make reference to earth models (e.g. ECEF, and
+WGS84).  These will be described in more detail in section 4.2.
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="90%">
+   <CAPTION ALIGN="center"><B><U>
+      Table 4.1 : Requirements of GMS DCW Graphics Toolkit
+   </U></B></CAPTION>
+
+   <TR>
+      <TD>
+<OL>
+   <LI>The GMS DCW Graphics Toolkit shall provide a series
+       of utilities to convert a given [Longitude, Latitude]
+       coordinate to coordinates based on each of the following
+       grid systems:
+       <UL>
+          <LI>Flat earth
+          <LI>Earth-Centered-Earth-Fixed (ECEF)
+       </UL>
+
+   <LI>Utilities to generate ECEF coordinates based on
+       a spherical earth model and the WGS84 ellipsoid model
+       shall be provided.  The radius of the spherical model
+       shall be 6,378,137.0 meters.
+
+   <LI>Utilities to rotate an ECEF coordinate around the x, y
+       and z axes shall be provided.
+
+   <LI>An abstract screen coordinate system shall be used.
+       This coordinate system shall only assume the client
+       software to be a raster graphics system (i.e. pixel
+       based).  No other assumption about
+       the graphics package of the client shall be assumed.
+       In other words, it shall <B>not</B> be assumed that the
+       graphics toolkit of the client is <I>GKS</I>, nor
+       <I>MS Windows GDI</I>, nor <I>X Window System</I>, etc.
+
+   <LI>A utility to convert a given ECEF coordinate to a 3D
+       screen coordinate shall be provided.
+
+   <LI>Utilities to project a given 3D screen coordinate into
+       a 2D screen coordinate shall be defined.
+
+   <LI>Utilities to translate 2D and 3D screen coordinates shall
+       be provided.
+
+   <LI>Utilities to rotate 3D screen coordinates about the x, y
+       and z axes shall be provided.
+
+   <LI>Utilities to generate a grid of lat/long lines shall
+       be provided.  These utilities shall:
+       <UL>
+          <LI>allow the client to specify the number of latitude
+              (i.e. parallel) and longitude (i.e. meridian) lines
+              the grid is to contain,
+          <LI>allow the client to specify which earth model
+              (i.e. flat vs ellipsoid) is used to generate the
+              grid lines.
+       </UL>
+   <LI>Utilities to zoom in/out the screen coordinates shall be
+       provided.
+   <LI>The utilities shall be written in ANSI C++.
+   <LI>The utilities shall be portable to the following platforms:
+       <UL>
+          <LI>MS Windows 98
+          <LI>MS NT
+          <LI>HPUX UNIX (Hewlett-Packard)
+          <LI>Sun-Solaris UNIX
+       </UL>
+
+</OL>
+      </TD>
+   </TR>
+</TABLE>
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- 2) Algorithms                                                 -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   4.2 - Algorithms
+</U></B></FONT></H1> 
+
+<P>
+One of the important functions of this toolkit is to convert
+a given [longitude, latitude] coordinate into a corresponding
+two dimensional (x, y) or three dimensional (x, y, z) coordinate.
+The two and three dimensional coordinates are much easier to
+manipulate for computer graphics operations.  To support this,
+requirements were specified to develop utilities that support
+three types of coordinate systems.  These three coordinate
+systems are the <I>flat earth</I> model, the <I>spherical earth</I>
+model, and the <I>ellipsoid</I> model.  These systems are described
+as follows.
+
+
+      <!-- *****************   Flat Earth Model   ************ -->
+
+<P>
+<B><U>Flat Earth:</U></B>
+This model is useful to applications that display the earth
+as a flat map.  This model is essentially an application of the
+<I>Mercator Projection</I> (introduced in Chapter 1).  A sphere
+(i.e. the earth) is placed in the middle of a cylinder.  All
+points on the sphere are projected onto the wall of the
+cylinder [3].  This is illustrated in Figure 4.2.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>
+      Figure 4.2 : Cylindrical Projection
+   </U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/mercator_proj.gif">
+         </TD>
+   </TR>
+
+</TABLE>
+
+The cylinder is then un-ravelled and laid flat, thereby giving
+a flat earth. The circumference of the cylinder is the same as
+the sphere.  The range of the x-coordinate is:
+<PRE>
+                 - Pi * Re .. Pi * Re
+</PRE>
+where <B>Re</B> is the radius of the earth.  Also, the height
+of the cylinder is twice the radius of the sphere which is
+2 * Re.  Hence, the range of the y-coordinate is:
+<PRE>
+                  - Re .. Re
+</PRE>
+The value of x is therefore calculated from
+<PRE>
+            x = longitude * (Pi * Re / 180)
+</PRE>
+Also, the value of y is therefore
+<PRE>
+            y = Re * sin(latitude)
+</PRE>
+Accuracy of maps based on this model decreases as the latitude
+moves towards the poles.  Such maps typically show severe
+distortions at the poles.  For example, Antarctica is
+exceptionally large because it sweeps across the bottom of
+the map.  Also, countries like Greenland are shown to be
+excessively large [1].
+
+
+      <!-- *******   Spherical Earth Model   ********* -->
+
+<P>
+<B><U>Spherical Earth:</U></B>
+This model considers the earth to be a perfect sphere.  Although not
+as accurate as the <I>ellipsoid</I> model (described below), it
+is sufficient for many applications.  For this model, it is
+necessary to define
+a common frame of reference.  Hence, the earth is centered in
+a right-handed orthogonal coordinate grid.  The center of
+the earth is the origin of this coordinate grid.  The y-axis is the
+line between the North and South poles running through the center
+of the earth.  Positive y values are on the hemisphere of the
+North Pole.  The <I>prime meridian</I> is the arc from the
+North Pole, passing through Greenwich, England, and concluding
+at the South Pole.  The z-axis is the line that intersects both
+the <I>prime meridian</I> and the center of the earth, and is
+perpendicular to the y-axis.  Positive z values are on the
+hemisphere of the <I>prime meridian</I>.  The x-axis completes
+the right-handed coordinate system [11].  This is illustrated in
+Figure 4.3.
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 4.3 : Spherical Model</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/sphere.gif">
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+Using Figure 4.3 as reference, the derivation of any (x, y, z) from
+a given [longitude, latitude] value is straight forward.  Therefore:
+<PRE>
+       x = Re * cos(PHI) * sin(LAMBDA)
+
+       y = Re * sin(PHI)
+
+       z = Re * cos(PHI) * cos(LAMBDA)
+
+</PRE>
+where <B>Re</B> is the radius of the earth, <B>PHI</B> is
+latitude and <B>LAMBDA</B> is longitude.
+
+
+      <!-- *****************   WGS-84   ************ -->
+
+<P>
+<B><U>The World Geodetic System - 1984:</U></B>
+Before describing the third coordinate model it will be helpful
+to describe an earth reference system called the <I>World
+Geodetic System - 1984</I> (WGS84) [11].  For some applications,
+modeling the earth as a flat rectangle, or a sphere, or an ellipsoid
+is not sufficient.  Some systems need a highly accurate model.  The
+WGS-84 was developed for these systems.
+<P>
+The WGS-84 system begins by modeling the earth as an
+ellipsoid.  Like the spherical model described above, there is
+a reference coordinate system.  However, it is based on a
+coordinate system defined by the <I>International Earth Rotation
+Service</I> (IERS).  It is essentially the same as the grid
+described above, except the names of the axes are exchanged
+(e.g. the z-axis in the IERS system is the y-axis in the
+spherical model).  The WGS-84 ellipsoid is centered in
+the IERS coordinate system [11].
+<P>
+Coordinates in the WGS-84 system are given in tuples of
+[longitude, latitude].  However, the values specified are
+called <I>geodetic</I> coordinates because they are generated
+by making what are called <I>geodetic</I> measurements from
+selected regions on the earth.  A <I>geodetic</I> measurement
+is obtained by selecting a central reference point within a
+region on the earth (also called a <I>station frame</I>).  The
+longitude and latitude of that point is calculated by defining
+a line perpendicular to the earth that passes through the center
+of a reference ellipsoid.  Measurements of distance from the
+central point are used to calculate all other points within
+the region.  The position measurements are performed using
+satellites and variations in gravity.  All points within that
+region are said to comprise a <I>geodetic datum</I>.  The WGS-84
+system is actually a database of many hundreds of <I>geodetic
+datums</I> from areas all over the earth [11].
+<P>
+Now, lat/long coordinate values from a <I>geodetic datum</I> are
+highly accurate.  However, these values are with respect to an
+ellipsoid that perfectly coincides with that region.  Moving to
+another <I>geodetic datum</I> causes another reference ellipsoid
+to be used.  Thus, in the WGS-84 system, there are actually two
+types of coordinates.  The first is the previously mentioned
+<I>geodetic</I> and the other is called <I>geocentric</I>.  The
+<I>geodetic</I> coordinates are
+the values for a particular <I>geodetic datum</I>.  The
+<I>geocentric</I> coordinates are values from the IERS reference
+ellipsoid [11].  The difference between these two types of coordinates
+is illustrated in Figure 4.4 [11].
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 4.4 : WGS-84 Latitudes</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/diff_latitudes.gif">
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+
+<P>
+Thus, it is necessary to convert <I>geodetic</I> coordinates to
+<I>geocentric</I> coordinates.  This permits the use of a common
+reference ellipsoid for geographic systems.  The WGS-84 reference
+ellipsoid is illustrated in Figure 4.5.  Note that for consistency
+with the spherical model (described above), the x, y, and z
+axes of Figure 4.5 were made to coincide with the axes of
+Figure 4.3.  This is different from how the IERS labels the
+axes.
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 4.5 : WGS-84 Ellipsoid</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/ellipsoid.gif">
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+
+The equations to convert a given <I>geodetic</I> coordinate to
+an (x, y, z) <I>geocentric</I> coordinate are given in
+Figure 4.6 [11].
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>
+      Figure 4.6 : Geodetic to Geocentric Coordinates
+   </U></B></CAPTION>
+
+   <TR>
+         <TD>
+<PRE>
+       x = (N + h) * cos(PHI) * sin(LAMBDA)
+
+             b * b
+       y = (------- * N + h) * sin(PHI)
+             a * a
+
+       z = (N + h) * cos(PHI) * cos(LAMBDA)
+
+    where:
+       PHI    = geodetic latitude
+       LAMBDA = geodetic longitude
+       h      = altitude
+       a      = semi-major axis = 6378137.0 meters
+       b      = semi-minor axis = 6356752.0 meters
+       N      = a / sqrt(1 - e * e * sin(PHI) * sin(PHI))
+       e      = first eccentricity = sqrt(2 * f - f * f)
+       f      = earth-flattening   = (a - b) / a
+</PRE>
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+Thus, the input values are <B>PHI</B> and <B>LAMBDA</B>.  For the
+toolkit being developed, the value of <B>h</B> (altitude) will
+be zero for all cases.  The values of <B>a</B> (semi-major axis) and
+<B>b</B> (semi-minor axis) are fixed based on the reference
+ellipsoid.  The remaining values are derived.  Some, such as
+<I>flattening</I> are constants since they are derived from
+other constants [11] [3].
+
+
+      <!-- ************   Ellipsoid Model   ************ -->
+
+<P>
+<B><U>Ellipsoid Earth:</U></B>
+The [longitude, latitude] values from the DCW database
+are <I>geodetic</I> coordinates based on the WGS-84 model.  Thus,
+the equations described in Figure 4.6 are used for the toolkit.
+<P>
+A note about the ellipsoid model.  Although the [long, lat]
+coordinates from the DCW database are <I>geodetic</I> coordinates,
+the conversion to <I>geocentric</I> coordinates is overkill in
+some cases.  Depending on the zoom factor and considering
+the highest scale of the DCW database is 1:1M, it is hard to
+distinguish between the spherical model and the ellipsoid model.
+
+      <!-- ************   Screen Projection ************ -->
+
+<P>
+<B><U>Screen Projection:</U></B>
+For the spherical and ellipsoid models, the 3 dimensional points
+must then be projected onto the 2 dimensional screen.  To support
+this a projection algorithm was implemented in the toolkit.  The
+projection of any arbitrary 3D point P(x, y, z) onto a 2D screen
+gives the point P*(x*, y*).  This scheme is illustrated in
+Figure 4.7 below [5].
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 4.7 : Screen Projection</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/scn_proj.gif">
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+<BR>
+Manipulating the following ratios,
+<PRE>
+
+                 | a - x |     | a - x* |
+                ----------- = ------------
+                   k + z           k
+
+
+                 | y - b |     | y* - b |
+                ----------- = ------------
+                   k + z           k
+
+</PRE>
+<BR>
+yields the following projection equations [5]:
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="80%">
+   <CAPTION><B><U>
+      Figure 4.X : Perspective Projection
+   </U></B></CAPTION>
+
+   <TR>
+         <TD>
+<PRE>
+
+                        a z + k x
+                  x* = ------------
+                         k + z
+
+
+                        b z + k y
+                  y* = ------------
+                         k + z
+
+</PRE>
+         </TD>
+   </TR>
+</TABLE>
+<BR>
+
+
+<!-- ************************************************************* -->
+<!-- 3) Architecture and Design                                    -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   4.3 - Architecture and Design
+</U></B></FONT></H1> 
+
+<P>
+A mix of objected oriented and structural methods were used to
+develop the DCW Graphics Toolkit.  Several components were
+designed as
+utilities and maintained little or no state information.  For
+example, the software to manipulate coordinates and perform
+screen projection were implemented as utilities.  Other components
+were designed as object oriented classes.  For example, a class
+called <I>gmsMapClass</I> treats regions of data as a map object.
+The client would instantiate one or more map objects depending
+on how much area was of interest.
+<P>
+A core component of the DCW Graphics Toolkit is the
+<I>gmsMapStateMgr</I>.  Its purpose is to record any changes
+to the state of a map requested by the client application.  These
+include changes in zoom factor and orientation of the map.  This
+keeps all maps in the same state for presentation to an
+operator.  This componenent was designed as an <I>abstract state
+machine</I> since it maintains the current state of the map.
+<P>
+One of the design objectives was to keep coupling between
+components to a minimum.  The components of the DCW Graphics Toolkit
+depend
+on the components of the Extabula Toolkit, but this is to be
+expected.  Also, there are dependencies of components within the
+DCW Graphics Toolkit.  For example, most components use the coordinate
+utilities.  As with the Extabula Toolkit, the DCW Graphics Toolkit was
+also designed for portabilty.  Thus the only other
+dependencies are on functions from the ANSI C++ library.
+<P>
+Another design objective was to implement simple interfaces to the
+components and to use the principle of information hiding.  Since
+the objective of the DCW Graphics Toolkit is to simplify how a client
+application displays maps, it is best to provide an easy to use
+interface and not to overwhelm the client with unnecessary
+details.  The DCW Graphics Toolkit is to provide as much
+platform-independent
+functionality as will be useful.  Overly complicated interfaces
+will likely cause the client to bypass the DCW Graphics Toolkit, use
+the Extabula Toolkit, and perform its own graphics operations.  The
+DCW Graphics Toolkit is provided to try and alleviate that work.
+
+
+<!-- ************************************************************* -->
+<!-- 4) Implementation                                             -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   4.4 - Implementation
+</U></B></FONT></H1> 
+
+<P>
+<B><U>Utilities:</U></B>
+A series of components were developed that provide various
+functions for the client application.  These components are
+listed in Table 4.2.
+
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="70%">
+   <CAPTION><B><U>
+      Table 4.2 : Coordinate Utilities
+   </U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsDcwTypesAndConstants.h">gmsDcwTypesAndConstants.h</A></TD>
+      <TD> </TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsWorldCoordUtils.h">gmsWorldCoordUtils.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsWorldCoordUtils.cpp">gmsWorldCoordUtils.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsScreenCoordUtils.h">gmsScreenCoordUtils.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsScreenCoordUtils.cpp">gmsScreenCoordUtils.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsTransformationUtils.h">gmsTransformationUtils.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsTransformationUtils.cpp">gmsTransformationUtils.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsDcwUtilities.h">gmsDcwUtilities.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsDcwUtilities.cpp">gmsDcwUtilities.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsPolygonUtilities.h">gmsPolygonUtilities.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsPolygonUtilities.cpp">gmsPolygonUtilities.cpp</A></TD>
+   </TR>
+
+</TABLE>
+<BR>
+
+<P><U><I>gmsDcwTypesAndConstants</I></U>:  This component
+simply defines a series of type definitions and constants that are
+useful throughout the toolkit.  No functionality is defined for this
+component.
+
+<P><U><I>gmsWorldCoordUtils</I></U>: These utilities are for
+converting from [longitude, latitude] values to
+world-coordinates.  The data from the DCW database is in
+geodetic coordinates (latitude, longitude).  These values
+are converted to either 2D world coordinates (flat-earth
+model) or 3D world coordinates (spherical, ellipsoid models).  The
+dimensions of the world coordinates is meters.  As suggested, the
+client is allowed to specify which earth model is to be
+used (flat-earth, spherical, or ellipsoid-WGS-84).  Furthermore,
+functions are defined to construct polylines of latitude and
+longitude in world coordinates.  These functions can be used to
+construct a grid of latitude and longitude lines on a map.
+
+<P><U><I>gmsScreenCoordUtils</I></U>:  These functions are defined
+to convert world coordinates to screen coordinates.  Once a world
+coordinate value is constructed, it is necessary to convert it
+to a coordinate that is relative to a raster graphics system.  These
+functions apply the current zoom factor to generate the screen
+coordinates.  For 3D world coordinates, a 3D screen coordinate
+is generated.  For 2D world coordinates, a 2D screen coordinate
+is generated.  Also, for convenience, there are functions that operate
+on polylines of coordinates.
+
+<P><U><I>gmsTransformationUtils</I></U>:  These functions are
+defined to perform standard graphics operations on screen
+points.  This includes projection of 3D screen coordinates to
+2D screen coordinates (see Figure 4.7 above).  Also, functions to
+perform traslation and rotation of points and polylines is
+defined.
+
+<P><U><I>gmsDcwUtilities</I></U>:  This component contains a
+series of general purpose functions.  Most functions provide
+heap allocation and de-allocations based on data structures of
+coordinate values.  Other functions simplify access to raw
+DCW files.
+
+<P><U><I>gmsPolygonUtilities</I></U>:  This component defines
+a series of utilities to build polygons from DCW edge tables.  Edges
+can be organized to define polygons that represent closed geographic
+regions such as countries, islands, and bodies of water.  The polygons
+can be used by an application/client to define "fill-areas" to
+graphically enhance the image of a map.
+
+<P>
+<B><U>Map Objects:</U></B>
+Next, series of components were developed as map objects.  These
+components are listed in Table 4.3.
+
+<TABLE BORDER=1 ALIGN=CENTER WIDTH="70%">
+   <CAPTION><B><U>
+      Table 4.3 : Map Classes
+   </U></B></CAPTION>
+
+   <TR>
+      <TH><B>Header</B>
+      <TH><B>Source</B></TH>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsMapClass.h">gmsMapClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsMapClass.cpp">gmsMapClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsBrowseMapClass.h">gmsBrowseMapClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsBrowseMapClass.cpp">gmsBrowseMapClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsMbrClass.h">gmsMbrClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsMbrClass.cpp">gmsMbrClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsNodeClass.h">gmsNodeClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsNodeClass.cpp">gmsNodeClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsTextClass.h">gmsTextClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsTextClass.cpp">gmsTextClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsLatLongGridClass.h">gmsLatLongGridClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsLatLongGridClass.cpp">gmsLatLongGridClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsLibRefClass.h">gmsLibRefClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsLibRefClass.cpp">gmsLibRefClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsTileRefClass.h">gmsTileRefClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsTileRefClass.cpp">gmsTileRefClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsThemeTileClass.h">gmsThemeTileClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsThemeTileClass.cpp">gmsThemeTileClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gms_PO_PolygonMapClass.h">gms_PO_PolygonMapClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gms_PO_PolygonMapClass.cpp">gms_PO_PolygonMapClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gms_DN_PolygonMapClass.h">gms_DN_PolygonMapClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gms_DN_PolygonMapClass.cpp">gms_DN_PolygonMapClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsDataTablesClass.h">gmsDataTablesClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsDataTablesClass.cpp">gmsDataTablesClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsNamesOfFilesClass.h">gmsNamesOfFilesClass.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsNamesOfFilesClass.cpp">gmsNamesOfFilesClass.cpp</A></TD>
+   </TR>
+
+   <TR>
+      <TD><A HREF="../../C_source/include/gmsGraphics/gmsMapStateMgr.h">gmsMapStateMgr.h</A></TD>
+      <TD><A HREF="../../C_source/source/gmsGraphics/gmsMapStateMgr.cpp">gmsMapStateMgr.cpp</A></TD>
+   </TR>
+
+
+</TABLE>
+
+<BR>
+
+<P><U><I>gmsMapClass</I></U>:  This class is used to abstract
+a given edge table into a map object.  This map object is presented
+to the client as a screen image.  The map object consists of the
+lines/edges of the map as well as the nodes (e.g. cities, towns)
+within that map.  A map object can be instantiated as a "raw"
+image or as a "filtered" image.  A filtered image contains
+no tile boundary information.
+
+<P><U><I>gmsBrowseMapClass</I></U>:  This class is used to abstract
+the edge tables of the BROWSE library into a map object.  Edge tables
+from any browse theme can be converted to 2D screen images for the
+client.  Also, a grid of latitude and longitude lines can be
+generated.  Nodes (e.g. cities, towns) and text (i.e. names of
+countries) can also be obtained from a browse map object.  The
+object also provides access to the data tables (i.e. the library
+attribute table, coverage attribute table, etc).
+
+<P><U><I>gmsMbrClass</I></U>:  This class abstracts minimum
+bounding rectangles into an object that can be displayed on
+the screen.  Although not very interesting graphically, this
+information can be used to determine regions of coverage
+in a given DCW library.  As mentioned in chapter 2, there are
+two types of minimum bounding rectangles: face and edge.
+
+<P><U><I>gmsNodeClass</I></U>:  This class abstracts node tables
+into screen displayable objects.  Nodes from the DCW database
+are essentially points on a given map.  They are typically used
+to define entities such as towns and villages.
+
+<P><U><I>gmsTextClass</I></U>:  This class abstracts text tables
+into displayable objects.  Text items are the names of countries,
+cities, bodies of water, etc.  A text object specifies a text
+string as well as the coordinates where the string is to be
+displayed.
+
+<P><U><I>gmsLatLongGridClass</I></U>:  This class defines a map
+object that contains a grid of lat/long reference lines.  One method
+is provided to retrieve a screen image of a latitude grid and
+another method is provided for a longitude grid.
+
+<P><U><I>gmsLibRefClass</I></U>:  This class defines a
+"Library Reference" object.  The LibRef theme is unique in that
+it contains high level data for a whole region (i.e. one of the DCW
+regions NOAMER, SOAMAFR, EURNASIA, SASAUS).  The client need only
+specify the earth model to be used.
+
+<P><U><I>gmsTileRefClass</I></U>:  This class abstracts the "Tile
+Reference" data from a DCW library into an object.  The client
+may retrieve (from the object) an image of all the GEOREF tiles
+contained in the library.  Also, a method is provided to convert
+a given tile ID into its corresponding name.  For example, the
+tile whose id is 25 (from the SOAMAFR library) has the name
+"MJ22".
+
+<P><U><I>gmsThemeTileClass</I></U>:  This class abstracts a
+GEOREF tile into a map object.  A GEOREF tile consists of 9
+subtiles.  This class uses the <I>gmsMapClass</I>, the
+<I>gmsTextClass</I>, and <I>gmsNodeClass</I> to generate a
+map of a single GEOREF tile.
+
+<P><U><I>gms_PO_PolygonMapClass</I></U>:  This class abstracts
+a given edge table from the Political/Oceans (PO) theme into
+a series of polygons in screen coordinates.  The polygons represent
+closed geographic regions.  Instantiated objects can be used
+to display differently shaded regions on a map.
+
+<P><U><I>gms_DN_PolygonMapClass</I></U>:  This class is similar
+to the <I>gms_PO_PolygonMapClass</I> except that it is specific
+to the Drainage (DN) theme.  These polygons represent water ways
+and inland bodies of water.
+
+<P><U><I>gmsDataTablesClass</I></U>:  This class abstracts the
+data tables of the DCW database.  Specifically, an object of this
+class contains the following tables of information:
+<PRE>
+           Database Level Data:
+           --------------------
+              1) DHT - Database Header Table
+              2) LAT - Library Attribute Table
+
+           Library Level Data:
+           -------------------
+              1) CAT - Coverage Attribute Table
+              2) DQT - Data Quality Table
+              3) GRT - Geographic Reference Table
+              4) LHT - Library Header Table
+</PRE>
+The "library" tables apply to both REGIONAL and BROWSE
+libraries.  The client is allowed to retreive a buffer of
+ASCII characters for a specified data table.
+
+<P><U><I>gmsNamesOfFilesClass</I></U>:  This class defines an object
+that is a list of all the files of a given DCW library.  An object
+allows a client application to retrieve the full path to any file
+in the current library.  This class actually implements a singleton
+in order to prevent duplication of data.  The list of files is
+dynamically created upon request.  An offline text file points
+to the root of the DCW database.  This is powerful in that the
+DCW database can be relocated and no re-build of the application
+is necessary.  However, the run-time performance of this component
+at instantiation is rather poor.  But, there is no performance
+penalty after instantiation.
+
+<P><U><I>gmsMapStateMgr</I></U>:  This component is an abstract
+state machine that maintains the state of a currently displayed
+map.  It is a very central component in that the coordinate
+utilities use this component extensively which, in turn,
+are used by higher level components/classes.  A client application
+writes/updates the map state manager usually in response to
+requests from an operator.
+
+
+<!-- ************************************************************* -->
+<!-- 5) Testing                                                    -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   4.5 - Testing
+</U></B></FONT></H1>
+<P>
+A series of unit tests were developed to exercise the
+DCW Graphics Toolkit.  Except for the gmsDcwUtilities component, all
+components of the toolkit were tested using graphics
+applications.  The gmsDcwUtilities component was tested
+using a console application.  Verification of the graphics
+test drivers was done by visual inspection.
+<P>
+The first test drivers were used to verify
+the functionality of the utilities.  For these
+tests, map data was minimal since the focus was to verify
+proper conversion from geodetic coordinates to world
+coordinates and eventually to screen coodinates.  Also,
+projection functionality was tested.  Test drivers also
+exercised the zoom function as well as rotations and
+translations.
+<P>
+Testing then shifted to displaying various kinds of data
+from the DCW database.  These tests exercised the class
+components of the toolkit (i.e. gmsMapClass,
+gms_PO_PolygonMapClass, etc).
+
+<P>
+<B><U>Portability:</U></B>
+As mentioned, one of the objectives of the GMS toolkits is to
+allow for portability.  The toolkits use no platform specific
+functions.  Tests were initially developed on a MS Windows 98
+platform using the Windows GDI interface.  The same test
+drivers were then constructed and executed on a MS Windows NT
+platform.  This was a rather trivial port but nonetheless
+verified that dependency on the ANSII C++ library was
+trasparent (16-bit vs 32-bit).
+<P>
+The toolkits were then ported to a SUN UNIX (Solaris) platform
+and test drivers were developed using the X Window System and
+the Motif Toolkit.  New applications had to be developed since
+X/Motif and the MS Windows GDI systems are completely
+different.  The toolkits were then ported to a
+Hewlett-Packard UNIX (HPUX) platform.  The toolkits and X/Motif
+test drivers were constructed and executed on this platform.
+<P>
+<B><U>Conclusion:</U></B>
+Testing showed a stable toolkit on all platforms.  Chapter
+5 describes applications that were developed on the MS Windows
+platform.  Chapter 6 describes the applications that were
+developed to use the X/Motif system.
+
+
+<!-- ************************************************************* -->
+
+<HR>
+
+<A HREF="th_3_toc.html">Table of Contents<BR>
+<A HREF="th_ch_3.html">Chapter 3<BR>
+<A HREF="th_ch_5.html">Chapter 5<BR>
+<A HREF="th_ref_bibl.html">Bibliography<BR>
+
+</BODY>
+
+</HTML>

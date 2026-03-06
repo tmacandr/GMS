@@ -1,0 +1,455 @@
+<HTML>
+
+<HEAD> 
+
+   <TITLE>
+      Chapter 5 - MS Windows Applications Using GMS Toolkits
+   </TITLE>
+
+   <STYLE>
+      <!--
+         P { text-indent : 7% }
+         BODY { line-height : 130% }
+         UL { line-height : 100% }
+         OL { line-height : 100% }
+      -->
+   </STYLE>
+
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER"><FONT SIZE="5"><B><U>
+   Chapter 5 -<BR>
+   MS Windows Applications Using GMS Toolkits
+</U></B></FONT></P>
+
+
+<!-- ************************************************************* -->
+<!-- 1) Objectives                                                 -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.1 - Objectives
+</U></B></FONT></H1>
+
+<P>
+Several applications were developed to demonstrate some of the
+features of GMS toolkits.  These applications were developed
+on an MS Windows platform using the GDI graphics package.
+<P>
+
+
+<!-- ************************************************************* -->
+<!-- 2) Browse - Flat Earth App                                    -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.2 - Browse Library - Flat Earth Model
+</U></B></FONT></H1>
+
+<P>
+An application was developed that utilizes some of the map
+data from the Browse library.  At start up, a window containing
+a map of the globe is presented to the operator.  This is
+illustrated in Figure 5.1.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.1 : Flat Browse - Initial Window</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/flat_browse_1.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+This application makes use of the component
+<I>gmsBrowseMapClass</I>.  One map object is instantiated and then
+used to display the data.  The initial map shows the data from the
+LibRef portion of the Browse library.  Also shown is a grid of
+lat/long lines that were constructed using the component
+<I>gmsLatLongGridClass</I>.  For this application, the flat-earth
+model was chosen to instantiate the map object.  As mentioned in
+chapter 3, distortion of the map occurs in the higher
+latitudes.  As is shown, the continent of Antarctica is severely
+distorted.
+<P>
+This application provided the operator with the ability to
+zoom-in/pan-out and also to re-center the map.  The results of
+changing the zoom and re-centering the map is illustrated in
+Figure 5.2.
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.2 : Flat Browse - Zoom and Move</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/flat_browse_2.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+The application would also display data from several of the Browse
+themes.  For example, Figure 5.3 shows data from the <I>Drainage</I>
+(<B>DN</B>) theme which is actually rivers and outlines of large inland bodies
+of water.
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.3 : Flat Browse - Rivers/Lakes</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/flat_browse_3.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+Also, data from the <I>Political/Oceans</I> (<B>PO</B>) and the
+<I>Populated Places</I> (<B>PP</B>) are available for operator
+selection.  Figure 5.4 illustrates some of this information.  Cities
+are represented as small squares on the map.
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.4 : Flat Browse - Text and Cities</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/flat_browse_4.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- 2) Browse - Ellipsoid App                                     -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.2 - Browse Library - Ellipsoid (WGS-84) Earth Model
+</U></B></FONT></H1>
+
+<P>
+A second application, which also accessed the data from the Browse
+library, was developed.  However, it instantiated the
+<I>gmsBrowseMapClass</I> object using the ellipsoid-earth
+model.  As shown in Figure 5.5, the start up window shows
+an ellipsoid for the earth.
+
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.5 : Ellipsoid Browse - Initial Window</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/ellip_browse_1.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+In constrast to the flat map projection, the continent of Antarctica
+is shown in its proper proportion.
+<P>
+Like the flat-earth application, zoom and move functions are
+available to the operator.  However, a move for the ellipsoid
+model is actually a rotation.  Figure 5.6 shows the map re-oriented
+to display the north pole.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.6 : Ellipsoid Browse - Initial Window</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/ellip_browse_2.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+Similar to the flat-earth application, this application implemented
+functionality to display data from the themes of the Browse
+library (e.g. DN, PO, PP, etc).
+<P>
+Also, this application provided access to the data tables of the
+DCW database.  The two database-level files are the <I>Database
+Header Table</I> and the <I>Library Attribute Table</I>.  These
+items are illustrated in Figure 5.7 and Figure 5.8.
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.7 : Database Header Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/dht.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.8 : Library Attribute Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/lat.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+In addition, each library contains 4 data tables.  These files
+are the <I>Coverage Attribute Table</I>, the <I>Data Quality
+Table</I>, the <I>Geographic Reference Table</I>, and the
+<I>Library Header Table</I>.  These items are illustrated for
+the Browse library in Figures 5.9, 5.10, 5.11, and 5.12
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.9 : Coverage Attribute Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/cat.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.10 : Data Quality Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/dqt.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.11 : Geographic Reference Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/grt.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+<BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.12 : Library Header Table</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/lht.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+
+
+<!-- ************************************************************* -->
+<!-- 3) LibRef - ellipsoid                                         -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.3 - The SOAMAFR LibRef Application
+</U></B></FONT></H1>
+
+<P>
+To illustrate how the DCW database is divided into libraries,
+an application was developed to display the LibRef data for
+the <I>South America and Africa</I> (<B>SOAMAFR</B>)
+library.  Figure 5.13 illustrates the region of the world
+covered by this part of the DCW database.
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.13 : SOAMAFR LibRef</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_libref.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+
+
+<!-- ************************************************************* -->
+<!-- 4) SOAMAFR demo                                               -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.4 - The SOAMAFR Demo
+</U></B></FONT></H1>
+<P>
+This application was developed to demonstrate some of the thematic
+information from the <B>SOAMAFR</B> library.  The first map, shown
+in Figure 5.14, shows the west-central coast of Africa, at the
+countries of Nigeria and Cameroon.  The map shows the political
+boundaries
+of the countries as well as the coastline.  This information was
+obtained from the <I>Political/Oceans</I> (PO) theme of the
+SOAMAFR library.  Also shown are text labels naming the countries
+and geographically significant items.  Admittedly, the text functions
+of the DCW Graphics Toolkit are limited.  The map shows overlap
+of text items, etc.  These conditions are due to the simplicity
+of the
+DCW Graphics Toolkit rather than the availability of the
+information from
+the DCW database.  For the case of these text items, information
+is being filtered by the DCW Graphics Toolkit.  Direct access to the
+text data via the Extabula Toolkit is still possible and a client
+application would be able to display the text items in a more
+user-freindly manner.
+
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.14 : SOAMAFR Nigeria and Cameroon</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_1.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+The next map, shown in Figure 5.15, shows lakes, rivers, and streams
+for the region.  This information was obtained from the
+<I>Drainage</I> (DN) theme of the SOAMAFR library.  The current
+zoom factor distorts the amount of area covered by water, but it
+nonetheless shows a region with many inland bodies of water.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.15 : SOAMAFR Lakes/Rivers</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_2.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+The third map, shown in Figure 5.16, shows the portion of the
+<B>DN</B> theme that contained <I>areas</I> (i.e. polygons) of bodies
+of water.  This information demonstrates lakes and rivers of
+significant width.  In particular, the <I>Niger River</I> and
+its tributaries are shown as polygons.  Also, the very large
+<I>Niger River Delta</I> is shown.  Accuracy can be lost if
+such bodies of water are shown simply as a line of constant
+width.
+
+library drainage information
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.16 : SOAMAFR Nigeria and Cameroon</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_3.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+The fourth map, shown in Figure 5.17, shows a few towns and villages
+in the country of Cameroon.  Also, the map shows a close up of the
+island of <I>Bioko</I>.  The island's capital city is <I>Malabo</I>.
+This information was obtained from the <I>Populated Places</I> (PP)
+theme of the SOAMAFR library.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.17 : SOAMAFR Nigeria and Cameroon</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_4.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+The fifth map, shown in Figure 5.18, shows elevation data for the
+region.  This data was obtained from the <I>Hypsographic</I> (HY)
+theme of the SOAMAFR library.  Areas of elevation between
+sea-level and 1000 feet is shaded green.  Areas above 1000 feet
+are shaded yellow.  Admittedly, this is a poor representation
+of the elevation data.  A more accurate map would show varying
+shades with changes in elevation.  The highest peak in Nigeria
+is 7000 feet, yet this is not distinguishable as shown.  However,
+this accuracy is available via the Extabula Toolkit by directly
+accessing the hypsographic data.  Elevations are distinguished
+at 1000 foot intervals up to 29000 feet.
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Figure 5.18 : SOAMAFR Nigeria and Cameroon</U></B></CAPTION>
+
+   <TR>
+         <TD>
+            <IMG SRC="diagrams/soamafr_5.bmp">
+         </TD>
+   </TR>
+
+</TABLE>
+<BR><BR>
+
+
+<!-- ************************************************************* -->
+<!-- 5) Conclusions                                                -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   5.5 - Conclusions
+</U></B></FONT></H1>
+<P>
+As this chapter shows, some applications were developed to exercise
+the functionality of the DCW Graphics Toolkit and Extabula Toolkit
+on an MS Windows platform.  These demostration programs are not meant
+to be exhaustive since there are many other features available
+from either toolkit.  A client application could use
+the DCW Graphics Toolkit for some functionality and then use
+the Extabula
+Toolkit directly for many other functions.  Actually, there are
+an innumerable number of mapping functions that could be implemented
+by a client by using the Extabula Toolkit directly.
+
+
+<!-- ************************************************************* -->
+<!-- Links                                                         -->
+<!-- ************************************************************* -->
+
+<HR>
+
+<A HREF="th_3_toc.html">Table of Contents<BR>
+<A HREF="th_ch_4.html">Chapter 4<BR>
+<A HREF="th_ch_6.html">Chapter 6<BR>
+<A HREF="th_ref_bibl.html">Bibliography<BR>
+</BODY>
+
+</HTML>

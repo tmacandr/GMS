@@ -1,0 +1,358 @@
+<HTML>
+
+<HEAD> 
+   <TITLE>Appendix A - GMS Utilities</TITLE>
+</HEAD>
+
+<BODY>
+
+<P ALIGN="center">
+   <FONT SIZE="3"><B><U>
+      Appendix A - GMS Utilities
+   </U></B></FONT>
+</P> 
+
+<H1>
+   <FONT SIZE="3"><B><U>
+   Primitive Data Types in VPF Database
+   </U></B></FONT>
+</H1>
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>VPF Primitive Datatypes</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Data Type</B>
+      <TH><B>Description</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">T</TD>
+      <TD>String of n characters</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">F</TD>
+      <TD>32-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">R</TD>
+      <TD>64-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">S</TD>
+      <TD>16-bit integer</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">I</TD>
+      <TD>32-bit integer</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">C</TD>
+      <TD>Two dimensional coordinate item (x, y) (two 32-bit floating points)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">B</TD>
+      <TD>Two dimensional coordinate item (x, y) (two 64-bit floating points)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">Z</TD>
+      <TD>Three dimensional coordinate item (x, y, z) (three 32-bit floating points)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">Y</TD>
+      <TD>Three dimensional coordinate item (x, y, z) (three 64-bit floating points)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">D</TD>
+      <TD>Date/Time (20 character string - "YYYYMMDDhhmmss.xxxxx"</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">X</TD>
+      <TD>Null field (i.e. 0 bits)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">K</TD>
+      <TD>Triplet Id (one descriptor byte followed by 0 to 12 bytes of data)</TD>
+   </TR>
+
+</TABLE>
+
+<P>
+
+<UL>
+Modifiers:
+   <LI>	n	array of n items
+   <LI> *	variant length items
+   <LI> xxxxx	<+> | <-> | <z>hhmm
+</UL>
+
+<P>
+
+<TABLE BORDER=1 ALIGN="center">
+   <CAPTION><B><U>GMS Utilities to Read VPF Files</U></B></CAPTION>
+
+   <TR>
+      <TH>File Name</TH>
+      <TH>Description</TH>
+      <TH>Utility</TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">CAT</TD>
+      <TD>Coverage Attribute Table</TD>
+      <TD>gmsCoverageAttribTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">CND</TD>
+      <TD>Connected Node Primitive Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">CSI</TD>
+      <TD>Connected Node Spatial Index Table</TD>
+      <TD>gmsSpacialIndex.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">DHT</TD>
+      <TD>Database Header Table</TD>
+      <TD>gmsDbHeaderTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">DQT</TD>
+      <TD>Database Quality Table</TD>
+      <TD>gmsDataQualityTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">EBR</TD>
+      <TD>Edge Bounding Rectangle Table</TD>
+      <TD>gmsMinBoundRectTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">EDG</TD>
+      <TD>Edge Primitive Table</TD>
+      <TD>gmsEdgeTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">EDX</TD>
+      <TD>Edge Primitive Index Table</TD>
+      <TD>gmsIndexFile.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">END</TD>
+      <TD>Entity Node Primitive Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">ESI</TD>
+      <TD>Edge Spatial Index Table</TD>
+      <TD>gmsSpacialIndex.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">FAC</TD>
+      <TD>Face Primitive Table</TD>
+      <TD>gmsFaceTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">FBR</TD>
+      <TD>Face Bounding Rectangle Table</TD>
+      <TD>gmsMinBoundRectTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">FCS</TD>
+      <TD>Feature Class Schema Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">FSI</TD>
+      <TD>Face Spatial Index Table</TD>
+      <TD>gmsSpacialIndex.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">GRT</TD>
+      <TD>Geographic Reference Table</TD>
+      <TD>gmsGeoReferenceTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">LAT</TD>
+      <TD>Library Attribute Table</TD>
+      <TD>gmsLibAttribTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">LHT</TD>
+      <TD>Library Header Table</TD>
+      <TD>gmsLibHeaderTable.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">NSI</TD>
+      <TD>Entity Node Spatial Index</TD>
+      <TD>gmsSpacialIndex.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">RNG</TD>
+      <TD>Ring Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">TXT</TD>
+      <TD>Text Primitive Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">TSI</TD>
+      <TD>Text Spatial Index Table</TD>
+      <TD>gmsSpacialIndex.h</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">CHAR.VDT</TD>
+      <TD>Char Value Description Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">INT.VDT</TD>
+      <TD>Integer Value Description Table</TD>
+      <TD>???</TD>
+   </TR>
+
+</TABLE>
+
+<P>
+
+<TABLE BORDER=1 ALIGN="center">
+   <CAPTION><B><U>File Types From the VPF Database</U></B></CAPTION>
+
+   <TR>
+      <TH>File Name</TH>
+      <TH>Description</TH>
+      <TH>GMS Utility</TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.AFT</TD>
+      <TD>Area Feature Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.AJT</TD>
+      <TD>Area Join Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.ATI</TD>
+      <TD>Area Thematic Index Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.CFT</TD>
+      <TD>Complex Feature Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.CJT</TD>
+      <TD>Complex Join Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.CTI</TD>
+      <TD>Complex Thematic Index Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.DOC</TD>
+      <TD>Narrative Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.LFT</TD>
+      <TD>Line Feature Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.LJT</TD>
+      <TD>Line Join Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.LTI</TD>
+      <TD>Line Thematic Index Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.PFT</TD>
+      <TD>Point Feature Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.PJT</TD>
+      <TD>Point Join Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.PTI</TD>
+      <TD>Point Thematic Index Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.TFT</TD>
+      <TD>Text Feature Table</TD>
+      <TD>???</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN="center">*.TTI</TD>
+      <TD>Text Thematic Index Table</TD>
+      <TD>???</TD>
+   </TR>
+
+</TABLE>
+
+</BODY>
+
+</HTML>
