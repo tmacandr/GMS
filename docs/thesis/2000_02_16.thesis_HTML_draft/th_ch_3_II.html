@@ -1,0 +1,391 @@
+<P>
+The generalized form of an face record is:
+<BR><BR>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>General Form of Face Record</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID       =I,1,P,Row Identifier        - Rqd only at Level 3
+   <LI>*.AFT_ID =I,1,N,Area feature table Id - Optional
+   <LI>RING_PTR =I,1,N,fgn key to ring table - Rqd only at Level 3
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+<BR>
+The following table describes the format of the face records defined
+for the <B>regional libraries</B> (i.e. NOAMER, SOAMAFR, EURNASIA,
+SASAUS).  Specifically, this applies to face records from the
+themes: <B>VG, PP, PO, LC, HY, DQ, DN, CL</B>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Face Record - Regional Libraries</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID           =I,1,P,Row Identifier,-,-,:
+   <LI>*AREA.AFT_ID =I,1,F,Foreign Key to Area Feature Table,-,-,:
+   <LI>RING_PTR     =I,1,F,Foreign Key to Ring Table,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+where * refers to [VG, PP, PO, LC, HY, DQ, DN, CL].
+
+<P>
+
+The following table describes the format of face records from the
+<B>TileRef</B> theme and the <B>Browse</B> library.  This applies
+to the browse themes: <B>PO, IN, GR, DV, DN, DA, CO</B> 
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Face Record - Browse Library And Tile Ref</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID      =I,1,P,Row Identifier,-,-,:
+   <LI>RING_PTR=I,1,F,Foreign Key to Ring Table,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+Text tables contain strings of characters that are the names of
+geographic regions.  In other words, text tables contain the names
+of continents, oceans, countries, etc.  Text tables are considered
+<I>regional</I> data because the string of characters are confined
+to a well defined (i.e. bordered) area.
+<P>
+The generalized form of a text record is:
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>General Form of Text Record</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID           =I,1,P,Row Identifier            - Mandatory
+   <LI>*.TXT_ID     =I,1,N,Text feature ID           - Optional
+   <LI>[num-chars]  =I,1,N,Number of chars in string - Mandatory
+   <LI>STRING       =T,*,N,String of text            - Mandatory
+   <LI>[num-coords] =I,1,N,Number of coords in array - Mandatory
+   <LI>SHAPE_LINE   =C,*,N,Array of coordinates      - Mandatory
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+Note that a text record is both a <I>variant</I> record as well as
+a <I>variant length</I> record.  It is a variant record because of
+the optional <I>Text-Feature-ID</I> field.  And it is a variant
+length record because the length of the <I>String</I> attribute is
+different for each record.  Also, the <I>Shape-Line</I> is an array
+of coordinates whose length is different for each record.
+<P>
+
+The following table describes the format of text records from the
+<B>Regional</B> libaries.  This format applies to text tables from
+the themes:<B>UT, TS, RR, RD, PP, PO, PH, OF, LC, DQ, DN, CL</B>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Text Record - Regional Libaries</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID          =I,1,P,Row Identifier,-,-,:
+   <LI>*TEXT.TFT_ID=I,1,F,Foreign Key to Text Feature Table,-,-,:
+   <LI>[num-chars] =I,1,N,Number of chars in string
+   <LI>STRING      =T,*,N,Text String,-,-,:
+   <LI>[num-coords]=I,1,N,Number of coords in array
+   <LI>SHAPE_LINE  =C,*,N,Shape of Text String,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+where * refers to [UT, TS, RR, RD, PP, PO, PH, OF, LC, DQ, DN, CL]
+
+<P>
+
+The following table describes the format of text records from the
+<B>Browse</B> libary.  This format applies to the browse
+themes:<B>PP, PO, IN, GR</B>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Text Record - Browse Library</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID        =I,1,P,Row ID,-,-,:
+   <LI>[num-chars] =I,1,N,Number of chars in string
+   <LI>STRING    =T,*,N,Text String,-,-,:
+   <LI>[num-coords]=I,1,N,Number of coords in array
+   <LI>SHAPE_LINE=C,*,N,Shape Line Coordinate String,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+
+A <I>Minimum Bounding Rectangle</I> (MBR) is a record that defines
+a region that contains a geographic entity such as a set of
+borders.  An MBR record contains two coordinates (Latitude/Longitude)
+that define a rectangular region.  A given geographic entity is
+then said to be contained within that rectangle.
+<P>
+There are two types of MBR tables in the VPF database.  The first
+is called a <I>Face Bounding Rectangle</I> (FBR).  It defines blah
+blah blah.  The second type is called an <I>Edge Bounding
+Rectangle</I>.  It defines a blah blah blah.
+<P>
+The generalized form of a record of a minimum bounding rectangle is:
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>General Form of MBR Record</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID   =I,1,P,Row Identifier             - Mandatory
+   <LI>XMIN =F,1,N,Minimum X Coord (Longitude)- Mandatory
+   <LI>YMIN =F,1,N,Minimum Y Coord (Latitude) - Mandatory
+   <LI>XMAX =F,1,N,Maximum X Coord (Longitude)- Mandatory
+   <LI>XMIN =F,1,N,Maximum Y Coord (Latitude) - Mandatory
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of MBR Record - Edge and Face</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID  =I,1,P,Row ID,-,-,:
+   <LI>XMIN=F,1,N,Minimum X Coordinate,-,-,:
+   <LI>YMIN=F,1,N,Minimum Y Coordinate,-,-,:
+   <LI>XMAX=F,1,N,Maximum X Coordinate,-,-,:
+   <LI>YMAX=F,1,N,Maximum Y Coordinate,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+
+A <I>Node Table</I> is essentially a point on the map.  More formally,
+it is <I>a zero-dimensional geometric primitive that is composed of
+a single coordinage tuple (pair or triplet)</I> [Mil-Std-600006,
+pg 10].
+<P>
+There are two types of node primitives.  The first is called an
+<I>entity node</I>.  It is simply a point on the map.  It is not
+dependent on any other geographic primitives.  The second type is
+called a <I>connected node</I>.  It is the point at the start or
+end of an edge (e.g. border).  Therefore, a connected node cannot
+stand by itself.  Also, since it is related to an edge, a connected
+node is paired with another connected node, thereby defining the
+start point and end point of an edge.
+<P>
+The general format of a node record is:
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>General Form of Node Record</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID              =I,1,P,Row Identifier             - Mandatory
+   <LI>*.PFT_ID        =I,1,N,Id to Point Feature Tbl    - Optional
+   <LI>CONTAINING_FACE =I,1,N,Fgn Key to Face Table      - Only at Level 3
+   <LI>FIRST_EDGE      =X,1,N,NULL                       - Optional
+   <LI>COORDINATE      =C,1,N,Maximum Y Coord (Latitude) - Mandatory
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+Note that the above format is a <B><I>variant</I></B> record.  The
+attribute <I>Containging_Face</I> is defined only at level 3 topology.
+Also, the <I>*.PFT_ID</I> attribute and the <I>First_Edge</I>
+attribute are <B><I>optional</I></B>.
+<P>
+The <I>variant</I> forms of node records is described below.
+<P>
+Note: No <I>Connected Node</I> tables are explicitly defined in
+the VPF database.  Connected nodes can be derived from the
+information in the Edge Tables (EDG) and the corresponding Face
+and Feature tables.
+
+<P>
+
+This format applies to Entity Node Tables (END) from the
+<B>Regional</B> Libraries for the themes: <B>TS, PP, PO, OF, LC,
+HY, HS, DS, DN, CL, AE</B> 
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Entity Node Record - Level 3</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID             =I,1,P,Row Identifier,-,-,:
+   <LI>*POINT.PFT_ID  =I,1,F,Foreign Key to Point Feature Table,-,-,:
+   <LI>CONTAINING_FACE=I,1,F,Foreign Key to Face Table,-,-,:
+   <LI>FIRST_EDGE     =X,1,N,Foreign Key to Edge Table (null),-,-,:
+   <LI>COORDINATE     =C,1,N,Coordinates of Node,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+where * refers to [TS, PP, PO, OF, LC, HY, HS, DS, DN, CL, AE].
+
+<P>
+
+This format applies to Entity Node Tables (END) from the
+<B><I>Gazette</I></B> theme of the <B>regional</B> libraries.
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Entity Node Record - Gazette</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID             =I,1,P,Row Identifier,-,-,:
+   <LI>CONTAINING_FACE=I,1,F,Foreign Key to Face Table (null),-,-,:
+   <LI>FIRST_EDGE     =X,1,N,Foreign Key to Edge Table (null),-,-,:
+   <LI>COORDINATE     =C,1,N,Coordinates of Node,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+
+This format applies to Entity Node Tables (END) from the
+<B>BROWSE</B> library for the theme(s): <B>PP</B>.  This format
+describes Level 1-2 topology.
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Entity Node Record - Browse</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID             =I,1,P,Row ID,-,-,:
+   <LI>CONTAINING_FACE=X,1,N,Null column,-,-,:
+   <LI>FIRST_EDGE     =X,1,N,Null column,-,-,:
+   <LI>COORDINATE     =C,1,N,Node x and y location,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<HR>
+
+<P>
+
+A <I>Ring Table</I> is TBD [Mil-Std-600006, pg 10].
+<P>
+The general format of a ring record is:
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>General Form of Ring Record</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID        =I,1,P,Row Identifier       - Only at Level 3
+   <LI>FACE_ID   =I,1,N,Row ID of Face Table - Optional
+   <LI>START_EDGE=I,1,N,Fgn key to edge table- Only at Level 3
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+
+<P>
+Note that the above format is a <B><I>variant</I></B> record.  The
+attributes <I>ID</I> and <I>START_EDGE</I> are defined only at
+level-3 topology.  Also, the <I>FACE_ID</I> attribute is
+<B><I>optional</I></B>.
+<P>
+The <I>variant</I> forms of ring records is described below.
+
+<P>
+
+This format applies to Ring Tables (RNG) from the <B>regional</B>
+libraries for the theme(s): <B>VG, TileRef, PP, PO, LC, HY, DQ,
+DN, CL</B>.  It also applies to the Ring Tables from the <B>browse</B>
+library for the themes:<B>PO, IN, GR, DV, DN, DA, CO</B>
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Format of Ring Record - Level 3</U></B></CAPTION>
+
+   <TR>
+      <TD>
+         <FONT SIZE="2" FACE="Times">
+         <UL>
+   <LI>ID        =I,1,P,Row ID,-,-,:
+   <LI>FACE_ID   =I,1,F,Foreign key to face table,-,-,:
+   <LI>START_EDGE=I,1,F,Foreign Key to Edge Table,-,-,:;
+         </UL>
+         </FONT>
+      </TD>
+   </TR>
+</TABLE>
+<BR>
+
+Narrative Table:
+
+<UL>
+   <LI><PRE>ID  =I,1 ,P,Feature Table Primary Key,-,-,:</PRE>
+   <LI><PRE>TEXT=T,80,N,Text Information         ,-,-,:;</PRE>
+</UL>

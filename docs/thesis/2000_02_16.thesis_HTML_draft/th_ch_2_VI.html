@@ -1,0 +1,304 @@
+<HTML>
+
+<HEAD> 
+<TITLE>Chapter 2 - VPF Database</TITLE>
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER">
+   <FONT SIZE="3"><B><U>
+   Record Formats of Library Tables
+   </U></B></FONT>
+</P>
+
+<H1>
+   <FONT SIZE="3"><B><U>
+   2.5) Record Formats of Library Tables
+   </U></B></FONT>
+</H1> 
+
+This document describes the formats of the VPF files that describe
+the features of a given regional libary ... or the browse libary.
+These files are called Library Tables.
+<P>
+The files of the VPF database are divided into the following
+categories:
+
+<UL>
+   <LI>Database Tables
+   <LI>Library Tables
+   <LI>Primitive Tables
+   <LI>Feature Tables
+   <LI>Index Tables
+   <LI>Value-Description Tables
+</UL>
+
+This document focuses on the <I>library tables</I>.  The
+<I>library Tables</I> give description of a particular regional
+libary (or the browse library).
+<P>
+Each regional library (or the browse library) consists of the following
+tables:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Library Tables</U></B></CAPTION>
+
+   <TR>
+      <TH COLSPAN=2><B></B></TH>
+      <TH COLSPAN=2><B>Num Files Per Libary</B></TH>
+   </TR>
+
+   <TR>
+      <TH><B>File Name</B></TH>
+      <TH><B>Description</B></TH>
+      <TH><B>Browse</B></TH>
+      <TH><B>Theme</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>LHT</TD>
+      <TD>Library Header Table</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>GRT</TD>
+      <TD>Geographic Reference Table</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>LAT</TD>
+      <TD>Library Attribute Table</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>DQT</TD>
+      <TD>Data Quality Table</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Lineage.doc</TD>
+      <TD>Lineage Narrative Table</TD>
+      <TD ALIGN=CENTER>0</TD>
+      <TD ALIGN=CENTER>1</TD>
+   </TR>
+
+</TABLE>
+
+<H1><FONT SIZE="3">
+   <B><U>2.0 Format of the Records From Library Tables:</U></B>
+</FONT></H1> 
+
+This section describes the format of records from the <I>library
+tables</I> of the VPF database.  The library files are:
+
+
+<H2><FONT SIZE="2">
+   <B><U>2.3 LHT - Library Header Table</U></B>
+</FONT></H1>
+
+There are two library header tables on each CD.  The first is from the
+regional libarary and the second is from the browse libary.  The
+following record definition applies to both libaries (regional and
+browse).
+
+<P>
+
+<UL>
+   <LI>ID=I,1,P,Row Identifier,-,-,:
+   <LI>PRODUCT_TYPE=T,12,N,Product Type,-,-,:
+   <LI>LIBRARY_NAME=T,12,N,Name,-,-,:
+   <LI>DESCRIPTION=T,100,N,Description of the library,-,-,:
+   <LI>DATA_STRUCT_CODE=T,1,N,Data Structure Code,-,-,:
+   <LI>SCALE=I,1,N,Denominator of the representative fraction,-,-,:
+   <LI>SOURCE_SERIES=T,15,N,Series,-,-,:
+   <LI>SOURCE_ID=T,30,N,Identifier of the source reference,-,-,:
+   <LI>SOURCE_EDITION=T,20,N,Edition number of the source,-,-,:
+   <LI>SOURCE_NAME=T,100,N,Name of library source,-,-,:
+   <LI>SOURCE_DATE=D,1,N,Source Date,-,-,:
+   <LI>SECURITY_CLASS=T,1,N,Security Classification,-,-,:
+   <LI>DOWNGRADING=T,3,N,Downgrading,-,-,:
+   <LI>DOWNGRADING_DATE=D,1,N,Date,-,-,:
+   <LI>RELEASABILITY=T,20,N,Releasability,-,-,:;
+</UL>
+
+<P>
+
+<H2><FONT SIZE="2">
+   <B><U>2.4 GRT - Geographic Reference Table</U></B>
+</FONT></H1>
+
+There are two Geographic Reference tables on each CD.  The first is
+from the regional libarary and the second is from the browse
+libary.  The following record definition applies to both libaries
+(regional and browse).
+
+<UL>
+   <LI>ID=I,1,P,Row Identifier,-,-,:
+   <LI>DATA_TYPE=T,3,N,Data Type,-,-,:
+   <LI>UNITS=T,3,N,Units,-,-,:
+   <LI>ELLIPSOID=T,15,N,Ellipsoid,-,-,:
+   <LI>ELLIPSOID_DETAIL=T,50,N,Ellipsoid Details,-,-,:
+   <LI>VERT_DATUM_REF=T,15,N,Datum Vertical Reference,-,-,:
+   <LI>VERT_DATUM_CODE=T,3,N,Vertical Datum Code,-,-,:
+   <LI>SOUND_DATUM=T,15,N,Sounding Datum,-,-,:
+   <LI>SOUND_DATUM_CODE=T,3,N,Vertical Datum Code,-,-,:
+   <LI>GEO_DATUM_NAME=T,15,N,Datum Geodetic Name,-,-,:
+   <LI>GEO_DATUM_CODE=T,3,N,Datum Geodetic Code,-,-,:
+   <LI>PROJECTION_NAME=T,20,N,Projection Name,-,-,:;
+</UL>
+
+<H2><FONT SIZE="2">
+   <B><U>2.5 CAT - Coverage Attribute Table</U></B>
+</FONT></H1> 
+
+There are two Coverage Attribute tables on each CD.  The first is
+from the regional libarary and the second is from the browse libary.
+The following record definition applies to both libaries (regional
+and browse).
+
+<P>
+
+<UL>
+   <LI>ID=I,1,N,Row Identifier,-,-,:
+   <LI>COVERAGE_NAME=T,8,P,Coverage name,-,-,:
+   <LI>DESCRIPTION=T,50,N,Coverage description,-,-,:
+   <LI>LEVEL=I,1,N,Topology level,-,-,:;
+</UL>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Coverage Attribute Record Format</U></B></CAPTION>
+
+   <TR>
+      <TH>Attribute</TH>
+      <TH>Data-Type</TH>
+      <TH>Num Elements</TH>
+      <TH>Key Type</TH>
+      <TH>Description</TH>
+      <TH>Value Description Tbl</TH>
+      <TH>Thematic Index</TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>ID</TD>
+      <TD ALIGN=CENTER>I</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>N</TD>
+      <TD ALIGN=CENTER>Row Identifier</TD>
+      <TD ALIGN=CENTER>-</TD>
+      <TD ALIGN=CENTER>-</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>COVERAGE NAME</TD>
+      <TD ALIGN=CENTER>T</TD>
+      <TD ALIGN=CENTER>8</TD>
+      <TD ALIGN=CENTER>P</TD>
+      <TD ALIGN=CENTER>Coverage name</TD>
+      <TD ALIGN=CENTER>-</TD>
+      <TD ALIGN=CENTER>-</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>DESCRIPTION</TD>
+      <TD ALIGN=CENTER>T</TD>
+      <TD ALIGN=CENTER>50</TD>
+      <TD ALIGN=CENTER>N</TD>
+      <TD ALIGN=CENTER>Coverage description</TD>
+      <TD ALIGN=CENTER>-</TD>
+      <TD ALIGN=CENTER>-</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>LEVEL</TD>
+      <TD ALIGN=CENTER>I</TD>
+      <TD ALIGN=CENTER>1</TD>
+      <TD ALIGN=CENTER>N</TD>
+      <TD ALIGN=CENTER>Topology level</TD>
+      <TD ALIGN=CENTER>-</TD>
+      <TD ALIGN=CENTER>-</TD>
+   </TR>
+
+</TABLE>
+
+<H2><FONT SIZE="2">
+   <B><U>2.6 DQT - Data Quality Table:</U></B>
+</FONT></H1>
+
+There are two Data Quality tables on each CD.  The first is from the
+regional libarary and the second is from the browse libary.  The
+following record definition applies to both libaries (regional and
+browse).
+<P>
+Note that there is a difference between the overall data quality
+of the regional/browse libary and the theme DQ within a given
+regional libary.
+
+<FONT SIZE="2" FACE="Times">
+<UL>
+   <LI>ID		=I, 1,P,Row Identifier,-,-,:
+   <LI>VPF_LEVEL	=T, 8,N,VPF Level,-,-,:
+   <LI>VPF_LEVEL_NAME	=T, 20,N,Name of VPF Level,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>FEATURE_COMPLETE=T,  *,N,Feature Completeness Percent,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>ATTRIB_COMPLETE=T,   *,N,Attribute Completeness Percent,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>LOGICAL_CONSIST=T,   *,N,Logical Consistency,-,-,:
+   <LI>EDITION_NUM=T,       8,N,Edition Number,-,-,:
+   <LI>CREATION_DATE=D,     1,N,Creation Date,-,-,:
+   <LI>REVISION_DATE=D,     1,N,Revision Date,-,-,:
+   <LI>SPEC_NAME=T,        20,N,Product Specification Name,-,-,:
+   <LI>SPEC_DATE=D,         1,N,Product Specification Date,-,-,:
+   <LI>EARLIEST_SOURCE=D,   1,N,Date of Earliest Source,-,-,:
+   <LI>LATEST_SOURCE=D,     1,N,Date of Latest Source,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>QUANT_ATT_ACC=T,     *,N,Standard Deviation of Quantitative Attributes,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>QUAL_ATT_ACC=T,      *,N,Percent Reliability of Qualitative Attributes,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>COLLECTION_SPEC=T,   *,N,Collection Specification Name,-,-,:
+   <LI>SOURCE_FILE_NAME=T, 12,N,Included Source File Name,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>ABS_HORIZ_ACC=T,     *,N,Absolute Horizontal Accuracy of VPF Level,-,-,:
+   <LI>ABS_HORIZ_UNITS=T,  20,N,Unit of Measure for Absolute Horizontal Accuracy,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>ABS_VERT_ACC=T,      *,N,Absolute Vertical Accuracy of VPF Level,-,-,:
+   <LI>ABS_VERT_UNITS=T,   20,N,Unit of Measure for Absolute Vertical Accuracy,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>REL_HORIZ_ACC=T,     *,N,Point to point horizontal accuracy of VPF Level,-,-,:
+   <LI>REL_HORIZ_UNITS=T,  20,N,Unit of Measure for Point to Point Hor. Acc.,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>REL_VERT_ACC=T,      *,N,Point to Point Vertical Accuracy of VPF Level,-,-,:
+   <LI>REL_VERT_UNITS=T,   20,N,Unit of Measure for Point to Point Vert. Acc.,-,-,:
+   <LI>[num-chars]=I,1,num of chars in next variant length attribute:
+   <LI>COMMENTS=T,	     *,N,Miscellaneous Comments,-,-,:;
+</UL>
+</FONT>
+
+<H2><FONT SIZE="2">
+   <B><U>2.7 LNT - Lineage Narrative Table:</U></B>
+</FONT></H1> 
+
+There is only one <I>Lineage.DOC</I> file for each regional
+libary.  A lineage.doc file is not part of the browse libary.
+<P>
+
+<FONT SIZE="2" FACE="Times">
+<UL>
+   <LI>ID=I,1,P,Feature Table Primary Key,-,-,:
+   <LI>TEXT=T,80,N,Text Information,-,-,:;
+</UL>
+</FONT>
+
+</BODY>
+
+</HTML>

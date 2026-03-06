@@ -1,0 +1,162 @@
+<HTML>
+
+<HEAD> 
+   <TITLE>Chapter 2 - The DCW Database</TITLE>
+</HEAD>
+
+<BODY>
+<HTML>
+
+<HEAD> 
+   <TITLE>Chapter 2 - The DCW Database</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1><FONT SIZE="3"><B><U>
+   The Types of Files in the DCW Database:
+</U></B></FONT></H1> 
+
+<P>
+
+The files of the VPF database are classified into the following
+four categories:
+
+<UL>
+   <LI>Database Tables
+   <LI>Library Tables
+   <LI>Primitive Tables
+   <LI>Coverage Tables
+</UL>
+
+The <I>Database Tables</I> contain general information about the whole
+VPF database (i.e. are not specific to a particular library).  The
+<I>Library Tables</I> contain information about a specific regional
+library (NOAMER, SOAMAFR, EURNASIA, SASAUS) or the BROWSE library.  The
+<I>primitive tables</I> contain low-level geographic information (such
+as borders of countries, outlines of continents, etc) for a given
+library (regional or BROWSE).  The <I>Coverage Tables</I> contain
+descriptive information about a given region (such as soil conditions,
+maximum elevations, reefs, etc).
+<P>
+
+<!-- ************************************************************* -->
+<!-- Basic Datatypes of the DCW Database                           -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="3">
+   <B><U>2.0 Basic Data-types of the VPF Database:</U></B>
+</FONT></H1> 
+
+Each record consists of attributes of the following primitive
+data-types:
+
+<P>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Table 2.x Primitive Datatypes</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Data Type</B></TH>
+      <TH><B>Description</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>T</TD>
+      <TD>String of n characters</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>F</TD>
+      <TD>32-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>R</TD>
+      <TD>64-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>S</TD>
+      <TD>16-bit integer (i.e. short)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>I</TD>
+      <TD>32-bit integer</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>C</TD>
+      <TD>Two dimensional coordinate (x, y) (two 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>B</TD>
+      <TD>Two dimensional coordinate (x,y) (two 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Z</TD>
+      <TD>Three dimensional coord (x, y, z) (three 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Y</TD>
+      <TD>Three dimensional coord (x, y, z) (three 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>D</TD>
+      <TD>Date - 20 character string "YYYYMMDDhhmmss.xxxxx"</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>X</TD>
+      <TD>NULL field (i.e. will be defined in future releases)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>K</TD>
+      <TD>Triplet-ID record (see section 7.0)</TD>
+   </TR>
+
+</TABLE>
+
+
+What to do with this?
+
+The files of the VPF database are classified into the following
+four categories:
+
+<UL>
+   <LI>Database Tables
+   <LI>Library Tables
+   <LI>Primitive Tables
+   <LI>Coverage Tables
+</UL>
+
+<P>
+The <I>Database Tables</I> contain general information about the whole
+VPF database (i.e. are not specific to a particular library).  The
+<I>Library Tables</I> contain information about a specific regional
+library (NOAMER, SOAMAFR, EURNASIA, SASAUS) or the BROWSE library.  The
+<I>primitive tables</I> contain low-level geographic information (such
+as borders of countries, outlines of continents, etc) for a given
+library (regional or BROWSE).  The <I>Coverage Tables</I> contain
+descriptive information about a given region (such as soil conditions,
+maximum elevations, reefs, etc).
+<P>
+
+
+<HR>
+
+<A HREF="thesis_toc.html">Table of Contents<BR>
+<A HREF="ch_1_introduction.html">Chapter 1<BR>
+<A HREF="ch_3_vpf_rqmts_design.html">Chapter 3<BR>
+<A HREF="thesis_index.html">Index<BR>
+<A HREF="thesis_bibliography.html">Bibliography<BR>
+
+</BODY>
+
+</HTML>

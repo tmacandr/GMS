@@ -1,0 +1,118 @@
+<HTML>
+
+<HEAD> 
+<TITLE>Chapter 2 - VPF Database</TITLE>
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER">
+   <FONT SIZE="3"><B><U>
+   2.2) Record Formats of Database Tables
+   </U></B></FONT>
+</P>
+
+<H1>
+   <FONT SIZE="3"><B><U>
+   2.2) Database Tables
+   </U></B></FONT>
+</H1> 
+
+This document describes the formats of the VPF files that give an
+overview of the VPF database.  These files are called Database Tables.
+<P>
+The files of the VPF database are divided into the following
+categories:
+
+<UL>
+   <LI>Database Tables
+   <LI>Library Tables
+   <LI>Primitive Tables
+   <LI>Feature Tables
+   <LI>Index Tables
+   <LI>Value-Description Tables
+</UL>
+
+This document focuses on the <I>database tables</I>.  The
+<I>Database Tables</I> give a general description of the whole VPF
+database.  Although these files are duplicated on each CD, they are
+not specific to a particular regional library (nor the browse library).
+<P>
+There are two database files (duplicated on each of the 4 CDs).  They
+are:
+<P>
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Database Tables</U></B></CAPTION>
+
+   <TR>
+      <TH><B>File Name</B></TH>
+      <TH><B>Description</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>DHT</TD>
+      <TD>Database Header Table</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>LAT</TD>
+      <TD>Library Attribute Table</TD>
+   </TR>
+
+</TABLE>
+
+<P>
+
+<H1><FONT SIZE="3">
+   <B><U>2.0 Database Tables:</U></B>
+</FONT></H1>
+
+<P>
+
+<H2><FONT SIZE="2">
+   <B><U>2.1 DHT - Database Header Table:</U></B>
+</FONT></H1>
+
+<P>
+<UL>
+   <LI>ID=I,1,P,Row Identifier,-,-,:
+   <LI>DATABASE_NAME=T,8,N,Directory name of this database,-,-,:
+   <LI>DATABASE_DESC=T,100,N,Description of this database,-,-,:
+   <LI>MEDIA_STANDARD=T,20,N,"Media Standard (ie\: CDROM)",-,-,:
+   <LI>ORIGINATOR=T,50,N,Producer of this database,-,-,:
+   <LI>ADDRESSEE=T,100,N,Address of the producer,-,-,:
+   <LI>MEDIA_VOLUMES=T,1,N,Number of Volumes in this database,-,-,:
+   <LI>SEQ_NUMBERS=T,1,N,The Sequential Number(s) in this database,-,-,:
+   <LI>NUM_DATA_SETS=T,1,N,Number of Data Sets,-,-,:
+   <LI>SECURITY_CLASS=T,1,N,Security Classification,-,-,:
+   <LI>DOWNGRADING=T,3,N,Downgrading,-,-,:
+   <LI>DOWNGRADE_DATE=D,1,N,Date,-,-,:
+   <LI>RELEASABILITY=T,20,N,Releasability restrictions of data,-,-,:
+   <LI>OTHER_STD_NAME=T,50,N,Description of other data standards used,-,-,:
+   <LI>OTHER_STD_DATE=D,1,N,Date,-,-,:
+   <LI>OTHER_STD_VER=T,10,N,Version number of other standard,-,-,:
+   <LI>TRANSMITTAL_ID=T,1,N,Unique Transmittal Identifier ,-,-,:
+   <LI>EDITION_NUMBER=T,10,N,Edition Number of this database,-,-,:
+   <LI>EDITION_DATE=D,1,N,Date of edition,-,-,:;
+</UL>
+
+<H2><FONT SIZE="2">
+   <B><U>2.2 LAT - Library Attribute Table:</U></B>
+</FONT></H1> 
+
+There is one Libary Attribute Table (duplicated on each CD).
+
+<P>
+
+<UL>
+   <LI>ID=I,1,N,Row Identifier,-,-,:
+   <LI>LIBRARY_NAME=T,8,P,Library name,-,-,:
+   <LI>XMIN=F,1,N,Westernmost longitude,-,-,:
+   <LI>YMIN=F,1,N,Southernmost latitude,-,-,:
+   <LI>XMAX=F,1,N,Easternmost longitude,-,-,:
+   <LI>YMAX=F,1,N,Northernmost latitude,-,-,:;
+</UL>
+
+</BODY>
+
+</HTML>

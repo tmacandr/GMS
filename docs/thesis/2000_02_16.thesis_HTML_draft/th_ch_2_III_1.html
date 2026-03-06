@@ -1,0 +1,306 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 2 - The DCW Database</TITLE>
+
+   <STYLE>
+      <!--
+         P { text-indent : 7% }
+      -->
+   </STYLE>
+</HEAD>
+
+<BODY>
+
+<!-- ************************************************************* -->
+<!-- 4.0) Basic Data-types of the DCW Database                     -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.4 Basic Data-types of the DCW Database:
+</U></B></FONT></H1> 
+
+Any file in the DCW database consists of one or more records.  Each
+record is constructed from a primitive data type such as a
+32-bit integer, or 32-bit floating point value.
+Table 2.x lists each of the primitive data types used in the
+DCW database.
+
+<BR><BR>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Table 2.x Primitive Data Types</U></B></CAPTION>
+
+   <TR>
+      <TH><B>Data Symbol</B></TH>
+      <TH><B>Description</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>T</TD>
+      <TD>String of n characters</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>F</TD>
+      <TD>32-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>R</TD>
+      <TD>64-bit floating point</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>S</TD>
+      <TD>16-bit integer (i.e. short)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>I</TD>
+      <TD>32-bit integer</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>C</TD>
+      <TD>Two dimensional coordinate (x, y) (two 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>B</TD>
+      <TD>Two dimensional coordinate (x,y) (two 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Z</TD>
+      <TD>Three dimensional coord (x, y, z) (three 32-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>Y</TD>
+      <TD>Three dimensional coord (x, y, z) (three 64-bit floats)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>D</TD>
+      <TD>Date - 20 character string "YYYYMMDDhhmmss.xxxxx"</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>X</TD>
+      <TD>NULL field (i.e. will be defined in future releases)</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN=CENTER>K</TD>
+      <TD>Triplet-ID record (see below)</TD>
+   </TR>
+
+</TABLE>
+
+<P>
+Except for <I>triplet-id record</I>, each of the data types listed
+corresponds to data types that are directly supported by programming
+languages.  But for some reason, the designers of the DCW database
+decided to be fancy (unnecessarily complex?) with respect to the
+triplet-id as a data type.
+<P>
+<B><U>The Triplet ID Record:</U></B>
+This data type is found in edge records and is used
+in support of the <I>winged-edge-topology</I> algorithm.  It
+is a way to specify the locations of the <I>Left Face</I>,
+<I>Right Face</I>, and <I>Left Edge</I> of a given edge record.
+Three values are specified in a triplet-id record:
+<UL>
+   <LI>Primitive ID
+   <LI>Tile ID
+   <LI>External Primitive ID
+</UL>
+The <I>Primitive ID</I> specifies the ID of a joining record
+(face or edge) within the current tile.  The <I>Tile ID</I> specifies
+the ID of a joining record (face or edge) that is outside of
+the current tile (i.e. the edge or face record resides in a table
+that is in a different tile).  The <I>External Primitive
+ID</I> specifies the ID of the record from that external table.
+<P>
+A <I>triplet-id record</I> is a sequence of bytes.  The first byte,
+called the <I>type byte</I>, is used to specify a syntax that
+defines the values for the <I>Primitive ID</I>, the
+<I>Tile ID</I>, and the <I>External Primitive ID</I>.  The <I>type
+byte</I> is divided into four 2-bit sections.  The first two
+2-bit section indicates how many bytes are used to define the
+value of the <I>Primitive ID</I>.  The second 2-bit section indicates
+how many bytes are used to define the <I>Tile ID</I>.  The
+third 2-bit section indicates how many bytes are used to define
+the value of the <I>External Primitive ID</I>.  The fourth 2-bit
+section is not used.  Each 2-bit section will have a value
+of 0, 1, 2 or 3 that indicates how many bytes
+follow the <I>type byte</I>.  The number of bytes for each value
+is shown in Table 2.x:
+<BR><BR>
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>
+         Table 2.x<BR>
+         Length of Triplet-ID Values
+   </U></B></CAPTION>
+
+   <TR>
+      <TH><B>2-bit Value</B></TH>
+      <TH><B>Number of Bytes</B></TH>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">0</TD>
+      <TD ALIGN = "center">0</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">1</TD>
+      <TD ALIGN = "center">1</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">2</TD>
+      <TD ALIGN = "center">2</TD>
+   </TR>
+
+   <TR>
+      <TD ALIGN = "center">3</TD>
+      <TD ALIGN = "center">4</TD>
+   </TR>
+
+</TABLE>
+<BR>
+For example, if the <I>type byte</I> is 01_00_00_00, then there is
+one byte following the <I>type byte</I> and it is used to define
+the value of the <I>Primitive ID</I>.  Furthermore, no values are
+specified for the <I>Tile ID</I> nor the <I>External Primitive
+ID</I>.  If the <I>type byte</I> is 00_11_10_00, then there
+are 4 + 2 bytes following the <I>type
+byte</I>.  The first four bytes are used to define the value for
+the <I>Tile ID</I> and the last two bytes are used to define
+the <I>External Primitive ID</I>.  Note that there is no value
+for the <I>Primitive Id</I> for this case.
+<P>
+<B>Is this true?<B>
+Although there are 64 different combinations possible
+with a triplet-id record, the actual number encountered is fewer.
+This is because if a <I>Primitive ID</I> is specified, then the
+corresponding record is in a file that is co-resident in the tile.
+Thus, the <I>Tile ID</I> and the <I>External Primitve ID</I> are
+not applicable.  Also, if the record is in another tile,
+then the <I>Primitive ID</I> value will not be specified but
+both the <I>Tile ID</I> and the <I>External Primitive ID</I> must
+be specified.
+
+
+<!-- ************************************************************* -->
+<!-- 5.0) Basic Format of DCW Files                                -->
+<!-- ************************************************************* -->
+
+<H1><FONT SIZE="4"><B><U>
+   2.5 Basic Format of DCW Files
+</U></B></FONT></H1> 
+
+<P>
+Each file in the DCW database consists of two sections, the
+<I>header</I> and the <I>body</I>.  The first four bytes of the
+header is an integer specifying the size (in bytes) of the
+header section.  Then, the header describes the format
+of the records in the body of the file.  The body is one or
+more records of geographic or relational data.  The <I>Data
+Symbol</I> column in Table 2.x is important because those
+symbols are used in the header section of each file.  The
+data type of each attribute of a record is defined using one of
+those symbols.
+<P>
+As an example of a header, consider the definition of an
+<I>entity node record</I> (from an entity node table).
+
+<TABLE BORDER=1 ALIGN=CENTER>
+   <CAPTION><B><U>Table 2.x Example Header</U></B></CAPTION>
+
+   <TR>
+      <TD>
+<PRE>xxxx;
+Entity Node Primitives;-;
+ID=I,              1,P,Row Identifier,-,-,:
+POPOINT.PFT_ID=I,  1,F,Foreign Key to Point Feature Table,-,-,:
+CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+FIRST_EDGE=X,      1,N,Foreign Key to Edge Table (null),-,-,:
+COORDINATE=C,      1,N,Coordinates of Node,-,-,:;</PRE>
+     </TD>
+   </TR>
+</TABLE>
+<BR>
+A bit of "doctoring" has been done here for readability purposes.
+For example, the <I>carriage returns</I> are not present in any
+of the DCW files.  The <I>xxxx</I> symbolizes the 4-byte integer
+that defines the size of the header section.  The next item is
+the name of the record, <I>Entity Node Primitives</I>.  If
+a narrative table (*.doc) had been associated with this node table,
+then the name would have been specified after the name of the
+record.  Next, the format of the record is defined.  The general
+syntax is:<BR>
+
+<PRE>[attribute]=[data-type],[num-elements],[key-type],[vdt],[theme-index]:</PRE>
+
+For example, the attribute:
+
+<PRE>
+CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+</PRE>
+
+specifies an attribute with the name "CONTAINING_FACE" whose
+data type is Integer (32-bit).  The attribute is one integer
+long.  The <B>F</B> indicates that the attribute is a foreign
+key and the description indicates how the key is used.  The fifth
+specifier is simply a <B>-</B> and indicates that no <I>Value
+Description Table</I> (VDT) applies.  The sixth specifier is
+also a <B>-</B> and indicates that no <I>thematic-index table</I>
+applies.  Attributes that are of varying length would be indicated by
+the symbol <B>*</B> for [num-elements] (third specifier).  For
+example, character strings and arrays of latitude/longitude
+coordinates are specified this way.  All definitions of attributes
+are terminated by the symbol <B>:</B>.  The end of the header
+section is indicated by the consecutive symbols <B>:;</B>.
+<P>
+As an example, the above record would have the following C struct:
+<BR><BR>
+<TABLE BORDER=0 ALIGN=CENTER>
+   <TR>
+      <TD>
+<PRE>
+typedef struct
+   {
+    int   ID;
+    int   fgnKeyToPntFeatureTbl;
+    int   fgnKeyToFaceTbl;
+    float coordLongitude;
+    float coordLatitude;
+   } nodeRecType;
+</PRE>
+      </TD>
+   </TR>
+</TABLE>
+
+where the attribute <I>FIRST_EDGE</I> is not included since
+(as Table 2.x shows) the attribute does not exist for this
+version of the DCW database and is reserved for furture versions.
+
+<!-- ************************************************************* -->
+<!-- Links                                                         -->
+<!-- ************************************************************* -->
+
+<HR>
+
+<A HREF="th_3_toc.html">Table of Contents</A><BR>
+<A HREF="th_ch_1.html">Chapter 1</A><BR>
+<A HREF="th_ch_2_II.html">Back</A><BR>
+<A HREF="th_ch_3.html">Chapter 3</A><BR>
+<A HREF="th_ref_bibl.html">Bibliography</A><BR>
+
+</BODY>
+
+</HTML>
