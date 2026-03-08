@@ -1,0 +1,67 @@
+#include <windows.h>
+#include "soamafr_demo_resource.h"
+
+IDR_SOAMAFR_Main_Menu MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Save As..."                   ID_FILE_SAVE_AS
+        MENUITEM "Set Font ..."                 ID_Set_Font
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                        ID_FILE_EXIT
+    END
+
+    POPUP "Ctrl"
+    BEGIN
+        MENUITEM "Zoom In",                     ID_ZOOM_IN
+        MENUITEM "Zoom Out",                    ID_ZOOM_OUT
+        MENUITEM "Zoom Ctrl ...",               ID_ZOOM_DIALOG
+        MENUITEM SEPARATOR
+        MENUITEM "Move North",                  ID_MOVE_NORTH
+        MENUITEM "Move South",                  ID_MOVE_SOUTH
+        MENUITEM "Move East",                   ID_MOVE_EAST
+        MENUITEM "Move West",                   ID_MOVE_WEST
+        MENUITEM "Move Ctrl ...",               ID_MOVE_DIALOG
+        MENUITEM SEPARATOR
+        MENUITEM "Neutral Orientation",         ID_NEUTRAL_ORIENTATION
+
+    END
+
+    POPUP "Features"
+    BEGIN
+        MENUITEM "Borders On/Off",              ID_Map_Borders_OnOff
+        MENUITEM "PO Polygons On/Off"           ID_PO_Polygons_OnOff
+        MENUITEM "DN Polygons On/Off"           ID_DN_Polygons_OnOff
+        MENUITEM "DN Lines On/Off"              ID_DN_Lines_OnOff
+        MENUITEM "Text On/Off"                  ID_Text_OnOff
+        MENUITEM "Cities On/Off"                ID_Cities_OnOff
+        MENUITEM "Elevation (HY) On/Off"        ID_HY_OnOff
+        MENUITEM SEPARATOR
+        MENUITEM "Lat/Long Grid On/Off"         ID_LatLongGrid_OnOff
+    END
+
+END
+
+
+IDD_ZOOM_CTRL_DIALOG DIALOG DISCARDABLE  0, 0, 129, 47
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zoom Control"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_OK_Zoom_Ctrl,7,26,50,14
+    PUSHBUTTON      "Cancel",ID_CANCEL_Zoom_Ctrl,68,26,50,14
+    LTEXT           "New Zoom Factor:",ID_Zoom_Ctrl_Label,7,7,67,13
+    EDITTEXT        IDC_Zoom_Factor_Text,77,7,40,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+IDD_MOVE_CTRL_DIALOG DIALOG DISCARDABLE  0, 0, 129, 47
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Move Control"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_OK_Move,7,26,50,14
+    PUSHBUTTON      "Cancel",ID_CANCEL_Move,68,26,50,14
+    LTEXT           "Move Value:",ID_Move_Value_Label,7,7,67,13
+    EDITTEXT        IDC_Move_Value_Text,77,7,40,14,ES_AUTOHSCROLL | ES_NUMBER
+END

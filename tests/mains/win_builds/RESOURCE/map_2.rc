@@ -1,0 +1,41 @@
+#include <windows.h>
+#include "map_2_resource.h"
+
+IDR_Main_Menu MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Exit",                        ID_FILE_EXIT
+    END
+    POPUP "Ctrl"
+    BEGIN
+        MENUITEM "Zoom In",                     ID_ZOOM_IN
+        MENUITEM "Zoom Out",                    ID_ZOOM_OUT
+        MENUITEM "Rotate West",                 ID_ROTATE_WEST
+        MENUITEM "Rotate North",                ID_ROTATE_NORTH
+        MENUITEM "Zoom Ctrl ...",               ID_ZOOM_DIALOG
+    END
+END
+
+
+IDD_ZOOM_CTRL_DIALOG DIALOG DISCARDABLE  0, 0, 129, 47
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Zoom Control"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",ID_OK_Zoom_Ctrl,7,26,50,14
+    PUSHBUTTON      "Cancel",ID_CANCEL_Zoom_Ctrl,68,26,50,14
+    LTEXT           "New Zoom Factor:",ID_Zoom_Ctrl_Label,7,7,67,13
+    EDITTEXT        IDC_Zoom_Factor_Text,77,7,40,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+//GUIDELINES DESIGNINFO DISCARDABLE 
+//BEGIN
+//    IDD_ZOOM_CTRL_DIALOG, DIALOG
+//    BEGIN
+//        LEFTMARGIN, 7
+//        RIGHTMARGIN, 122
+//        TOPMARGIN, 7
+//        BOTTOMMARGIN, 40
+//    END
+//END

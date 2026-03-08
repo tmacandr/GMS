@@ -1,0 +1,15 @@
+#include "sphere_resource.h"
+
+IDR_Main_Menu MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Exit",                        ID_FILE_EXIT
+    END
+    POPUP "Ctrl"
+    BEGIN
+        MENUITEM "Zoom In",                     ID_ZOOM_IN
+        MENUITEM "Zoom Out",                    ID_ZOOM_OUT
+        MENUITEM "Rotate",                      ID_ROTATE
+    END
+END

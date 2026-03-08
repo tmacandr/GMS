@@ -1,0 +1,60 @@
+#include "map_4_resource.h"
+
+IDR_Main_Menu MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Exit",           ID_FILE_EXIT
+    END
+
+    POPUP "Edges-1"
+    BEGIN
+        MENUITEM "Browse-Libref"   ID_browse_libref
+        MENUITEM "PO/Z/C/12"       ID_po_z_c_12
+        MENUITEM "PO/R/E/13"       ID_po_r_e_13
+        MENUITEM "PO/N/A/11"       ID_po_n_a_11
+        MENUITEM "PP/P/J/33"       ID_pp_p_j_33
+        MENUITEM "RD/R/E/13"       ID_rd_r_e_13
+        MENUITEM "HY/U/A/11"       ID_hy_u_a_11
+    END
+
+    POPUP "Lvl:3(No-Ftr-Tbl)"
+    BEGIN
+        MENUITEM "Browse-PO"    ID_browse_po
+        MENUITEM "Browse-DV"    ID_browse_dv
+        MENUITEM "Browse-DA"    ID_browse_da
+        MENUITEM "Browse-GR"    ID_browse_gr
+        MENUITEM "Browse-IN"    ID_browse_in
+        MENUITEM "Browse-DN"    ID_browse_dn
+        MENUITEM "Browse-CO"    ID_browse_co
+        MENUITEM "VG/G/H/23"    ID_vg_g_h_23
+        MENUITEM "PP/Q/J/21"    ID_pp_q_j_21
+        MENUITEM "LC/R/J/12"    ID_lc_r_j_12
+        MENUITEM "TileRef"      ID_tileref
+    END
+
+    POPUP "Lvl:3(Ftr-Tbl)"
+    BEGIN
+        MENUITEM "PO/U/C/22"   ID_po_u_c_22
+        MENUITEM "HY/R/H/31"   ID_hy_r_h_31
+        MENUITEM "DQ/R/H/31"   ID_dq_r_h_31
+        MENUITEM "DN/R/H/31"   ID_dn_r_h_31
+        MENUITEM "CL/Q/J/21"   ID_cl_q_j_21
+    END
+
+    POPUP "Lvl:1-2"
+    BEGIN
+        MENUITEM "UT/N/J/13"  ID_ut_n_j_13
+        MENUITEM "TS/N/J/13"  ID_ts_n_j_13
+        MENUITEM "RR/N/J/13"  ID_rr_n_j_13
+        MENUITEM "RD/N/J/13"  ID_rd_n_j_13
+        MENUITEM "PH/U/A/11"  ID_ph_u_a_11
+        MENUITEM "OF/Q/H/23"  ID_of_q_h_23
+        MENUITEM "HS/R/E/11"  ID_hs_r_e_11
+    END
+
+    POPUP "Libref"
+    BEGIN
+        MENUITEM "Libref"     ID_libref
+    END
+END
