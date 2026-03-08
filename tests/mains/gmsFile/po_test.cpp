@@ -41,7 +41,7 @@
 #include <gmsRingTable.h>
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          minBoundRectTableType *theEBR;

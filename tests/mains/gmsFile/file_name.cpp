@@ -33,7 +33,7 @@ static void performTest
 //    Main test driver.
 //-------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int whichTest = 1;

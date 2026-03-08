@@ -29,7 +29,7 @@ static char *getFile (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int                    i;
@@ -107,7 +107,7 @@ static char *getFile (int index)
 
 {
       char        *fileName;
-      static char *testFiles[Num_Records] =
+      static const char *testFiles[Num_Records] =
                            { { "vg/fcs" },
                              { "ut/fcs" },
                              { "ts/fcs" },

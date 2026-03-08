@@ -29,7 +29,7 @@ static char *getFile (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int           i;
@@ -114,7 +114,7 @@ static char *getFile (int index)
 
 {
       char        *fileName;
-      static char *testFiles[Num_Records] =
+      static const char *testFiles[Num_Records] =
                            { { "pp/end" },  // <--- browse */
                              { "ae/r/j/21/end" },
                              { "cl/z/c/12/end" },

@@ -42,7 +42,7 @@ static char *get_FBR_File (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int i, j;
@@ -203,7 +203,7 @@ static char *get_EBR_File (int index)
 
 {
       static char *fileName;
-      static char *ebrTestRecords[Num_EBR_Records] =
+      static const char *ebrTestRecords[Num_EBR_Records] =
                            { "vg/g/h/23/ebr",
                              "ut/r/j/21/ebr",
                              "ts/r/j/21/ebr",
@@ -250,7 +250,7 @@ static char *get_FBR_File (int index)
 
 {
       char        *fileName;
-      static char *fbrTestRecords[Num_FBR_Records] =
+      static const char *fbrTestRecords[Num_FBR_Records] =
                            { "vg/g/h/23/fbr",
                              "tileref/fbr",
                              "pp/r/j/21/fbr",

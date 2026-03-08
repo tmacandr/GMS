@@ -33,7 +33,7 @@
 #include <gmsThematicIndex.h>
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          thematicIndexType *theTI;

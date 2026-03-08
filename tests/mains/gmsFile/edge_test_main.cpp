@@ -27,7 +27,7 @@ static int getFileFromOperator();
 
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int whichFile;

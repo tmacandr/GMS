@@ -43,7 +43,7 @@ static char *getCharFile (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int whichMainTest;
@@ -231,7 +231,7 @@ static char *getIntFile (int index)
 
 {
       char        *fileName;
-      static char *intTestFiles[Num_Int_Records] =
+      static const char *intTestFiles[Num_Int_Records] =
                            { // BROWSE */
                              { "pp/int.vdt" },
                              { "po/int.vdt" },
@@ -279,7 +279,7 @@ static char *getCharFile (int index)
 
 {
       char        *fileName;
-      static char *charTestFiles[Num_Char_Records] =
+      static const char *charTestFiles[Num_Char_Records] =
                            { { "gr/char.vdt"  },
                              { "po/char.vdt" } };
 

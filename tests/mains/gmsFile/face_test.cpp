@@ -31,7 +31,7 @@ static char *getFile (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int i;
@@ -115,7 +115,7 @@ static char *getFile (int index)
 
 {
       char        *fileName;
-      static char *faceFileNames[Num_Face_Files] =
+      static const char *faceFileNames[Num_Face_Files] =
                   { "vg/g/h/23/fac",
                     "tileref/fac",
                     "pp/p/d/23/fac",

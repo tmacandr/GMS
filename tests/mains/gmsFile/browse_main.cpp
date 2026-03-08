@@ -26,7 +26,7 @@
 #include <gmsNodeTable.h>
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          DbHeaderTableType    *theDBH;
@@ -45,7 +45,7 @@ int main (int  argc,
          unsigned int         beforeInt = 0xAAAAAAAA;
          unsigned int         *afterInt;
 
-   printf("Size of Long Int = %d\n", sizeof(long int) );
+   printf("Size of Long Int = %lu\n", sizeof(long int) );
 
    printf("    ___________\n");
    printf("---> DBH :\n");

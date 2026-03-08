@@ -15,7 +15,7 @@
 #include <gmsNarrativeTable.h>
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          narrativeTableType *theDOC;

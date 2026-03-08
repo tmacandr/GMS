@@ -31,7 +31,7 @@ static char *getFile (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int i;
@@ -116,7 +116,7 @@ static char *getFile (int index)
 
 {
       static char *fileName;
-      static char *ringFileNames[Num_Ring_Files] =
+      static const char *ringFileNames[Num_Ring_Files] =
                   { "vg/g/h/23/rng",
                     "tileref/rng",
                     "pp/p/d/23/rng",

@@ -30,7 +30,7 @@ static testRecordType getRecord (int index);
 
 
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int            i;
@@ -40,7 +40,7 @@ int main (int  argc,
    printf("Begin : Browse Feature Test\n");
 
    for (i = 0; i < Num_Records; i++)
-      {
+   {
        tempRec = getRecord(i);
 
        tempRec.theFT = gmsGetBrowseFeatureTable
@@ -59,7 +59,7 @@ int main (int  argc,
        gmsPrintBrowseFeatureTable (tempRec.theFT);
 
        gmsFreeBrowseFeatureTable (tempRec.theFT);
-      }
+   }
 
    printf("End : Browse Feature Test\n");
    printf("_______________________________\n");
@@ -138,7 +138,7 @@ static testRecordType getRecord (int index)
                                gmsBrowse_PP,
                                gmsBrowseText } };
 
-         static char *testFile[Num_Records] =
+         static const char *testFile[Num_Records] =
                            { { "co/COAREA.AFT" },
                              { "da/DAAREA.AFT" },
                              { "dn/DNAREA.AFT" },

@@ -31,7 +31,7 @@ static void performTextTest
 //    Main test driver.
 //-------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int i;
@@ -116,7 +116,7 @@ static char *getFile (int index)
 
 {
       char        *fileName;
-      static char *testFiles[Num_Txt_Files] =
+      static const char *testFiles[Num_Txt_Files] =
                               { { "cl/r/j/21/txt"},
                                 { "dq/p/f/23/txt"},
                                 { "dn/r/j/21/txt"},

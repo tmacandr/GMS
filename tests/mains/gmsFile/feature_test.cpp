@@ -36,7 +36,7 @@ static testRecordType getRecord (int index);
 // Description:
 //---------------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
          int            i;
@@ -301,7 +301,7 @@ static testRecordType getRecord (int index)
                                NULL,
                                gms_AE,
                                gmsPoint } };
-      static char *fileNames[Num_Records] =
+      static const char *fileNames[Num_Records] =
                            { { "vg/vgarea.aft"},
                              { "ut/utline.lft"},
                              { "ut/uttext.tft"},

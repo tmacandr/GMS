@@ -28,7 +28,7 @@ static void dirExistsSubtest ();
 //    Main test driver.
 //-------------------------------------*/
 int main (int  argc,
-          char *argv)
+          char **argv)
 
 {
    printf("_______________________________\n");
@@ -56,7 +56,7 @@ int main (int  argc,
 static void existenceSubtest ()
 
 {
-         char *theFile = { "C:/temp/test_file.txt" };
+         const char *theFile = { "./test_file.txt" };
          bool exists;
          FILE *fd;
 
