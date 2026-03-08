@@ -12,40 +12,42 @@
 #    the files from the DCW library.
 #===========================================================================
 
-Base=..
+HERE=`pwd`
 
-Root=$Base/C_source
+cd ../../../
 
-H_PATH=-I$Root/include/gmsFile
+ROOT=`pwd`
 
-L_PATH=-L$Root/lib
+cd $HERE
+
+H_PATH=-I$ROOT/C_source/include/gmsFile
+
+L_PATH=-L$ROOT/unixBuild/lib
 
 L_LIBS="-lGmsFile -lm"
 
-BIN_DIR=$Base/unixBuild/bin
+OPTIONS="-ggdb -Wall -DIS_UNIX"
 
-OPTIONS="-DIS_UNIX -DBIG_ENDIAN"
+cd ../gmsFile
 
-cd $Root/mains/gmsFile
+SRC_DIR=`pwd`
 
 Test_Drivers=`ls *.cpp`
 
+cd $HERE
+
 for eachCpp in $Test_Drivers; do
 
-    eachDriver=`echo $eachCpp | sed 's/\.cpp//'`
+   eachDriver=`echo $eachCpp | sed 's/\.cpp//'`
 
-    EXE_NAME=$eachDriver.exe
+   EXE_NAME=$eachDriver.exe
 
    echo "_______________"
    echo "Compiling $eachCpp"
 
-   $CPP $OPTIONS $H_PATH $L_PATH $eachCpp -o $EXE_NAME $L_LIBS
+   gcc $OPTIONS $H_PATH $L_PATH $SRC_DIR/$eachCpp -o $EXE_NAME $L_LIBS
 
-   if test -x $EXE_NAME; then
-
-      $MV $EXE_NAME $BIN_DIR
-
-   else
+   if test ! -x $EXE_NAME; then
 
       echo "Exe $EXE_NAME FAILED to link."
 
@@ -55,5 +57,5 @@ for eachCpp in $Test_Drivers; do
 
 done
 
-echo "Okay ... done."
+echo "Done."
 
