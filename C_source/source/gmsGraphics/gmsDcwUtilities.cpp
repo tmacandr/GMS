@@ -9,6 +9,8 @@
 //
 // Description:
 //    Defines utilites to assist the GMS "Chart Graphics" toolkit.
+//
+// Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //---------------------------------------------------------------------------*/
 
 #include <string.h>
