@@ -1,0 +1,22 @@
+#include <graphics_resource.h>
+
+IDR_Main_Menu MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Exit",                        ID_FILE_EXIT
+    END
+    POPUP "Draw"
+    BEGIN
+        MENUITEM "Line",                        ID_DRAW_LINE
+        MENUITEM "PolyLine",                    ID_DRAW_POLYLINE
+        MENUITEM "Arc",                         ID_DRAW_ARC
+        MENUITEM "Rectangle",                   ID_DRAW_RECTANGLE
+        MENUITEM "Ellipse",                     ID_DRAW_ELLIPSE
+        MENUITEM "Round Rectangle",             ID_DRAW_ROUNDRECTANGLE
+        MENUITEM "Pie",                         ID_DRAW_PIE
+        MENUITEM "Chord",                       ID_DRAW_CHORD
+        MENUITEM SEPARATOR
+        MENUITEM "Sphere",                      ID_DRAW_SPHERE
+    END
+END
