@@ -223,20 +223,20 @@ void gmsSwapBytes
    isEvenNumber = numBytes % 2;
 
    if ( ! (isEvenNumber == 0) )
-      {
+   {
        printf("*** ERROR : gmsSwapBytes - odd number of bytes specified\n");
 
        return;
-      }
+   }
 
    for (i = 0; i < (numBytes / 2); i++)
-      {
+   {
        tempByte = ptrToBlock[i];
 
        ptrToBlock[i] = ptrToBlock[(numBytes - 1) - i];
 
        ptrToBlock[(numBytes - 1) - i] = tempByte;
-      }
+   }
 }
 
 
@@ -257,7 +257,7 @@ short gmsReadShortInteger (FILE *theFd)
    for (i = 0; i < bytesPerShort; i++)
       shortAsChars[i] = (char) fgetc(theFd);
 
-   #ifdef BIG_ENDIAN
+   #ifdef GMS_BIG_ENDIAN
 
       gmsSwapBytes
          ((unsigned char *) shortAsChars,
@@ -286,7 +286,7 @@ int gmsReadInteger (FILE *theFd)
    for (i = 0; i < bytesPerInt; i++)
       intAsChars[i] = (char) fgetc(theFd);
 
-   #ifdef BIG_ENDIAN 
+   #ifdef GMS_BIG_ENDIAN 
 
       gmsSwapBytes
          ((unsigned char *) intAsChars,
@@ -315,7 +315,7 @@ long gmsReadLongInteger (FILE *theFd)
    for (i = 0; i < bytesPerLong; i++)
       longAsChars[i] = (char) fgetc(theFd);
 
-   #ifdef BIG_ENDIAN 
+   #ifdef GMS_BIG_ENDIAN 
 
       gmsSwapBytes
          ((unsigned char *) longAsChars,
@@ -344,7 +344,7 @@ float gmsReadFloat (FILE *theFd)
    for (i = 0; i < bytesPerFlt; i++)
       floatAsChars[i] = (char) fgetc(theFd);
 
-   #ifdef BIG_ENDIAN 
+   #ifdef GMS_BIG_ENDIAN 
 
       gmsSwapBytes
          ((unsigned char *) floatAsChars,
@@ -373,7 +373,7 @@ double gmsReadDouble (FILE *theFd)
    for (i = 0; i < bytesPerDbl; i++)
       doubleAsChars[i] = (char) fgetc(theFd);
 
-   #ifdef BIG_ENDIAN
+   #ifdef GMS_BIG_ENDIAN
 
       gmsSwapBytes
          ((unsigned char *) doubleAsChars,
