@@ -45,7 +45,7 @@
 //    A "thematic index file" is a sequential file of data partitioned into
 //    three groups:
 //
-//         1) a fixed-lenght header of 60 bytes that specifies
+//         1) a fixed-length header of 60 bytes that specifies
 //            the associated feature table and the column
 //            within that table being indexed.
 //
