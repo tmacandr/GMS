@@ -394,11 +394,11 @@ static void buildThematicIndexObject
    buildHeaderRecord (&theTI->header);
 
    if (theTI->header.kindOfDataElement == 'T')
-      {
+   {
        printf("Build of CHAR thematic index tbl - NOT IMPLEMENTED\n");
-      }
+   }
    else if (theTI->header.kindOfDataElement == 'S')
-      {
+   {
        numBytes = sizeof(shortIntThematicRecord) *
                   theTI->header.numOfDirEntries;
 
@@ -421,23 +421,137 @@ static void buildThematicIndexObject
            (shortIntThematicRecord *) theTI->buffer,
            theTI->header.numOfRows,
            (short *) theTI->recordIds);
-      }
+   }
    else if (theTI->header.kindOfDataElement == 'I')
-      {
+   {
        printf("Build of INT thematic index tbl - NOT IMPLEMENTED\n");
-      }
+   }
    else if (theTI->header.kindOfDataElement == 'F')
-      {
+   {
        printf("Build of FLOAT thematic index tbl - NOT IMPLEMENTED\n");
-      }
+   }
    else if (theTI->header.kindOfDataElement == 'R')
-      {
+   {
        printf("Build of DOUBLE thematic index tbl - NOT IMPLEMENTED\n");
-      }
+   }
    else
-      {
+   {
        printf("*** ERROR : unknown data type in thematic index file\n");
-      }
+   }
+}
+
+
+//---------------------------------------------*/
+// getIndexFileType 
+//
+// Description:
+//    Utility that converts the single character
+//    of the "Type of index file" to an ASCII
+//    string.
+//       "I" - Inverted list index file
+//       "T" - (simple) list index file
+//       "B" - Bit array index
+//       "G" - (other?) bit array index
+//    REF:
+//       Mil-Std-600006
+//       Table 54, pg 77
+//---------------------------------------------*/
+static const char *getIndexFileType
+                      (const char type)
+
+{
+   switch (type)
+   {
+       case 'I':
+          return "Inverted list";
+
+       case 'T':
+          return "List";
+
+       case 'B':
+          return "Bit array";
+
+       case 'G':
+          return "TBD bit array";
+
+       default:
+          return "ERROR - Unknown type";
+   }
+}
+
+
+//---------------------------------------------*/
+// getDataElementType
+//
+// Description:
+//    Utility that converts the single character
+//    of the "Type of the data element being
+//    indexed" to an ASCII string.
+//       "I" - 4-byte integer
+//       "T" - Character string
+//       "S" - 2-byte integer
+//       "F" - 4-byte float
+//       "R" - 8 byte float (double)
+//    REF:
+//       Mil-Std-600006
+//       Table 54, pg 77
+//---------------------------------------------*/
+static const char *getDataElementType
+                      (const char type)
+
+{
+   switch (type)
+   {
+       case 'I':
+          return "Integer";
+
+       case 'T':
+          return "char";
+
+       case 'S':
+          return "short";
+
+       case 'F':
+          return "float";
+
+       case 'R':
+          return "double";
+
+       default:
+          return "ERROR - Unknown element type";
+   }
+}
+
+
+//---------------------------------------------*/
+// getTypeSpecifier
+//
+// Description:
+//    Utility that converts the single character
+//    of the "Type specifier for the data portion
+//    of the index" to an ASCII string.
+//       "S" - 2-byte integer
+//       "I" - 4-bypte integer
+//       "S" - bit array index
+//    REF:
+//       Mil-Std-600006
+//       Table 54, pg 77
+//---------------------------------------------*/
+static const char *getTypeSpecifier
+                      (const char type)
+
+{
+   switch (type)
+   {
+       case 'S': 
+          return "short or bit-array";
+
+       case 'I': 
+          return "int";
+
+       default:
+          return "ERROR - Unknown type specifier";
+   }
 }
 
 
@@ -458,10 +572,16 @@ static void printHeaderRecord
    printf("      Num bytes in this hdr  : %d\n", theHdr.numBytesThisHdr);
    printf("      Num of Dir Entries     : %d\n", theHdr.numOfDirEntries);
    printf("      Num of Rows            : %d\n", theHdr.numOfRows);
-   printf("      Kind of File           : %c\n", theHdr.kindOfFile);
-   printf("      Kind of Data Elem      : %c\n", theHdr.kindOfDataElement);
+   printf("      Type of Index File     : %c (%s)\n",
+          theHdr.kindOfFile,
+          getIndexFileType(theHdr.kindOfFile));
+   printf("      Kind of Data Elem      : %c (%s)\n",
+          theHdr.kindOfDataElement,
+          getDataElementType(theHdr.kindOfDataElement));
    printf("      Num Data Items per Dir : %d\n", theHdr.numDataItemsPerDir);
-   printf("      Type Specifier         : %c\n", theHdr.typeSpecifier);
+   printf("      Type Specifier         : %c (%s)\n",
+          theHdr.typeSpecifier,
+          getTypeSpecifier(theHdr.typeSpecifier));
    printf("      Name of VPF Table      : %s\n", theHdr.nameOfVpfTable);
    printf("      Column Name            : %s\n", theHdr.columnName);
 
@@ -489,15 +609,36 @@ static void buildThematicShortIntRecords
 
 {
          int i;
+         int nxt;
 
+   #if 0
    for (i = 0; i < numDirs; i++)
-      {
+   {
+       nxt = fgetc(theme_fd);
+
+       if ( isprint((char) nxt) != 0 )
+       {
+           printf(" %c ", (char) nxt);
+       }
+       else
+       {
+           printf("[0x%.2X]", nxt);
+       }
+
+       if ( (i != 0) && (i % 8 == 7) )
+          printf("\n");
+   }
+   printf("\n");
+   #else
+   for (i = 0; i < numDirs; i++)
+   {
        recordBuffer[i].whichRow        = gmsReadShortInteger (theme_fd);
 
-       recordBuffer[i].fileOffsetToRow = gmsReadLongInteger (theme_fd);
+       recordBuffer[i].fileOffsetToRow = gmsReadInteger (theme_fd);
 
        recordBuffer[i].numColumnsInRow = gmsReadInteger (theme_fd);
-      }
+   }
+   #endif
 
    for (i = 0; i < numRows; i++)
       bufferOfShorts[i] = gmsReadShortInteger (theme_fd);

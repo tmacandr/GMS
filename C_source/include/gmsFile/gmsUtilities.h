@@ -7,6 +7,7 @@
 //        07-Oct-99 : Clean-up due to code-inspection
 //        17-Nov-99 : Added utils to access root dir (et.al.) of VPF files
 //        21-Dec-99 : Added util to check for existence of a file
+//        10-Mar-26 : DCW/VPF only has signed short, int, float, double
 //
 // Description:
 //    Utilities that support the "Geographic Map System" (GMS) being
@@ -116,7 +117,7 @@
    //    This utility frees the block of data that
    //    was allocated by the utility "gmsSwapBitPattern".
    //---------------------------------------------*/
-   void gmsFreeSwappedBits ();
+   void gmsFreeSwappedBits (void);
 
 
    //---------------------------------------------*/
@@ -150,16 +151,6 @@
    //    specified file.
    //---------------------------------------------*/
    int gmsReadInteger (FILE *theFd);
-
-
-   //---------------------------------------------*/
-   // gmsReadLongInteger
-   //
-   // Description:
-   //    This utility reads a LONG integer from the
-   //    specified file.
-   //---------------------------------------------*/
-   long gmsReadLongInteger (FILE *theFd);
 
 
    //---------------------------------------------*/
@@ -337,7 +328,7 @@
    //    of how the path to the DCW database is
    //    determined.
    //---------------------------------------------*/
-   char *getDhtFile ();
+   char *getDhtFile (void);
 
 
    //---------------------------------------------*/
@@ -358,6 +349,6 @@
    //    of how the path to the DCW database is
    //    determined.
    //---------------------------------------------*/
-   char *getLatFile ();
+   char *getLatFile (void);
 
 #endif

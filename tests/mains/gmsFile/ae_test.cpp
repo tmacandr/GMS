@@ -36,6 +36,13 @@
 #include <gmsNodeTable.h>
 
 
+//---------------------------------------------------------
+// FUNCTION: main
+//
+// DESCRIPTION:
+//    Main entry point to exercise "Aeronautical" (AE)
+//    geographic data.
+//---------------------------------------------------------
 int main (int  argc,
           char **argv)
 
@@ -57,6 +64,12 @@ int main (int  argc,
 
    theDOC = gmsGetNarrativeTable
                (gmsGetDcwFullPath("AE/AEPOINT.DOC"));
+
+   if ( ! theDOC )
+   {
+       printf("***> ERROR - get narrative table fail\n");
+       return EXIT_FAILURE;
+   }
 
    gmsPrintNarrativeTable (theDOC);
 

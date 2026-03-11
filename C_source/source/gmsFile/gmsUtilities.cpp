@@ -13,6 +13,7 @@
 //        11-Feb-00 : HP and SUN C++ compilers complain about init of char *
 //        21-Feb-00 : 'gmsReadxxx' utils fail on SUN.  Memory mis-align
 //        03-Mar-00 : look for dcw_path.txt in current working dir too
+//        10-Mar-26 : DCW/VPF only has signed short, int, float, double
 //
 // Description:
 //    Utilities that support the "Geographic Map System" (GMS) being
@@ -91,7 +92,7 @@ static void convertStringToUpperCase
 static char *gmsGetDcwLibrary
                         (const char *root);
 
-static char *buildVpfFileRoot();
+static char *buildVpfFileRoot(void);
 
 
 
@@ -189,7 +190,7 @@ unsigned char *gmsSwapBitPattern
 //    This utility frees the block of data that
 //    was allocated by the utility "gmsSwapBitPattern".
 //---------------------------------------------*/
-void gmsFreeSwappedBits ()
+void gmsFreeSwappedBits (void)
 
 {
    if (swappedBitsBuffer != emptyBuffer)
@@ -291,35 +292,6 @@ int gmsReadInteger (FILE *theFd)
       gmsSwapBytes
          ((unsigned char *) intAsChars,
           bytesPerInt);
-
-   #endif
-
-   return theAnswer;
-}
-
-
-//---------------------------------------------*/
-// gmsReadLongInteger
-//
-// Description:
-//    This utility reads a LONG integer from the
-//    specified file.
-//---------------------------------------------*/
-long gmsReadLongInteger (FILE *theFd)
-
-{
-         int         i;
-         long        theAnswer;
-         char        *longAsChars = (char *) &theAnswer;
-
-   for (i = 0; i < bytesPerLong; i++)
-      longAsChars[i] = (char) fgetc(theFd);
-
-   #ifdef GMS_BIG_ENDIAN 
-
-      gmsSwapBytes
-         ((unsigned char *) longAsChars,
-          bytesPerLong);
 
    #endif
 
@@ -738,7 +710,7 @@ char *gmsGetBrowseFullPath
 //       The caller must NOT free the string
 //       returned.
 //---------------------------------------------*/
-char *getDhtFile ()
+char *getDhtFile (void)
 
 {
          static char DhtFile[256];
@@ -774,7 +746,7 @@ char *getDhtFile ()
 //       The caller must NOT free the string
 //       returned.
 //---------------------------------------------*/
-char *getLatFile ()
+char *getLatFile (void)
 
 {
          static char LatFile[256];
@@ -981,7 +953,7 @@ static char *gmsGetDcwLibrary
 //       6) Finally, the default path is set
 //          to "/DCW".
 //---------------------------------------------*/
-static char *buildVpfFileRoot()
+static char *buildVpfFileRoot(void)
 
 {
          static char thePath[256];
