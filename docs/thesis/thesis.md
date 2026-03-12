@@ -181,9 +181,15 @@ NIMA also manages a large library of paper maps of various regions of the world 
     TLM (2) - Topographic Line Map - 1:50K
     CG - City Graphics - scale varies 
 ```
-Different projection schemes were applied when these maps were created. For example, the ONC series was constructed using the Lambert Conformal Projection. However, the ONC series does not contain information at the North/South poles. Alternatively, the JNC series was constructed using the Transverse Mercator Projection because it contains map data at the North/South poles [9].
+Different projection schemes were applied when these maps were created. For
+example, the ONC series was constructed using the Lambert Conformal
+Projection. However, the ONC series does not contain information at the
+North/South poles. Alternatively, the JNC series was constructed using the
+Transverse Mercator Projection because it contains map data at the
+North/South poles [9].
 
-NIMA also produces and manages the (previously mentioned) products ARC Digitized Raster Imagery (ADRI) and Digital Terrain Elevation Data (DTED).
+NIMA also produces and manages the (previously mentioned) products ARC
+Digitized Raster Imagery (ADRI) and Digital Terrain Elevation Data (DTED).
 
 There are other sources (besides NIMA and the USGS) of satellite imagery. Consider the following:
 
@@ -509,8 +515,8 @@ There are 3 other types of primitive files. These files are used to support quer
         Node:
         File Name : NSI
  ```
-    For example, if an operator is allowed to ask, "what are all the nodes within a specified region", a node spatial index file is searched to find a "matching region". If one (or more) is found then the index into the node table specifies the node (or nodes) that is of interest to the operator. 
-
+For example, if an operator is allowed to ask, "what are all the nodes
+within a specified region", a node spatial index file is searched to find a "matching region". If one (or more) is found then the index into the node table specifies the node (or nodes) that is of interest to the operator. 
 
 The Coverage Tables: These tables contain descriptive information about a particular geographic entity. Also, these files are used in a relational method with respect to the primitive tables. These files allow GIS applications to implement functionality to allow an operator to query the DCW database, or to apply filtering of what information is displayed on a map.
 
@@ -520,7 +526,7 @@ The coverage tables are further categorized into five sub-types. This hierarchy 
 
     Value Description Tables
     A VDT is a list of text strings that describes (or names) geographic entities that were defined from a given core primitive table. VDTs and core primitive tables are related to each other. Feature tables (described below) are used to define the join relationship between a VDT and a primitive table. There are two types of value description tables:
-```
+
         Integer:
         File Name: INT.VDT
         The records from an INT.VDT contain a unique ID and a string. The string is used to describe a geographic entity. For example, a given INT.VDT may be a list that describes geographic points as water-towers, or oil-wells, or railroad stations.
@@ -543,7 +549,6 @@ The coverage tables are further categorized into five sub-types. This hierarchy 
         Line
         File Name: *LINE.LFT
         Each record from a line-feature-table contains IDs (i.e. keys) that join records from edge tables to records in value description tables. For example, given an edge record that defines a railroad (i.e. from the RR theme). Along with the node table is a corresponding feature table called RRLINE.LFT. Each record from this feature table specifies the ID of an edge record and the ID of a record from a value description table. Thus, the edge record can be identified as a "single track" railway and its current status is "functional".
-```
  
     Note that a theme has one or more feature tables based on the kind of primitive information contained in that theme. Consider the theme vegetation. In this theme there are only area feature tables since the theme describes areas of vegetation. A "corn field" is described as an area and can not be described as a line on a map. Also, consider the theme populated places (PP). This theme contains points since some populated locations are small enough to be represented as a point on a map (e.g. a village). Also, the theme contains areas that describe larger population centers (e.g. New York City). However, the theme does not contain line features since a population center can not be described as a line.
 
@@ -554,7 +559,6 @@ The coverage tables are further categorized into five sub-types. This hierarchy 
     Narrative Tables
     File Name : * .DOC
     These tables describe each of the features (point, line, area, and/or text) within a given theme (VG, AE, RR, etc). The description is in a prose format so it is readable by an operator. This information augments the value description tables. 
-```
 
 Winged Edge Topology: The DCW database was constructed to support many different types of GIS products. Therefore, the DCW database was meant to be used for more than just drawing images on a computer screen. It was constructed to also support query capabilities. Consider the case where an operator wants to study the geography of the country Spain. As Figure 2.3 shows, the tiles MJ22, MJ23, MJ32, and MJ33 all contain information about this region of the globe. It would be the resposibility of a GIS product to retrieve all the geographic information from this region.
 
@@ -608,7 +612,8 @@ Although there are 64 different combinations possible with a triplet-id record, 
 
 Each file in the DCW database consists of two sections, the header and the body. The first four bytes of the header is an integer specifying the size (in bytes) of the header section. Then, the header describes the format of the records in the body of the file. The body is one or more records of geographic or relational data. The Data Symbol column in Table 2.8 (above) is important because those symbols are used in the header section of each file. The data type of each attribute of a record is defined using one of those symbols.
 
-As an example of a header, consider the definition of an entity node record (from an entity node table).
+As an example of a header, consider the definition of an entity node
+record (from an entity node table).
 ```
 xxxx;
 
@@ -625,41 +630,57 @@ FIRST_EDGE=X, 1,N,Foreign Key to Edge Table (null),-,-,:
 COORDINATE=C, 1,N,Coordinates of Node,-,-,:;
 ```
 
-A bit of "doctoring" has been done here for readability purposes. For example, the carriage returns are not present in any of the DCW files. The xxxx symbolizes the 4-byte integer that defines the size of the header section. The next item is the name of the record, Entity Node Primitives. If a narrative table (*.doc) had been associated with this node table, then the name would have been specified after the name of the record. Next, the format of the record is defined. The general syntax is:
+A bit of "doctoring" has been done here for readability purposes. For example,
+the carriage returns are not present in any of the DCW files. The xxxx
+symbolizes the 4-byte integer that defines the size of the header section. The
+next item is the name of the record, Entity Node Primitives. If a narrative
+table (*.doc) had been associated with this node table, then the name would
+have been specified after the name of the record. Next, the format of the
+record is defined. The general syntax is:
 [attribute]=[data-type],[num-elements],[key-type],[vdt],[theme-index]: For example, the attribute:
 ```
 CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
 ```
-specifies an attribute with the name "CONTAINING_FACE" whose data type is Integer (32-bit). The attribute is one integer long. The F indicates that the attribute is a foreign key and the description indicates how the key is used. The fifth specifier is simply a - and indicates that no Value Description Table (VDT) applies. The sixth specifier is also a - and indicates that no thematic-index table applies. Attributes that are of varying length would be indicated by the symbol * for [num-elements] (third specifier). For example, character strings and arrays of latitude/longitude coordinates are specified this way. All definitions of attributes are terminated by the symbol :. The end of the header section is indicated by the consecutive symbols :;.
+specifies an attribute with the name "CONTAINING_FACE" whose data type is
+Integer (32-bit). The attribute is one integer long. The F indicates
+that the attribute is a foreign key and the description indicates
+how the key is used. The fifth specifier is simply
+a - and indicates that no Value Description Table (VDT)
+applies. The sixth specifier is also a - and indicates
+that no thematic-index table applies. Attributes that are
+of varying length would be indicated by the symbol * for
+[num-elements] (third specifier). For example,
+character strings and arrays of latitude/longitude coordinates are specified
+this way. All definitions of attributes are terminated by the
+symbol :. The end of the header section is indicated by
+the consecutive symbols :;.
 
 As an example, the above record would have the following C struct:
 ```
 typedef struct
-
-{
-
-int ID;
-
-int fgnKeyToPntFeatureTbl;
-
-int fgnKeyToFaceTbl;
-
-float coordLongitude;
-
-float coordLatitude;
-
-} nodeRecType;
+   {
+       int ID;
+       int fgnKeyToPntFeatureTbl;
+       int fgnKeyToFaceTbl;
+       float coordLongitude;
+       float coordLatitude;
+   } nodeRecType;
 ```
-where the attribute FIRST_EDGE is not included since (as Table 2.10 shows) the attribute does not exist for this version of the DCW database and is reserved for furture versions.
+where the attribute FIRST_EDGE is not included since (as Table
+2.10 shows) the attribute does not exist for this
+version of the DCW database and is reserved for furture versions.
 
 # Chapter 3 - The GMS Extabula Toolkit
 
 3.1 - Objectives and Requirements
 
-Fundamentally, any GIS product needs the ability to read geographic data from a given database. This is the purpose of the GMS Extabula Toolkit (Extabula, latin for "from the map/chart"). The general objective is for the toolkit to read each of the types of files from the DCW database and to build data structures that can be manipulated by client software. Figure 3.1 illustrates the overall system.
-
- 
-
+Fundamentally, any GIS product needs the ability to read geographic
+data from a given database. This is the purpose of
+the GMS Extabula Toolkit (Extabula, latin for "from
+the map/chart"). The general objective is for the
+toolkit to read each of the types of files from the
+DCW database and to build data structures that can be manipulated
+by client software. Figure 3.1 illustrates the overall system.
 
 The GMS DCW Extabula Toolkit is shaded. The toolkit is essentially provides an interface to the DCW database for higher level clients. To achieve this objective the following requirements are specified:
 
@@ -713,10 +734,7 @@ The interface of each component (i.e. its header file) is fairly simple. A data 
 
 The components were designed to be archived into static libraries. Since the toolkit is really only useful by higher level client software, it is easier to present as simple an interface (i.e. the header files) as possible and allow the client to link against a static library.
 
-
-
-
-3.3 - Implementation
+## 3.3 - Implementation
 
 As mentioned, there are two common components of the toolkit. The remaining components are categorized based on the types of DCW files they process.
 
@@ -726,7 +744,6 @@ Header 	Source (Implementation)
 gmsTypesAndConstants.h 	n/a
 gmsUtilities.h 	gmsUtilities.cpp
 ```
-
 
 The gmsUtilities.h/c essentially simplifies accessing data from a DCW file. Several functions exist to read data that is based on the primitive data types of the DCW database (see Table 2.8). For example, there is a routine
 
@@ -792,7 +809,11 @@ gmsSpatialIndex.h 	gmsSpatialIndex.cpp
 
 The gmsMinimumBoundingRectangle component is used to read both Edge Bounding Rectangles and Face Bounding Rectangles. These two types of files are often called minimum bounding rectangles in the DCW documentation.
 
-Implementation Issues: Construction of edge tables proved to be complex. One problem is that the records of edge tables are variant-records. This means that the format of the record was different for tables in different themes. Consider the generalized definition of an edge record shown in Table 3.7:
+Implementation Issues: Construction of edge tables proved to be complex. One
+problem is that the records of edge tables are variant-records. This means
+that the format of the record was different for tables in different
+themes. Consider the generalized definition of an edge record shown
+in Table 3.7:
 ```
 ID =I,1,P,Row Identifier - Mandatory
 
@@ -839,8 +860,10 @@ LEFT_EDGE =K,1,F,Left Edge from Start Node,-,-,:
 COORDINATES =C,*,N,Edge Coordinates,-,-,:;
 ```
 
+The format from Table 3.8 describes the edge records from the following
+regional themes: VG, TileRef, PP, LC. Also, this format applies to edge
+records from the browse library.
 
-The format from Table 3.8 describes the edge records from the following regional themes: VG, TileRef, PP, LC. Also, this format applies to edge records from the browse library.
 ```
 The second variant is described in table 3.9.
 
@@ -860,7 +883,6 @@ LEFT_EDGE =K,1,F,Left Edge from Start Node,-,-,:
 
 COORDINATES =C,*,N,Coordinates of Edge,-,-,:;
 ```
-
 
 Note that in Table 3.9 the * for the foreign key to the line-feature table indicates the theme. The format of Table 3.9 applies to the edge records from the following regional themes:
 ```
