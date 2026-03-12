@@ -910,12 +910,15 @@ The GMS DCW Extabula Toolkit is shaded. The toolkit is essentially provides an i
 		<TD ALIGN="LEFT" VALIGN="MIDDLE"><B>Source (Implementation)</B>  </TD></TR>
 
 	<TR>
-		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF"><U><A HREF="gmsTypesAndConstants.h" TARGET="_top" TARGET="_top">gmsTypesAndConstants.h</A></U></FONT>   </TD>
+		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF">
+                      <U><A HREF="../../../C_source/include/gmsFile/gmsTypesAndConstants.h" TARGET="_top" TARGET="_top">gmsTypesAndConstants.h</A></U></FONT>   </TD>
 		<TD ALIGN="CENTER" VALIGN="MIDDLE">n/a  </TD></TR>
 
 	<TR>
-		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF"><U><A HREF="gmsUtilities.h" TARGET="_top" TARGET="_top">gmsUtilities.h</A></U></FONT>   </TD>
-		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF"><U><A HREF="gmsUtilities.cpp" TARGET="_top" TARGET="_top">gmsUtilities.cpp</A></U></FONT>  </TD></TR>
+		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF">
+                      <U><A HREF="../../../C_source/include/gmsFile/gmsUtilities.h" TARGET="_top" TARGET="_top">gmsUtilities.h</A></U></FONT>   </TD>
+		<TD ALIGN="CENTER" VALIGN="MIDDLE"><FONT SIZE="3" COLOR="#0000FF">
+                      <U><A HREF="../../../C_source/source/gmsFile/gmsUtilities.cpp" TARGET="_top" TARGET="_top">gmsUtilities.cpp</A></U></FONT>  </TD></TR>
 
 </TABLE></CENTER>
 
@@ -1328,12 +1331,37 @@ The equations to convert a given <I>geodetic</I> coordinate to an (x, y, z) <I>g
 <P><CENTER>
 <TABLE BORDER="1" CELLSPACING="0" WIDTH="759">
 	<TR>
-		<TD ALIGN="LEFT" VALIGN="MIDDLE">x = (N + h) * cos(PHI) * sin(LAMBDA)<P>b * b<P>y = (------- * N + h) * sin(PHI)<P>a * a<P>z = (N + h) * cos(PHI) * cos(LAMBDA)<P>where:<P>PHI = geodetic latitude<P>LAMBDA = geodetic longitude<P>h = altitude<P>a = semi-major axis = 6378137.0 meters<P>b = semi-minor axis = 6356752.0 meters<P>N = a / sqrt(1 - e * e * sin(PHI) * sin(PHI))<P>e = first eccentricity = sqrt(2 * f - f * f)<P>f = earth-flattening = (a - b) / a<P></TD></TR>
+		<TD ALIGN="LEFT" VALIGN="MIDDLE">
+   <pre><code>
+   x = (N + h) * cos(PHI) * sin(LAMBDA)
+
+         b * b
+   y = (------- * N + h) * sin(PHI)
+         a * a
+
+   z = (N + h) * cos(PHI) * cos(LAMBDA)
+
+   where:
+      PHI = geodetic latitude
+      LAMBDA = geodetic longitude
+      h = altitude
+      a = semi-major axis = 6378137.0 meters
+      b = semi-minor axis = 6356752.0 meters
+      N = a / sqrt(1 - e * e * sin(PHI) * sin(PHI))
+      e = first eccentricity = sqrt(2 * f - f * f)
+      f = earth-flattening = (a - b) / a
+    </code></pre>
+    </TD></TR>
 
 </TABLE></CENTER>
 
 <P><BR CLEAR="LEFT">
-Thus, the input values are <B>PHI</B> and <B>LAMBDA</B>. For the toolkit being developed, the value of <B>h</B> (altitude) will be zero for all cases. The values of <B>a</B> (semi-major axis) and <B>b</B> (semi-minor axis) are fixed based on the reference ellipsoid. The remaining values are derived. Some, such as <I>flattening</I> are constants since they are derived from other constants [11] [3]. 
+Thus, the input values are <B>PHI</B> and <B>LAMBDA</B>. For the toolkit being
+developed, the value of <B>h</B> (altitude) will be zero for all cases. The
+values of <B>a</B> (semi-major axis) and <B>b</B> (semi-minor axis) are fixed
+based on the reference ellipsoid. The remaining values are derived. Some, such
+as <I>flattening</I> are constants since they are derived from other
+constants [11] [3]. 
 <!-- ************   Ellipsoid Model   ************ -->
  
 <P><B><U>Ellipsoid Earth:</U></B> The [longitude, latitude] values from the DCW database are <I>geodetic</I> coordinates based on the WGS-84 model. Thus, the equations described in Figure 4.6 are used for the toolkit. 
@@ -1355,20 +1383,36 @@ Thus, the input values are <B>PHI</B> and <B>LAMBDA</B>. For the toolkit being d
 <P><BR CLEAR="LEFT">
 <BR CLEAR="LEFT">
 Manipulating the following ratios, 
-<P>| a - x | | a - x* | 
-<P>----------- = ------------ 
-<P>k + z k 
-<P>| y - b | | y* - b | 
-<P>----------- = ------------ 
-<P>k + z k 
-<P><BR CLEAR="LEFT">
+<pre><code>
+   | a - x |      | a - x* | 
+   ----------- = ------------ 
+     k + z            k 
+
+   | y - b |      | y* - b | 
+   ----------- = ------------ 
+     k + z            k 
+</code></pre>
+
+<BR CLEAR="LEFT">
 yields the following projection equations [5]: <BR CLEAR="LEFT">
 <BR CLEAR="LEFT">
 
 <P><CENTER>
 <TABLE BORDER="1" CELLSPACING="0" WIDTH="606">
 	<TR>
-		<TD ALIGN="LEFT" VALIGN="MIDDLE">a z + k x<P>x* = ------------<P>k + z<P>b z + k y<P>y* = ------------<P>k + z<P></TD></TR>
+		<TD ALIGN="LEFT" VALIGN="MIDDLE">
+<pre><code>
+         a z + k x
+   x* = ------------
+          k + z
+
+
+         b z + k y
+   y* = ------------
+          k + z
+
+</code></pre>
+</TD></TR>
 
 </TABLE></CENTER>
 
