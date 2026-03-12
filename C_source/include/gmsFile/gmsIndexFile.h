@@ -51,10 +51,10 @@
    #define INDEX
 
    typedef struct _indexRecordType
-      {
+   {
        long byteOffset;
        int  numBytes;
-      } indexRecordType;
+   } indexRecordType;
 
    typedef struct _indexTableType
       {
