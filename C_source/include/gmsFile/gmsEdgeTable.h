@@ -27,7 +27,7 @@
  *       Coordinate:
  *       -----------
  *          A specified position in Cartesian space.  The
- *          value takes the form of a short or long floating
+ *          value takes the form of a short or double floating
  *          point value.  A Z value (if any) is ignored during
  *          the enforcement and use of planar graphs.
  *
