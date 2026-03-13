@@ -1,5 +1,6 @@
 		CALIFORNIA STATE UNIVERSITY, NORTHRIDGE
 
+![csunlogo](./diagrams/csunlogo.gif "csunlogo")
 
 
 
@@ -1741,10 +1742,6 @@ functions that could be implemented by a client by using the
 Extabula Toolkit directly. 
 
 
-
-![csunlogo](./diagrams/csunlogo.gif "csunlogo")
-![sys_arch](./diagrams/sys_arch.gif "sys_arch")
-![dcw_db_arch](./diagrams/dcw_db_arch.gif "dcw_db_arch")
 ![tile_ref](./diagrams/tile_ref.bmp "tile_ref")
 ![tile_ref_2](./diagrams/tile_ref_2.bmp "tile_ref_2")
 ![tile_arch](./diagrams/tile_arch.gif "tile_arch")
