@@ -103,19 +103,64 @@ rather than a development of new technology.
 
 ## 1.1 Introduction:
 
-Maps and models of the earth have been produced since antiquity. They describe the geography of the land, the political boundaries of countries, and are used for navigation. History shows that maps and models of the earth were important for trade, exploration, and military uses. One of the earliest models of the earth was developed in the 8th century BC by the Greek philosopher Homer who described the earth as a flat disk. Anaximenes, in the 6th century BC, then modeled the earth as a rectangle. But Pythogoras (also in the 6th century BC) described the earth as a sphere since he believed that all perfect objects must be based on a sphere. Plato, Aristotle, and Archimedes all supported the idea of modeling the earth as a sphere. Plato calculated the circumference of the earth to be 40,000 miles while Archimedes' calculations resulted in a circumference of 30,000 miles. Then, in the 3rd century BC, the Greek mathematician Eratosthenes used physical measurements near Alexandria, Egypt and calculated the circumference of the earth to be 25,000 miles. This is remarkable since the accepted average circumference of the earth today is 24,901 miles [12].
+Maps and models of the earth have been produced since antiquity. They
+describe the geography of the land, the political boundaries of
+countries, and are used for navigation. History shows that
+maps and models of the earth were important for trade,
+exploration, and military uses. One of the earliest models
+of the earth was developed in the 8th century BC by
+the Greek philosopher Homer who described the earth as a flat
+disk. Anaximenes, in the 6th century BC, then
+modeled the earth as a rectangle. But Pythogoras (also
+in the 6th century BC) described the earth as a
+sphere since he believed that all perfect objects must be based
+on a sphere. Plato, Aristotle, and Archimedes all
+supported the idea of modeling the earth as a sphere.
+Plato calculated the circumference of the earth to be 40,
+00 miles while Archimedes' calculations resulted in a circumference of
+30,000 miles. Then, in the 3rd century BC, the Greek mathematician
+Eratosthenes used physical measurements near Alexandria Egypt and calculated
+the circumference of the earth to be 25 000 miles. This is remarkable since
+the accepted average circumference of the earth today is 24,901 miles [12].
 
-The Greek mathematician Ptolemy (127-151 AD) developed maps that had influence through the middle ages and up to the beginning of the Renaissance. But he erroneously calculated the circumference of the earth to be 18K miles. Some historians speculate that Columbus used maps derived from Ptolemy and that led him (Columbus) to erroneously believe that Asia was only 3,000 or 4,000 miles west of Europe. The Flemish cartographer Gerardus Mercator (1512-1594) began developing more accurate maps based on the information gathered by the 15th and 16th century explorers [12].
+The Greek mathematician Ptolemy (127-151 AD) developed maps that had
+influence through the middle ages and up to the beginning of
+the Renaissance. But he erroneously calculated the circumference of the
+earth to be 18K miles. Some historians speculate that Columbus
+used maps derived from Ptolemy and that led him (Columbus
+ to erroneously believe that Asia was only 3,000 or
+4,000 miles west of Europe. The Flemish cartographer Gerardus
+Mercator (1512-1594) began developing more accurate maps
+based on the information gathered by the 15th and 16th century
+explorers [12].
 
-By the 17th century AD, it was internationally accepted that the earth was a flattened sphere (i.e. an ellipsoid). This agreement was reached after a long debate between French and English geodesists. The French (Cassini, et.al.) believed the semi-major axis of the ellipsoid ran from the North-pole to the South-pole. However, the English (Newton, Huygen, et.al.) believed that the semi-major axis was perpendicular to the North/South-pole line and were proved correct by a series of geodetic experiments [12].
+By the 17th century AD, it was internationally accepted that
+the earth was a flattened sphere (i.e. an ellipsoid). This agreement
+was reached after a long debate between French and English geodesists.
+The French (Cassini, et.al.) believed the semi-major axis of the
+ellipsoid ran from the North-pole to the South-pole. However, the English
+(Newton, Huygen, et.al.) believed that the semi-major axis was perpendicular
+to the North/South-pole line and were proved correct by a series of
+geodetic experiments [12].
 
-Accurate maps and models of the earth are perhaps more important today than in the past. Maps are important for accurate navigation (both naval and air), civil engineering, military planning, and oil and mineral explorations. Other uses include agriculture, cadastre (i.e. property taxation), environment and urban planning, surveillance, forestry, and geology [16].
+Accurate maps and models of the earth are perhaps more important
+today than in the past. Maps are important for accurate
+navigation (both naval and air), civil engineering, military
+planning, and oil and mineral explorations. Other uses include
+agriculture, cadastre (i.e. property taxation),
+environment and urban planning, surveillance, forestry, and geology
+[16].
 
-With the advent of the computer, the earth can be modeled graphically. Maps can now be quickly rendered and manipulated to provide users with needed information. Geographic data and the computer programs that display maps graphically are called Geographic Information Systems (GIS). Also, GIS programs must perform analytic functions (such as line-of-sight calculations) for an operator.
+With the advent of the computer, the earth can be
+modeled graphically. Maps can now be quickly rendered and manipulated
+to provide users with needed information. Geographic data and the
+computer programs that display maps graphically are called Geographic Information Systems (GIS). Also, GIS programs must perform analytic functions
+(such as line-of-sight calculations) for an operator.
 
-This project/thesis is a study of the technology used to process a digital database of geographic data and also to graphically display that data. A software product, called the Geographic Map System has been developed in support of this study.
-
-
+This project/thesis is a study of the technology used
+to process a digital database of geographic data and also to
+graphically display that data. A software product, called the Geographic
+Map System has been developed in support of this study.
 
 ## 1.2 Types of Digital Maps:
 
@@ -125,51 +170,190 @@ At a high level, digital map databases can be divided into three categories:
     Digitized Raster Systems
     Terrain Elevation Systems 
 
-Vector Map Systems are databases in which the geographic information is stored as tuples of [latitude, longitude, altitude]. Map images are generated by manipulating these position tuples. For example, borders of countries and continents are defined as an array of [latitude, longitude] pairs. Such information can be used to generate wire-framed maps.
+Vector Map Systems are databases in which the geographic information is
+stored as tuples of [latitude, longitude, altitude].
+Map images are generated by manipulating these position tuples. For
+example, borders of countries and continents are defined as an
+array of [latitude, longitude] pairs. Such information
+can be used to generate wire-framed maps.
 
-Digitized Raster Systems, the second category, are essentially a digitization of "paper maps". These databases consist of raster images of the paper maps. The paper maps are usually classified by the resolution which in turn determines their use. Maps of lower resolution are likely to be used by pilots at high altitudes and maps of higher resolution are used for low-level flying. A digital database of the maps is created by scanning the paper maps. A computer system can then generate raster images from the digitized data. Not many manipulations of the digital map data are possible since it is a raster image. Sometimes, vector data is overlaid on an image of a paper map to augment the image. This is similar to using acetate overlays on a desktop map. Also, satellite imagery is considered a Digitized Raster System. These systems are databases of digital images generated by satellites. One such system used by the US Department of Defense is called Arc Digitized Raster Imagery.
+Digitized Raster Systems, the second category, are essentially a
+digitization of "paper maps". These databases consist of raster
+images of the paper maps. The paper maps are usually
+classified by the resolution which in turn determines their use.
+Maps of lower resolution are likely to be used by pilots
+at high altitudes and maps of higher resolution are used for
+low-level flying. A digital database of the maps
+is created by scanning the paper maps. A computer system
+can then generate raster images from the digitized data. Not
+many manipulations of the digital map data are possible since it
+is a raster image. Sometimes, vector data is overlaid
+on an image of a paper map to augment the image
+ This is similar to using acetate overlays on a desktop map
+ Also, satellite imagery is considered a Digitized Raster System.
+These systems are databases of digital images generated by satellites.
+One such system used by the US Department of Defense is
+called Arc Digitized Raster Imagery.
 
-Terrain Elevation Systems (the third category) are used to generate detailed three-dimensional displays of regions of the earth. Such systems show differences in elevation of the terrain (in some cases to a high degree of accuracy) and can be used to generate accurate images of mountains, valleys, etc. One example of such a system is called Digital Terrain Elevation Data (DTED) and is produced by the US Goverment. Each datum in a DTED database represents the elevation at a particular point on the earth. There are three types of DTED databases each differing in the resolution of the data. Level 0 DTED is the lowest resolution at 1000 meters (horizontally) between each datum. Level 1 DTED is more accurate at 100 meters between each datum. The highest resolution of DTED is Level 2 at 30 meters between each datum. Level 0 is the only publicly available database. The other two (Level 1 and Level 2) remain classified by the US Government.
+Terrain Elevation Systems (the third category) are used to
+generate detailed three-dimensional displays of regions of the earth
+ Such systems show differences in elevation of the terrain (in
+some cases to a high degree of accuracy) and can
+be used to generate accurate images of mountains, valleys,
+etc. One example of such a system is called Digital
+Terrain Elevation Data (DTED) and is produced by the
+US Goverment. Each datum in a DTED database represents the
+elevation at a particular point on the earth. There are
+three types of DTED databases each differing in the resolution of
+the data. Level 0 DTED is the lowest resolution at
+1000 meters (horizontally) between each datum. Level 1
+DTED is more accurate at 100 meters between each datum.
+The highest resolution of DTED is Level 2 at 30 meters
+between each datum. Level 0 is the only publicly available
+database. The other two (Level 1 and Level 2) remain classified by
+the US Government.
 
-Note that Terrain Elevation Systems are distinguished from Vector Systems because the data is eventually used to generate only raster images. For example, even though DTED data is a series of tuples of [longitude, latitude, altitude], a GIS program cannot generate the political boundaries of a country. Furthermore, Terrain Elevation Systems are distinguished from Digitized Raster Systems because the source data is not a series of pure pixel values. A GIS program must read the tuples of [longitude, latitude, altitude] and apply its own coloring scheme to render an image. Also, three-dimensional transformations can be applied to the terrain elevation data to generate different projections and images (of the same data). This is opposed to Digitized Raster Systems that contain only pixel information. Applying transformations without a frame of reference will generate an undefined image.
+Note that Terrain Elevation Systems are distinguished from Vector Systems
+because the data is eventually used to generate only raster images. For
+example, even though DTED data is a series of tuples of
+[longitude, latitude, altitude], a GIS program cannot generate the
+political boundaries of a country. Furthermore, Terrain Elevation Systems
+are distinguished from Digitized Raster Systems because the source data
+is not a series of pure pixel values. A GIS program must read the tuples
+of [longitude, latitude, altitude] and apply its own coloring scheme to
+render an image. Also, three-dimensional transformations can be applied
+to the terrain elevation data to generate different projections and
+images (of the same data). This is opposed to Digitized Raster Systems
+that contain only pixel information. Applying transformations without a frame
+of reference will generate an undefined image.
 
-It should be noted that the format of digital map systems can vary significantly. This can occur becuase the developer/vendor of a GIS product also defined the format of the data. This was typically done independently from other map developers and users. This usually rendered the data useless to anyone except the vendor ... and to whomever purchased the GIS product. However, in more recent years, an effort has been made to develop digital map data that is independent of any specific GIS product. Such a database is said to be of neutral format. GIS products are then developed to use these databases of neutral format [17].
+It should be noted that the format of digital map systems can
+ vary significantly. This can occur becuase the developer/vendor of
+ a GIS product also defined the format of the data. This
+ was typically done independently from other map developers and users. This
+ usually rendered the data useless to anyone except the vendor ... and
+ to whomever purchased the GIS product. However, in more recent
+ years, an effort has been made to develop digital map data
+ that is independent of any specific GIS product. Such a database
+ is said to be of neutral format. GIS products are then
+ developed to use these databases of neutral format [17].
 
-Map projection schemes also are important in classifying map systems. A projection scheme is used to solve the age old paradox of how to display the spherical/ellipsoid earth onto a flat piece of paper. Some typical projection schemes are:
+Map projection schemes also are important in classifying map systems. A
+ projection scheme is used to solve the age old paradox of how
+ to display the spherical/ellipsoid earth onto a flat piece of
+ paper. Some typical projection schemes are:
 
-    The Mercator Projection:
-    This scheme places the globe in a cylinder. The equator of the globe is tangent with the walls of the cylinder. Thus, the radius of the cylinder is said to be the same as that of the globe. Every point on the globe is then projected onto the walls of the cylinder. This is analagous to placing a light bulb in the middle of the globe and then observing the shadow/image that is projected onto the walls of the cylinder. However, accuracy is lost at the poles. Actually, accuracy of the image is progressively worse as the projection moves away from the equator (north and south). Accuracy is often said to be tolerable (for many applications) up to 70° North Latitude and down to 70° South Latitude [3].
-    Lambert Conformal:
-    This scheme places a cone on the globe. The image of the globe is then projected onto the walls of the cone. This scheme gives a more accurate projection at the poles than the Mercator Projection. Accuracy is greatest where the edge of the cone is tangent to the globe. Actually, different images can be generated by orienting the cone at different points on the globe. For example, the edges of the cone could be set to be tangent with the North/South poles as opposed to the equator [3].
-    Transverse Mercator:
-    This scheme is a variation on the Mercator Projection. It simply rotates the globe inside the cylinder such that the North/South poles are now tangent to the walls of the cylinder. This gives an accurate projection for the points at the poles while sacrificing accuracy at the equator [3]. 
+## The Mercator Projection:
+This scheme places the globe in a cylinder. The equator of
+ the globe is tangent with the walls of the cylinder. Thus, the radius
+of the cylinder is said to be the same as that of
+ the globe. Every point on the globe is then projected onto
+ the walls of the cylinder. This is analagous to placing a
+ light bulb in the middle of the globe and then observing the
+ shadow/image that is projected onto the walls of the cylinder. However,
+ accuracy is lost at the poles. Actually, accuracy of the
+ image is progressively worse as the projection moves away from the equator
+ (north and south). Accuracy is often said to be tolerable
+ (for many applications) up to 70° North Latitude and down
+ to 70° South Latitude [3].
+
+## Lambert Conformal:
+This scheme places a cone on the globe. The image of
+ the globe is then projected onto the walls of the cone.
+ This scheme gives a more accurate projection at the poles than the
+ Mercator Projection. Accuracy is greatest where the edge of the cone
+ is tangent to the globe. Actually, different images can be
+ generated by orienting the cone at different points on the globe.
+ For example, the edges of the cone could be set to
+ be tangent with the North/South poles as opposed to the equator [3].
+
+## Transverse Mercator:
+This scheme is a variation on the Mercator Projection. It simply
+ rotates the globe inside the cylinder such that the North/South
+ poles are now tangent to the walls of the cylinder. This
+ gives an accurate projection for the points at the poles while sacrificing
+ accuracy at the equator [3]. 
 
 Some database systems were produced using more than one projection scheme [10].
 
-Another important characteristic used to categorize map systems is called the scale of the map. It is also sometimes referred to as the resolution of the map data. The scale of a map is usually stated as the ratio 1:X where the 1 refers to one unit of measure "on the map" and the X refers to the same unit of measure but "in the real world". For example, a scale of 1:10,000 means that 1 centimeter on the map corresponds to 10,000 centimeters (0.1 Km) on the earth. Another method used to specify resolution is the ratio meters-per-pixel. This ratio is applied to raster images and photographs. The ratio indicates how many square meters of an object/region has been compressed into one pixel of the image. A small ratio indicates an image of high resolution.
+Another important characteristic used to categorize map systems is
+called the scale of the map. It is also sometimes referred
+ to as the resolution of the map data. The scale of
+ a map is usually stated as the ratio 1:X where
+ the 1 refers to one unit of measure "on the map" and the X refers
+ to the same unit of measure but "in the real world". For example,
+a scale of 1:10,000 means that 1 centimeter on
+ the map corresponds to 10,000 centimeters (0.1 Km) on the earth. Another
+method used to specify resolution is the ratio meters-per-pixel. This
+ratio is applied to raster images and photographs. The ratio indicates
+ how many square meters of an object/region has been compressed
+ into one pixel of the image. A small ratio indicates an
+ image of high resolution.
 
 
 
 ## 1.3 Sources of Digital Maps:
 
-There are several institutions that generate digitized geographic data. One source of maps is the United States Government. In particular, two federal agencies are producers of several types of digital databases of geographic data. The first is the U.S. Geological Survey (USGS) (a bureau of the US Department of the Interior). This agency (http://www.usgs.gov) provides maps for geography, geology, mining, etc. Second, the National Imagery and Mapping Agency (NIMA) provides maps in support of the US Department of Defense (DoD) but has recently made some maps publicly available (http://www.nima.mil).
+There are several institutions that generate digitized geographic
+ data. One source of maps is the
+ United States Government. In particular, two
+ federal agencies are producers of several types of
+ digital databases of geographic data. The first
+ is the U.S. Geological Survey (USGS) (a bureau of the US Department
+ of the Interior). This agency (http://www.usgs.gov) provides maps
+ for geography, geology, mining, etc. Second, the National Imagery
+ and Mapping Agency (NIMA) provides maps
+ in support of the US Department of Defense (DoD) but has recently
+ made some maps publicly available (http://www.nima.mil).
 
-The U.S. Geological Survey (USGS): The USGS maintains an extensive series of different types of digital map systems. Examples of some of their maps systems are:
+The U.S. Geological Survey (USGS): The USGS maintains an extensive
+series of different types of digital map systems. Examples of some
+of their maps systems are:
 
-    Digital Orthophoto Quadrangle (DOQ)
-    This system is a database of digitzed aerial photographs. Resolution is high at 1:12K. This is an example of a Digitized Raster System [6].
-    Digital Line Graph (DLG)
-    These databases contain vector files of line data (e.g. roads, rivers, borders of US states, etc). The USGS provides two scales for this map type, one at 1:100K scale, and another at 1:2M scale [6].
-    Digital Raster Graphics (DRG)
-    These maps are scanned images of USGS paper maps. Often, these DRG systems are combined with DLG and DOG images [6].
-    Digital Elevation Model (DEM)
-    This system is similar to the Digital Terrain Elevation Data (DTED) system. The DEM system is a database of terrain elevations at regulary spaced (horizontal) points on the earth [6]. 
+    1. Digital Orthophoto Quadrangle (DOQ)
+       This system is a database of digitzed aerial photographs. Resolution
+       is high at 1:12K. This is an example of a Digitized Raster System [6].
 
-The National Imagery and Mapping Agency (NIMA): This agency also maintains an extensive library of digital map systems. Often, map data is available from NIMA for regions of the world that are not covered by map systems from the USGS. For example, the DTED system is produced and managed by NIMA while the DEM system is produced and managed by the USGS. Although DTED and DEM are similar (i.e. both Terrain Elevation Systems) the USGS does not have data available for parts of Europe since that is not part of their mission.
+    2. Digital Line Graph (DLG)
+       These databases contain vector files of line data (e.g. roads,
+       rivers, borders of US states, etc). The USGS provides two scales
+       for this map type, one at 1:100K scale, and another
+       at 1:2M scale [6].
 
-NIMA manages several Vector Map Systems. One such sytem is called the the Digital Chart of the World (DCW). It was developed in the early 1990's and contains over 1600 mega-bytes of data for the entire globe [9].
+    3. Digital Raster Graphics (DRG)
+       These maps are scanned images of USGS paper maps. Often, these
+       DRG systems are combined with DLG and DOG images [6].
 
-NIMA also manages a large library of paper maps of various regions of the world and to varying degrees of resolution. NIMA implemented a series of projects to digitally scan these paper maps, thereby converting the "paper" library to a "digital" library. These systems are called ARC Digitized Raster Graphics (ADRG). The term ARC means Equal Arc-second Raster Chart/Map. ARC is a coordinate scheme to identify regions of the globe where errors in resolution of a given map-sheet due to changes in latitude are negligible [17]. Some examples of these databases (and the corresponding scale) are:
+    4. Digital Elevation Model (DEM)
+       This system is similar to the Digital Terrain Elevation
+       Data (DTED) system. The DEM system is a database of terrain
+       elevations at regulary spaced (horizontal) points on the earth [6]. 
+
+## The National Imagery and Mapping Agency (NIMA):
+This agency also maintains an extensive library of
+ digital map systems. Often, map data
+ is available from NIMA for regions of the
+ world that are not covered by map systems
+ from the USGS. For example, the
+ DTED system is produced and managed by NIMA while the
+ DEM system is produced and managed by the USGS.
+ Although DTED and DEM are similar (i.e. both Terrain Elevation Systems)
+ the USGS does not have data available for parts of
+ Europe since that is not part of their mission.
+
+NIMA manages several Vector Map Systems. One such sytem is called the the
+Digital Chart of the World (DCW).  It was developed in the early
+1990's and contains over 1600 mega-bytes of data for the entire globe [9].
+
+NIMA also manages a large library of paper maps of various regions of
+the world and to varying degrees of resolution. NIMA implemented a series
+of projects to digitally scan these paper maps, thereby converting
+the "paper" library to a "digital" library. These systems are called
+ARC Digitized Raster Graphics (ADRG). The term ARC means
+Equal Arc-second Raster Chart/Map. ARC is a coordinate scheme to
+identify regions of the globe where errors in resolution of a
+given map-sheet due to changes in latitude are negligible [17].
+Some examples of these databases (and the corresponding scale) are:
 ```
     GNC - Global Navigation Chart - 1:5M
     JNC - Jet Navigation Chart - 1:2M
@@ -191,59 +375,152 @@ North/South poles [9].
 NIMA also produces and manages the (previously mentioned) products ARC
 Digitized Raster Imagery (ADRI) and Digital Terrain Elevation Data (DTED).
 
-There are other sources (besides NIMA and the USGS) of satellite imagery. Consider the following:
+There are other sources (besides NIMA and the USGS) of satellite imagery.
+Consider the following:
 
-    Spot Eath Observation System:
-    The French organization CNES (Centre National d'Etudes Spatiales), with support from Sweden and Belgium, maintain a series of satellites and ground stations called Spot. This organization (http://www.spot.com) generates raster imagery of the earth and then sells it to the public. A customer usually specifies the region of interest.
-    SPIN-2:
-    In an ironic twist to the end of the cold-war, Aerial Images, Inc. (Raleigh, NC), and Central Trading Systems, Inc, (Huntington Bay, NY) joined with the organization called Interbranch Association: SOVINFORMSPUTNIK (Moscow, Russia) to sell imagery from a network of Russian satellites (http://www.spin-2.com). This system was once classified and part of the Soviet military's surveillance system . The imagery from this system is high resolution (e.g. 1.56 meters-per-pixel).
-    UK Perspectives:
-    The British government began the National Remote Sensing Centre (NRSC) to produce and manage satellite imagery. This organization then became public in 1991 and joined with two other companies to provide satellite imagery to the public. (http://www.ukperspectives.com).
-    Terraserver:
-    This organization (Aerial Images, Inc., Microsoft, the USGS, and Compaq) manage a database of satellite imagery and aerial photographs (http://www.terraserver.com). The sources of the imagery are the USGS, SPIN-2, and UK Perspectives systems. Customers can request (and pay for) imagery for specific areas of the earth. Some imagery is available via the internet as JPEG or TIFF files. 
+   1. Spot Eath Observation System:
+      The French organization CNES (Centre National d'Etudes Spatiales),
+      with support from Sweden and Belgium, maintain a series of
+      satellites and ground stations called Spot. This organization
+      (http://www.spot.com) generates raster imagery of the earth and
+      then sells it to the public. A customer usually specifies the
+      region of interest.
 
-1.4 The Geographic Map System
+   2. SPIN-2:
+      In an ironic twist to the end of the cold-war,
+      Aerial Images, Inc. (Raleigh, NC), and Central Trading
+      Systems, Inc, (Huntington Bay, NY) joined with the organization
+      called Interbranch Association: SOVINFORMSPUTNIK (Moscow, Russia)
+      to sell imagery from a network of Russian satellites
+      (http://www.spin-2.com). This system was once classified and part
+      of the Soviet military's surveillance system . The imagery from
+      this system is high resolution (e.g. 1.56 meters-per-pixel).
 
-The focus of this project/thesis was to investigate how Geographic Information Systems (GIS) are developed. There are several mapping systems currently available from various vendors. However, the details of the implementation are always hidden from the user/customer. Therefore, this is an investigation of existing technology, rather than a development of new technology.
+    3. UK Perspectives:
+       The British government began the National Remote Sensing
+       Centre (NRSC) to produce and manage satellite imagery. This
+       organization then became public in 1991 and joined with two
+       other companies to provide satellite imagery to the
+       public. (http://www.ukperspectives.com).
 
-Given a computer and a database of (raw) geographic information, the basic software components of a GIS product (i.e. the application software) are:
+    4. Terraserver:
+       This organization (Aerial Images, Inc., Microsoft, the USGS,
+       and Compaq) manage a database of satellite imagery and aerial
+       photographs (http://www.terraserver.com). The sources of the
+       imagery are the USGS, SPIN-2, and UK Perspectives systems. Customers
+       can request (and pay for) imagery for specific areas of the
+       earth. Some imagery is available via the internet as JPEG
+       or TIFF files. 
 
-    File Management - this component reads the geographic information from the database.
-    Graphics/Data Operations - this component manipulates the data from the first component and prepares it to be displayed graphically. It also performs analytic functions (e.g. line-of-sight calculations).
-    User Interface - this component graphically displays the data to an operator. Also, this component reacts to requests from the operator. 
+## 1.4 The Geographic Map System
+
+The focus of this project/thesis was to investigate how Geographic
+Information Systems (GIS) are developed. There are several mapping systems
+currently available from various vendors. However, the details of the
+implementation are always hidden from the user/customer. Therefore, this
+is an investigation of existing technology, rather than a development
+of new technology.
+
+Given a computer and a database of (raw) geographic information, the
+basic software components of a GIS product (i.e. the application
+software) are:
+
+   1. File Management - this component reads the geographic information
+      from the database.
+
+   2. Graphics/Data Operations - this component manipulates the data
+      from the first component and prepares it to be displayed
+      graphically. It also performs analytic functions (e.g.
+      line-of-sight calculations).
+
+   3. User Interface - this component graphically displays the data
+      to an operator. Also, this component reacts to requests from
+      the operator. 
 
 The interaction of these components are illustrated in Figure 1.1 below:
 
-Figure 1.1 : Basic Architecture of GIS Products
-
 ![Basic-Architecture](./diagrams/sys_arch.gif "Basic Arch")
 
+Figure 1.1 : Basic Architecture of GIS Products
 
-Often, developers of GIS products will purchase the first two components (the ones shaded in yellow in Figure 1.1) and then write the third component based on the needs of a particular customer. The focus of this graduate project/thesis was the converse of this approach. The objective was to study and then develop the first two components. The results are a software product called the Geographic Map System (GMS).
+Often, developers of GIS products will purchase the first
+ two components (the ones shaded in yellow in Figure 1.1) and then
+ write the third component based on the needs of a
+ particular customer. The focus of this graduate project/
+thesis was the converse of this approach. The objective
+ was to study and then develop the first two components. The results
+ are a software product called the Geographic Map System (GMS).
 
-For this exercise the vector map system called Digital Chart of the World (DCW) was chosen. For this type of database, two software toolkits were produced. The first is called the GMS Extabula Toolkit (Extabula, Latin for "from the map/chart"). This toolkit corresponds to the File Management component (of Figure 1.1). It is used to read the information from the DCW database and prepare it so it can be manipulated by client software. The second toolkit is called the GMS DCW Graphics Toolkit and corresponds to the Graphics/Data Operations component (of Figure 1.1). Its function is to prepare the data from the first toolkit in such a way that it can easily be displayed by the user interface component of the GIS.
+For this exercise the vector map system called Digital Chart
+ of the World (DCW) was chosen. For
+ this type of database, two software toolkits were produced. The first
+ is called the GMS Extabula Toolkit (Extabula, Latin
+ for "from the map/chart"). This toolkit corresponds to the File
+ Management component (of Figure 1.1). It is used to read the
+ information from the DCW database and prepare it so it can be
+ manipulated by client software. The second toolkit is called the
+ GMS DCW Graphics Toolkit and corresponds to the Graphics/Data
+ Operations component (of Figure 1.1). Its function is to prepare
+ the data from the first toolkit in such a way that it can easily
+ be displayed by the user interface component of the GIS.
 
-In addition to these two toolkits, a series of applications were developed to demonstrate some functionality of the GMS toolkits. Although not overly sophisticated (compared to GIS products available on the market), these applications exercise some of the core capabilities of the two toolkits.
+In addition to these two toolkits, a series of applications were developed
+ to demonstrate some functionality of the GMS toolkits.  Although not
+ overly sophisticated (compared to GIS products available on the market),
+these applications exercise some of the core capabilities of the two toolkits.
 
 # Chapter 2 - The DCW Database
 
 2.1 Introduction:
 
-The Digital Chart of the World (DCW) is a database of geographic information. The information is stored on 4 CD-ROMs and covers the entire earth. The DCW database was developed in the early 1990's by the National Imagery and Mapping Agency (NIMA). Other agencies that supplied source maps were the [9]:
-
+The Digital Chart of the World (DCW) is
+ a database of geographic information. The information is stored
+ on 4 CD-ROMs and covers the entire earth. The DCW database was
+ developed in the early 1990's by the National Imagery
+ and Mapping Agency (NIMA). Other agencies that supplied source
+ maps were the [9]:
+```
     Australian Army Survey
     Canadian Directorate of Geographic Operations
     United Kingdom Military Survey.
     US Geological Survey 
-
+```
 At the time of the DCW project, NIMA was called the Defense Mapping Agency.
 
-NIMA (http://www.nima.mil) is part of the US Department of Defense (DoD). Its function is to provide geographic information to other members of the Department of Defense. The purpose of the DCW product is to provide a datbase of neutral format that can be used by several different types of geographic information systems (GIS). The objective was to support GIS products in the military, scientific, and educational communities.
+NIMA (http://www.nima.mil) is part of the US Department of Defense
+(DoD). Its function is to provide geographic information to other
+members of the Department of Defense. The purpose of the DCW product
+is to provide a datbase of neutral format that can be used by several
+different types of geographic information systems (GIS). The objective was to support GIS products in the military, scientific, and educational communities.
 
-As mentioned in Chapter 1, the DCW database is a vector map system. The data is organized as tuples of longitude, latitude, and altitude (when applicable). For example, the political borders of a country are specified as an array of latitude/longitude pairs. The DCW database actually conforms to a rigorous definition that is called the Vector Product Format (VPF) and is specified in the document Mil-Std-2407. The VPF is a protocol of how certain types of vector map data are to be organized. A vector map system that conforms to the VPF standard is said to be VPF compliant. The DCW database is VPF compliant.
+As mentioned in Chapter 1, the DCW database is
+ a vector map system. The data is organized as
+ tuples of longitude, latitude, and altitude (when
+ applicable). For example, the political borders of a
+ country are specified as an array of latitude/longitude
+ pairs. The DCW database actually conforms to a rigorous
+ definition that is called the Vector Product Format (VPF)
+ and is specified in the document Mil-Std-2407. The VPF is
+ a protocol of how certain types of vector map data are
+ to be organized. A vector map system that conforms to the
+ VPF standard is said to be VPF compliant. The DCW database is
+ VPF compliant.
 
-The DCW database was constructed using several types of paper maps. Specifically, the Operational Navigation Chart (ONC) map series and the Jet Navigation Chart (JNC) series were used. Rather than scanning these paper maps into raster images (as was done for the ADRG systems), the data from the ONC and JNC maps were further processed into vector data. The DCW database was constructed using 270 sheets of ONC map data (whose resolution is 1:1,000,000). The ONC map series was developed for the military and is typically used by pilots and planners. The DCW database was augmented using the JNC map series because the ONC series does not cover the region of Antarctica. The JNC series is also used for navigational purposes, but its resolution is less (than ONC) at 1:2,000,000 [9]. The companies that produced the DCW database for NIMA were:
-
+The DCW database was constructed using several types of paper
+ maps. Specifically, the Operational Navigation Chart (ONC) map
+ series and the Jet Navigation Chart (JNC) series were used. Rather
+ than scanning these paper maps into raster images (as was done
+ for the ADRG systems), the data from the ONC and JNC maps were
+ further processed into vector data. The DCW database was constructed
+ using 270 sheets of ONC map data (whose resolution is 1:1,000,000). The
+ ONC map series was developed for the military and is typically used by
+ pilots and planners. The DCW database was augmented using the JNC
+ map series because the ONC series does not cover the region of
+ Antarctica. The JNC series is also used for navigational
+ purposes, but its resolution is less
+ (than ONC) at 1:2,000,000 [9]. The companies that produced
+ the DCW database for NIMA were:
+```
     Environmental Systems Researth Institute, Inc.
     Loral Defense Systems (Akron OH)
     GEOVISION Inc. (Norcross, GA)
@@ -251,24 +528,41 @@ The DCW database was constructed using several types of paper maps. Specifically
     Aerial Information Systems (Redlands, CA)
     Philips/Dupont Optical Disk Manufacturing (Wilmington, DE)
     Geocode (Eau Claire, WI) 
+```
+The DCW database contains supplemental information to the ONC and
+ JNC maps. Information about airports was added using data called
+ Digital Aeronautical Flight Information File (DAFIF). Also, the
+ US Geological Survey provided information called Advanced Very
+ High Resolution Radiometer (AVHRR) that describes vegetation. Two
+ other map types were used to provide details about 355 world
+ cities. These maps were the Joint Operations Graphic (JOG) and
+ the Tactical Pilotage Chart (TPC) [9].
 
-The DCW database contains supplemental information to the ONC and JNC maps. Information about airports was added using data called Digital Aeronautical Flight Information File (DAFIF). Also, the US Geological Survey provided information called Advanced Very High Resolution Radiometer (AVHRR) that describes vegetation. Two other map types were used to provide details about 355 world cities. These maps were the Joint Operations Graphic (JOG) and the Tactical Pilotage Chart (TPC) [9].
 
+## 2.2 Architecture of the DCW Database:
 
-2.2 Architecture of the DCW Database:
+As mentioned, the DCW database consists of 4 CD-ROMs. On each CD is
+a series of directories (readable on DOS, UNIX, etc. systems) that
+ are called libraries. Each library further contains subdirectories
+ and eventually files of geographic data. Therefore, the term library
+ is synonymous with directory.
 
-As mentioned, the DCW database consists of 4 CD-ROMs. On each CD is a series of directories (readable on DOS, UNIX, etc. systems) that are called libraries. Each library further contains subdirectories and eventually files of geographic data. Therefore, the term library is synonymous with directory.
+The DCW is not a relational database in the way that
+ Oracle ® and Sybase ® are constructed. However, the DCW does contain
+ relational information. Furthermore, an effort was made to reduce
+ the amount of duplicate information which is another characteristic of
+ a relational database. However, in its simplest view, the DCW database
+ is a hierarchy of flat files.
 
-The DCW is not a relational database in the way that Oracle ® and Sybase ® are constructed. However, the DCW does contain relational information. Furthermore, an effort was made to reduce the amount of duplicate information which is another characteristic of a relational database. However, in its simplest view, the DCW database is a hierarchy of flat files.
-
-First, consider the highest-level libraries. The DCW database is divided into 5 such libraries:
-
+First, consider the highest-level libraries. The DCW database is
+divided into 5 such libraries:
+```
     NOAMER - North America
     EURNASIA - Europe and North Asia
     SOAMAFR - South America and Africa (and Antarctica)
     SASAUS - South Asia and Australia
     BROWSE - whole Earth 
-
+```
 The first four libraries (NOAMER, EURNASIA, SOAMAFR, and SASAUS) are called
 regional libraries and contain detailed geographic information about a
 specific area of the world. The BROWSE library contains high-level geographic
@@ -282,120 +576,164 @@ below:
 
 At the root of each CD-ROM are two directories. One is the regional library (i.e. a directory called NOAMER, or SOAMAFR, etc). The other is the browse library (i.e. a directory called BROWSE). Recall that the browse library is duplicated on each CD.
 
-Themes (Coverages) in the DCW Database: Each library (on a given CD) is further divided into what are called themes (also called coverages). These are categories of geographical information such as transportation, hydrology, and cities. A theme is also equivalent to a directory. Therefore, each theme is a subdirectory of a regional library. Each regional library contains 17 themes. The themes of a regional-library are summarized in Table 2.1 below:
+### Themes (Coverages) in the DCW Database:
+Each library (on a given CD) is further divided into what are
+ called themes (also called coverages). These are categories of
+ geographical information such as transportation, hydrology,
+ and cities. A theme is also equivalent to a directory. Therefore, each
+ theme is a subdirectory of a regional library. Each regional
+ library contains 17 themes. The themes of a regional-library are
+ summarized in Table 2.1 below:
 
-    Aeronautical Information
-    Directory Name : AE
-    This directory contains details about civil and military airports.
+   1. Aeronautical Information
+      Directory Name : AE
+      This directory contains details about civil and military airports.
 
-    Cultural Landmarks
-    Directory Name : CL
-    This directory contains data about landmarks of significance for a specified region.
+   2. Cultural Landmarks
+      Directory Name : CL
+      This directory contains data about landmarks of significance
+      for a specified region.
 
-    Data Quality
-    Directory Name : DQ
-    This directory contains data about the resolution and accuracy of the geographic data in a specified region.
+    3. Data Quality
+       Directory Name : DQ
+       This directory contains data about the resolution and accuracy of
+       the geographic data in a specified region.
 
-    Drainage Information
-    Directory Name : DN
-    This directory contains data about such geographic entities as glaciers, canals, aqueducts, wells, resevoirs, and dams.
+    4. Drainage Information
+       Directory Name : DN
+       This directory contains data about such geographic entities as
+       glaciers, canals, aqueducts, wells, resevoirs, and dams.
 
-    Drainage (supplemental)
-    Directory Name : DS
-    This directory contains additional drainage information about small lakes, and small islands of inland waters.
+    5. Drainage (supplemental)
+       Directory Name : DS
+       This directory contains additional drainage information about
+       small lakes, and small islands of inland waters.
 
-    Hypsographic Information
-    Directory Name : HY
-    This directory contains elevation data. Regions of equal elevation are specified. This data can be used to draw elevation contours on a map. Hypsography is the branch of geography dealing with the measurement of elevations above sea level.
+    6. Hypsographic Information
+       Directory Name : HY
+       This directory contains elevation data. Regions of equal elevation
+       are specified. This data can be used to draw elevation contours on
+       a map. Hypsography is the branch of geography dealing with the
+       measurement of elevations above sea level.
 
-    Hyspsographic (supplemental)
-    Directory Name : HS
-    This directory contains additional elevation data that was made available from different sources. For example, this directory typically contains information called spot elevation
+    7. Hyspsographic (supplemental)
+       Directory Name : HS
+       This directory contains additional elevation data that was made
+       available from different sources. For example, this directory
+       typically contains information called spot elevation
 
-    Land Cover Information
-    Directory Name : LC
-    This directory contains data about geographic entities such as rock quarries, strip mines, and oil fields.
+    8. Land Cover Information
+       Directory Name : LC
+       This directory contains data about geographic entities such
+       as rock quarries, strip mines, and oil fields.
 
-    Ocean Features
-    Directory Name : OF
-    This directory contains data about exposed ship wrecks, lighthouses, and reefs.
+    9. Ocean Features
+       Directory Name : OF
+       This directory contains data about exposed ship wrecks,
+       lighthouses, and reefs.
 
-    Physiography
-    Directory Name : PH
-    This directory contains data about physical geography. This is information about tectonic plates, fault-lines, etc.
+    10. Physiography
+        Directory Name : PH
+        This directory contains data about physical geography. This is
+        information about tectonic plates, fault-lines, etc.
 
-    Political/Oceans
-    Directory Name : PO
-    This directory contains data about the boundaries of all the continents and the borders of countries.
+    11. Political/Oceans
+        Directory Name : PO
+        This directory contains data about the boundaries of all
+        the continents and the borders of countries.
 
-    Populated Places
-    Directory Name : PP
-    This directory contains details of cities, towns, villages, and built-up areas.
+    12. Populated Places
+        Directory Name : PP
+        This directory contains details of cities, towns, villages,
+        and built-up areas.
 
-    Railroads
-    Directory Name : RR
-    This directory contains data about single and multi-track railroad systems.
+    13. Railroads
+        Directory Name : RR
+        This directory contains data about single and multi-track
+        railroad systems.
 
-    Roads
-    Directory Name : RD
-    This directory contains data about highways, dual and single lane roads, trails, etc.
+    14. Roads
+        Directory Name : RD
+        This directory contains data about highways, dual and single
+        lane roads, trails, etc.
 
-    Transportation Structures
-    Directory Name : TS
-    This directory contains data about commuter stations, highway overpasses, etc.
+    15. Transportation Structures
+        Directory Name : TS
+        This directory contains data about commuter stations, highway
+        overpasses, etc.
 
-    Utilities
-    Directory Name : UT
-    This directory contains data about electical power plants, water pumping stations, and other utility systems.
+    16. Utilities
+        Directory Name : UT
+        This directory contains data about electical power plants,
+        water pumping stations, and other utility systems.
 
-    Vegetation
-    Directory Name : VG
-    This directory contains data about forests, fields, agricultural crops, etc. Most of the VG information is only available for North America due to the supplemental information provided by the USGS. 
+    17. Vegetation
+        Directory Name : VG
+        This directory contains data about forests, fields, agricultural
+        crops, etc. Most of the VG information is only available for
+        North America due to the supplemental information provided
+        by the USGS. 
 
-The browse library is likewise divided into themes. However, there are 8 such themes. Some themes are the same as the regional libraries and some are unique to the browse library. In any case, there is less detail and resolution than in the regional libraries. The 8 themes of the browse-library are summarized in Table 2.2 below:
+The browse library is likewise divided into themes. However, there 
+are 8 such themes. Some themes are the same as the regional libraries
+ and some are unique to the browse library. In any case, there is less
+ detail and resolution than in the regional libraries. The 8 themes of
+ the browse-library are summarized in Table 2.2 below:
 
-    ONC Compilation Date
-    Directory Name : CO
-    This directory contains data about the dates of ONC charts used in the DCW database.
+    1. ONC Compilation Date
+       Directory Name : CO
+       This directory contains data about the dates of ONC charts
+       used in the DCW database.
 
-    Data Volume
-    Directory Name : DV
-    This diretory contains information about the storage and memory requirements of the DCW database.
+    2. Data Volume
+       Directory Name : DV
+       This diretory contains information about the storage
+       and memory requirements of the DCW database.
 
-    Drainage
-    Directory Name : DN
-    This directory contains data about lakes, rivers, and inland water ways.
+    3. Drainage
+       Directory Name : DN
+       This directory contains data about lakes, rivers, and
+       inland water ways.
 
-    Geographic Reference
-    Directory Name : GR
-    Describes the limits/boundaries of the browse data.
+    4. Geographic Reference
+       Directory Name : GR
+       Describes the limits/boundaries of the browse data.
 
-    Availability of Hypsographic Data
-    Directory Name : DA
-    This directory specifies the regions on the globe for which hypsographic data is defined (i.e. contained in the database).
+    5. Availability of Hypsographic Data
+       Directory Name : DA
+       This directory specifies the regions on the globe for
+       which hypsographic data is defined (i.e. contained in the database).
 
-    ONC Index
-    Directory Name : IN
-    Reference/Index to the ONC charts used in the database.
+    6. ONC Index
+       Directory Name : IN
+       Reference/Index to the ONC charts used in the database.
 
-    Political/Oceans
-    Directory Name : PO
-    This directory contains data about the boundaries of the continents, countries, etc.
+    7. Political/Oceans
+       Directory Name : PO
+       This directory contains data about the boundaries of the
+       continents, countries, etc.
 
-    Populated Places
-    Directory Name : PP
-    This directory contains general information about cities and towns. 
+    8. Populated Places
+       Directory Name : PP
+       This directory contains general information about cities and towns. 
+
+Before describing the architecture of the themes (i.e sub-directories), it
+will be helpful to first describe what is called the Geographic Reference
+System.
+
+## The Geographic Reference System (GEOREF):
+The GEOREF system is a coordinate scheme that partitions the earth into
+equal sized regions. This system uses a flat-earth model and then
+divides regions into equal sized areas called tiles. Each tile
+is a 15° by 15° cell as shown in Figure 2.2 below:
 
 
-Before describing the architecture of the themes (i.e sub-directories), it will be helpful to first describe what is called the Geographic Reference System.
-
-The Geographic Reference System (GEOREF): The GEOREF system is a coordinate scheme that partitions the earth into equal sized regions. This system uses a flat-earth model and then divides regions into equal sized areas called tiles. Each tile is a 15° by 15° cell as shown in Figure 2.2 below:
-
- 
 
 
-
-There are 24 longitude zones identified by the letters A through Z (except the letters I and O). The longitude zones start at -180° and move to 180° in 15° increments. Also, there are 12 latitude zones identified by the letters A through M (skipping I). The latitude zones start at -90° and move to 90° in 15° increments. A tile is identified by the tuple XY where X is the longitude zone and Y is the latitude zone. For example, the tile GJ is the area -90° .. -75° longitude and 30° .. 45° latitude (i.e. much of the eastern United States) [10].
+There are 24 longitude zones identified by the
+letters A through Z (except the letters I and O). The longitude zones
+start at -180° and move to 180° in 15° increments. Also, there
+are 12 latitude zones identified by the letters A through M (skipping I). The latitude zones start at -90° and move to 90° in 15° increments. A tile is identified by the tuple XY where X is the longitude zone and Y is the latitude zone. For example, the tile GJ is the area -90° .. -75° longitude and 30° .. 45° latitude (i.e. much of the eastern United States) [10].
 
 Each tile is then further divided into smaller 5° by 5° sub-tiles. The longitude sub-tiles are numbered column-wise 1 through 3 and the latitude sub-tiles are numbered row-wise 1 through 3. The first tile is 11 and is in the lower left corner of the outer tile [10]. See Figure 2.3 below:
 
@@ -1390,19 +1728,55 @@ data. Elevations are distinguished at 1000 foot intervals up to 29000 feet.
  ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
 
 
-
-
 ## 5.5 - Conclusions
 
-As this chapter shows, some applications were developed to exercise the functionality of the DCW Graphics Toolkit and Extabula Toolkit on an MS Windows platform. These demostration programs are not meant to be exhaustive since there are many other features available from either toolkit. A client application could use the DCW Graphics Toolkit for some functionality and then use the Extabula Toolkit directly for many other functions. Actually, there are an innumerable number of mapping functions that could be implemented by a client by using the Extabula Toolkit directly. 
+As this chapter shows, some applications were developed to exercise the
+functionality of the DCW Graphics Toolkit and Extabula Toolkit on an
+MS Windows platform. These demostration programs are not meant to be
+exhaustive since there are many other features available from either
+toolkit. A client application could use the DCW Graphics Toolkit for
+some functionality and then use the Extabula Toolkit directly for many
+other functions. Actually, there are an innumerable number of mapping
+functions that could be implemented by a client by using the
+Extabula Toolkit directly. 
 
 
 
-
-
-
-
-
-
-
+![csunlogo](./diagrams/csunlogo.gif "csunlogo")
+![sys_arch](./diagrams/sys_arch.gif "sys_arch")
+![dcw_db_arch](./diagrams/dcw_db_arch.gif "dcw_db_arch")
+![tile_ref](./diagrams/tile_ref.bmp "tile_ref")
+![tile_ref_2](./diagrams/tile_ref_2.bmp "tile_ref_2")
+![tile_arch](./diagrams/tile_arch.gif "tile_arch")
+![gms_io_toolkit](./diagrams/gms_io_toolkit.gif "gms_io_toolkit")
+![gms_graphics_toolkit](./diagrams/gms_graphics_toolkit.gif "gms_graphics_toolkit")
+![mercator_proj](./diagrams/mercator_proj.gif "mercator_proj")
+![sphere](./diagrams/sphere.gif "sphere")
+![diff_latitudes](./diagrams/diff_latitudes.gif "diff_latitudes")
+![ellipsoid](./diagrams/ellipsoid.gif "ellipsoid")
+![scn_proj](./diagrams/scn_proj.gif "scn_proj")
+![flat_browse_1](./diagrams/flat_browse_1.bmp "flat_browse_1")
+![flat_browse_2](./diagrams/flat_browse_2.bmp "flat_browse_2")
+![flat_browse_3](./diagrams/flat_browse_3.bmp "flat_browse_3")
+![flat_browse_4](./diagrams/flat_browse_4.bmp "flat_browse_4")
+![ellip_browse_1](./diagrams/ellip_browse_1.bmp "ellip_browse_1")
+![ellip_browse_2](./diagrams/ellip_browse_2.bmp "ellip_browse_2")
+![dht](./diagrams/dht.bmp "dht")
+![lat](./diagrams/lat.bmp "lat")
+![cat](./diagrams/cat.bmp "cat")
+![dqt](./diagrams/dqt.bmp "dqt")
+![grt](./diagrams/grt.bmp "grt")
+![lht](./diagrams/lht.bmp "lht")
+![soamafr_libref](./diagrams/soamafr_libref.bmp "soamafr_libref")
+![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
+![soamafr_2](./diagrams/soamafr_2.bmp "soamafr_2")
+![soamafr_3](./diagrams/soamafr_3.bmp "soamafr_3")
+![soamafr_4](./diagrams/soamafr_4.bmp "soamafr_4")
+![soamafr_5](./diagrams/soamafr_5.bmp "soamafr_5")
+![x_flat_1](./diagrams/x_flat_1.gif "x_flat_1")
+![x_flat_2](./diagrams/x_flat_2.gif "x_flat_2")
+![x_flat_3](./diagrams/x_flat_3.gif "x_flat_3")
+![x_world_1](./diagrams/x_world_1.gif "x_world_1")
+![x_world_2](./diagrams/x_world_2.gif "x_world_2")
+![x_world_3](./diagrams/x_world_3.gif "x_world_3")
 
