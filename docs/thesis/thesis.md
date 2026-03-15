@@ -1895,22 +1895,6 @@ functions that could be implemented by a client by using the
 Extabula Toolkit directly. 
 
 
-![tile_ref](./diagrams/tile_ref.bmp "tile_ref")
-![tile_ref_2](./diagrams/tile_ref_2.bmp "tile_ref_2")
-![tile_arch](./diagrams/tile_arch.gif "tile_arch")
-![gms_io_toolkit](./diagrams/gms_io_toolkit.gif "gms_io_toolkit")
-![gms_graphics_toolkit](./diagrams/gms_graphics_toolkit.gif "gms_graphics_toolkit")
-![mercator_proj](./diagrams/mercator_proj.gif "mercator_proj")
-![sphere](./diagrams/sphere.gif "sphere")
-![diff_latitudes](./diagrams/diff_latitudes.gif "diff_latitudes")
-![ellipsoid](./diagrams/ellipsoid.gif "ellipsoid")
-![scn_proj](./diagrams/scn_proj.gif "scn_proj")
-![flat_browse_1](./diagrams/flat_browse_1.bmp "flat_browse_1")
-![flat_browse_2](./diagrams/flat_browse_2.bmp "flat_browse_2")
-![flat_browse_3](./diagrams/flat_browse_3.bmp "flat_browse_3")
-![flat_browse_4](./diagrams/flat_browse_4.bmp "flat_browse_4")
-![ellip_browse_1](./diagrams/ellip_browse_1.bmp "ellip_browse_1")
-![ellip_browse_2](./diagrams/ellip_browse_2.bmp "ellip_browse_2")
 ![dht](./diagrams/dht.bmp "dht")
 ![lat](./diagrams/lat.bmp "lat")
 ![cat](./diagrams/cat.bmp "cat")
