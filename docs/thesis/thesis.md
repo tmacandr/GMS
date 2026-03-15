@@ -440,17 +440,18 @@ software) are:
 
 The interaction of these components are illustrated in Figure 1.1 below:
 
+
+**Figure 1.1 : Basic Architecture of GIS Products**
+
 ![Basic-Architecture](./diagrams/sys_arch.gif "Basic Arch")
 
-Figure 1.1 : Basic Architecture of GIS Products
-
 Often, developers of GIS products will purchase the first
- two components (the ones shaded in yellow in Figure 1.1) and then
- write the third component based on the needs of a
- particular customer. The focus of this graduate project/
+two components (the ones shaded in yellow in Figure 1.1) and then
+write the third component based on the needs of a
+particular customer. The focus of this graduate project/
 thesis was the converse of this approach. The objective
- was to study and then develop the first two components. The results
- are a software product called the Geographic Map System (GMS).
+was to study and then develop the first two components. The results
+are a software product called the Geographic Map System (GMS).
 
 For this exercise the vector map system called Digital Chart
  of the World (DCW) was chosen. For
@@ -572,6 +573,7 @@ installed on one CD-ROM (i.e. one regional library per CD). The browse
 library is duplicated on each of the 4 CDs. This is described in Figure 2.1
 below:
 
+**Figure 2.1 - DCW Database Organization**
 ![DCW-DB-Arch](./diagrams/dcw_db_arch.gif "DCW DB Arch") 
 
 
@@ -728,53 +730,96 @@ equal sized regions. This system uses a flat-earth model and then
 divides regions into equal sized areas called tiles. Each tile
 is a 15° by 15° cell as shown in Figure 2.2 below:
 
-
-
+**Figure 2.2 Tile Ref Demo**
+![tile_ref](./diagrams/tile_ref.bmp "tile_ref")
 
 There are 24 longitude zones identified by the
 letters A through Z (except the letters I and O). The longitude zones
 start at -180° and move to 180° in 15° increments. Also, there
-are 12 latitude zones identified by the letters A through M (skipping I). The latitude zones start at -90° and move to 90° in 15° increments. A tile is identified by the tuple XY where X is the longitude zone and Y is the latitude zone. For example, the tile GJ is the area -90° .. -75° longitude and 30° .. 45° latitude (i.e. much of the eastern United States) [10].
+are 12 latitude zones identified by the letters A through M (skipping I). The
+latitude zones start at -90° and move to 90° in 15° increments. A tile is
+identified by the tuple XY where X is the longitude zone and Y is the
+latitude zone. For example, the tile GJ is the area -90° .. -75° longitude
+and 30° .. 45° latitude (i.e. much of the eastern United States) [10].
 
-Each tile is then further divided into smaller 5° by 5° sub-tiles. The longitude sub-tiles are numbered column-wise 1 through 3 and the latitude sub-tiles are numbered row-wise 1 through 3. The first tile is 11 and is in the lower left corner of the outer tile [10]. See Figure 2.3 below:
+Each tile is then further divided into smaller 5° by 5° sub-tiles. The
+longitude sub-tiles are numbered column-wise 1 through 3 and the latitude
+sub-tiles are numbered row-wise 1 through 3. The first tile is 11 and is
+in the lower left corner of the outer tile [10]. See Figure 2.3 below:
 
+**Figure 2.3 - Tile Size**
+
+![tile_ref_2](./diagrams/tile_ref_2.bmp "tile_ref_2")
  
 
+For example, much of the country of Spain is contained in the
+tiles MJ22, MJ23, MJ32, and MJ33.
 
+Tiling Scheme of DCW Database: Now, back to the DCW database. Data within
+a particular theme from a DCW library is partioned into a directory scheme
+based on the Geographic Reference System. The first series of
+sub-directories of a theme are the longitude-zones from the GEOREF
+system.  Thus, there are one or more subdirectories named A, B, ... Z. Going
+into one of these sub-directories shows one or more directories that
+correspond to the latitude-zones (i.e. directories with
+names A, B, ... M). Continuing into the latitude sub-directories yields
+one or more sub-directories whose names correspond to the sub-tiles of
+the GEOREF system (i.e. directories with the names 11, 12, ... 33). Going
+into one of these sub-tile directories finally yields a series of files
+of raw geographic data (which will be described shortly). Therefore,
+certain data for a given region can be accessed by specifying the
+tiles. This directory hierarchy of the themes of the DCW database is
+shown in Figure 2.4 below:
 
-For example, much of the country of Spain is contained in the tiles MJ22, MJ23, MJ32, and MJ33
+**Figure 2.4 - DCW Database Form**
 
-Tiling Scheme of DCW Database: Now, back to the DCW database. Data within a particular theme from a DCW library is partioned into a directory scheme based on the Geographic Reference System. The first series of sub-directories of a theme are the longitude-zones from the GEOREF system. Thus, there are one or more subdirectories named A, B, ... Z. Going into one of these sub-directories shows one or more directories that correspond to the latitude-zones (i.e. directories with names A, B, ... M). Continuing into the latitude sub-directories yields one or more sub-directories whose names correspond to the sub-tiles of the GEOREF system (i.e. directories with the names 11, 12, ... 33). Going into one of these sub-tile directories finally yields a series of files of raw geographic data (which will be described shortly). Therefore, certain data for a given region can be accessed by specifying the tiles. This directory hierarchy of the themes of the DCW database is shown in Figure 2.4 below:
+![tile_arch](./diagrams/tile_arch.gif "tile_arch") 
 
- 
+This essentially describes the "skeleton" of the DCW database. It is how
+geographic information is distributed in the database.
 
+**Exceptions to the Rule:** For a given regional library, there
+ are 3 directories that are different. These directories are at the
+ same level as the theme sub-directories. However, each
+ directory simply contains files of raw geographic data. There is no
+ application of the GEOREF tiling scheme to these
+directories. Table 2.3 summarizes the contents of these 3 directories:
 
-This essentially describes the "skeleton" of the DCW database. It is how geographic information is distributed in the database.
+    1. Gazetteer
+       Directory Name : GAZETTE
+       This directory is a geographic dictionary.
 
-Exceptions to the Rule: For a given regional library, there are 3 directories that are different. These directories are at the same level as the theme sub-directories. However, each directory simply contains files of raw geographic data. There is no application of the GEOREF tiling scheme to these directories. Table 2.3 summarizes the contents of these 3 directories:
+    2. Library Reference
+       Directory Name : LIBREF
+       This directory contains high level boundary data for
+       a particular library. It specifies the general area of
+       coverage for that library.
 
-    Gazetteer
-    Directory Name : GAZETTE
-    This directory is a geographic dictionary.
+    3. Tile Reference
+       Directory Name : TILEREF
+       This directory contains what is called tile data. These are
+       frames that define a region of the globe. (see Tiling
+       Scheme of DCW Database below). 
 
-    Library Reference
-    Directory Name : LIBREF
-    This directory contains high level boundary data for a particular library. It specifies the general area of coverage for that library.
-
-    Tile Reference
-    Directory Name : TILEREF
-    This directory contains what is called tile data. These are frames that define a region of the globe. (see Tiling Scheme of DCW Database below). 
-
-
-Hence, in addition to the 17 thematic directories, each regional library contains these 3 sub-directories for a total of 20. The TILEREF directory is interesting because it contains the data that describes which GEOREF tiles are defined for the whole library. Hence, an application can use the data from the TILEREF directory to access data from any of the 17 themes. For example, the data from the TILEREF directory was used to construct the display of Figure 2.3 (above).
+Hence, in addition to the 17 thematic directories, each regional
+ library contains these 3 sub-directories for a total of 20. The TILEREF
+ directory is interesting because it contains the data that describes
+ which GEOREF tiles are defined for the whole library. Hence,
+ an application can use the data from the TILEREF directory to access
+ data from any of the 17 themes. For example, the data from the
+ TILEREF directory was used to construct the display of Figure 2.3 (above).
 
 The Browse library also has a LIBREF directory. It specifies the boundaries of continents and countries for the whole globe (whereas the LIBREF of a regional library specifies only the geography of that particular region of the globe). For example, data from the LIBREF directory of the Browse library was used to construct the display of Figure 2.2 (above). Hence, in addition to the 8 thematic directories, each browse library contains this LIBREF sub-directory for a total of 9.
 
 Now it is time to describe the files of this DCW architecture that contain geographic information.
 
-2.3 Basic File-Types in DCW Database
+## 2.3 Basic File-Types in DCW Database
 
-The previous section described how the DCW database is organized (i.e. its architecture). However, it is the files within that architecture that contain the raw geographic information. This section describes the types of files found within that architecture. The files of the DCW database are classified into the following four categories:
+The previous section described how the DCW database is organized (i.e. its
+architecture). However, it is the files within that architecture that
+contain the raw geographic information. This section describes the types
+of files found within that architecture. The files of the DCW database
+are classified into the following four categories:
 
     Database Tables
     Library Tables
@@ -953,21 +998,16 @@ Each file in the DCW database consists of two sections, the header and the body.
 
 As an example of a header, consider the definition of an entity node
 record (from an entity node table).
-```
-xxxx;
 
-Entity Node Primitives;-;
-
-ID=I, 1,P,Row Identifier,-,-,:
-
-POPOINT.PFT_ID=I, 1,F,Foreign Key to Point Feature Table,-,-,:
-
-CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
-
-FIRST_EDGE=X, 1,N,Foreign Key to Edge Table (null),-,-,:
-
-COORDINATE=C, 1,N,Coordinates of Node,-,-,:;
-```
+   ```
+   xxxx;
+   Entity Node Primitives;-;
+   ID=I, 1,P,Row Identifier,-,-,:
+   POPOINT.PFT_ID=I, 1,F,Foreign Key to Point Feature Table,-,-,:
+   CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
+   FIRST_EDGE=X, 1,N,Foreign Key to Edge Table (null),-,-,:
+   COORDINATE=C, 1,N,Coordinates of Node,-,-,:;
+   ```
 
 A bit of "doctoring" has been done here for readability purposes. For example,
 the carriage returns are not present in any of the DCW files. The xxxx
@@ -976,7 +1016,10 @@ next item is the name of the record, Entity Node Primitives. If a narrative
 table (*.doc) had been associated with this node table, then the name would
 have been specified after the name of the record. Next, the format of the
 record is defined. The general syntax is:
-[attribute]=[data-type],[num-elements],[key-type],[vdt],[theme-index]: For example, the attribute:
+```
+[attribute]=[data-type],[num-elements],[key-type],[vdt],[theme-index]:
+```
+For example, the attribute:
 ```
 CONTAINING_FACE=I, 1,F,Foreign Key to Face Table,-,-,:
 ```
@@ -1011,7 +1054,7 @@ version of the DCW database and is reserved for furture versions.
 
 # Chapter 3 - The GMS Extabula Toolkit
 
-3.1 - Objectives and Requirements
+## 3.1 - Objectives and Requirements
 
 Fundamentally, any GIS product needs the ability to read geographic
 data from a given database. This is the purpose of
@@ -1021,10 +1064,19 @@ toolkit to read each of the types of files from the
 DCW database and to build data structures that can be manipulated
 by client software. Figure 3.1 illustrates the overall system.
 
-The GMS DCW Extabula Toolkit is shaded. The toolkit is essentially provides an interface to the DCW database for higher level clients. To achieve this objective the following requirements are specified:
+**Figure 3.1 - GMS Architecture**
 
-    A series of utilities shall be developed to read the data from the files of the DCW database.
-    Access to the following types of files shall be provided:
+![gms_io_toolkit](./diagrams/gms_io_toolkit.gif "gms_io_toolkit")
+
+The GMS DCW Extabula Toolkit is shaded. The toolkit is essentially
+provides an interface to the DCW database for higher level
+clients. To achieve this objective the following requirements are
+specified:
+
+A series of utilities shall be developed to read the data from the
+files of the DCW database.
+
+Access to the following types of files shall be provided:
 ```
         Database Level Tables:
             Database Header Table
@@ -1328,25 +1380,57 @@ Conclusion: Testing showed a stable toolkit on all platforms. At this point, dev
 
 # Chapter 4 - The GMS DCW Graphics Toolkit
 
-4.1 - Objectives and Requirements
+## 4.1 - Objectives and Requirements
 
-The second main component of GIS products is the Graphics/Data Operations. The objective of this module is to provide a set of utilities that manipulate the geographic data so it can be presented to an operator. Also, most GIS products include functions that perform analytic services for an operator [17]. The Graphics/Data Operations component is sandwiched between the utilities that directly access the database and the user interface. This is illustrated in Figure 4.1.
+The second main component of GIS products is the Graphics/Data Operations. The
+objective of this module is to provide a set of utilities that
+manipulate the geographic data so it can be presented to an operator. Also,
+most GIS products include functions that perform analytic services for an
+operator [17]. The Graphics/Data Operations component is sandwiched between
+the utilities that directly access the database and the user
+interface. This is illustrated in Figure 4.1.
 
- 
+**Figure 4.1**
 
-The objective of GMS DCW Graphics Toolkit is to manipulate the data structures from the GMS Extabula Toolkit in such a way as to be useful to several types of user-interface applications. To acheive this the requirements of Table 4.1 were defined. Several of the requirements make reference to earth models (e.g. ECEF, and WGS84). These will be described in more detail in section 4.2.
+![gms_graphics_toolkit](./diagrams/gms_graphics_toolkit.gif "graphics_toolkit")
 
-    The GMS DCW Graphics Toolkit shall provide a series of utilities to convert a given [Longitude, Latitude] coordinate to coordinates based on each of the following grid systems:
+The objective of GMS DCW Graphics Toolkit is to manipulate the data
+structures from the GMS Extabula Toolkit in such a way as to be useful
+to several types of user-interface applications. To acheive this the
+requirements of Table 4.1 were defined. Several of the requirements make
+reference to earth models (e.g. ECEF, and WGS84). These will be described
+in more detail in section 4.2.
+
+The GMS DCW Graphics Toolkit shall provide a series of utilities to
+convert a given [Longitude, Latitude] coordinate to coordinates based
+on each of the following grid systems:
         Flat earth
         Earth-Centered-Earth-Fixed (ECEF) 
-    Utilities to generate ECEF coordinates based on a spherical earth model and the WGS84 ellipsoid model shall be provided. The radius of the spherical model shall be 6,378,137.0 meters.
-    Utilities to rotate an ECEF coordinate around the x, y and z axes shall be provided.
-    An abstract screen coordinate system shall be used. This coordinate system shall only assume the client software to be a raster graphics system (i.e. pixel based). No other assumption about the graphics package of the client shall be assumed. In other words, it shall not be assumed that the graphics toolkit of the client is GKS, nor MS Windows GDI, nor X Window System, etc.
-    A utility to convert a given ECEF coordinate to a 3D screen coordinate shall be provided.
-    Utilities to project a given 3D screen coordinate into a 2D screen coordinate shall be defined.
-    Utilities to translate 2D and 3D screen coordinates shall be provided.
-    Utilities to rotate 3D screen coordinates about the x, y and z axes shall be provided.
-    Utilities to generate a grid of lat/long lines shall be provided. These utilities shall:
+Utilities to generate ECEF coordinates based on a spherical earth model
+and the WGS84 ellipsoid model shall be provided. The radius of the
+spherical model shall be 6,378,137.0 meters.
+
+Utilities to rotate an ECEF coordinate around the x, y and z axes shall
+be provided.
+
+An abstract screen coordinate system shall be used. This coordinate system
+shall only assume the client software to be a raster graphics
+system (i.e. pixel based). No other assumption about the graphics package
+of the client shall be assumed. In other words, it shall not be assumed
+that the graphics toolkit of the client is GKS, nor MS Windows GDI,
+nor X Window System, etc.
+
+A utility to convert a given ECEF coordinate to a 3D screen coordinate shall be provided.
+
+Utilities to project a given 3D screen coordinate into a 2D screen
+coordinate shall be defined.
+
+Utilities to translate 2D and 3D screen coordinates shall be provided.
+
+Utilities to rotate 3D screen coordinates about the x, y and z axes shall be provided.
+
+Utilities to generate a grid of lat/long lines shall be provided. These utilities shall:
+
         allow the client to specify the number of latitude (i.e. parallel) and longitude (i.e. meridian) lines the grid is to contain,
         allow the client to specify which earth model (i.e. flat vs ellipsoid) is used to generate the grid lines. 
     Utilities to zoom in/out the screen coordinates shall be provided.
@@ -1362,10 +1446,26 @@ The objective of GMS DCW Graphics Toolkit is to manipulate the data structures f
 
 ## 4.2 - Algorithms
 
-One of the important functions of this toolkit is to convert a given [longitude, latitude] coordinate into a corresponding two dimensional (x, y) or three dimensional (x, y, z) coordinate. The two and three dimensional coordinates are much easier to manipulate for computer graphics operations. To support this, requirements were specified to develop utilities that support three types of coordinate systems. These three coordinate systems are the flat earth model, the spherical earth model, and the ellipsoid model. These systems are described as follows.
+One of the important functions of this toolkit is to convert a
+given [longitude, latitude] coordinate into a corresponding two
+dimensional (x, y) or three dimensional (x, y, z) coordinate. The
+two and three dimensional coordinates are much easier to manipulate
+for computer graphics operations. To support this, requirements were
+specified to develop utilities that support three types of
+coordinate systems. These three coordinate systems are the flat earth
+model, the spherical earth model, and the ellipsoid model. These systems
+are described as follows.
 
-Flat Earth: This model is useful to applications that display the earth as a flat map. This model is essentially an application of the Mercator Projection (introduced in Chapter 1). A sphere (i.e. the earth) is placed in the middle of a cylinder. All points on the sphere are projected onto the wall of the cylinder [3]. This is illustrated in Figure 4.2.
+Flat Earth: This model is useful to applications that display the earth
+as a flat map. This model is essentially an application of the Mercator
+Projection (introduced in Chapter 1). A sphere (i.e. the earth) is
+placed in the middle of a cylinder. All points on the sphere are
+projected onto the wall of the cylinder [3]. This is illustrated
+in Figure 4.2.
 
+**Figure 4.2**
+
+![mercator_proj](./diagrams/mercator_proj.gif "mercator_proj")
  
 
 The cylinder is then un-ravelled and laid flat, thereby giving a flat earth. The circumference of the cylinder is the same as the sphere. The range of the x-coordinate is:
@@ -1386,12 +1486,27 @@ y = Re * sin(latitude)
 ```
 Accuracy of maps based on this model decreases as the latitude moves towards the poles. Such maps typically show severe distortions at the poles. For example, Antarctica is exceptionally large because it sweeps across the bottom of the map. Also, countries like Greenland are shown to be excessively large [1].
 
-Spherical Earth: This model considers the earth to be a perfect sphere. Although not as accurate as the ellipsoid model (described below), it is sufficient for many applications. For this model, it is necessary to define a common frame of reference. Hence, the earth is centered in a right-handed orthogonal coordinate grid. The center of the earth is the origin of this coordinate grid. The y-axis is the line between the North and South poles running through the center of the earth. Positive y values are on the hemisphere of the North Pole. The prime meridian is the arc from the North Pole, passing through Greenwich, England, and concluding at the South Pole. The z-axis is the line that intersects both the prime meridian and the center of the earth, and is perpendicular to the y-axis. Positive z values are on the hemisphere of the prime meridian. The x-axis completes the right-handed coordinate system [11]. This is illustrated in Figure 4.3.
+**Spherical Earth:** This model considers the earth to be a perfect
+sphere. Although not as accurate as the ellipsoid model (described below),
+it is sufficient for many applications. For this model, it is necessary
+to define a common frame of reference. Hence, the earth is centered
+in a right-handed orthogonal coordinate grid. The center of the earth
+is the origin of this coordinate grid. The y-axis is the line between
+the North and South poles running through the center of the
+earth. Positive y values are on the hemisphere of the North Pole. The
+prime meridian is the arc from the North Pole, passing through
+Greenwich, England, and concluding at the South Pole. The z-axis is the
+line that intersects both the prime meridian and the center of the
+earth, and is perpendicular to the y-axis. Positive z values are on
+the hemisphere of the prime meridian. The x-axis completes the
+right-handed coordinate system [11]. This is illustrated in Figure 4.3.
 
- 
+**Figure 4.3**
+![sphere](./diagrams/sphere.gif "sphere")
 
 
-Using Figure 4.3 as reference, the derivation of any (x, y, z) from a given [longitude, latitude] value is straight forward. Therefore:
+Using Figure 4.3 as reference, the derivation of any (x, y, z) from
+a given [longitude, latitude] value is straight forward. Therefore:
 ```
 x = Re * cos(PHI) * sin(LAMBDA)
 
@@ -1412,19 +1527,39 @@ The WGS-84 system begins by modeling the earth as an ellipsoid. Like the spheric
 
 Coordinates in the WGS-84 system are given in tuples of [longitude, latitude]. However, the values specified are called geodetic coordinates because they are generated by making what are called geodetic measurements from selected regions on the earth. A geodetic measurement is obtained by selecting a central reference point within a region on the earth (also called a station frame). The longitude and latitude of that point is calculated by defining a line perpendicular to the earth that passes through the center of a reference ellipsoid. Measurements of distance from the central point are used to calculate all other points within the region. The position measurements are performed using satellites and variations in gravity. All points within that region are said to comprise a geodetic datum. The WGS-84 system is actually a database of many hundreds of geodetic datums from areas all over the earth [11].
 
-Now, lat/long coordinate values from a geodetic datum are highly accurate. However, these values are with respect to an ellipsoid that perfectly coincides with that region. Moving to another geodetic datum causes another reference ellipsoid to be used. Thus, in the WGS-84 system, there are actually two types of coordinates. The first is the previously mentioned geodetic and the other is called geocentric. The geodetic coordinates are the values for a particular geodetic datum. The geocentric coordinates are values from the IERS reference ellipsoid [11]. The difference between these two types of coordinates is illustrated in Figure 4.4 [11].
+Now, lat/long coordinate values from a geodetic datum are highly
+accurate. However, these values are with respect to an ellipsoid
+that perfectly coincides with that region. Moving to another geodetic
+datum causes another reference ellipsoid to be used. Thus, in the
+WGS-84 system, there are actually two types of coordinates. The first
+is the previously mentioned geodetic and the other is called
+geocentric. The geodetic coordinates are the values for a particular
+geodetic datum. The geocentric coordinates are values from the IERS
+reference ellipsoid [11]. The difference between these two types
+of coordinates is illustrated in Figure 4.4 [11].
 
- 
+**Figure 4.4**
+
+![diff_latitudes](./diagrams/diff_latitudes.gif "diff_latitudes") 
 
 
-Thus, it is necessary to convert geodetic coordinates to geocentric coordinates. This permits the use of a common reference ellipsoid for geographic systems. The WGS-84 reference ellipsoid is illustrated in Figure 4.5. Note that for consistency with the spherical model (described above), the x, y, and z axes of Figure 4.5 were made to coincide with the axes of Figure 4.3. This is different from how the IERS labels the axes.
+Thus, it is necessary to convert geodetic coordinates to geocentric
+coordinates. This permits the use of a common reference ellipsoid for
+ geographic systems. The WGS-84 reference ellipsoid is illustrated in
+ Figure 4.5. Note that for consistency with the spherical
+ model (described above), the x, y, and z axes of Figure 4.5 were
+made to coincide with the axes of Figure 4.3. This is different
+from how the IERS labels the axes.
 
- 
+**Figure 4.5**
 
+![ellipsoid](./diagrams/ellipsoid.gif "ellipsoid")
 
-The equations to convert a given geodetic coordinate to an (x, y, z) geocentric coordinate are given in Figure 4.6 [11].
+The equations to convert a given geodetic coordinate to
+an (x, y, z) geocentric coordinate are given in Figure 4.6 [11].
+
+**Figure 4.6**
 ```
-
    x = (N + h) * cos(PHI) * sin(LAMBDA)
 
          b * b
@@ -1444,8 +1579,9 @@ The equations to convert a given geodetic coordinate to an (x, y, z) geocentric 
       f = earth-flattening = (a - b) / a
 ```
 
-
-Thus, the input values are PHI and LAMBDA. For the toolkit being developed, the value of h (altitude) will be zero for all cases. The values of a (semi-major axis) and b (semi-minor axis) are fixed based on the reference ellipsoid. The remaining values are derived. Some, such as flattening are constants since they are derived from other constants [11] [3].
+Thus, the input values are PHI and LAMBDA. For the toolkit being
+developed, the value of h (altitude) will be zero for all cases. The
+values of a (semi-major axis) and b (semi-minor axis) are fixed based on the reference ellipsoid. The remaining values are derived. Some, such as flattening are constants since they are derived from other constants [11] [3].
 
 Ellipsoid Earth: The [longitude, latitude] values from the DCW database are geodetic coordinates based on the WGS-84 model. Thus, the equations described in Figure 4.6 are used for the toolkit.
 
@@ -1453,9 +1589,9 @@ A note about the ellipsoid model. Although the [long, lat] coordinates from the 
 
 Screen Projection: For the spherical and ellipsoid models, the 3 dimensional points must then be projected onto the 2 dimensional screen. To support this a projection algorithm was implemented in the toolkit. The projection of any arbitrary 3D point P(x, y, z) onto a 2D screen gives the point P*(x*, y*). This scheme is illustrated in Figure 4.7 below [5].
 
+**Figure 4.7**
+![scn_proj](./diagrams/scn_proj.gif "scn_proj")
  
-
-
 
 Manipulating the following ratios,
 ```
@@ -1481,7 +1617,7 @@ yields the following projection equations [5]:
           k + z
 ```
 
-4.3 - Architecture and Design
+## 4.3 - Architecture and Design
 
 A mix of objected oriented and structural methods were used to develop the DCW Graphics Toolkit. Several components were designed as utilities and maintained little or no state information. For example, the software to manipulate coordinates and perform screen projection were implemented as utilities. Other components were designed as object oriented classes. For example, a class called gmsMapClass treats regions of data as a map object. The client would instantiate one or more map objects depending on how much area was of interest.
 
@@ -1601,55 +1737,72 @@ Conclusion: Testing showed a stable toolkit on all platforms. Chapter 5 describe
 
 # Chapter 5 - MS Windows Applications Using GMS Toolkits
 
-5.1 - Objectives
+## 5.1 - Objectives
 
 Several applications were developed to demonstrate some of the features of GMS toolkits. These applications were developed on an MS Windows platform using the GDI graphics package.
 
-5.2 - Browse Library - Flat Earth Model
+## 5.2 - Browse Library - Flat Earth Model
 
 An application was developed that utilizes some of the map data from the Browse library. At start up, a window containing a map of the globe is presented to the operator. This is illustrated in Figure 5.1.
 
- 
+**Figure 5.1**
 
-
+![flat_browse_1](./diagrams/flat_browse_1.bmp "flat_browse_1") 
 
 This application makes use of the component gmsBrowseMapClass. One map object is instantiated and then used to display the data. The initial map shows the data from the LibRef portion of the Browse library. Also shown is a grid of lat/long lines that were constructed using the component gmsLatLongGridClass. For this application, the flat-earth model was chosen to instantiate the map object. As mentioned in chapter 3, distortion of the map occurs in the higher latitudes. As is shown, the continent of Antarctica is severely distorted.
 
 This application provided the operator with the ability to zoom-in/pan-out and also to re-center the map. The results of changing the zoom and re-centering the map is illustrated in Figure 5.2.
 
- 
+**Figure 5.2**
+
+![flat_browse_2](./diagrams/flat_browse_2.bmp "flat_browse_2") 
 
 
+The application would also display data from several of the Browse
+themes. For example, Figure 5.3 shows data from the Drainage (DN) theme
+which is actually rivers and outlines of large inland bodies of water.
 
-The application would also display data from several of the Browse themes. For example, Figure 5.3 shows data from the Drainage (DN) theme which is actually rivers and outlines of large inland bodies of water.
+**Figure NN**
 
- 
-
-
-
-Also, data from the Political/Oceans (PO) and the Populated Places (PP) are available for operator selection. Figure 5.4 illustrates some of this information. Cities are represented as small squares on the map.
-
- 
+![flat_browse_3](./diagrams/flat_browse_3.bmp "flat_browse_3") 
 
 
-
-5.2 - Browse Library - Ellipsoid (WGS-84) Earth Model
-
-A second application, which also accessed the data from the Browse library, was developed. However, it instantiated the gmsBrowseMapClass object using the ellipsoid-earth model. As shown in Figure 5.5, the start up window shows an ellipsoid for the earth.
+Also, data from the Political/Oceans (PO) and the Populated Places (PP) are
+available for operator selection. Figure 5.4 illustrates some of this
+information. Cities are represented as small squares on the map.
 
  
+**Figure 5.4**
+
+![flat_browse_4](./diagrams/flat_browse_4.bmp "flat_browse_4")
 
 
+## 5.2 - Browse Library - Ellipsoid (WGS-84) Earth Model
 
-In constrast to the flat map projection, the continent of Antarctica is shown in its proper proportion.
+A second application, which also accessed the data from the Browse
+library, was developed. However, it instantiated the gmsBrowseMapClass
+object using the ellipsoid-earth model. As shown in Figure 5.5, the
+start up window shows an ellipsoid for the earth.
 
-Like the flat-earth application, zoom and move functions are available to the operator. However, a move for the ellipsoid model is actually a rotation. Figure 5.6 shows the map re-oriented to display the north pole.
+**Figure 5.5**
 
- 
+![ellip_browse_1](./diagrams/ellip_browse_1.bmp "ellip_browse_1") 
+
+In constrast to the flat map projection, the continent of Antarctica
+is shown in its proper proportion.
+
+Like the flat-earth application, zoom and move functions are available to
+the operator. However, a move for the ellipsoid model is actually a
+rotation. Figure 5.6 shows the map re-oriented to display the north pole.
+
+**Figure 5.6**
+
+![ellip_browse_2](./diagrams/ellip_browse_2.bmp "ellip_browse_2") 
 
 
-
-Similar to the flat-earth application, this application implemented functionality to display data from the themes of the Browse library (e.g. DN, PO, PP, etc).
+Similar to the flat-earth application, this application implemented
+functionality to display data from the themes of the Browse
+library (e.g. DN, PO, PP, etc).
 
 Also, this application provided access to the data tables of the DCW database. The two database-level files are the Database Header Table and the Library Attribute Table. These items are illustrated in Figure 5.7 and Figure 5.8.
 
