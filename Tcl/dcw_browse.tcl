@@ -704,22 +704,33 @@ puts "Begin - DCW Flat Browse Demo"
 
 label .msg -text "  "
 
-button .hello_button -text "DCW" -command "some_procedure .msg"
-
-button .exit_button -text "Exit" -command "exitCallback"
-
 canvas .mapDrawingArea -width 550 -height 600
+
+menu .menu_bar
+
+. configure -menu .menu_bar
+
+menu .menu_bar.file -tearoff 0
+
+.menu_bar add cascade -label "File" -menu .menu_bar.file
+
+.menu_bar.file add command -label "New" -command {puts "New clicked"}
+.menu_bar.file add command -label "Hello" -command "some_procedure .msg"
+.menu_bar.file add separator
+.menu_bar.file add command -label "Exit" -command "exitCallback"
+
+menu .menu_bar.help -tearoff 0
+.menu_bar add cascade -label "Help" -menu .menu_bar.help
+.menu_bar.help add command -label "About" -command {tk_messageBox -message "Tcl Menu App"}
 
 set orange_oval [.mapDrawingArea create oval 0 0 50 50 -fill orange]
 set blue_line [.mapDrawingArea create line 50 50 100 100 -fill blue -width 2]
 
 grid .mapDrawingArea -row 1 -column 0
 grid .msg            -row 2 -column 0
-grid .hello_button   -row 0 -column 0
-grid .exit_button    -row 0 -column 1
 
+# createLayout .menu_bar
 
-#  createLayout (topLevel);
 #
 #  XtRealizeWidget (topLevel);
 
