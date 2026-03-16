@@ -47,6 +47,7 @@ proc some_procedure { label } {
    set count [expr $count + 1]
 }
 
+
 # ---------------------------------------------
 #  createLayout 
 # 
@@ -54,31 +55,57 @@ proc some_procedure { label } {
 #     Function that creates drawingArea for
 #     display of map and menu bar, etc
 # ---------------------------------------------
-proc createLayout { Widget topLevelShell } {
+proc createLayout { menu_bar } {
 
-#        Widget mainForm;
-#        Widget theMenuBar;
+   . configure -menu $menu_bar
 
-#  mainForm = XmCreateForm
-#                (topLevelShell,
-#                 (char *) "MainForm",
-#                 0, NULL);
+   #
+   # File pulldown
+   #
+   menu $menu_bar.file -tearoff 0
 
-#  XtManageChild (mainForm);
+   $menu_bar add cascade -label "File" -menu $menu_bar.file
 
-#  theMenuBar = XmCreateMenuBar
-#                  (mainForm,
-#                   (char *) "MenuBar",
-#                   0, NULL);
+   $menu_bar.file add command -label "New" -command {puts "New clicked"}
+   $menu_bar.file add command -label "Hello" -command "some_procedure .msg"
+   $menu_bar.file add separator
+   $menu_bar.file add command -label "Exit" -command "exitCallback"
 
-#  XtManageChild (theMenuBar);
+   #
+   # Ctrl pulldown
+   #
+   menu $menu_bar.ctrl -tearoff 0
 
-#  XtVaSetValues
-#     (theMenuBar,
-#      XmNtopAttachment,   XmATTACH_FORM,
-#      XmNleftAttachment,  XmATTACH_FORM,
-#      XmNrightAttachment, XmATTACH_FORM,
-#      NULL);
+   $menu_bar add cascade -label "Ctrl" -menu $menu_bar.ctrl
+
+   $menu_bar.ctrl add command -label "Zoom In"    -command "helpCallback"
+   $menu_bar.ctrl add command -label "Zoom Out"   -command "helpCallback"
+   $menu_bar.ctrl add command -label "Move North" -command "exitCallback"
+   $menu_bar.ctrl add command -label "Move South" -command "helpCallback"
+   $menu_bar.ctrl add command -label "Move East"  -command "helpCallback"
+   $menu_bar.ctrl add command -label "Move West"  -command "helpCallback"
+
+   #
+   # Themes pulldown
+   #
+   menu $menu_bar.themes -tearoff 0
+
+   $menu_bar add cascade -label "Themes" -menu $menu_bar.themes
+
+   $menu_bar.themes add command -label "LibRef"      -command "helpCallback"
+   $menu_bar.themes add command -label "Population"  -command "helpCallback"
+   $menu_bar.themes add command -label "Drainage"    -command "helpCallback"
+   $menu_bar.themes add command -label "Polit_Ocean" -command "helpCallback"
+
+   #
+   # Help pulldown
+   #
+   menu $menu_bar.help -tearoff 0
+
+   $menu_bar add cascade -label "Help" -menu $menu_bar.help
+
+   $menu_bar.help add command -label "About" -command "helpCallback"
+
 
 #  g_mapDrawingArea = XmCreateDrawingArea
 #                        (mainForm,
@@ -109,7 +136,7 @@ proc createLayout { Widget topLevelShell } {
 #      exposureCallback,
 #      NULL);
 
-   defineMenuBar (theMenuBar);
+   defineMenuBar menu_bar
 
 #  gmsSetMapZoomFactor (14000.0);
 }
@@ -120,111 +147,8 @@ proc createLayout { Widget topLevelShell } {
 # 
 #  Description:
 # ---------------------------------------------
-proc defineMenuBar { Widget theParent } {
+proc defineMenuBar { menu_bar } {
 
-#        Widget   cascadeB;
-#        Widget   exitButton;
-#        Widget   thePulldownMenu;
-#        XmString label;
-
-   #  
-   #  Define the "File" menu button
-   #  
-#  label = XmStringCreateLocalized ( (char *) "File");
-
-#  cascadeB = XtVaCreateManagedWidget
-#                  ("FileCascadeButton",
-#                   xmCascadeButtonWidgetClass,
-#                   theParent,
-#                   XmNlabelString, label,
-#                   NULL);
-
-#  XmStringFree (label);
-
-#  thePulldownMenu = XmCreatePulldownMenu
-#                       (theParent,
-#                        (char *) "FilePulldownMenu",
-#                        0, NULL);
-
-   #  don't XtManageChild
-
-#  XtVaSetValues
-#     (cascadeB,
-#      XmNsubMenuId, thePulldownMenu,
-#      NULL);
-
-#  label = XmStringCreateLocalized ( (char *) "Exit");
-
-#  exitButton = XtVaCreateManagedWidget
-#                  ("ExitPushButton",
-#                   xmPushButtonWidgetClass,
-#                   thePulldownMenu,
-#                   XmNlabelString, label,
-#                   NULL);
-
-#  XmStringFree (label);
-
-#  XtAddCallback
-#     (exitButton,
-#      XmNactivateCallback,
-#      exitCallback,
-#      NULL);
-
-   #  
-   #  Define the "Ctrl" menu button
-   #  
-#  label = XmStringCreateLocalized ( (char *) "Ctrl");
-
-#  cascadeB = XtVaCreateManagedWidget
-#                  ("CtrlCascadeButton",
-#                   xmCascadeButtonWidgetClass,
-#                   theParent,
-#                   XmNlabelString, label,
-#                   NULL);
-
-#  XmStringFree (label);
-
-#  thePulldownMenu = XmCreatePulldownMenu
-#                       (theParent,
-#                        (char *) "CtrlPulldownMenu",
-#                        0, NULL);
-
-   #  don't XtManageChild
-
-#  XtVaSetValues
-#     (cascadeB,
-#      XmNsubMenuId, thePulldownMenu,
-#      NULL);
-
-#  defineCtrlPulldownMenu (thePulldownMenu);
-
-   #  
-   #  Define the "Themes" menu button
-   #  
-#  label = XmStringCreateLocalized ( (char *) "Themes");
-
-#  cascadeB = XtVaCreateManagedWidget
-#                  ("ThemesCascadeButton",
-#                   xmCascadeButtonWidgetClass,
-#                   theParent,
-#                   XmNlabelString, label,
-#                   NULL);
-
-#  XmStringFree (label);
-
-#  thePulldownMenu = XmCreatePulldownMenu
-#                       (theParent,
-#                        (char *) "ThemesPulldownMenu",
-#                        0, NULL);
-
-   #  don't XtManageChild
-
-#  XtVaSetValues
-#     (cascadeB,
-#      XmNsubMenuId, thePulldownMenu,
-#      NULL);
-
-#  defineThemesPulldownMenu (thePulldownMenu);
 }
 
 
@@ -573,6 +497,19 @@ proc exitCallback { } {
 
 
 # ---------------------------------------------
+#  helpCallback
+# 
+#  Description:
+#     Help callback.
+# ---------------------------------------------
+proc helpCallback { } {
+
+   tk_messageBox -message "DCW No Help"
+
+}
+
+
+# ---------------------------------------------
 #  exposureCallback 
 # 
 #  Description:
@@ -708,20 +645,7 @@ canvas .mapDrawingArea -width 550 -height 600
 
 menu .menu_bar
 
-. configure -menu .menu_bar
-
-menu .menu_bar.file -tearoff 0
-
-.menu_bar add cascade -label "File" -menu .menu_bar.file
-
-.menu_bar.file add command -label "New" -command {puts "New clicked"}
-.menu_bar.file add command -label "Hello" -command "some_procedure .msg"
-.menu_bar.file add separator
-.menu_bar.file add command -label "Exit" -command "exitCallback"
-
-menu .menu_bar.help -tearoff 0
-.menu_bar add cascade -label "Help" -menu .menu_bar.help
-.menu_bar.help add command -label "About" -command {tk_messageBox -message "Tcl Menu App"}
+createLayout .menu_bar
 
 set orange_oval [.mapDrawingArea create oval 0 0 50 50 -fill orange]
 set blue_line [.mapDrawingArea create line 50 50 100 100 -fill blue -width 2]
@@ -729,9 +653,6 @@ set blue_line [.mapDrawingArea create line 50 50 100 100 -fill blue -width 2]
 grid .mapDrawingArea -row 1 -column 0
 grid .msg            -row 2 -column 0
 
-# createLayout .menu_bar
-
-#
 #  XtRealizeWidget (topLevel);
 
 #  ptrToDisplay = XtDisplay (g_mapDrawingArea);
