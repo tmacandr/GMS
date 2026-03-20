@@ -7,6 +7,8 @@
 #    tool.
 #*************************************************************************
 
+package require Tk
+
 set count 0
 
 set g_themeIsShown(CO)     "false"
@@ -33,12 +35,12 @@ set theColors "whie black red green blue"
 
 
 # ***********************************************
-# PROCEDURE NAME: some_procedure 
+# PROCEDURE NAME: some_proc 
 #
 # DESCRIPTION:
 #    A procedure in Tcl
 # ***********************************************
-proc some_procedure { label } {
+proc some_proc { label } {
 
    global count
 
@@ -66,8 +68,8 @@ proc createLayout { menu_bar } {
 
    $menu_bar add cascade -label "File" -menu $menu_bar.file
 
-   $menu_bar.file add command -label "New" -command {puts "New clicked"}
-   $menu_bar.file add command -label "Hello" -command "some_procedure .msg"
+   $menu_bar.file add command -label "New"   -command "helpCallback"
+   $menu_bar.file add command -label "Hello" -command "some_proc .usr_info_2"
    $menu_bar.file add separator
    $menu_bar.file add command -label "Exit" -command "exitCallback"
 
@@ -639,9 +641,11 @@ proc politicalOceansCallback { Widget pbWidget, XtPointer client_data, XtPointer
 # ***********************************************
 puts "Begin - DCW Flat Browse Demo"
 
-label .msg -text "  "
+label .usr_info_1 -text "info here"
+label .usr_info_2 -text "$count"
+label .position   -text "<lat> <long>"
 
-canvas .mapDrawingArea -width 550 -height 600
+canvas .mapDrawingArea -width $g_width -height $g_height
 
 menu .menu_bar
 
@@ -650,8 +654,10 @@ createLayout .menu_bar
 set orange_oval [.mapDrawingArea create oval 0 0 50 50 -fill orange]
 set blue_line [.mapDrawingArea create line 50 50 100 100 -fill blue -width 2]
 
-grid .mapDrawingArea -row 1 -column 0
-grid .msg            -row 2 -column 0
+grid .mapDrawingArea -row 0 -column 0
+grid .usr_info_1     -row 1 -column 0
+grid .usr_info_2     -row 1 -column 1
+grid .position       -row 1 -column 2
 
 #  XtRealizeWidget (topLevel);
 
