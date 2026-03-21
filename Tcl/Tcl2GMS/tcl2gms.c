@@ -30,7 +30,7 @@
 #include "tcl2gms.h"
 
 /************************************************
- * FUNCTION: Tcl2GMS_Init 
+ * FUNCTION: C_func_Init 
  *
  * DESCRIPTION:
  *    Function called by Tcl script to initialize
@@ -42,7 +42,7 @@
  *    invoked from the Tcl script, the functions
  *    below can be invoked.
  ***********************************************/
-int Tcl2GMS_Init(Tcl_Interp *interp)
+int C_func_Init(Tcl_Interp *interp)
 {
    const char *s = Tcl_InitStubs(interp, TCL_VERSION, 0);
 
@@ -55,7 +55,7 @@ int Tcl2GMS_Init(Tcl_Interp *interp)
    /*
     * Tcl mechanics: "Provide the package" 'tcl2gms'
     */
-   int r = Tcl_PkgProvide(interp, "tcl2gms", "1.0"); 
+   int r = Tcl_PkgProvide(interp, "c_functions", "1.0"); 
 
    if (r == TCL_ERROR)
    {

@@ -8,14 +8,14 @@
  *    System (GMS).  Starting baseline will be the functions from the
  *             'unix_browse.cpp'
  *****************************************************************************/
-#ifndef Tcl_2_GMS
+#ifndef TCL_2_GMS
 
-#define Tcl_2_GMS
+#define TCL_2_GMS
 
 #include <tcl.h>
 
 /************************************************
- * FUNCTION: Tcl2GMS_Init 
+ * FUNCTION: C_func_Init 
  *
  * DESCRIPTION:
  *    Function called by Tcl script to initialize
@@ -27,7 +27,7 @@
  *    invoked from the Tcl script, the functions
  *    below can be invoked.
  ***********************************************/
-int Tcl2GMS_Init(Tcl_Interp *interp);
+int C_func_Init(Tcl_Interp *interp);
 
 
 /************************************************
