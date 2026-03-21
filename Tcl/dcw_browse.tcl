@@ -641,6 +641,8 @@ proc politicalOceansCallback { Widget pbWidget, XtPointer client_data, XtPointer
 # ***********************************************
 puts "Begin - DCW Flat Browse Demo"
 
+load Tcl2GMS/libc_func[info sharedlibextension]
+
 label .usr_info_1 -text "info here"
 label .usr_info_2 -text "$count"
 label .position   -text "<lat> <long>"
