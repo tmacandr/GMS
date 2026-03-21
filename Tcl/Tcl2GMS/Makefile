@@ -22,7 +22,7 @@ LIB_PATH = -L/usr/lib/x86_64-linux-gnu
 
 LIBS = -ltclstub8.6
 
-TO_LIB = libtg.so
+TO_LIB = libtcltogms.so
 
 $(TO_LIB):$(OBJ)
 	@echo "________________________________"
