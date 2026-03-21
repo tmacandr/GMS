@@ -15,7 +15,7 @@
 #include <tcl.h>
 
 /************************************************
- * FUNCTION: C_func_Init 
+ * FUNCTION: Tg_Init 
  *
  * DESCRIPTION:
  *    Function called by Tcl script to initialize
@@ -27,7 +27,7 @@
  *    invoked from the Tcl script, the functions
  *    below can be invoked.
  ***********************************************/
-int C_func_Init(Tcl_Interp *interp);
+int Tg_Init(Tcl_Interp *interp);
 
 
 /************************************************
