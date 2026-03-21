@@ -23,8 +23,6 @@ set g_themeIsShown(LibRef) "true"
 
 set g_rotationDeg  20.0
 
-set gmsBrowseMapClass g_theBrowseMap
-
 set g_zoomAmount  5000.0
 
 set g_width  600
@@ -108,148 +106,17 @@ proc createLayout { menu_bar } {
 
    $menu_bar.help add command -label "About" -command "helpCallback"
 
-
-#  g_mapDrawingArea = XmCreateDrawingArea
-#                        (mainForm,
-#                         (char *) "MapDrawArea",
-#                         0, NULL);
-
-#  XtManageChild (g_mapDrawingArea);
-
-#  XtVaSetValues
-#     (g_mapDrawingArea,
-#      XmNwidth,   g_width,
-#      XmNheight,  g_height,
-#      XmNtopAttachment,    XmATTACH_WIDGET,
-#      XmNtopWidget,        theMenuBar,
-#      XmNleftAttachment,   XmATTACH_FORM,
-#      XmNrightAttachment,  XmATTACH_FORM,
-#      XmNbottomAttachment, XmATTACH_FORM,
-#      XtVaTypedArg,        XmNbackground, XmRString, "black", 5 + 1,
-#      NULL);
-
-#  gmsSetWindowDimensions
-#             (g_width,
-#              g_height);
-
 #  XtAddCallback
 #     (g_mapDrawingArea,
 #      XmNexposeCallback,
 #      exposureCallback,
 #      NULL);
 
-   defineMenuBar menu_bar
+   global g_zoomAmount
 
-#  gmsSetMapZoomFactor (14000.0);
+   set answer [Tcl2GMS_init_map_settings 14000.0 $g_zoomAmount]
 }
 
-
-# ---------------------------------------------
-#  defineMenuBar 
-# 
-#  Description:
-# ---------------------------------------------
-proc defineMenuBar { menu_bar } {
-
-}
-
-
-# ---------------------------------------------
-#  defineCtrlPulldownMenu 
-# 
-#  Description:
-# ---------------------------------------------
-proc defineCtrlPulldownMenu { Widget theParent } {
-
-#        const int      Num_Buttons = 6;
-#        char           *buttonLabels[Num_Buttons] =
-#                          { (char *) "Zoom_In",
-#                            (char *) "Zoom_Out",
-#                            (char *) "Move_North",
-#                            (char *) "Move_South",
-#                            (char *) "Move_East",
-#                            (char *) "Move_West" };
-#        XtCallbackProc buttonCallbacks[Num_Buttons] =
-#                          {zoomCallback,
-#                           zoomCallback,
-#                           moveCallback,      
-#                           moveCallback,      
-#                           moveCallback,      
-#                           moveCallback};
-#        char           instName[32];
-#        Widget         tempButton;
-#        XmString       label;
-#        int            i;
-
-#  for (i = 0; i < Num_Buttons; i++)
-#  {
-#      label = XmStringCreateLocalized (buttonLabels[i]);
-
-#      sprintf(instName, "%s_instance", buttonLabels[i]);
-
-#      tempButton = XtVaCreateManagedWidget
-#                      (instName,
-#                       xmPushButtonWidgetClass,
-#                       theParent,
-#                       XmNlabelString, label,
-#                       NULL);
-
-#      XmStringFree (label);
-
-#      XtAddCallback
-#         (tempButton,
-#          XmNactivateCallback,
-#          buttonCallbacks[i],
-#          (XtPointer) i);
-#  }
-}
-
-
-# ---------------------------------------------
-#  defineThemesPulldownMenu 
-# 
-#  Description:
-# ---------------------------------------------
-proc defineThemesPulldownMenu { Widget theParent } {
-
-#        const int      Num_Buttons = 4;
-#        char           *buttonLabels[Num_Buttons] =
-#                          { (char *) "LibRef",
-#                            (char *) "Population",
-#                            (char *) "Drainage",
-#                            (char *) "Polit_Ocean" };
-#        XtCallbackProc buttonCallbacks[Num_Buttons] =
-#                          {libRefCallback,
-#                           populatedPlacesCallback,
-#                           drainageCallback,
-#                           politicalOceansCallback };
-#        char           instName[32];
-#        Widget         tempButton;
-#        XmString       label;
-#        int            i;
-
-#  for (i = 0; i < Num_Buttons; i++)
-#  {
-#      label = XmStringCreateLocalized (buttonLabels[i]);
-
-#      sprintf(instName, "%s_instance", buttonLabels[i]);
-
-#      tempButton = XtVaCreateManagedWidget
-#                      (instName,
-#                       xmPushButtonWidgetClass,
-#                       theParent,
-#                       XmNlabelString, label,
-#                       NULL);
-
-#      XmStringFree (label);
-
-#      XtAddCallback
-#         (tempButton,
-#          XmNactivateCallback,
-#          buttonCallbacks[i],
-#          NULL);
-#  }
-}
 
 
 # ---------------------------------------------
@@ -314,10 +181,7 @@ proc clearMapArea { } {
 # ---------------------------------------------
 proc drawMaps { } {
 
-#  clearMapArea ();
-
-#  if (g_theBrowseMap == NULL)
-#     g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
+   clearMapArea
 
 #  if (g_themeIsShown[gmsBrowse_LibRef])
 #     drawLibRef ();
@@ -540,7 +404,7 @@ proc exposureCallback { Widget    daWidget, XtPointer client_data, XtPointer cbs
 # 
 #  Description:
 # ---------------------------------------------
-proc zoomCallback { Widget    pbWidget, XtPointer client_data, XtPointer cbs } {
+proc zoomCallback { } {
 
 #         const int index = (int) client_data;
 
@@ -641,7 +505,7 @@ proc politicalOceansCallback { Widget pbWidget, XtPointer client_data, XtPointer
 # ***********************************************
 puts "Begin - DCW Flat Browse Demo"
 
-load Tcl2GMS/libc_func[info sharedlibextension]
+load Tcl2GMS/libtcltogms[info sharedlibextension]
 
 label .usr_info_1 -text "info here"
 label .usr_info_2 -text "$count"

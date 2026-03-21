@@ -29,6 +29,9 @@
 
 #include "tcl2gms.h"
 
+//static gmsBrowseMapClass g_theBrowseMap;
+
+
 /************************************************
  * FUNCTION: Tcltogms_Init 
  *
@@ -109,6 +112,9 @@ int Tcl2GMS_init_map_settings
               i,
               argv[i]);
    }
+
+   //if (g_theBrowseMap == NULL)
+   //   g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
 
    printf("---> answer: %d\n", answer);
 
