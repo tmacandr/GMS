@@ -9,18 +9,22 @@ CC  = gcc
 
 OPTS = -Wall -DUSE_TCL_STUBS -fPIC
 
-SRC = tcl2gms.c
+SRC = tcl2gms.cpp
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:.cpp=.o)
 
 INCL = -I/usr/include/tcl8.6                \
        -I../../C_source/include/gmsAdrgFile \
        -I../../C_source/include/gmsFile     \
        -I../../C_source/include/gmsGraphics
 
-LIB_PATH = -L/usr/lib/x86_64-linux-gnu
+LIB_PATH = -L../../unixBuild/lib \
+           -L/usr/lib/x86_64-linux-gnu
 
-LIBS = -ltclstub8.6
+LIBS = -lGmsFile     \
+       -lGmsGraph    \
+       -lGmsAdrgFile \
+       -ltclstub8.6
 
 TO_LIB = libtcltogms.so
 
