@@ -14,8 +14,6 @@
 
 #include <tcl.h>
 
-extern "C"
-{
 /************************************************
  * FUNCTION: Tcltogms_Init 
  *
@@ -56,7 +54,6 @@ int Tcl2GMS_drawLibRef
                Tcl_Interp *interp, 
                int        argc,
                const char *argv[]);
-}
 
 #endif
 

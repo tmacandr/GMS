@@ -12,25 +12,15 @@
  *       and the internal Tcl "glue" code expects straight-up function
  *       names.
  *
- *       I forget how to tell the C++ compiler to not name-mangle, if
- *       possible.
+ *       Using extern "C" { ... } won't work.
  *****************************************************************************/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-   //---------//
-#include <gmsDebugUtil.h>
-#include <gmsBrowseMapClass.h>
-#include <gmsMapStateMgr.h>
-#include <gmsScreenCoordUtils.h>
-#include <gmsUtilities.h>
 
 #include "tcl2gms.h"
 
-static gmsBrowseMapClass *g_theBrowseMap = NULL;
 
-extern "C"
-{
 /************************************************
  * FUNCTION: Tcltogms_Init 
  *
@@ -112,11 +102,6 @@ int Tcl2GMS_init_map_settings
               argv[i]);
    }
 
-   if (g_theBrowseMap == NULL)
-   {
-      g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
-   }
-
    printf("---> answer: %d\n", answer);
 
    Tcl_Obj *result_obj;
@@ -163,8 +148,6 @@ int Tcl2GMS_drawLibRef
 
    return TCL_OK;
 }
-
-} // end extern "C"
 
 /* EOF */
 

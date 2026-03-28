@@ -9,9 +9,9 @@ CC  = gcc
 
 OPTS = -Wall -DUSE_TCL_STUBS -fPIC
 
-SRC = tcl2gms.cpp
+SRC = tcl2gms.c
 
-OBJ = $(SRC:.cpp=.o)
+OBJ = $(SRC:.c=.o)
 
 INCL = -I/usr/include/tcl8.6                \
        -I../../C_source/include/gmsAdrgFile \
