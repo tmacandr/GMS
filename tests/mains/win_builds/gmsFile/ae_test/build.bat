@@ -13,7 +13,7 @@ set HERE=%cd%
 
 cd ..\..\..\..\..
 
-set GMS_ROOT = %cd%
+set GMS_ROOT=%cd%
 
 cd %HERE%
 

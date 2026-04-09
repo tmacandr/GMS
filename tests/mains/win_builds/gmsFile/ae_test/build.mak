@@ -47,7 +47,24 @@ BASE_LIBS = kernel32.lib user32.lib   gdi32.lib   winspool.lib \
 #
 CPP_LIBS = msvcrtd.lib
 
-LIBS = $(BASE_LIBS) $(CPP_LIBS)
+#
+# GMS L-path
+#
+GMS_LPATH = /LIBPATH:$(GMS_ROOT)\lib
+
+#
+# GMS link libs
+#
+GMS_LIBS = libGmsFile.lib      \
+           libGmsGraphics.lib  \
+           libGmsAdrgFile.lib
+
+#
+# Summarize
+#
+ALL_L_PATH = $(LPATH) $(GMS_LPATH)
+
+ALL_LIBS = $(GMS_LIBS) $(BASE_LIBS) $(CPP_LIBS)
 
 #
 # Avoid warning LNK4098:
@@ -59,8 +76,7 @@ all: $(EXE)
 
 $(EXE): $(OBJ)
 	@echo ^-^-^-^> Link $(EXE)
-	@echo lpath: $(LPATH)
-	$(CC) $(OBJ) /link $(LPATH) $(LIBS) /OUT:$(EXE) $(LINK_OPTS)
+	$(CC) $(OBJ) /link $(ALL_L_PATH) $(ALL_LIBS) /OUT:$(EXE) $(LINK_OPTS)
 
 $(OBJ): $(SRC)
 	@echo ^-^-^-^> Compile $(SRC)
