@@ -46,6 +46,11 @@ GMS_FILE_LIB = $(GMS_LIB_PATH)\libGmsFile.lib
 
 CC = $(VS_BIN_DIR)\cl.exe
 
+#
+# Trying to be UNIX equivalent clever ...
+#
+AR = $(VS_BIN_DIR)\LIB.exe
+
 # Define the compiler flags
 # /Fo specifies the object file name
 
@@ -69,7 +74,7 @@ all: $(GMS_FILE_LIB)
 
 $(GMS_FILE_LIB): $(OBJ)
 	@echo ^-^-^-^> Archive to $(GMS_FILE_LIB)
-	$(CC) $(OBJ) /link $(LIBS) /OUT:$(GMS_FILE_LIB) $(LINK_OPTS)
+	$(AR) $(OBJ) $(LIBS) /OUT:$(GMS_FILE_LIB) $(LINK_OPTS)
 
 gmsBrowseFeatureTable.obj:$(GMS_FILE_SRC)\gmsBrowseFeatureTable.cpp
 	@echo ^-^-^-^> Compile $(?)
