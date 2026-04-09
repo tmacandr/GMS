@@ -1984,6 +1984,8 @@ The next map, shown in Figure 5.15, shows lakes, rivers, and
 
 **Figure 5.15 : SOAMAFR Lakes/Rivers**
 
+![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
+
 
 The third map, shown in Figure 5.16, shows the portion of the DN
  theme that contained areas (i.e. polygons) of bodies of water. This
@@ -1997,17 +1999,27 @@ The fourth map, shown in Figure 5.17, shows a few towns and villages in the coun
 
 **Figure 5.16 : SOAMAFR - Niger River and Delta**
 
+![soamafr_2](./diagrams/soamafr_2.bmp "soamafr_2")
+
 
 **Figure 5.17 : SOAMAFR - Towns/Villages (PP theme)**
 
+![soamafr_3](./diagrams/soamafr_3.bmp "soamafr_3")
 
-The fifth map, shown in Figure 5.18, shows elevation data for the region. This data was obtained
-from the Hypsographic (HY) theme of the SOAMAFR library. Areas of elevation between sea-level and
-1000 feet is shaded green. Areas above 1000 feet are shaded yellow. Admittedly, this is a poor
-representation of the elevation data. A more accurate map would show varying shades with changes in
-elevation. The highest peak in Nigeria is 7000 feet, yet this is not distinguishable as shown.
-However, this accuracy is available via the Extabula Toolkit by directly accessing the hypsographic
-data. Elevations are distinguished at 1000 foot intervals up to 29000 feet.
+
+The fifth map, shown in Figure 5.18, shows elevation data for the region. This
+ data was obtained
+from the Hypsographic (HY) theme of the SOAMAFR library. Areas of elevation
+ between sea-level and
+1000 feet is shaded green. Areas above 1000 feet are shaded yellow. Admittedly,
+ this is a poor
+representation of the elevation data. A more accurate map would show varying
+ shades with changes in
+elevation. The highest peak in Nigeria is 7000 feet, yet this is not
+ distinguishable as shown.
+However, this accuracy is available via the Extabula Toolkit by directly
+ accessing the hypsographic data. Elevations are distinguished at 1000 foot
+ intervals up to 29000 feet.
 
 **Figure 5.19 : SOAMAFR - Hypsographic Data**
 
@@ -2027,9 +2039,6 @@ functions that could be implemented by a client by using the
 Extabula Toolkit directly. 
 
 
-![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
-![soamafr_2](./diagrams/soamafr_2.bmp "soamafr_2")
-![soamafr_3](./diagrams/soamafr_3.bmp "soamafr_3")
 ![soamafr_4](./diagrams/soamafr_4.bmp "soamafr_4")
 ![soamafr_5](./diagrams/soamafr_5.bmp "soamafr_5")
 ![x_flat_1](./diagrams/x_flat_1.gif "x_flat_1")
