@@ -80,7 +80,7 @@ cd %HERE%
 %VS_BIN_DIR%\nmake.exe /f build.gmsFile.mak clean
 
 if %ERRORLEVEL% neq 0 (
-   echo ^*^*^*^> ERROR - clean failed
+   echo ^*^*^*^> ERROR - clean gms File build failed
    goto DONE
 )
 
@@ -88,6 +88,20 @@ if %ERRORLEVEL% neq 0 (
 
 if %ERRORLEVEL% neq 0 (
    echo ^*^*^*^> ERROR - build GMS File library failed
+   goto DONE
+)
+
+%VS_BIN_DIR%\nmake.exe /f build.gmsGraphics.mak clean
+
+if %ERRORLEVEL% neq 0 (
+   echo ^*^*^*^> ERROR - clean Graphics build failed
+   goto DONE
+)
+
+%VS_BIN_DIR%\nmake.exe /f build.gmsGraphics.mak
+
+if %ERRORLEVEL% neq 0 (
+   echo ^*^*^*^> ERROR - build graphics library failed
    goto DONE
 )
 
