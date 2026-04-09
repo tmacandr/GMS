@@ -448,10 +448,10 @@ The interaction of these components are illustrated in Figure 1.1 below:
 Often, developers of GIS products will purchase the first
 two components (the ones shaded in yellow in Figure 1.1) and then
 write the third component based on the needs of a
-particular customer. The focus of this graduate project/
-thesis was the converse of this approach. The objective
-was to study and then develop the first two components. The results
-are a software product called the Geographic Map System (GMS).
+particular customer. The focus of this graduate project/thesis was the
+converse of this approach. The objective was to study and then develop
+the first two components. The results are a software product called the
+Geographic Map System (GMS).
 
 For this exercise the vector map system called Digital Chart
  of the World (DCW) was chosen. For
@@ -730,7 +730,7 @@ equal sized regions. This system uses a flat-earth model and then
 divides regions into equal sized areas called tiles. Each tile
 is a 15° by 15° cell as shown in Figure 2.2 below:
 
-**Figure 2.2 Tile Ref Demo**
+**Figure 2.2 GEOREF Tiling Scheme**
 ![tile_ref](./diagrams/tile_ref.bmp "tile_ref")
 
 There are 24 longitude zones identified by the
@@ -747,7 +747,7 @@ longitude sub-tiles are numbered column-wise 1 through 3 and the latitude
 sub-tiles are numbered row-wise 1 through 3. The first tile is 11 and is
 in the lower left corner of the outer tile [10]. See Figure 2.3 below:
 
-**Figure 2.3 - Tile Size**
+**Figure 2.3 - GEOREF Sub-Tiline Scheme**
 
 ![tile_ref_2](./diagrams/tile_ref_2.bmp "tile_ref_2")
  
@@ -771,7 +771,7 @@ certain data for a given region can be accessed by specifying the
 tiles. This directory hierarchy of the themes of the DCW database is
 shown in Figure 2.4 below:
 
-**Figure 2.4 - DCW Database Form**
+**Figure 2.4 - Directory Hierarchy of DCW Themes**
 
 ![tile_arch](./diagrams/tile_arch.gif "tile_arch") 
 
@@ -1064,7 +1064,7 @@ toolkit to read each of the types of files from the
 DCW database and to build data structures that can be manipulated
 by client software. Figure 3.1 illustrates the overall system.
 
-**Figure 3.1 - GMS Architecture**
+**Figure 3.1 - GMS System Architecture**
 
 ![gms_io_toolkit](./diagrams/gms_io_toolkit.gif "gms_io_toolkit")
 
@@ -1323,7 +1323,7 @@ COORDINATES =C,*,N,Coordinates of Edge,-,-,:;
 ```
 The next problem with implementing the edge table component was that edge records are variant-length records. Again consider the generalized format of edge records shown in Table 3.7. The COORDINATES attribute is an array of coordinate tuples whose length is different for each record. The attribute [num-coords] is not defined in Mil-D-89009, nor in Mil-Std-600006, nor in Mil-Std-2407. Now, by using the index file the software can determine where the start of each edge record is located. Thus, the number of coordinates could be calculated for each record (total-length - size of fixed components). When this was done, the software was always off by 4 bytes. It turns out that the extra 4 bytes is an integer that indicates the length of the coordinate array. The actual implementation (i.e. the data written on the CD-ROM) includes this extra attribute that was discovered by accident (by trial and error).
 
-Futhermore, it was discovered that all variant-length attributes were preceded by an integer that indicated the length of the array (e.g. strings from text tables).
+Furthermore, it was discovered that all variant-length attributes were preceded by an integer that indicated the length of the array (e.g. strings from text tables).
 
 The component gmsTextTextTable is used to access text tables. There are two variants handled by this component. One is for the browse library and the other is for the regional libraries. The string that is read from the text table is appended with the ASCII null character for easier use by the client.
 
@@ -1390,7 +1390,7 @@ operator [17]. The Graphics/Data Operations component is sandwiched between
 the utilities that directly access the database and the user
 interface. This is illustrated in Figure 4.1.
 
-**Figure 4.1**
+**Figure 4.1 : Architecture**
 
 ![gms_graphics_toolkit](./diagrams/gms_graphics_toolkit.gif "graphics_toolkit")
 
@@ -1463,7 +1463,7 @@ placed in the middle of a cylinder. All points on the sphere are
 projected onto the wall of the cylinder [3]. This is illustrated
 in Figure 4.2.
 
-**Figure 4.2**
+**Figure 4.2 : Cylindrical Projection**
 
 ![mercator_proj](./diagrams/mercator_proj.gif "mercator_proj")
  
@@ -1501,7 +1501,8 @@ earth, and is perpendicular to the y-axis. Positive z values are on
 the hemisphere of the prime meridian. The x-axis completes the
 right-handed coordinate system [11]. This is illustrated in Figure 4.3.
 
-**Figure 4.3**
+**Figure 4.3 : Spherical Model**
+
 ![sphere](./diagrams/sphere.gif "sphere")
 
 
@@ -1516,16 +1517,34 @@ z = Re * cos(PHI) * cos(LAMBDA)
 ```
 where Re is the radius of the earth, PHI is latitude and LAMBDA is longitude.
 
-The World Geodetic System - 1984: Before describing the third coordinate model
-it will be helpful to describe an earth reference system called the World
-Geodetic System - 1984 (WGS84) [11]. For some applications, modeling the earth
-as a flat rectangle, or a sphere, or an ellipsoid is not sufficient. Some
-systems need a highly accurate model. The WGS-84 was developed for these
-systems.
+**The World Geodetic System - 1984**: Before describing the third coordinate
+model it will be helpful to describe an earth reference system called the
+World Geodetic System - 1984 (WGS84) [11]. For some applications, modeling
+the earth as a flat rectangle, or a sphere, or an ellipsoid is not
+sufficient. Some systems need a highly accurate model. The WGS-84 was
+developed for these systems.
 
-The WGS-84 system begins by modeling the earth as an ellipsoid. Like the spherical model described above, there is a reference coordinate system. However, it is based on a coordinate system defined by the International Earth Rotation Service (IERS). It is essentially the same as the grid described above, except the names of the axes are exchanged (e.g. the z-axis in the IERS system is the y-axis in the spherical model). The WGS-84 ellipsoid is centered in the IERS coordinate system [11].
+The WGS-84 system begins by modeling the earth as an ellipsoid. Like the
+spherical model described above, there is a reference coordinate system.
+However, it is based on a coordinate system defined by the International
+Earth Rotation Service (IERS). It is essentially the same as the grid
+described above, except the names of the axes are exchanged (e.g. the
+z-axis in the IERS system is the y-axis in the spherical model). The
+WGS-84 ellipsoid is centered in the IERS coordinate system [11].
 
-Coordinates in the WGS-84 system are given in tuples of [longitude, latitude]. However, the values specified are called geodetic coordinates because they are generated by making what are called geodetic measurements from selected regions on the earth. A geodetic measurement is obtained by selecting a central reference point within a region on the earth (also called a station frame). The longitude and latitude of that point is calculated by defining a line perpendicular to the earth that passes through the center of a reference ellipsoid. Measurements of distance from the central point are used to calculate all other points within the region. The position measurements are performed using satellites and variations in gravity. All points within that region are said to comprise a geodetic datum. The WGS-84 system is actually a database of many hundreds of geodetic datums from areas all over the earth [11].
+Coordinates in the WGS-84 system are given in tuples
+of [longitude, latitude]. However, the values specified are called geodetic
+coordinates because they are generated by making what are called geodetic
+measurements from selected regions on the earth. A geodetic measurement is
+obtained by selecting a central reference point within a region on the earth
+(also called a station frame). The longitude and latitude of that point is
+calculated by defining a line perpendicular to the earth that passes through
+the center of a reference ellipsoid. Measurements of distance from the
+central point are used to calculate all other points within the region. The
+position measurements are performed using satellites and variations in
+gravity. All points within that region are said to comprise a geodetic
+datum. The WGS-84 system is actually a database of many hundreds of
+geodetic datums from areas all over the earth [11].
 
 Now, lat/long coordinate values from a geodetic datum are highly
 accurate. However, these values are with respect to an ellipsoid
@@ -1538,27 +1557,27 @@ geodetic datum. The geocentric coordinates are values from the IERS
 reference ellipsoid [11]. The difference between these two types
 of coordinates is illustrated in Figure 4.4 [11].
 
-**Figure 4.4**
+**Figure 4.4 : WGS-84 Latitudes**
 
 ![diff_latitudes](./diagrams/diff_latitudes.gif "diff_latitudes") 
 
 
 Thus, it is necessary to convert geodetic coordinates to geocentric
 coordinates. This permits the use of a common reference ellipsoid for
- geographic systems. The WGS-84 reference ellipsoid is illustrated in
- Figure 4.5. Note that for consistency with the spherical
- model (described above), the x, y, and z axes of Figure 4.5 were
+geographic systems. The WGS-84 reference ellipsoid is illustrated in
+Figure 4.5. Note that for consistency with the spherical
+model (described above), the x, y, and z axes of Figure 4.5 were
 made to coincide with the axes of Figure 4.3. This is different
 from how the IERS labels the axes.
 
-**Figure 4.5**
+**Figure 4.5 : WGS-84 Reference Ellipsoid**
 
 ![ellipsoid](./diagrams/ellipsoid.gif "ellipsoid")
 
 The equations to convert a given geodetic coordinate to
 an (x, y, z) geocentric coordinate are given in Figure 4.6 [11].
 
-**Figure 4.6**
+**Figure 4.6 : Geodetic to Geocentric Coordinates**
 ```
    x = (N + h) * cos(PHI) * sin(LAMBDA)
 
@@ -1581,17 +1600,30 @@ an (x, y, z) geocentric coordinate are given in Figure 4.6 [11].
 
 Thus, the input values are PHI and LAMBDA. For the toolkit being
 developed, the value of h (altitude) will be zero for all cases. The
-values of a (semi-major axis) and b (semi-minor axis) are fixed based on the reference ellipsoid. The remaining values are derived. Some, such as flattening are constants since they are derived from other constants [11] [3].
+values of a (semi-major axis) and b (semi-minor axis) are fixed based
+on the reference ellipsoid. The remaining values are derived. Some, such
+as flattening are constants since they are derived from other
+constants [11] [3].
 
-Ellipsoid Earth: The [longitude, latitude] values from the DCW database are geodetic coordinates based on the WGS-84 model. Thus, the equations described in Figure 4.6 are used for the toolkit.
+Ellipsoid Earth: The [longitude, latitude] values from the DCW database
+are geodetic coordinates based on the WGS-84 model. Thus, the equations
+described in Figure 4.6 are used for the toolkit.
 
-A note about the ellipsoid model. Although the [long, lat] coordinates from the DCW database are geodetic coordinates, the conversion to geocentric coordinates is overkill in some cases. Depending on the zoom factor and considering the highest scale of the DCW database is 1:1M, it is hard to distinguish between the spherical model and the ellipsoid model.
+A note about the ellipsoid model. Although the [long, lat] coordinates from
+the DCW database are geodetic coordinates, the conversion to geocentric
+coordinates is overkill in some cases. Depending on the zoom factor and
+considering the highest scale of the DCW database is 1:1M, it is hard to
+distinguish between the spherical model and the ellipsoid model.
 
-Screen Projection: For the spherical and ellipsoid models, the 3 dimensional points must then be projected onto the 2 dimensional screen. To support this a projection algorithm was implemented in the toolkit. The projection of any arbitrary 3D point P(x, y, z) onto a 2D screen gives the point P*(x*, y*). This scheme is illustrated in Figure 4.7 below [5].
+Screen Projection: For the spherical and ellipsoid models, the 3 dimensional
+points must then be projected onto the 2 dimensional screen. To support
+this a projection algorithm was implemented in the toolkit. The projection
+of any arbitrary 3D point P(x, y, z) onto a 2D screen gives the
+point P\*(x\*, y\*). This scheme is illustrated in Figure 4.7 below [5].
 
-**Figure 4.7**
+**Figure 4.7 : Screen Projection**
+
 ![scn_proj](./diagrams/scn_proj.gif "scn_proj")
- 
 
 Manipulating the following ratios,
 ```
@@ -1619,17 +1651,51 @@ yields the following projection equations [5]:
 
 ## 4.3 - Architecture and Design
 
-A mix of objected oriented and structural methods were used to develop the DCW Graphics Toolkit. Several components were designed as utilities and maintained little or no state information. For example, the software to manipulate coordinates and perform screen projection were implemented as utilities. Other components were designed as object oriented classes. For example, a class called gmsMapClass treats regions of data as a map object. The client would instantiate one or more map objects depending on how much area was of interest.
+A mix of objected oriented and structural methods were used to
+ develop the DCW Graphics Toolkit. Several components were designed
+ as utilities and maintained little or no state information.
+ For example, the software to manipulate coordinates and perform
+ screen projection were implemented as utilities. Other components were
+ designed as object oriented classes. For example, a
+ class called gmsMapClass treats regions of data as a map
+ object. The client would instantiate one or more map
+ objects depending on how much area was of interest.
 
-A core component of the DCW Graphics Toolkit is the gmsMapStateMgr. Its purpose is to record any changes to the state of a map requested by the client application. These include changes in zoom factor and orientation of the map. This keeps all maps in the same state for presentation to an operator. This componenent was designed as an abstract state machine since it maintains the current state of the map.
+A core component of the DCW Graphics Toolkit is the gmsMapStateMgr. Its
+purpose is to record any changes to the state of
+ a map requested by the client application. These include
+ changes in zoom factor and orientation of the map.
+ This keeps all maps in the same state for presentation
+ to an operator. This componenent was designed as an
+ abstract state machine since it maintains the current state of the map.
 
-One of the design objectives was to keep coupling between components to a minimum. The components of the DCW Graphics Toolkit depend on the components of the Extabula Toolkit, but this is to be expected. Also, there are dependencies of components within the DCW Graphics Toolkit. For example, most components use the coordinate utilities. As with the Extabula Toolkit, the DCW Graphics Toolkit was also designed for portabilty. Thus the only other dependencies are on functions from the ANSI C++ library.
+One of the design objectives was to keep coupling between
+ components to a minimum. The components of the DCW
+ Graphics Toolkit depend on the components of the Extabula Toolkit, but
+this is to be expected. Also, there are
+ dependencies of components within the DCW Graphics Toolkit. For
+ example, most components use the coordinate utilities. As
+ with the Extabula Toolkit, the DCW Graphics Toolkit was
+ also designed for portabilty. Thus the only other dependencies
+ are on functions from the ANSI C++ library.
 
-Another design objective was to implement simple interfaces to the components and to use the principle of information hiding. Since the objective of the DCW Graphics Toolkit is to simplify how a client application displays maps, it is best to provide an easy to use interface and not to overwhelm the client with unnecessary details. The DCW Graphics Toolkit is to provide as much platform-independent functionality as will be useful. Overly complicated interfaces will likely cause the client to bypass the DCW Graphics Toolkit, use the Extabula Toolkit, and perform its own graphics operations. The DCW Graphics Toolkit is provided to try and alleviate that work.
+Another design objective was to implement simple interfaces to the
+ components and to use the principle of information hiding.
+ Since the objective of the DCW Graphics Toolkit is to
+ simplify how a client application displays maps, it is
+ best to provide an easy to use interface and not
+ to overwhelm the client with unnecessary details. The DCW
+ Graphics Toolkit is to provide as much platform-independent
+ functionality as will be useful. Overly complicated interfaces will
+ likely cause the client to bypass the DCW Graphics Toolkit, use
+ the Extabula Toolkit, and perform its own graphics operations. The
+DCW Graphics Toolkit is provided to try and alleviate that work.
 
-4.4 - Implementation
+## 4.4 - Implementation
 
-Utilities: A series of components were developed that provide various functions for the client application. These components are listed in Table 4.2.
+Utilities: A series of components were developed that provide
+ various functions for the client application. These components are
+ listed in Table 4.2.
 
 Header 	Source
 gmsDcwTypesAndConstants.h 	 
@@ -1640,17 +1706,47 @@ gmsDcwUtilities.h 	gmsDcwUtilities.cpp
 gmsPolygonUtilities.h 	gmsPolygonUtilities.cpp
 
 
-gmsDcwTypesAndConstants: This component simply defines a series of type definitions and constants that are useful throughout the toolkit. No functionality is defined for this component.
+gmsDcwTypesAndConstants: This component simply defines a series of type
+ definitions and constants that are useful throughout the toolkit.
+ No functionality is defined for this component.
 
-gmsWorldCoordUtils: These utilities are for converting from [longitude, latitude] values to world-coordinates. The data from the DCW database is in geodetic coordinates (latitude, longitude). These values are converted to either 2D world coordinates (flat-earth model) or 3D world coordinates (spherical, ellipsoid models). The dimensions of the world coordinates is meters. As suggested, the client is allowed to specify which earth model is to be used (flat-earth, spherical, or ellipsoid-WGS-84). Furthermore, functions are defined to construct polylines of latitude and longitude in world coordinates. These functions can be used to construct a grid of latitude and longitude lines on a map.
+gmsWorldCoordUtils: These utilities are for converting
+from [longitude, latitude] values to world-coordinates. The data
+ from the DCW database is in geodetic coordinates (latitude, longitude). These
+values are converted to either 2D world coordinates (flat-earth model) or
+3D world coordinates (spherical, ellipsoid models). The dimensions of the
+world coordinates is meters. As suggested, the client is allowed to
+specify which earth model is to be used
+ (flat-earth, spherical, or ellipsoid-WGS-84). Furthermore, functions
+ are defined to construct polylines of latitude and longitude in world
+ coordinates. These functions can be used to construct a grid of
+ latitude and longitude lines on a map.
 
-gmsScreenCoordUtils: These functions are defined to convert world coordinates to screen coordinates. Once a world coordinate value is constructed, it is necessary to convert it to a coordinate that is relative to a raster graphics system. These functions apply the current zoom factor to generate the screen coordinates. For 3D world coordinates, a 3D screen coordinate is generated. For 2D world coordinates, a 2D screen coordinate is generated. Also, for convenience, there are functions that operate on polylines of coordinates.
+gmsScreenCoordUtils: These functions are defined to convert world
+ coordinates to screen coordinates. Once a world coordinate value
+ is constructed, it is necessary to convert it to a coordinate that
+ is relative to a raster graphics system. These functions apply the
+ current zoom factor to generate the screen coordinates. For 3D world
+ coordinates, a 3D screen coordinate is generated. For 2D world
+ coordinates, a 2D screen coordinate is generated. Also, for convenience,
+ there are functions that operate on polylines of coordinates.
 
-gmsTransformationUtils: These functions are defined to perform standard graphics operations on screen points. This includes projection of 3D screen coordinates to 2D screen coordinates (see Figure 4.7 above). Also, functions to perform traslation and rotation of points and polylines is defined.
+gmsTransformationUtils: These functions are defined to perform standard
+graphics operations on screen points. This includes projection of 3D screen
+coordinates to 2D screen coordinates (see Figure 4.7 above). Also, functions
+to perform traslation and rotation of points and polylines is defined.
 
-gmsDcwUtilities: This component contains a series of general purpose functions. Most functions provide heap allocation and de-allocations based on data structures of coordinate values. Other functions simplify access to raw DCW files.
+gmsDcwUtilities: This component contains a series of general purpose
+ functions. Most functions provide heap allocation and
+ de-allocations based on data structures of coordinate values. Other
+ functions simplify access to raw DCW files.
 
-gmsPolygonUtilities: This component defines a series of utilities to build polygons from DCW edge tables. Edges can be organized to define polygons that represent closed geographic regions such as countries, islands, and bodies of water. The polygons can be used by an application/client to define "fill-areas" to graphically enhance the image of a map.
+gmsPolygonUtilities: This component defines a series of utilities to
+ build polygons from DCW edge tables. Edges can be organized to
+ define polygons that represent closed geographic regions such
+ as countries, islands, and bodies of water. The polygons can be
+ by an application/client to define "fill-areas" to graphically
+ enhance the image of a map.
 
 Map Objects: Next, series of components were developed as map objects. These components are listed in Table 4.3.
 
@@ -1733,7 +1829,10 @@ Portability: As mentioned, one of the objectives of the GMS toolkits is to allow
 
 The toolkits were then ported to a SUN UNIX (Solaris) platform and test drivers were developed using the X Window System and the Motif Toolkit. New applications had to be developed since X/Motif and the MS Windows GDI systems are completely different. The toolkits were then ported to a Hewlett-Packard UNIX (HPUX) platform. The toolkits and X/Motif test drivers were constructed and executed on this platform.
 
-Conclusion: Testing showed a stable toolkit on all platforms. Chapter 5 describes applications that were developed on the MS Windows platform. Chapter 6 describes the applications that were developed to use the X/Motif system.
+Conclusion: Testing showed a stable toolkit on all platforms. Chapter 5
+describes applications that were developed on the MS Windows
+platform. Chapter 6 describes the applications that were developed to
+use the X/Motif system.
 
 # Chapter 5 - MS Windows Applications Using GMS Toolkits
 
@@ -1745,7 +1844,7 @@ Several applications were developed to demonstrate some of the features of GMS t
 
 An application was developed that utilizes some of the map data from the Browse library. At start up, a window containing a map of the globe is presented to the operator. This is illustrated in Figure 5.1.
 
-**Figure 5.1**
+**Figure 5.1 : Flat Browse - Initial Window**
 
 ![flat_browse_1](./diagrams/flat_browse_1.bmp "flat_browse_1") 
 
@@ -1753,7 +1852,7 @@ This application makes use of the component gmsBrowseMapClass. One map object is
 
 This application provided the operator with the ability to zoom-in/pan-out and also to re-center the map. The results of changing the zoom and re-centering the map is illustrated in Figure 5.2.
 
-**Figure 5.2**
+**Figure 5.2 : Flat Browse - Zoom and Move**
 
 ![flat_browse_2](./diagrams/flat_browse_2.bmp "flat_browse_2") 
 
@@ -1762,7 +1861,7 @@ The application would also display data from several of the Browse
 themes. For example, Figure 5.3 shows data from the Drainage (DN) theme
 which is actually rivers and outlines of large inland bodies of water.
 
-**Figure NN**
+**Figure 5.3 : Flat Browse - Rivers/Lakes**
 
 ![flat_browse_3](./diagrams/flat_browse_3.bmp "flat_browse_3") 
 
@@ -1772,7 +1871,7 @@ available for operator selection. Figure 5.4 illustrates some of this
 information. Cities are represented as small squares on the map.
 
  
-**Figure 5.4**
+**Figure 5.4 : Flast Browse - Text and Cities**
 
 ![flat_browse_4](./diagrams/flat_browse_4.bmp "flat_browse_4")
 
@@ -1784,7 +1883,7 @@ library, was developed. However, it instantiated the gmsBrowseMapClass
 object using the ellipsoid-earth model. As shown in Figure 5.5, the
 start up window shows an ellipsoid for the earth.
 
-**Figure 5.5**
+**Figure 5.5 : Ellipsoid Browse - Initial Window**
 
 ![ellip_browse_1](./diagrams/ellip_browse_1.bmp "ellip_browse_1") 
 
@@ -1795,7 +1894,7 @@ Like the flat-earth application, zoom and move functions are available to
 the operator. However, a move for the ellipsoid model is actually a
 rotation. Figure 5.6 shows the map re-oriented to display the north pole.
 
-**Figure 5.6**
+**Figure 5.6 : Ellipsoid Browse - Zoom/Rotation**
 
 ![ellip_browse_2](./diagrams/ellip_browse_2.bmp "ellip_browse_2") 
 
@@ -1804,71 +1903,102 @@ Similar to the flat-earth application, this application implemented
 functionality to display data from the themes of the Browse
 library (e.g. DN, PO, PP, etc).
 
-Also, this application provided access to the data tables of the DCW database. The two database-level files are the Database Header Table and the Library Attribute Table. These items are illustrated in Figure 5.7 and Figure 5.8.
+Also, this application provided access to the data tables of the
+DCW database. The two database-level files are the Database Header
+Table and the Library Attribute Table. These items are illustrated
+in Figure 5.7 and Figure 5.8.
 
+**Figure 5.7 : Database Header Table** 
+
+![dht](./diagrams/dht.bmp "dht")
+
+
+**Figure 5.8 : Library Attribute Table**
+
+![lat](./diagrams/lat.bmp "lat")
+
+In addition, each library contains 4 data tables. These files are the
+Coverage Attribute Table, the Data Quality Table, the Geographic
+Reference Table, and the Library Header Table. These items are
+illustrated for the Browse library in Figures 5.9, 5.10, 5.11, and 5.12
+
+**Figure 5.9 : Coverage Attribute Table**
+
+![cat](./diagrams/cat.bmp "cat")
  
+**Figure 5.10 : Data Quality Table**
 
+![dqt](./diagrams/dqt.bmp "dqt")
 
+**Figure 5.11 : Geographic Reference Table**
 
+![grt](./diagrams/grt.bmp "grt")
 
+**Figure 5.12 : Library Header Table**
+
+![lht](./diagrams/lht.bmp "lht")
  
+## 5.3 - The SOAMAFR LibRef Application
+
+To illustrate how the DCW database is divided into libraries, an
+ application was developed to display the LibRef data for the South
+ America and Africa (SOAMAFR) library. Figure 5.13 illustrates the
+ region of the world covered by this part of the DCW database.
+
+**Figure 5.13 : SOAMAFR LibRef** 
+
+![soamafr_libref](./diagrams/soamafr_libref.bmp "soamafr_libref")
 
 
 
-In addition, each library contains 4 data tables. These files are the Coverage Attribute Table, the Data Quality Table, the Geographic Reference Table, and the Library Header Table. These items are illustrated for the Browse library in Figures 5.9, 5.10, 5.11, and 5.12
+## 5.4 - The SOAMAFR Demo
 
- 
+This application was developed to demonstrate some of the thematic
+ information from the SOAMAFR library. The first map,
+ shown in Figure 5.14, shows the west-central coast of
+ Africa, at the countries of Nigeria and Cameroon.
+ The map shows the political boundaries of the countries as
+ well as the coastline. This information was obtained from
+ the Political/Oceans (PO) theme of the
+ SOAMAFR library. Also shown are text labels naming the
+ countries and geographically significant items. Admittedly, the text
+ functions of the DCW Graphics Toolkit are limited. The
+ map shows overlap of text items, etc. These
+ conditions are due to the simplicity of the DCW Graphics
+ Toolkit rather than the availability of the information from the
+ DCW database. For the case of these text items, information is being
+ filtered by the DCW Graphics Toolkit. Direct access to
+ the text data via the Extabula Toolkit is still possible
+ and a client application would be able to display the
+ text items in a more user-freindly manner.
 
+**Figure 5.14 : SOAMAFR - Nigeria and Cameroon**
 
+ ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
 
+The next map, shown in Figure 5.15, shows lakes, rivers, and
+ streams for the region. This information was obtained from
+ the Drainage (DN) theme of the SOAMAFR library. The current zoom
+ factor distorts the amount of area covered by water,
+ but it nonetheless shows a region with many inland bodies of water.
 
- 
-
-
-
-
-
- 
-
-
-
-
- 
-
-
-
-5.3 - The SOAMAFR LibRef Application
-
-To illustrate how the DCW database is divided into libraries, an application was developed to display the LibRef data for the South America and Africa (SOAMAFR) library. Figure 5.13 illustrates the region of the world covered by this part of the DCW database.
-
- 
-
-
-
-5.4 - The SOAMAFR Demo
-
-This application was developed to demonstrate some of the thematic information from the SOAMAFR library. The first map, shown in Figure 5.14, shows the west-central coast of Africa, at the countries of Nigeria and Cameroon. The map shows the political boundaries of the countries as well as the coastline. This information was obtained from the Political/Oceans (PO) theme of the SOAMAFR library. Also shown are text labels naming the countries and geographically significant items. Admittedly, the text functions of the DCW Graphics Toolkit are limited. The map shows overlap of text items, etc. These conditions are due to the simplicity of the DCW Graphics Toolkit rather than the availability of the information from the DCW database. For the case of these text items, information is being filtered by the DCW Graphics Toolkit. Direct access to the text data via the Extabula Toolkit is still possible and a client application would be able to display the text items in a more user-freindly manner.
-
- 
+**Figure 5.15 : SOAMAFR Lakes/Rivers**
 
 
-
-The next map, shown in Figure 5.15, shows lakes, rivers, and streams for the region. This information was obtained from the Drainage (DN) theme of the SOAMAFR library. The current zoom factor distorts the amount of area covered by water, but it nonetheless shows a region with many inland bodies of water.
-
- 
-
-
-
-The third map, shown in Figure 5.16, shows the portion of the DN theme that contained areas (i.e. polygons) of bodies of water. This information demonstrates lakes and rivers of significant width. In particular, the Niger River and its tributaries are shown as polygons. Also, the very large Niger River Delta is shown. Accuracy can be lost if such bodies of water are shown simply as a line of constant width. library drainage information
-
- 
-
-
+The third map, shown in Figure 5.16, shows the portion of the DN
+ theme that contained areas (i.e. polygons) of bodies of water. This
+ information demonstrates lakes and rivers of significant
+ width. In particular, the Niger River and its tributaries are
+ shown as polygons. Also, the very large Niger River Delta is
+ shown. Accuracy can be lost if such bodies of water are shown
+ simply as a line of constant width. library drainage information
 
 The fourth map, shown in Figure 5.17, shows a few towns and villages in the country of Cameroon. Also, the map shows a close up of the island of Bioko. The island's capital city is Malabo. This information was obtained from the Populated Places (PP) theme of the SOAMAFR library.
 
- 
+**Figure 5.16 : SOAMAFR - Niger River and Delta**
 
+
+**Figure 5.17 : SOAMAFR - Towns/Villages (PP theme)**
 
 
 The fifth map, shown in Figure 5.18, shows elevation data for the region. This data was obtained
@@ -1878,6 +2008,8 @@ representation of the elevation data. A more accurate map would show varying sha
 elevation. The highest peak in Nigeria is 7000 feet, yet this is not distinguishable as shown.
 However, this accuracy is available via the Extabula Toolkit by directly accessing the hypsographic
 data. Elevations are distinguished at 1000 foot intervals up to 29000 feet.
+
+**Figure 5.19 : SOAMAFR - Hypsographic Data**
 
  ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
 
@@ -1895,13 +2027,6 @@ functions that could be implemented by a client by using the
 Extabula Toolkit directly. 
 
 
-![dht](./diagrams/dht.bmp "dht")
-![lat](./diagrams/lat.bmp "lat")
-![cat](./diagrams/cat.bmp "cat")
-![dqt](./diagrams/dqt.bmp "dqt")
-![grt](./diagrams/grt.bmp "grt")
-![lht](./diagrams/lht.bmp "lht")
-![soamafr_libref](./diagrams/soamafr_libref.bmp "soamafr_libref")
 ![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
 ![soamafr_2](./diagrams/soamafr_2.bmp "soamafr_2")
 ![soamafr_3](./diagrams/soamafr_3.bmp "soamafr_3")
