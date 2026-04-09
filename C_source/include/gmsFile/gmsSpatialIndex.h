@@ -47,8 +47,8 @@
 
    typedef struct _nodeRecType
       {
-       long int offsetToNode;
-       long int numItemsInNode;
+       unsigned int offsetToNode;
+       unsigned int numItemsInNode;
       } nodeRecType;
 
    typedef struct _boundingRectangleType

@@ -668,7 +668,7 @@ static void printShortIntThematicRecord
 
    for (i = 0; i < numDirs; i++)
       {
-       printf("      %d) \t\t %d \t %ld \t\t %d\n",
+       printf("      %d) \t\t %d \t %d \t\t %d\n",
              i,
              (int) recordBuffer[i].whichRow,
              recordBuffer[i].fileOffsetToRow,

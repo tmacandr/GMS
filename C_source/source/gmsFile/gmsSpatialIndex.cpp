@@ -178,7 +178,7 @@ void gmsPrintSpatialIndex
 
    for (i = 0; i < theSpatialIndex->numNodes; i++)
       {
-       printf("   %d) Offset = %ld  -  Num_Items = %ld\n",
+       printf("   %d) Offset = %d  -  Num_Items = %d\n",
               i,
               theSpatialIndex->nodeRecords[i].offsetToNode,
               theSpatialIndex->nodeRecords[i].numItemsInNode);

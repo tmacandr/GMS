@@ -92,28 +92,28 @@
    typedef struct _byteThematicRecord
       {
        unsigned char whichRow;
-       long          fileOffsetToRow;
+       int           fileOffsetToRow;
        int           numColumnsInRow;
       } byteThematicRecord;
 
    typedef struct _shortIntThematicRecord
       {
        short whichRow;
-       long  fileOffsetToRow;
+       int   fileOffsetToRow;
        int   numColumnsInRow;
       } shortIntThematicRecord;
 
    typedef struct _wordThematicRecord
       {
        int  whichRow;
-       long fileOffsetToRow;
+       int  fileOffsetToRow;
        int  numColumnsInRow;
       } wordThematicRecord;
 
    typedef struct _doubleWordThematicRecord
       {
        char whichRow;
-       long fileOffsetToRow;
+       int  fileOffsetToRow;
        int  numColumnsInRow;
       } charThematicRecord;
 
