@@ -16,7 +16,7 @@ set HERE=%cd%
 
 cd ..
 
-set GMS_ROOT = %cd%
+set GMS_ROOT=%cd%
 
 cd %HERE%
 
@@ -107,6 +107,20 @@ if %ERRORLEVEL% neq 0 (
 
 if %ERRORLEVEL% neq 0 (
    echo ^*^*^*^> ERROR - build graphics library failed
+   goto DONE
+)
+
+%VS_BIN_DIR%\nmake.exe /f build.gmsAdrgFile.mak clean
+
+if %ERRORLEVEL% neq 0 (
+   echo ^*^*^*^> ERROR - clean gmsAdrgFile build failed
+   goto DONE
+)
+
+%VS_BIN_DIR%\nmake.exe /f build.gmsAdrgFile.mak
+
+if %ERRORLEVEL% neq 0 (
+   echo ^*^*^*^> ERROR - build gmsAdrgFile library failed
    goto DONE
 )
 
