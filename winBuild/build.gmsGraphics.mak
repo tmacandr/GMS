@@ -13,9 +13,13 @@
 
 GMS_GRAPHICS_SRC = $(GMS_ROOT)\C_source\source\gmsGraphics
 
+#
+# Skip 'gmsBrowse_PO_PolygonMapClass.cpp'.  It's a duplicate to
+# 'gms_PO_PolygonMapClass.cpp'.  I don't know what I was doing that
+# caused this duplication.
+#
 SRC = gmsBitmapClass.cpp                \
       gmsBrowseMapClass.cpp             \
-      gmsBrowse_PO_PolygonMapClass.cpp  \
       gmsDataTablesClass.cpp            \
       gmsDcwUtilities.cpp               \
       gmsLatLongGridClass.cpp           \
@@ -78,10 +82,6 @@ gmsBitmapClass.obj:$(GMS_GRAPHICS_SRC)\gmsBitmapClass.cpp
 	$(CC) $(COPTS) /Fo$(@) /c $(?)
 
 gmsBrowseMapClass.obj:$(GMS_GRAPHICS_SRC)\gmsBrowseMapClass.cpp
-	@echo ^-^-^-^> Compile $(?)
-	$(CC) $(COPTS) /Fo$(@) /c $(?)
-
-gmsBrowse_PO_PolygonMapClass.obj:$(GMS_GRAPHICS_SRC)\gmsBrowse_PO_PolygonMapClass.cpp
 	@echo ^-^-^-^> Compile $(?)
 	$(CC) $(COPTS) /Fo$(@) /c $(?)
 
