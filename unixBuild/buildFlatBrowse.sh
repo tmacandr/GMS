@@ -32,7 +32,7 @@ GMS="-lGmsGraph -lGmsFile"
 
 L_LIBS="$GMS $MOTIF -lnsl -lm"
 
-OPTIONS="-DIS_UNIX -DBIG_ENDIAN"
+OPTIONS="-DIS_UNIX"
 
 Src=$Root/unixBuild/mains
 
