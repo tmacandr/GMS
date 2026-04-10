@@ -40,7 +40,7 @@ fi
 #    NOT_CPP
 #    IS_UNIX
 #
-OPTIONS="-DIS_UNIX -Wall"
+OPTIONS="-Wall -DIS_UNIX"
 
 cd $ROOT/C_source/source/gmsGraphics
 
@@ -49,12 +49,19 @@ FILE_NAME=`ls *.cpp | sed '/gmsBitmap/d'`
 #
 # Okay ... go for it
 #
+# Skip: 'gmsBrowse_PO_PolygonMapClass.cpp'.  Duplicate
+#       to 'gms_PO_PolygonMapClass.cpp'
+#
 for eachFile in $FILE_NAME; do
 
    each=`echo $eachFile | sed 's/\.cpp//g'`
 
    echo "_______________"
    echo "Compiling $each"
+
+   if test "$each.cpp" = "gmsBrowse_PO_PolygonMapClass.cpp"; then
+      continue
+   fi
 
    gcc $OPTIONS $H_PATH -c $each.cpp
 
