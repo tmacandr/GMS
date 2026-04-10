@@ -4,7 +4,7 @@ rem # FILE: build.bat
 rem #
 rem # DESCRIPTION:
 rem #    Script that invokes Visual Studio NMAKE on 'build.mak' to compile and
-rem #    link ae_teset.cpp.
+rem #    link ae_test.cpp.
 rem #
 rem # RUN:
 rem #   build.bat
