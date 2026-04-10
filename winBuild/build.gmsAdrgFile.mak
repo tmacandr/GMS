@@ -18,7 +18,7 @@ SRC = gmsAdrgTestPatchImage.cpp \
 
 OBJ = $(SRC:.cpp=.obj)
 
-GMS_LIB_PATH = $(GMS_ROOT)\lib
+GMS_LIB_PATH = .\lib
 
 GMS_ADRG_LIB = $(GMS_LIB_PATH)\libGmsAdrgFile.lib
 

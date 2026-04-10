@@ -3,21 +3,26 @@ rem #=========================================================================
 rem # FILE: build.bat
 rem #
 rem # DESCRIPTION:
-rem #    Script that invokes Visual Studio NMAKE on 'build.mak' to compile and
-rem #    link ae_teset.cpp.
+rem #    Script that invokes Visual Studio NMAKE on 'build.mak' to build the
+rem #    three GMS libraries:
+rem #            gmsFile
+rem #            gmsGraphics
+rem #            gmsAdrgFile
 rem #
 rem # RUN:
 rem #   build.bat
 rem #=========================================================================
 set HERE=%cd%
 
-cd ..\..\..\..\..
+cd ..
 
 set GMS_ROOT = %cd%
 
-if not exist %GMS_ROOT%\lib (
+cd %HERE%
 
-   mkdir %GMS_ROOT%\lib
+if not exist lib (
+
+   mkdir lib
 
 )
 
