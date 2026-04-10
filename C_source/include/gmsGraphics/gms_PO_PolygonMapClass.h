@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// File : gms_PO_PolygonMapClass.cpp
+// File : gms_PO_PolygonMapClass.h
 // Date : 23-Jan-00 : initial definition
 //        30-Jan-00 : rename.  For "PO" theme only
 //
