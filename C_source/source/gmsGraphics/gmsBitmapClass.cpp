@@ -2,6 +2,7 @@
 // File : gmsBitmapClass.cpp
 // Date : 04-Nov-99 : initial definition
 //        10-Nov-99 : code-review and clean-up
+//        10-Apr-26 : 'size_t' is now 64-bit
 //
 // Description:
 //    This class defines a "device-independent bitmap" (DIB) object.  The
@@ -920,7 +921,7 @@ static void printBitmapFileHeader
    fprintf (fd, "   BITMAPFILEHEADER\n");
 
    fprintf(fd, "      ---> Size of this record = %d bytes\n",
-           sizeof(BITMAPFILEHEADER));
+           (int) sizeof(BITMAPFILEHEADER));
 
    fprintf(fd, "      bfOffBits   = %d bytes (i.e. offset to image)\n",
            ptrTo_DIB_fileHdr->bfOffBits);
@@ -1051,7 +1052,7 @@ static void printColorTable
       }
 
    fprintf(fd, "   ---> Size of RGBQUAD = %d bytes\n",
-           sizeof(RGBQUAD));
+           (int) sizeof(RGBQUAD));
 
    for (i = 0; i < numItems; i++)
       {
