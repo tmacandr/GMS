@@ -50,7 +50,7 @@ CPP_LIBS = msvcrtd.lib
 #
 # GMS L-path
 #
-GMS_LPATH = /LIBPATH:$(GMS_ROOT)\lib
+GMS_LPATH = /LIBPATH:$(GMS_ROOT)\winBuild\lib
 
 #
 # GMS link libs
