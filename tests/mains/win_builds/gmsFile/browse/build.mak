@@ -13,9 +13,9 @@
 
 SRC = $(GMS_ROOT)\tests\mains\gmsGraphics\browse.cpp
 
-OBJ = $(SRC:.cpp=.obj)
+OBJ = browse.obj
 
-EXE = $(SRC:.cpp=.exe)
+EXE = browse.exe
 
 CC = $(VS_BIN_DIR)\cl.exe
 
@@ -31,8 +31,8 @@ COPTS = $(INCL) \
        /I$(GMS_INCL)\gmsFile      \
        /I$(GMS_INCL)\gmsGraphics  \
        /I$(TEST_INCL)             \
-       /D WIN32 /D _DEBUG /D _CONSOLE \
-       /D _MBCS /D _WINSOCK_DEPRECATED_NO_WARNINGS \
+       /D WIN32 /D _DEBUG /D _WINDOWS \
+       /D _MBCS \
        /EHsc    \
        /Fo$(OBJ)
 

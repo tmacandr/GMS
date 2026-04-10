@@ -96,43 +96,43 @@ static void parseThemeMenuButton
 static void parseTableMenuButton
                (int whichCommand);
 
-static BOOL CALLBACK dlgProcZoomControl
+static INT_PTR CALLBACK dlgProcZoomControl
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcCatDialog
+static INT_PTR CALLBACK dlgProcCatDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcDhtDialog
+static INT_PTR CALLBACK dlgProcDhtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcLatDialog
+static INT_PTR CALLBACK dlgProcLatDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcDqtDialog
+static INT_PTR CALLBACK dlgProcDqtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcGrtDialog
+static INT_PTR CALLBACK dlgProcGrtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
                             LPARAM lParam);
 
-static BOOL CALLBACK dlgProcLhtDialog
+static INT_PTR CALLBACK dlgProcLhtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -770,7 +770,7 @@ static void parseTableMenuButton
 //    enter a zoom-factor.  This routine catches
 //    the input and sets the new zoom factor.
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcZoomControl
+static INT_PTR CALLBACK dlgProcZoomControl
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -851,7 +851,7 @@ static BOOL CALLBACK dlgProcZoomControl
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcCatDialog
+static INT_PTR CALLBACK dlgProcCatDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -913,7 +913,7 @@ static BOOL CALLBACK dlgProcCatDialog
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcDhtDialog
+static INT_PTR CALLBACK dlgProcDhtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -975,7 +975,7 @@ static BOOL CALLBACK dlgProcDhtDialog
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcLatDialog
+static INT_PTR CALLBACK dlgProcLatDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -1037,7 +1037,7 @@ static BOOL CALLBACK dlgProcLatDialog
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcDqtDialog
+static INT_PTR CALLBACK dlgProcDqtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -1099,7 +1099,7 @@ static BOOL CALLBACK dlgProcDqtDialog
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcGrtDialog
+static INT_PTR CALLBACK dlgProcGrtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
@@ -1161,7 +1161,7 @@ static BOOL CALLBACK dlgProcGrtDialog
 //
 // Desciption:
 //-------------------------------------------------
-static BOOL CALLBACK dlgProcLhtDialog
+static INT_PTR CALLBACK dlgProcLhtDialog
                            (HWND   dialogHandle,
                             UINT   message,
                             WPARAM wParam,
