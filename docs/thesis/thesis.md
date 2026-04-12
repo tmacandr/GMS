@@ -2021,7 +2021,7 @@ However, this accuracy is available via the Extabula Toolkit by directly
  accessing the hypsographic data. Elevations are distinguished at 1000 foot
  intervals up to 29000 feet.
 
-**Figure 5.19 : SOAMAFR - Hypsographic Data**
+**Figure 5.18 : SOAMAFR - Hypsographic Data**
 
  ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
 
@@ -2038,13 +2038,240 @@ other functions. Actually, there are an innumerable number of mapping
 functions that could be implemented by a client by using the
 Extabula Toolkit directly. 
 
+# Chapter 6 - X/Motif Applications Using GMS Toolkits 
+
+## 6.1 - Introduction:
+Applications were developed to demonstrate the portability of the GMS
+toolkits.  These applications were similar in functionality to the
+ applications developed for Chapter 5.   The difference being that
+ the X Window System was used for graphics operations and
+ the Motif Toolkit was used to define the user interface.
+
+Two different UNIX based platforms were used to demonstrate this
+ portability.  First, the GMS toolkits were ported to
+ a Hewlett-Packard HPUX platform (Apollo 712 PA-RISC workstation).  The
+ two toolkits (Extabula and DCW Graphics) were compiled and archived.  Then, several applications were developed and linked against the two toolkits.  Secondly, the toolkits were then ported to a SUN Solaris platform (SPARC 4 workstation) and the testing was repeated.  This chapter describes some of the testing performed on the SUN Solaris environment.
+
+## 6.2 - Browse Library - Flat Earth Model:
+
+The first application used the Browse library and the flat-earth model.  The
+behavior of this application is similar to the one developed in Chapter 5.
+The startup window is shown in Figure 6.1.  This Motif application used a
+menuBar widget to define a series of control buttons.  A drawingArea widget
+is used as the canvas for the map.  The
+ map shows the data from the LibRef portion of the
+ Browse library.  The GMS component gmsBrowseMapClass was instantiated using
+ the LibRef data.  The lines from this object were
+ then displayed using the XDrawLine utility.  Also, a
+ lat/long grid is shown for reference.  This
+ was generated using the GMS component gmsLatLongGridClass.
+
+**Figure 6.1 : X/Motif Browse/Flat-Earth : Startup Window**
 
 ![soamafr_4](./diagrams/soamafr_4.bmp "soamafr_4")
+
+The application would allow the operator to display data from several of the Browse themes.  For example, Figure 6.2 shows data from the Drainage (DN) theme which is indicated by major rivers and inland bodies of water.
+
+
+**Figure 6.2 : Data From the DN Theme**
+
 ![soamafr_5](./diagrams/soamafr_5.bmp "soamafr_5")
+
+The application also provided the operator with the ability to
+ zoom-in/pan-out and also to
+ re-center the map.  The results of changing
+ the zoom and re-centering the map are illustrated
+ in Figure 6.3. 
+
+**Figure 6.3 : Zoom-in and Re-center Functions**
+
 ![x_flat_1](./diagrams/x_flat_1.gif "x_flat_1")
+
+## 6.3 - Browse Library - Ellipsoid (WGS-84) Earth Model:
+
+A second application was developed to demonstrate the ellipsoid model and
+using the Browse library (similar to chapter 5).  The start map is
+illustrated in Figure 6.4.  The components gmsBrowseMapClass and
+gmsLatLongGridClass were again used, except that the corresponding
+objects were instantiated using the ellipsoid model.
+
+
+**Figure 6.4 : Browse-Ellipsoid-Model**
+
 ![x_flat_2](./diagrams/x_flat_2.gif "x_flat_2")
+
+This application also implemented zoom/pan functionality.  Map movement
+was performed by using the GMS rotation utilities.  Figure 6.5 shows
+the map after a series of zoom-in and rotation operations.  The map
+also gives a rather accurate picture of the continent of
+Antarctica (in contrast to the flat-earth model, i.e. Mercator Projection).
+
+**Figure 6.5 : Zoom and Rotate Functionality**
+
 ![x_flat_3](./diagrams/x_flat_3.gif "x_flat_3")
+
+This application also allowed the operator to display data from the
+ other Browse themes.  Figure 6.6 shows data from the Browse
+  DN (Drainage) theme for the continent of South America.  This
+   was done by instantiating another map object from the gmsMapClass and
+    specifying the DN theme and the ellipsoid model.
+
+
+**Figure 6.6 : Drainage Data - Ellipsoid Model**
+
 ![x_world_1](./diagrams/x_world_1.gif "x_world_1")
+
+## 6.5 - Conclusions:
+As this chapter shows, applications were developed that demonstrated
+ the portability of the GMS toolkits.  This chapter illustrates
+ that the toolkits work on UNIX based platforms.  Furthermore, it illustrates
+that the GMS toolkits are compatible with the X Window System.  Often, it
+is necessary to develop GIS applications for more than one
+environment.  Having to develop the user-interface portion of a GIS
+product for two different graphics systems (e.g. Windows GDI vs X/Motif)
+is usually a very difficult task.  However, having file management
+functionality and Graphics/Data Operations that are portable to several
+platforms simplifies development of GIS products.
+
+# Chapter 7 - General Conclusions 
+
+The Geographic Map System is a set of powerful and useful utilities that
+simplify the development of Geographic Information Systems.
+
+There are many different kinds of software systems that need to display
+maps for an operator.  Each system utilizes maps in a different way.  An
+air traffic controller will want to see a certain type of map to help
+manage an air corridor.  However, a Navy SEAL will want to see another
+kind of map while performing mission planning.  The functions provided
+“on top” of the map vary from system to system since each system is
+meant for a different audience.  Implementation of these systems is
+difficult enough without having to worry about the inadequacies of
+the map component.
+
+As a software engineer, I have worked on several projects that utilize
+maps as part of the user interface.  For each project, a mapping component
+was purchased from a third party vendor as a Computer-Off-The-Shelf (COTS)
+product.  An API was provided to implement what the customer required.  For
+each case, the COTS products always lacked some set of functions that made
+development of the final product more difficult.  Often this was the result
+of a business decision.  The vendor would always offer to implement new
+functionality for an additional cost.
+
+The Geographic Map System is the result of a wish list of functionality for
+mapping toolkits.  While developing user interfaces, co-workers and I would
+always say things such as, “wouldn’t it be great if the map tool had a
+function to do X.”  But most often, when it was realized that
+function X was not available, it would be beneficial if access to the raw
+geographic data was available via the map tool.  Most map tools do not
+provide such functionality.  It would be similar to giving away the
+family jewels.  The GMS is different in this regard since the Extabula
+Toolkit allows applications to directly access raw geographic data.  If
+a particular function is not provided via the toolkit, the client still
+has the power to access the raw geographic data.  At this point, the number
+of functions that the client is able to implement becomes almost infinite.
+
+Also, the GMS product is designed so that it is expandable.  As mentioned in
+Chapter 2, there are many different kinds of digital map systems
+available.  The GMS can be expanded to access these other map
+systems (e.g. the ADRG series).  As a matter of fact, DCW maps can be
+overlaid on maps from the ADRG series to display more useful
+information.  Thus, these two map types complement each other when
+implementing new map functions.
+
+The GMS toolkit could be expanded to process Digital Terrain Elevation
+Data (see also, Chapter 1, section 1.2).  Highly specialized maps can be
+rendered by overlaying DCW map data onto a 3D image of DTED data.  Although
+the current DTED database does not cover as much area of the earth as
+the DCW system, this is changing.  A recent mission by the NASA Space
+Shuttle was to make continuous sweeps of the earth to generate DTED
+map data.  It will take about 2 years to prepare the data from the
+Space Shuttle, but once available, practically every region of the
+globe can be rendered as a 3D image.  The GMS API could be expanded
+to access this type of map data, thereby further increasing its power
+and usefulness. 
+
+# References 
+
+1. P. W. McDonnel Jr.,Introduction to Map Projections,
+   Marcel Dekker Inc., New York, 1979 
+
+2. C. Petzold, Programming Windows - 5th Ed., Microsoft Press,
+   Redmond Washington, 1999. Library Call Num:
+    QA76.76.O63P533 (http://www.mspress.com) 
+
+3. P. Richardus, R. Adler, Map Projections for Geodesists, Cartographers and Geographers, North Holland/American Elsevier, New York, 1972, pg 13-17. Library Call Num: GA110R52 
+
+4. D. F. Rogers, J. A. Adams, Mathematical Elements for Computer Graphics, McGraw-Hill Inc., 1976. Library Call Num: T385.R6 
+
+5. D. Salomon, Computer Graphics and Geometric Modeling, Springer-Verlag New York Inc., New York, 1999. Library Call Num: T385.S243 1999 
+
+6. Earth Science Information Center, U.S. Geological Survey, P.O. Box 25046, MS504, Fed. Center, Denver, CO, 80225, http://www.usgs.gov. 
+
+7. Mil-Std 2401 Department of Defense World Geodetic System, National Imagery and Mapping Agency, 8613 Lee Highway, Fairfax, VA, 22031-2137, 11-Jan-94
+http://www.nima.mil
+(from : http://www.nima.mil/publications/specs/printed/wgs84/wgs84.html) 
+
+8. MIL-STD-2407, Vector Product Format, National Imagery and Mapping Agency, 8613 Lee Highway, Fairfax, VA, 22031-2137, 11-Jan-94
+http://www.nima.mil
+
+9. MIL-D-89009, Digital Chart of the World Database, National Imagery and Mapping Agency, 8613 Lee Highway, Fairfax, VA, 22031-2137, 11-Jan-94
+http://www.nima.mil
+
+10. MIL-STD-600006, Military Standard - Vector Product Format, National Imagery and Mapping Agency, 8613 Lee Highway, Fairfax, VA, 22031-2137, 11-Jan-94
+http://www.nima.mil
+
+11. Department of Defense World Geodetic System 1984, Its Definition and Relationships with Local Geodetic Systems (NIMA TR 8350.2 - 3rd Ed), National Imagery and Mapping Agency : Systems and Technology, 4600 Sangamore Rd., Bethesda, Maryland, 20816-5003, 04-Jul-97
+http://www.nima.mil
+
+12. Geodesy for the Layman (DMA TR 80-003), National Imagery and Mapping Agency : Geosciences Division DMAASC/GDG Geospatial Department, Aerospace Center, St. Louis AFS, MO, 653118, December 1983
+http://www.nima.mil 
+
+13. How to Obtain Specifications and Standards from the Departments of Defense Single Stock Point, Defense Printing Service, 700 Robins Ave. (Bldg 4D), Philadelphia, PA, 19111-5094.  
+
+14. Webster's Encyclopedic Unabridged Dictionary of the English Language,
+    Portland House, New York, 1989 Library Call Num: PE1625.W46 1989 
+
+15. VPFVIEW 1.0 Users Manual for the Digital Chart of the World, Defense Mapping Agency, Fairfax, VA, July, 1992. 
+
+16. Spot Eath Observation System, Centre National d'Etudes Spatiales (CNES), http://www.spot.com. 
+
+17. National Imagery and Mapping Agency (NIMA), http://www.nima.mil 
+
+18. Map-Projections - A Working Manual, USGS Professional Paper 1395, 1987.
+
+# Appendix - Acronyms 
+
+ADRG - Arc Digitized Raster Graphic 
+ANSI - American National Standards Institute
+API - Application Programming Interface
+ASCII - American Standard Code for Information Interchange
+ARC - Equal Arc-second Raster Chart/Map
+AVHRR - Advanced Very High Resolution Radiometer 
+CD-ROM - Compact Disk - Read Only Memory 
+COTS - Computer-Of-The-Shelf (product)
+C3I - Command, Control, Communications, and Intelligence
+DAFIF - Digital Aeronautical Flight Information File 
+DCW - Digital Chart of the World 
+GDI - Graphics Device Interface (via Microsoft Windows)
+GEOREF - Geographic Reference System (tiling scheme) 
+GIS - Geographic Information System 
+JNC - Joint Navigation Chart 
+JOG - Joint Operations Graphic 
+JPEG - Joint Photographic Experts Group - image compression technique 
+NIMA - National Imagery and Mapping Agency 
+ONC - Operational Navigational Chart 
+TIFF - Tagged Image File Format... 
+TPC - Tactical Pilotage Chart 
+USGS - United States Geological Survey 
+VPF - Vector Product Format 
+WGS84 - World Geodetic System - 1984
+
+
+
+
+
+
+
 ![x_world_2](./diagrams/x_world_2.gif "x_world_2")
 ![x_world_3](./diagrams/x_world_3.gif "x_world_3")
 
