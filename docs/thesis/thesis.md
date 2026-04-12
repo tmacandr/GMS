@@ -2484,28 +2484,28 @@ and usefulness.
 
 # Appendix - Acronyms 
 
-ADRG - Arc Digitized Raster Graphic 
-ANSI - American National Standards Institute
-API - Application Programming Interface
-ASCII - American Standard Code for Information Interchange
-ARC - Equal Arc-second Raster Chart/Map
-AVHRR - Advanced Very High Resolution Radiometer 
-CD-ROM - Compact Disk - Read Only Memory 
-COTS - Computer-Of-The-Shelf (product)
-C3I - Command, Control, Communications, and Intelligence
-DAFIF - Digital Aeronautical Flight Information File 
-DCW - Digital Chart of the World 
-GDI - Graphics Device Interface (via Microsoft Windows)
-GEOREF - Geographic Reference System (tiling scheme) 
-GIS - Geographic Information System 
-JNC - Joint Navigation Chart 
-JOG - Joint Operations Graphic 
-JPEG - Joint Photographic Experts Group - image compression technique 
-NIMA - National Imagery and Mapping Agency 
-ONC - Operational Navigational Chart 
-TIFF - Tagged Image File Format... 
-TPC - Tactical Pilotage Chart 
-USGS - United States Geological Survey 
-VPF - Vector Product Format 
-WGS84 - World Geodetic System - 1984
+1. ADRG - Arc Digitized Raster Graphic 
+2. ANSI - American National Standards Institute
+3. API - Application Programming Interface
+4. ASCII - American Standard Code for Information Interchange
+5. ARC - Equal Arc-second Raster Chart/Map
+6. AVHRR - Advanced Very High Resolution Radiometer 
+7. CD-ROM - Compact Disk - Read Only Memory 
+8. COTS - Computer-Of-The-Shelf (product)
+9. C3I - Command, Control, Communications, and Intelligence
+10. DAFIF - Digital Aeronautical Flight Information File 
+11. DCW - Digital Chart of the World 
+12. GDI - Graphics Device Interface (via Microsoft Windows)
+13. GEOREF - Geographic Reference System (tiling scheme) 
+14. GIS - Geographic Information System 
+15. JNC - Joint Navigation Chart 
+16. JOG - Joint Operations Graphic 
+17. JPEG - Joint Photographic Experts Group - image compression technique 
+18. NIMA - National Imagery and Mapping Agency 
+19. ONC - Operational Navigational Chart 
+20. TIFF - Tagged Image File Format... 
+21. TPC - Tactical Pilotage Chart 
+22. USGS - United States Geological Survey 
+23. VPF - Vector Product Format 
+24. WGS84 - World Geodetic System - 1984
 
