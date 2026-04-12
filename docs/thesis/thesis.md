@@ -1974,7 +1974,7 @@ This application was developed to demonstrate some of the thematic
 
 **Figure 5.14 : SOAMAFR - Nigeria and Cameroon**
 
- ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
+![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
 
 The next map, shown in Figure 5.15, shows lakes, rivers, and
  streams for the region. This information was obtained from
@@ -1984,46 +1984,45 @@ The next map, shown in Figure 5.15, shows lakes, rivers, and
 
 **Figure 5.15 : SOAMAFR Lakes/Rivers**
 
-![soamafr_1](./diagrams/soamafr_1.bmp "soamafr_1")
-
-
-The third map, shown in Figure 5.16, shows the portion of the DN
- theme that contained areas (i.e. polygons) of bodies of water. This
- information demonstrates lakes and rivers of significant
- width. In particular, the Niger River and its tributaries are
- shown as polygons. Also, the very large Niger River Delta is
- shown. Accuracy can be lost if such bodies of water are shown
- simply as a line of constant width. library drainage information
-
-The fourth map, shown in Figure 5.17, shows a few towns and villages in the country of Cameroon. Also, the map shows a close up of the island of Bioko. The island's capital city is Malabo. This information was obtained from the Populated Places (PP) theme of the SOAMAFR library.
-
-**Figure 5.16 : SOAMAFR - Niger River and Delta**
-
 ![soamafr_2](./diagrams/soamafr_2.bmp "soamafr_2")
 
+The third map, shown in Figure 5.16, shows the portion of the DN
+theme that contained areas (i.e. polygons) of bodies of water. This
+information demonstrates lakes and rivers of significant
+width. In particular, the Niger River and its tributaries are
+shown as polygons. Also, the very large Niger River Delta is
+shown. Accuracy can be lost if such bodies of water are shown
+simply as a line of constant width. library drainage information
 
-**Figure 5.17 : SOAMAFR - Towns/Villages (PP theme)**
+The fourth map, shown in Figure 5.17, shows a few towns and villages
+in the country of Cameroon. Also, the map shows a close up of the
+island of Bioko. The island's capital city is Malabo. This information
+was obtained from the Populated Places (PP) theme of the SOAMAFR
+library.
+
+**Figure 5.16 : SOAMAFR - Niger River and Delta**
 
 ![soamafr_3](./diagrams/soamafr_3.bmp "soamafr_3")
 
 
-The fifth map, shown in Figure 5.18, shows elevation data for the region. This
- data was obtained
-from the Hypsographic (HY) theme of the SOAMAFR library. Areas of elevation
- between sea-level and
-1000 feet is shaded green. Areas above 1000 feet are shaded yellow. Admittedly,
- this is a poor
-representation of the elevation data. A more accurate map would show varying
- shades with changes in
+**Figure 5.17 : SOAMAFR - Towns/Villages (PP theme)**
+
+
+The fifth map, shown in Figure 5.18, shows elevation data for the
+region. This data was obtained from the Hypsographic (HY) theme of
+the SOAMAFR library. Areas of elevation between sea-level and
+1000 feet is shaded green. Areas above 1000 feet are shaded
+yellow. Admittedly, this is a poor representation of the elevation
+data. A more accurate map would show varying shades with changes in
 elevation. The highest peak in Nigeria is 7000 feet, yet this is not
- distinguishable as shown.
-However, this accuracy is available via the Extabula Toolkit by directly
- accessing the hypsographic data. Elevations are distinguished at 1000 foot
- intervals up to 29000 feet.
+distinguishable as shown.  However, this accuracy is available via
+the Extabula Toolkit by directly accessing the hypsographic
+data. Elevations are distinguished at 1000 foot intervals up
+to 29000 feet.
 
 **Figure 5.18 : SOAMAFR - Hypsographic Data**
 
- ![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
+![Africa-Demo](./diagrams/soamafr_5.jpg "Africa - Demo")
 
 
 ## 5.5 - Conclusions
