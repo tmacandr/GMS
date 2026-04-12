@@ -2007,6 +2007,7 @@ library.
 
 **Figure 5.17 : SOAMAFR - Towns/Villages (PP theme)**
 
+![soamafr_4](./diagrams/soamafr_4.bmp "soamafr_4")
 
 The fifth map, shown in Figure 5.18, shows elevation data for the
 region. This data was obtained from the Hypsographic (HY) theme of
