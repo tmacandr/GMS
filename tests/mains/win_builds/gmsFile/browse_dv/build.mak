@@ -13,9 +13,9 @@
 
 SRC = $(GMS_ROOT)\tests\mains\gmsFile\browse_dv.cpp
 
-OBJ = browse.obj
+OBJ = browse_dv.obj
 
-EXE = browse.exe
+EXE = browse_dv.exe
 
 CC = $(VS_BIN_DIR)\cl.exe
 
