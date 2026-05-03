@@ -2,7 +2,7 @@
 # FILE: build.mak
 #
 # DESCRIPTION:
-#    Visual Studio NMAKE file for building the browse.cpp test.
+#    Visual Studio NMAKE file for building the browse_dv.cpp test.
 #
 #    Use the 'build.bat' script to invoke.  It sets the Visual Studio
 #    environment needed to build.
@@ -11,11 +11,11 @@
 #   nmake /f build.mak
 #=============================================================================
 
-SRC = $(GMS_ROOT)\tests\mains\gmsGraphics\browse.cpp
+SRC = $(GMS_ROOT)\tests\mains\gmsFile\browse_dv.cpp
 
-OBJ = browse.obj
+OBJ = browse_dv.obj
 
-EXE = browse.exe
+EXE = browse_dv.exe
 
 CC = $(VS_BIN_DIR)\cl.exe
 
@@ -31,7 +31,7 @@ COPTS = $(INCL) \
        /I$(GMS_INCL)\gmsFile      \
        /I$(GMS_INCL)\gmsGraphics  \
        /I$(TEST_INCL)             \
-       /D WIN32 /D _DEBUG /D _WINDOWS \
+       /D WIN32 /D _DEBUG /D _CONSOLE \
        /D _MBCS \
        /EHsc    \
        /Fo$(OBJ)
