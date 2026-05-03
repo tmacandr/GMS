@@ -76,6 +76,15 @@ call :Set_Include_Path
 
 call :Set_Link_Path
 
+if "%VS_VER%" == "VC98" (
+
+   echo ^-^-^-^> ATTENTION - EXPAND PATH for VC98 Build
+
+   set PATH=%PATH%;%VS_ROOT%\Bin
+   set PATH=%PATH%;%VS_ROOT%\..\Common\MSDev98\Bin
+
+)
+
 rem ==================================================
 rem = Perform build
 rem ==================================================
@@ -152,6 +161,14 @@ rem #=========================================================================
       goto FIND_ROOT_DONE
    )
 
+   set LOC="E:\Program Files\Microsoft Visual Studio"\VC98
+
+   if exist %LOC% (
+      set VS_VER=VC98
+      set VS_ROOT=%LOC%
+      goto FIND_ROOT_DONE
+   )
+
    :FIND_ROOT_DONE
 
    call :Convert_To_Short_Path_Form %VS_ROOT%
@@ -183,6 +200,11 @@ rem #=========================================================================
       goto FIND_BIN_DONE
    )
 
+   if "%VS_VER%" == "VC98" (
+      set VS_BIN_DIR=%VS_ROOT%\Bin
+      goto FIND_BIN_DONE
+   )
+
    :FIND_BIN_DONE
 
    echo ^-^-^-^> VS BIN: %VS_BIN_DIR%
@@ -210,6 +232,13 @@ rem #=========================================================================
       goto SET_INCL_DONE
    )
 
+
+   if "%VS_VER%" == "VC98" (
+      set INCL=/I%VS_ROOT%\include
+
+      goto SET_INCL_DONE
+   )
+
    :SET_INCL_DONE
 
    echo ^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
@@ -230,6 +259,11 @@ rem #=========================================================================
    if "%VS_VER%" == "VC2019" (
       set LPATH=/LIBPATH:%VS_ROOT%\SDK\ScopeCppSDK\vc15\SDK\lib      ^
                 /LIBPATH:%VS_ROOT%\VC\Tools\MSVC\14.29.30133\lib\x64
+      goto SET_LPATH_DONE
+   )
+
+   if "%VS_VER%" == "VC98" (
+      set LPATH=/LIBPATH:%VS_ROOT%\Lib
       goto SET_LPATH_DONE
    )
 

@@ -96,6 +96,10 @@ static void parseThemeMenuButton
 static void parseTableMenuButton
                (int whichCommand);
 
+#if (_MSC_VER < 1300)
+   #define INT_PTR BOOL
+#endif
+
 static INT_PTR CALLBACK dlgProcZoomControl
                            (HWND   dialogHandle,
                             UINT   message,

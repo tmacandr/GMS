@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FR /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "..\..\..\..\..\C_source\include\gmsGraphics" /I "..\..\..\..\..\C_source\include\gmsFile" /I "..\..\..\..\..\C_source\include\gmsAdrgFile" /I "..\..\RESOURCE" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FR /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "..\..\..\..\..\C_source\include\gmsGraphics" /I "..\..\..\..\..\C_source\include\gmsFile" /I "..\..\..\..\..\C_source\include\gmsAdrgFile" /I "..\..\RESOURCE" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /FR /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libGmsFileDebug.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libGmsFile.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\..\..\..\winBuild\lib"
 
 !ENDIF 
 
@@ -92,59 +92,59 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\..\C_source\mains\gmsGraphics\browse.cpp
+SOURCE=..\..\..\gmsGraphics\browse.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsBitmapClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsBitmapClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsBrowseMapClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsBrowseMapClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsDataTablesClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsDataTablesClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsDcwUtilities.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsDcwUtilities.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsLatLongGridClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsLatLongGridClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsMapClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsMapClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsMapStateMgr.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsMapStateMgr.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsMbrClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsMbrClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsNodeClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsNodeClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsScreenCoordUtils.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsScreenCoordUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsTextClass.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsTextClass.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsTransformationUtils.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsTransformationUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\source\gmsGraphics\gmsWorldCoordUtils.cpp
+SOURCE=..\..\..\..\..\C_source\source\gmsGraphics\gmsWorldCoordUtils.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -152,27 +152,27 @@ SOURCE=..\..\..\C_source\source\gmsGraphics\gmsWorldCoordUtils.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\..\..\C_source\Resource\browse_resource.h
+SOURCE=..\..\..\..\..\C_source\Resource\browse_resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\include\gmsGraphics\gmsBrowseMapClass.h
+SOURCE=..\..\..\..\..\C_source\include\gmsGraphics\gmsBrowseMapClass.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\include\gmsGraphics\gmsDataTablesClass.h
+SOURCE=..\..\..\..\..\C_source\include\gmsGraphics\gmsDataTablesClass.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\include\gmsGraphics\gmsMapStateMgr.h
+SOURCE=..\..\..\..\..\C_source\include\gmsGraphics\gmsMapStateMgr.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\include\gmsGraphics\gmsNodeClass.h
+SOURCE=..\..\..\..\..\C_source\include\gmsGraphics\gmsNodeClass.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\C_source\include\gmsGraphics\gmsTextClass.h
+SOURCE=..\..\..\..\..\C_source\include\gmsGraphics\gmsTextClass.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -180,7 +180,7 @@ SOURCE=..\..\..\C_source\include\gmsGraphics\gmsTextClass.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=..\..\..\C_source\Resource\browse.rc
+SOURCE=..\..\Resource\browse.rc
 # End Source File
 # End Group
 # End Target

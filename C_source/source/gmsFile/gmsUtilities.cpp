@@ -956,11 +956,16 @@ static char *gmsGetDcwLibrary
 static char *buildVpfFileRoot(void)
 
 {
-         static char thePath[256];
-         #define     Num_Path_Files 5
+         static char thePath[512];
+         #define     Num_Path_Files 10
          char        *pathFiles[Num_Path_Files] =
                         {
                           (char *) "./dcw_path.txt",
+                          (char *) "../dcw_path.txt",
+                          (char *) "../../dcw_path.txt",
+                          (char *) "../../../dcw_path.txt",
+                          (char *) "../../../../dcw_path.txt",
+                          (char *) "../../../../../dcw_path.txt",
                           (char *) "/tmp/dcw_path.txt",
                           (char *) "/temp/dcw_path.txt",
                           (char *) "/MyFiles/dcw_path.txt",
@@ -970,7 +975,7 @@ static char *buildVpfFileRoot(void)
          int         i;
          FILE        *fd;
 
-   #ifdef IS_UNIX
+   //#ifdef IS_UNIX
 
          char        *envPtr;
 
@@ -983,7 +988,7 @@ static char *buildVpfFileRoot(void)
           return thePath;
          }
 
-   #endif
+   //#endif
 
    for (i = 0; i < Num_Path_Files; i++)
       {
