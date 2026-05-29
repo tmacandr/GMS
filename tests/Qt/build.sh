@@ -1,13 +1,14 @@
-#!/bin/sh
-# * *************************************************************************
-# * FILE: run_browse.sh
-# *
-# * DESCRIPTION:
-# *    Script to run the dcw_browse.tcl tool.
-# * *************************************************************************
+#!/bin/bash
+#=============================================================================
+# FILE: build.sh
+#
+# DESCRIPTION:
+#    Steps to use 'qmake' tool to build 'DCW browse' as a Qt app.
+#=============================================================================
 
-HERE=`pwd`
+qmake -o Makefile dcw_browse.pro
 
-/usr/bin/wish dcw_browse.tcl
+make clean
 
-echo "Done"
+make
+
