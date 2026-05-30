@@ -9,6 +9,28 @@ held by a company:
 ```
       Environmental System Research Institute (ESRI) Inc
 ```
+
+**-------------------------------------------------------------------**
+**ATTEN**
+Penn State has an on-line library of **Geographic Information Systems**.
+
+I think they have down-loadable copies fo the **DCW** database.  I guess
+they rolled the DCW CDs into **.zip** or **.tar** files.
+
+See:
+```
+   https://guides.libraries.psu.edu/c.php?g=376207&p=5296088
+```
+It appears to be a _sub-library_ to a series at the following:
+```
+   https://guides.libraries.psu.edu
+```
+As of this date (29-May-26) the DCW **.zip** file is downloadable from
+```
+https://pennstateoffice365.sharepoint.com/:u:/s/b-maps-library/EUHJLFScVZpeQLRkex7CULgBzK1RCfYDtPUVzVOIY7Irpg?e=xHMdBt
+```
+**-------------------------------------------------------------------**
+
 Back in the 1990's the DCW product came as a set of CD-ROMs from the
 "Defense Mapping Agency" (**DMA**).  Later, they could be purchased from
 the "National Imagery and Mapping Agency" (**NIMA**).
