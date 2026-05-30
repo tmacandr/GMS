@@ -15,7 +15,14 @@ public:
     dcw_browse_Main_Window(QWidget *parent = nullptr);
     ~dcw_browse_Main_Window();
 
+public slots:
+
+   void exit_action_slot();
+
 private:
-    Ui::dcw_browse_Main_Window *ui;
+    Ui::dcw_browse_Main_Window *ui = nullptr;
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
+
+/* EOF */
+
