@@ -1,19 +1,35 @@
 //-------------------------------------------------------------------------
-// File : browse.h
+// File : dcw_browse.h
 // Date : 29-May-26 : initial definition
 //
 // Description:
-//    A library of DCW browse utilities for use by the Qt version of the
+//    A set of DCW browse utilities for use by the Qt version of the
 //    'dcw_browse' application.
 //-------------------------------------------------------------------------
+#ifndef DCW_BROWSE_
+#define DCW_BROWSE_
 
-class DCW_Browse
+#include <QWidget>
+
+class DCW_Browse : public QWidget
 {
-   DCW_Browse();
+    Q_OBJECT
+
+public:
+
+   DCW_Browse(QWidget *parent = nullptr);
 
    ~DCW_Browse();
 
+protected:
+
+   void paintEvent(QPaintEvent *event) override;
+
+private:
+
 };
+
+#endif
 
 /* EOR */
 

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------
-// File : browse.cpp
+// File : dcw_browse.cpp
 // Date : xx-Feb-00 : initial definition
 //        24-Feb-00 : blew away stuff at CSUN.  Start over!
 //        26-May-26 : Total pivot to be used by Qt 'dcw_browse' app
@@ -12,13 +12,28 @@
 #include <stdlib.h>
 #include <stdio.h>
    //---------//
+#include "dcw_browse.h"
+   //---------//
 #include <gmsDebugUtil.h>
 #include <gmsBrowseMapClass.h>
 #include <gmsMapStateMgr.h>
 #include <gmsScreenCoordUtils.h>
 #include <gmsUtilities.h>
 
+DCW_Browse::DCW_Browse(QWidget *parent)
+{
+}
 
+DCW_Browse::~DCW_Browse()
+{
+}
+
+void DCW_Browse::paintEvent(QPaintEvent *event)
+{
+   event = event;
+}
+
+#if 0
 static Widget    g_mapDrawingArea = (Widget) 0;
 
 static GC        theGC;
@@ -910,4 +925,6 @@ static void politicalOceansCallback
 
    drawMaps ();
 }
+
+#endif
 

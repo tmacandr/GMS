@@ -17,6 +17,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 
+#include "dcw_browse.h"
 #include "dcw_browse_main_window.h"
 #include "ui_dcw_browse_main_window.h"
 

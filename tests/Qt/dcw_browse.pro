@@ -15,12 +15,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += "../../C_source/include/gmsAdrgFile"
+INCLUDEPATH += "../../C_source/include/gmsFile"
+INCLUDEPATH += "../../C_source/include/gmsGraphics"
+
+LIBS += -L../../unixBuild/lib -lGmsFile
+LIBS += -L../../unixBuild/lib -lGmsAdrgFile
+LIBS += -L../../unixBuild/lib -lGmsGraph
+
 SOURCES += \
     main.cpp \
-    dcw_browse_main_window.cpp
+    dcw_browse_main_window.cpp \
+    dcw_browse.cpp
 
 HEADERS += \
-    dcw_browse_main_window.h
+    dcw_browse_main_window.h \
+    dcw_browse.h
 
 FORMS += \
     dcw_browse_main_window.ui
