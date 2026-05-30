@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "dcw_browse.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class dcw_browse_Main_Window; }
 QT_END_NAMESPACE
@@ -21,6 +23,9 @@ public slots:
 
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
+
+    DCW_Browse *map_window = nullptr;
+
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
 

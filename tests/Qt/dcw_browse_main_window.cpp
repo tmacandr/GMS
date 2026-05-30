@@ -30,8 +30,10 @@
 //    of the application.
 //========================================================
 dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
+
     : QMainWindow(parent),
       ui(new Ui::dcw_browse_Main_Window)
+
 {
     ui->setupUi(this);
 
@@ -39,8 +41,7 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
 
     setCentralWidget(central);
 
-#if 0
-    map_window = new GraphicsWindow(this);
+    map_window = new DCW_Browse(this);
 
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
 
@@ -51,7 +52,6 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout(central);
 
     layout->addWidget(splitter);
-#endif
 
     connect(ui->actionExit,
             &QAction::triggered,
@@ -61,13 +61,11 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
 {
-#if 0
     if (map_window)
     {
         delete map_window;
         map_window = nullptr;
     }
-#endif
 
     delete ui;
 }
