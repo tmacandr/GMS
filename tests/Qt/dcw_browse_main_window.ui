@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dcw_browse_Main_Window</class>
+ <widget class="QMainWindow" name="dcw_browse_Main_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>dcw_browse_Main_Window</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuCtrl">
+    <property name="title">
+     <string>Ctrl</string>
+    </property>
+    <addaction name="actionZoom_in"/>
+    <addaction name="actionZoom_out"/>
+    <addaction name="actionMove_North"/>
+    <addaction name="actionMove_South"/>
+    <addaction name="actionMove_East"/>
+    <addaction name="actionMove_West"/>
+   </widget>
+   <widget class="QMenu" name="menuThemes">
+    <property name="title">
+     <string>Themes</string>
+    </property>
+    <addaction name="actionLibRef"/>
+    <addaction name="actionPopulation"/>
+    <addaction name="actionDrainage"/>
+    <addaction name="actionPolit_Ocean"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuCtrl"/>
+   <addaction name="menuThemes"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionZoom_in">
+   <property name="text">
+    <string>Zoom in</string>
+   </property>
+  </action>
+  <action name="actionZoom_out">
+   <property name="text">
+    <string>Zoom out</string>
+   </property>
+  </action>
+  <action name="actionMove_North">
+   <property name="text">
+    <string>Move North</string>
+   </property>
+  </action>
+  <action name="actionMove_South">
+   <property name="text">
+    <string>Move South</string>
+   </property>
+  </action>
+  <action name="actionMove_East">
+   <property name="text">
+    <string>Move East</string>
+   </property>
+  </action>
+  <action name="actionMove_West">
+   <property name="text">
+    <string>Move West</string>
+   </property>
+  </action>
+  <action name="actionLibRef">
+   <property name="text">
+    <string>LibRef</string>
+   </property>
+  </action>
+  <action name="actionPopulation">
+   <property name="text">
+    <string>Population</string>
+   </property>
+  </action>
+  <action name="actionDrainage">
+   <property name="text">
+    <string>Drainage</string>
+   </property>
+  </action>
+  <action name="actionPolit_Ocean">
+   <property name="text">
+    <string>Polit_Ocean</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
