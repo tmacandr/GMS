@@ -1,546 +1,913 @@
-#!/usr/bin/wish
-# ************************************************************************
-# FILE: dcw_browse.tcl
-#
-# DESCRIPTION:
-#    Attempt to implement the Digital Chart of the World (DCW) browse
-#    tool.
-#*************************************************************************
+//-------------------------------------------------------------------------
+// File : browse.cpp
+// Date : xx-Feb-00 : initial definition
+//        24-Feb-00 : blew away stuff at CSUN.  Start over!
+//        26-May-26 : Total pivot to be used by Qt 'dcw_browse' app
+//
+// Description:
+//    A set of utilties to be called by Qt program that exercises the
+//    "browse" library of DCW database.  Prove concept of portability.
+//-------------------------------------------------------------------------
 
-package require Tk
-
-set count 0
-
-set g_themeIsShown(CO)     "false"
-set g_themeIsShown(DV)     "false"
-set g_themeIsShown(DN)     "false"
-set g_themeIsShown(GR)     "false"
-set g_themeIsShown(DA)     "false"
-set g_themeIsShown(IN)     "false"
-set g_themeIsShown(PO)     "false"
-set g_themeIsShown(PP)     "false"
-set g_themeIsShown(LibRef) "true"
-
-set g_rotationDeg  20.0
-
-set g_zoomAmount  5000.0
-
-set g_width  600
-
-set g_height 560
-
-set theColors "whie black red green blue"
+#include <stdlib.h>
+#include <stdio.h>
+   //---------//
+#include <gmsDebugUtil.h>
+#include <gmsBrowseMapClass.h>
+#include <gmsMapStateMgr.h>
+#include <gmsScreenCoordUtils.h>
+#include <gmsUtilities.h>
 
 
-# ***********************************************
-# PROCEDURE NAME: some_proc 
-#
-# DESCRIPTION:
-#    A procedure in Tcl
-# ***********************************************
-proc some_proc { label } {
+static Widget    g_mapDrawingArea = (Widget) 0;
 
-   global count
+static GC        theGC;
 
-   $label configure -text "count...: $count"
+static Display   *ptrToDisplay;
 
-   set count [expr $count + 1]
+static Screen    *ptrToScreen;
+
+static XGCValues valuesOfGC;
+
+static bool      g_themeIsShown[Num_Browse_Themes] = { false,
+                                                       false,
+                                                       false,
+                                                       false,
+                                                       false,
+                                                       false,
+                                                       false,
+                                                       false,
+                                                       true }; // LibRef
+
+static double        g_rotationDeg = 20.0;
+
+static gmsBrowseMapClass *g_theBrowseMap;
+
+static double        g_zoomAmount = 5000.0;
+
+static int           g_width = 600;
+
+static int           g_height = 560;
+
+enum
+   {
+    WHITE = 0,
+    BLACK,
+    RED,
+    GREEN,
+    BLUE,
+    Num_Colors
+   };
+
+static XColor theColors[Num_Colors];
+
+
+
+//---------------------------//
+// Local Routines
+//---------------------------//
+
+static void createLayout
+                  (Widget topLevelShell);
+
+static void defineMenuBar
+                  (Widget theParent);
+
+static void defineCtrlPulldownMenu
+                  (Widget theParent);
+
+static void defineThemesPulldownMenu
+                  (Widget theParent);
+
+static void allocateColors ();
+
+static void drawMaps ();
+
+static void drawLibRef ();
+
+static void drawDrainage ();
+
+static void drawPoliticalAndOceans ();
+
+static void drawPopulatedPlaces ();
+
+static void drawLatLongGrid ();
+
+static void drawImage
+               (int                    whichColor,
+                gms_2D_ScreenImageType theImage,
+                bool                   isChecked = true);
+
+static void drawIndependentPoints
+               (int                       whichColor,
+                gms_2D_ScreenPolylineType thePoints);
+
+
+//---------------------------//
+// Xt Callback Routines
+//---------------------------//
+
+static void exitCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void exposureCallback
+                  (Widget    daWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void zoomCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void moveCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void populatedPlacesCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void drainageCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void politicalOceansCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+static void libRefCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs);
+
+
+//---------------------------------------------
+// main 
+//
+// Description:
+//    Main program.
+//---------------------------------------------
+int main
+        (int argc,
+         char **argv)
+
+{
+         Widget       topLevel;
+         XtAppContext theAppContext;
+
+   XtSetLanguageProc (NULL, NULL, NULL);
+
+   topLevel = XtVaAppInitialize
+                 (&theAppContext,
+                  "FlatBrowse",
+                  NULL, 0,
+                  &argc,
+                  argv,
+                  NULL,
+                  NULL);
+
+   XtVaSetValues
+      (topLevel,
+       XmNtitle, (char *) "Flat Brose Demo",
+       XmNallowShellResize, True,
+       NULL);
+
+   createLayout (topLevel);
+
+   XtRealizeWidget (topLevel);
+
+   ptrToDisplay = XtDisplay (g_mapDrawingArea);
+
+   ptrToScreen = XtScreen (g_mapDrawingArea);
+
+   valuesOfGC.foreground = WhitePixelOfScreen (ptrToScreen);
+
+   theGC = XCreateGC
+              (ptrToDisplay,
+               RootWindowOfScreen (ptrToScreen),
+               GCForeground,
+               &valuesOfGC);
+
+   allocateColors ();
+
+   XtAppMainLoop (theAppContext);
+
+   return 0;
 }
 
 
-# ---------------------------------------------
-#  createLayout 
-# 
-#  Description:
-#     Function that creates drawingArea for
-#     display of map and menu bar, etc
-# ---------------------------------------------
-proc createLayout { menu_bar } {
+             //---------------------------//
+             // Local Routines
+             //---------------------------//
 
-   . configure -menu $menu_bar
 
-   #
-   # File pulldown
-   #
-   menu $menu_bar.file -tearoff 0
+//---------------------------------------------
+// createLayout 
+//
+// Description:
+//    Function that creates drawingArea for
+//    display of map and menu bar, etc
+//---------------------------------------------
+static void createLayout
+                  (Widget topLevelShell)
 
-   $menu_bar add cascade -label "File" -menu $menu_bar.file
+{
+         Widget mainForm;
+         Widget theMenuBar;
 
-   $menu_bar.file add command -label "New"   -command "helpCallback"
-   $menu_bar.file add command -label "Hello" -command "some_proc .usr_info_2"
-   $menu_bar.file add separator
-   $menu_bar.file add command -label "Exit" -command "exitCallback"
+   mainForm = XmCreateForm
+                 (topLevelShell,
+                  (char *) "MainForm",
+                  0, NULL);
 
-   #
-   # Ctrl pulldown
-   #
-   menu $menu_bar.ctrl -tearoff 0
+   XtManageChild (mainForm);
 
-   $menu_bar add cascade -label "Ctrl" -menu $menu_bar.ctrl
+   theMenuBar = XmCreateMenuBar
+                   (mainForm,
+                    (char *) "MenuBar",
+                    0, NULL);
 
-   $menu_bar.ctrl add command -label "Zoom In"    -command "helpCallback"
-   $menu_bar.ctrl add command -label "Zoom Out"   -command "helpCallback"
-   $menu_bar.ctrl add command -label "Move North" -command "exitCallback"
-   $menu_bar.ctrl add command -label "Move South" -command "helpCallback"
-   $menu_bar.ctrl add command -label "Move East"  -command "helpCallback"
-   $menu_bar.ctrl add command -label "Move West"  -command "helpCallback"
+   XtManageChild (theMenuBar);
 
-   #
-   # Themes pulldown
-   #
-   menu $menu_bar.themes -tearoff 0
+   XtVaSetValues
+      (theMenuBar,
+       XmNtopAttachment,   XmATTACH_FORM,
+       XmNleftAttachment,  XmATTACH_FORM,
+       XmNrightAttachment, XmATTACH_FORM,
+       NULL);
 
-   $menu_bar add cascade -label "Themes" -menu $menu_bar.themes
+   g_mapDrawingArea = XmCreateDrawingArea
+                         (mainForm,
+                          (char *) "MapDrawArea",
+                          0, NULL);
 
-   $menu_bar.themes add command -label "LibRef"      -command "helpCallback"
-   $menu_bar.themes add command -label "Population"  -command "helpCallback"
-   $menu_bar.themes add command -label "Drainage"    -command "helpCallback"
-   $menu_bar.themes add command -label "Polit_Ocean" -command "helpCallback"
+   XtManageChild (g_mapDrawingArea);
 
-   #
-   # Help pulldown
-   #
-   menu $menu_bar.help -tearoff 0
+   XtVaSetValues
+      (g_mapDrawingArea,
+       XmNwidth,   g_width,
+       XmNheight,  g_height,
+       XmNtopAttachment,    XmATTACH_WIDGET,
+       XmNtopWidget,        theMenuBar,
+       XmNleftAttachment,   XmATTACH_FORM,
+       XmNrightAttachment,  XmATTACH_FORM,
+       XmNbottomAttachment, XmATTACH_FORM,
+       XtVaTypedArg,        XmNbackground, XmRString, "black", 5 + 1,
+       NULL);
 
-   $menu_bar add cascade -label "Help" -menu $menu_bar.help
+   gmsSetWindowDimensions
+              (g_width,
+               g_height);
 
-   $menu_bar.help add command -label "About" -command "helpCallback"
+   XtAddCallback
+      (g_mapDrawingArea,
+       XmNexposeCallback,
+       exposureCallback,
+       NULL);
 
-#  XtAddCallback
-#     (g_mapDrawingArea,
-#      XmNexposeCallback,
-#      exposureCallback,
-#      NULL);
+   defineMenuBar (theMenuBar);
 
-   global g_zoomAmount
-
-   set answer [Tcl2GMS_init_map_settings 14000.0 $g_zoomAmount]
+   gmsSetMapZoomFactor (14000.0);
 }
 
 
+//---------------------------------------------
+// defineMenuBar 
+//
+// Description:
+//---------------------------------------------
+static void defineMenuBar 
+                  (Widget theParent)
 
-# ---------------------------------------------
-#  allocateColors 
-# 
-#  Description:
-# ---------------------------------------------
-proc allocateColors { } {
+{
+         Widget   cascadeB;
+         Widget   exitButton;
+         Widget   thePulldownMenu;
+         XmString label;
 
-#        int      i;
-#        char     *namesOfColors[Num_Colors] =
-#                    { (char *) "white",
-#                      (char *) "black",
-#                      (char *) "red",
-#                      (char *) "green",
-#                      (char *) "blue" };
-#        XColor   notUsed;
-#        Colormap theDefaultColorMap;
+   //
+   // Define the "File" menu button
+   //
+   label = XmStringCreateLocalized ( (char *) "File");
 
-#  theDefaultColorMap = DefaultColormapOfScreen (ptrToScreen);
+   cascadeB = XtVaCreateManagedWidget
+                   ("FileCascadeButton",
+                    xmCascadeButtonWidgetClass,
+                    theParent,
+                    XmNlabelString, label,
+                    NULL);
 
-#  for (i = 0; i < Num_Colors; i++)
-#     {
-#      XAllocNamedColor
-#         (ptrToDisplay,
-#          theDefaultColorMap,
-#          namesOfColors[i],
-#          &theColors[i],
-#          &notUsed);
-#     }
+   XmStringFree (label);
+
+   thePulldownMenu = XmCreatePulldownMenu
+                        (theParent,
+                         (char *) "FilePulldownMenu",
+                         0, NULL);
+
+   // don't XtManageChild
+
+   XtVaSetValues
+      (cascadeB,
+       XmNsubMenuId, thePulldownMenu,
+       NULL);
+
+   label = XmStringCreateLocalized ( (char *) "Exit");
+
+   exitButton = XtVaCreateManagedWidget
+                   ("ExitPushButton",
+                    xmPushButtonWidgetClass,
+                    thePulldownMenu,
+                    XmNlabelString, label,
+                    NULL);
+
+   XmStringFree (label);
+
+   XtAddCallback
+      (exitButton,
+       XmNactivateCallback,
+       exitCallback,
+       NULL);
+
+   //
+   // Define the "Ctrl" menu button
+   //
+   label = XmStringCreateLocalized ( (char *) "Ctrl");
+
+   cascadeB = XtVaCreateManagedWidget
+                   ("CtrlCascadeButton",
+                    xmCascadeButtonWidgetClass,
+                    theParent,
+                    XmNlabelString, label,
+                    NULL);
+
+   XmStringFree (label);
+
+   thePulldownMenu = XmCreatePulldownMenu
+                        (theParent,
+                         (char *) "CtrlPulldownMenu",
+                         0, NULL);
+
+   // don't XtManageChild
+
+   XtVaSetValues
+      (cascadeB,
+       XmNsubMenuId, thePulldownMenu,
+       NULL);
+
+   defineCtrlPulldownMenu (thePulldownMenu);
+
+   //
+   // Define the "Themes" menu button
+   //
+   label = XmStringCreateLocalized ( (char *) "Themes");
+
+   cascadeB = XtVaCreateManagedWidget
+                   ("ThemesCascadeButton",
+                    xmCascadeButtonWidgetClass,
+                    theParent,
+                    XmNlabelString, label,
+                    NULL);
+
+   XmStringFree (label);
+
+   thePulldownMenu = XmCreatePulldownMenu
+                        (theParent,
+                         (char *) "ThemesPulldownMenu",
+                         0, NULL);
+
+   // don't XtManageChild
+
+   XtVaSetValues
+      (cascadeB,
+       XmNsubMenuId, thePulldownMenu,
+       NULL);
+
+   defineThemesPulldownMenu (thePulldownMenu);
 }
 
 
-# ---------------------------------------------
-#  clearMapArea 
-# 
-#  Description:
-# ---------------------------------------------
-proc clearMapArea { } {
+//---------------------------------------------
+// defineCtrlPulldownMenu 
+//
+// Description:
+//---------------------------------------------
+static void defineCtrlPulldownMenu
+               (Widget theParent)
 
-#  valuesOfGC.foreground = BlackPixelOfScreen (ptrToScreen);
+{
+         const int      Num_Buttons = 6;
+         char           *buttonLabels[Num_Buttons] =
+                           { (char *) "Zoom_In",
+                             (char *) "Zoom_Out",
+                             (char *) "Move_North",
+                             (char *) "Move_South",
+                             (char *) "Move_East",
+                             (char *) "Move_West" };
+         XtCallbackProc buttonCallbacks[Num_Buttons] =
+                           {zoomCallback,
+                            zoomCallback,
+                            moveCallback,      
+                            moveCallback,      
+                            moveCallback,      
+                            moveCallback};
+         char           instName[32];
+         Widget         tempButton;
+         XmString       label;
+         int            i;
 
-#  XChangeGC
-#     (ptrToDisplay,
-#      theGC,
-#      GCForeground,
-#      &valuesOfGC);
+   for (i = 0; i < Num_Buttons; i++)
+      {
+       label = XmStringCreateLocalized (buttonLabels[i]);
+
+       sprintf(instName, "%s_instance", buttonLabels[i]);
+
+       tempButton = XtVaCreateManagedWidget
+                       (instName,
+                        xmPushButtonWidgetClass,
+                        theParent,
+                        XmNlabelString, label,
+                        NULL);
+
+       XmStringFree (label);
+
+       XtAddCallback
+          (tempButton,
+           XmNactivateCallback,
+           buttonCallbacks[i],
+           (XtPointer) i);
+      }
+}
+
+
+//---------------------------------------------
+// defineThemesPulldownMenu 
+//
+// Description:
+//---------------------------------------------
+static void defineThemesPulldownMenu
+               (Widget theParent)
+
+{
+         const int      Num_Buttons = 4;
+         char           *buttonLabels[Num_Buttons] =
+                           { (char *) "LibRef",
+                             (char *) "Population",
+                             (char *) "Drainage",
+                             (char *) "Polit_Ocean" };
+         XtCallbackProc buttonCallbacks[Num_Buttons] =
+                           {libRefCallback,
+                            populatedPlacesCallback,
+                            drainageCallback,
+                            politicalOceansCallback };
+         char           instName[32];
+         Widget         tempButton;
+         XmString       label;
+         int            i;
+
+   for (i = 0; i < Num_Buttons; i++)
+      {
+       label = XmStringCreateLocalized (buttonLabels[i]);
+
+       sprintf(instName, "%s_instance", buttonLabels[i]);
+
+       tempButton = XtVaCreateManagedWidget
+                       (instName,
+                        xmPushButtonWidgetClass,
+                        theParent,
+                        XmNlabelString, label,
+                        NULL);
+
+       XmStringFree (label);
+
+       XtAddCallback
+          (tempButton,
+           XmNactivateCallback,
+           buttonCallbacks[i],
+           NULL);
+      }
+}
+
+
+//---------------------------------------------
+// allocateColors 
+//
+// Description:
+//---------------------------------------------
+static void allocateColors ()
+
+{
+         int      i;
+         char     *namesOfColors[Num_Colors] =
+                     { (char *) "white",
+                       (char *) "black",
+                       (char *) "red",
+                       (char *) "green",
+                       (char *) "blue" };
+         XColor   notUsed;
+         Colormap theDefaultColorMap;
+
+   theDefaultColorMap = DefaultColormapOfScreen (ptrToScreen);
+
+   for (i = 0; i < Num_Colors; i++)
+      {
+       XAllocNamedColor
+          (ptrToDisplay,
+           theDefaultColorMap,
+           namesOfColors[i],
+           &theColors[i],
+           &notUsed);
+      }
+}
+
+
+//---------------------------------------------
+// clearMapArea 
+//
+// Description:
+//---------------------------------------------
+static void clearMapArea ()
+
+{
+   valuesOfGC.foreground = BlackPixelOfScreen (ptrToScreen);
+
+   XChangeGC
+      (ptrToDisplay,
+       theGC,
+       GCForeground,
+       &valuesOfGC);
  
-#  XFillRectangle
-#     (ptrToDisplay,
-#      XtWindow (g_mapDrawingArea),
-#      theGC,
-#      0, 0,
-#      g_width, g_height);
+   XFillRectangle
+      (ptrToDisplay,
+       XtWindow (g_mapDrawingArea),
+       theGC,
+       0, 0,
+       g_width, g_height);
 }
 
 
-# ---------------------------------------------
-#  drawMaps 
-# 
-#  Description:
-# ---------------------------------------------
-proc drawMaps { } {
+//---------------------------------------------
+// drawMaps 
+//
+// Description:
+//---------------------------------------------
+static void drawMaps ()
 
-   clearMapArea
+{
+   clearMapArea ();
 
-#  if (g_themeIsShown[gmsBrowse_LibRef])
-#     drawLibRef ();
+   if (g_theBrowseMap == NULL)
+      g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
 
-#  if (g_themeIsShown[gmsBrowse_DN])
-#     drawDrainage ();
+   if (g_themeIsShown[gmsBrowse_LibRef])
+      drawLibRef ();
 
-#  if (g_themeIsShown[gmsBrowse_PO])
-#     drawPoliticalAndOceans ();
+   if (g_themeIsShown[gmsBrowse_DN])
+      drawDrainage ();
 
-#  if (g_themeIsShown[gmsBrowse_PP])
-#     drawPopulatedPlaces ();
+   if (g_themeIsShown[gmsBrowse_PO])
+      drawPoliticalAndOceans ();
 
-#  drawLatLongGrid ();
+   if (g_themeIsShown[gmsBrowse_PP])
+      drawPopulatedPlaces ();
+
+   drawLatLongGrid ();
 }
 
 
-# ---------------------------------------------
-#  drawLibRef 
-# 
-#  Description:
-# ---------------------------------------------
-proc drawLibRef { } {
+//---------------------------------------------
+// drawLibRef 
+//
+// Description:
+//---------------------------------------------
+static void drawLibRef ()
 
-#        gms_2D_ScreenImageType tempImage;
+{
+         gms_2D_ScreenImageType tempImage;
 
-#  tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_LibRef);
+   tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_LibRef);
 
-#  drawImage
-#     (WHITE,
-#      tempImage);
+   drawImage
+      (WHITE,
+       tempImage);
 }
 
 
-# ---------------------------------------------
-#  drawDrainage
-# 
-#  Description:
-# ---------------------------------------------
-proc drawDrainage { }  {
+//---------------------------------------------
+// drawDrainage
+//
+// Description:
+//---------------------------------------------
+static void drawDrainage ()
 
-#      gms_2D_ScreenImageType tempImage;
+{
+       gms_2D_ScreenImageType tempImage;
 
-#  tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_DN);
+   tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_DN);
 
-#  drawImage
-#     (BLUE,
-#      tempImage);
+   drawImage
+      (BLUE,
+       tempImage);
 }
 
 
-# ---------------------------------------------
-#  drawPoliticalAndOceans
-# 
-#  Description:
-# ---------------------------------------------
-proc drawPoliticalAndOceans { } {
+//---------------------------------------------
+// drawPoliticalAndOceans
+//
+// Description:
+//---------------------------------------------
+static void drawPoliticalAndOceans ()
 
-#      gms_2D_ScreenImageType tempImage;
+{
+       gms_2D_ScreenImageType tempImage;
 
-#  tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_PO);
+   tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_PO);
 
-#  drawImage
-#     (RED,
-#      tempImage);
+   drawImage
+      (RED,
+       tempImage);
 }
 
 
-# ---------------------------------------------
-#  drawPopulatedPlaces
-# 
-#  Description:
-# ---------------------------------------------
-proc drawPopulatedPlaces { } {
+//---------------------------------------------
+// drawPopulatedPlaces
+//
+// Description:
+//---------------------------------------------
+static void drawPopulatedPlaces ()
 
-}
-
-
-# ---------------------------------------------
-#  drawLatLongGrid
-# 
-#  Description:
-# ---------------------------------------------
-proc drawLatLongGrid { } {
-
-#      gms_2D_ScreenImageType tempImage;
-
-#  tempImage = g_theBrowseMap->gmsGetLatitudeGrid();
-
-#  drawImage
-#     (GREEN,
-#      tempImage);
-
-#  tempImage = g_theBrowseMap->gmsGetLongitudeGrid();
-
-#  drawImage
-#     (GREEN,
-#      tempImage);
-}
-
-
-# ---------------------------------------------
-#  drawImage 
-# 
-#  Description:
-# ---------------------------------------------
-proc drawImage { whichColor gms_2D_ScreenImageType theImage isChecked } {
-
-#        int i, j;
-
-#  valuesOfGC.foreground = theColors[whichColor].pixel;
-   #  WhitePixelOfScreen (ptrToScreen);
-
-#  XChangeGC
-#     (ptrToDisplay,
-#      theGC,
-#      GCForeground,
-#      &valuesOfGC);
-
-#  for (i = 0; i < theImage.numLines; i++)
-#  {
-#     for (j = 0; j < (theImage.imageLines[i].numPoints - 1); j++)
-#     {
-#         if ( ! isChecked )
-#         {
-#             XDrawLine
-#                (ptrToDisplay,
-#                 XtWindow (g_mapDrawingArea),
-#                 theGC,
-#                 theImage.imageLines[i].points[j].x,
-#                 theImage.imageLines[i].points[j].y,
-#                 theImage.imageLines[i].points[j + 1].x,
-#                 theImage.imageLines[i].points[j + 1].y);
-#         }
-#         else if (gmsIsVisibleLine
-#                        (theImage.imageLines[i].points[j],
-#                         theImage.imageLines[i].points[j + 1]) )
-#         {
-#             XDrawLine
-#                (ptrToDisplay,
-#                 XtWindow (g_mapDrawingArea),
-#                 theGC,
-#                 theImage.imageLines[i].points[j].x,
-#                 theImage.imageLines[i].points[j].y,
-#                 theImage.imageLines[i].points[j + 1].x,
-#                 theImage.imageLines[i].points[j + 1].y);
-#         }
-#     }
-#  }
-}
-
-
-# ---------------------------------------------
-#  drawIndependentPoints 
-# 
-#  Description:
-# ---------------------------------------------
-proc drawIndependentPoints { whichColor gms_2D_ScreenPolylineType thePoints } {
+{
 
 }
 
 
-             # --------------------------
-             #  Callback Routines
-             # --------------------------
+//---------------------------------------------
+// drawLatLongGrid
+//
+// Description:
+//---------------------------------------------
+static void drawLatLongGrid ()
 
+{
+       gms_2D_ScreenImageType tempImage;
 
-# ---------------------------------------------
-#  exitCallback
-# 
-#  Description:
-#     Callback to handle selection of the
-#     pushbutton
-# ---------------------------------------------
-proc exitCallback { } {
+   tempImage = g_theBrowseMap->gmsGetLatitudeGrid();
 
-   exit
+   drawImage
+      (GREEN,
+       tempImage);
+
+   tempImage = g_theBrowseMap->gmsGetLongitudeGrid();
+
+   drawImage
+      (GREEN,
+       tempImage);
 }
 
 
-# ---------------------------------------------
-#  helpCallback
-# 
-#  Description:
-#     Help callback.
-# ---------------------------------------------
-proc helpCallback { } {
+//---------------------------------------------
+// drawImage 
+//
+// Description:
+//---------------------------------------------
+static void drawImage
+               (int                    whichColor,
+                gms_2D_ScreenImageType theImage,
+                bool                   isChecked)
 
-   tk_messageBox -message "DCW No Help"
+{
+         int i, j;
+
+   valuesOfGC.foreground = theColors[whichColor].pixel;
+   // WhitePixelOfScreen (ptrToScreen);
+
+   XChangeGC
+      (ptrToDisplay,
+       theGC,
+       GCForeground,
+       &valuesOfGC);
+
+   for (i = 0; i < theImage.numLines; i++)
+      for (j = 0; j < (theImage.imageLines[i].numPoints - 1); j++)
+         {
+          if ( ! isChecked )
+             {
+              XDrawLine
+                 (ptrToDisplay,
+                  XtWindow (g_mapDrawingArea),
+                  theGC,
+                  theImage.imageLines[i].points[j].x,
+                  theImage.imageLines[i].points[j].y,
+                  theImage.imageLines[i].points[j + 1].x,
+                  theImage.imageLines[i].points[j + 1].y);
+             }
+
+          else if (gmsIsVisibleLine
+                         (theImage.imageLines[i].points[j],
+                          theImage.imageLines[i].points[j + 1]) )
+             {
+              XDrawLine
+                 (ptrToDisplay,
+                  XtWindow (g_mapDrawingArea),
+                  theGC,
+                  theImage.imageLines[i].points[j].x,
+                  theImage.imageLines[i].points[j].y,
+                  theImage.imageLines[i].points[j + 1].x,
+                  theImage.imageLines[i].points[j + 1].y);
+             }
+         }
+}
+
+
+//---------------------------------------------
+// drawIndependentPoints 
+//
+// Description:
+//---------------------------------------------
+static void drawIndependentPoints
+               (int                       whichColor,
+                gms_2D_ScreenPolylineType thePoints)
+
+{
 
 }
 
 
-# ---------------------------------------------
-#  exposureCallback 
-# 
-#  Description:
-# ---------------------------------------------
-proc exposureCallback { Widget    daWidget, XtPointer client_data, XtPointer cbs} {
-#         XWindowAttributes theWindowAttributes;
+             //---------------------------//
+             // Xt Callback Routines
+             //---------------------------//
 
-#   XGetWindowAttributes
-#      (ptrToDisplay,
-#       XtWindow (daWidget),
-#       &theWindowAttributes);
 
-#   g_width  = theWindowAttributes.width;
-#   g_height = theWindowAttributes.height;
+//---------------------------------------------
+// exitCallback
+//
+// Description:
+//    Callback to handle selection of the
+//    pushbutton
+//---------------------------------------------
+static void exitCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#   gmsSetWindowDimensions
-#         (g_width,
-#          g_height);
-
-#   drawMaps ();
+{
+   exit (0);
 }
 
 
-# ---------------------------------------------
-#  zoomCallback
-# 
-#  Description:
-# ---------------------------------------------
-proc zoomCallback { } {
+//---------------------------------------------
+// exposureCallback 
+//
+// Description:
+//---------------------------------------------
+static void exposureCallback
+                  (Widget    daWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
+{
+         XWindowAttributes theWindowAttributes;
 
-#         const int index = (int) client_data;
+   XGetWindowAttributes
+      (ptrToDisplay,
+       XtWindow (daWidget),
+       &theWindowAttributes);
 
-#   if (index == 0)
-#      gmsZoomIn (g_zoomAmount);
-#   else
-#      gmsZoomOut (g_zoomAmount);
+   g_width  = theWindowAttributes.width;
+   g_height = theWindowAttributes.height;
 
-#   drawMaps ();
+   gmsSetWindowDimensions
+         (g_width,
+          g_height);
+
+   drawMaps ();
 }
 
 
-# ---------------------------------------------
-#  moveCallback 
-# 
-#  Description:
-# ---------------------------------------------
-proc moveCallback { Widget    pbWidget, XtPointer client_data, XtPointer cbs } {
+//---------------------------------------------
+// zoomCallback
+//
+// Description:
+//---------------------------------------------
+static void zoomCallback 
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#         const int index = (int) client_data;
+{
+         const int index = (int) client_data;
 
-#   if (index == 2)
-#      gmsSet_X_Rotation (g_rotationDeg);
+   if (index == 0)
+      gmsZoomIn (g_zoomAmount);
+   else
+      gmsZoomOut (g_zoomAmount);
 
-#   else if (index == 3)
-#      gmsSet_X_Rotation (-g_rotationDeg);
-
-#   else if (index == 4)
-#      gmsSet_Y_Rotation (-g_rotationDeg);
-
-#   else
-#      gmsSet_Y_Rotation (g_rotationDeg);
-
-#   drawMaps ();
+   drawMaps ();
 }
 
 
-# ---------------------------------------------
-#  libRefCallback 
-# 
-#  Description:
-# ---------------------------------------------
-proc libRefCallback { Widget    pbWidget, XtPointer client_data, XtPointer cbs} {
-#   g_themeIsShown[(int) gmsBrowse_LibRef] =
-#         ! g_themeIsShown[(int) gmsBrowse_LibRef];
+//---------------------------------------------
+// moveCallback 
+//
+// Description:
+//---------------------------------------------
+static void moveCallback 
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#   drawMaps ();
+{
+         const int index = (int) client_data;
+
+   if (index == 2)
+      gmsSet_X_Rotation (g_rotationDeg);
+
+   else if (index == 3)
+      gmsSet_X_Rotation (-g_rotationDeg);
+
+   else if (index == 4)
+      gmsSet_Y_Rotation (-g_rotationDeg);
+
+   else
+      gmsSet_Y_Rotation (g_rotationDeg);
+
+   drawMaps ();
 }
 
 
-# ---------------------------------------------
-#  populatedPlacesCallback 
-# 
-#  Description:
-# ---------------------------------------------
-proc populatedPlacesCallback { Widget pbWidget, XtPointer client_data, XtPointer cbs } {
+//---------------------------------------------
+// libRefCallback 
+//
+// Description:
+//---------------------------------------------
+static void libRefCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#  g_themeIsShown[(int) gmsBrowse_PP] =
-#        ! g_themeIsShown[(int) gmsBrowse_PP];
+{
+   g_themeIsShown[(int) gmsBrowse_LibRef] =
+         ! g_themeIsShown[(int) gmsBrowse_LibRef];
 
-#  drawMaps ();
+   drawMaps ();
 }
 
 
-# ---------------------------------------------
-#  drainageCallback 
-# 
-#  Description:
-# ---------------------------------------------
-proc drainageCallback { Widget pbWidget, XtPointer client_data, XtPointer cbs } {
-#  g_themeIsShown[(int) gmsBrowse_DN] =
-#        ! g_themeIsShown[(int) gmsBrowse_DN];
+//---------------------------------------------
+// populatedPlacesCallback 
+//
+// Description:
+//---------------------------------------------
+static void populatedPlacesCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#  drawMaps ();
+{
+   g_themeIsShown[(int) gmsBrowse_PP] =
+         ! g_themeIsShown[(int) gmsBrowse_PP];
+
+   drawMaps ();
 }
 
 
-# ---------------------------------------------
-#  politicalOceansCallback
-# 
-#  Description:
-# ---------------------------------------------
-proc politicalOceansCallback { Widget pbWidget, XtPointer client_data, XtPointer cbs } {
+//---------------------------------------------
+// drainageCallback 
+//
+// Description:
+//---------------------------------------------
+static void drainageCallback
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-#  g_themeIsShown[(int) gmsBrowse_PO] =
-#        ! g_themeIsShown[(int) gmsBrowse_PO];
+{
+   g_themeIsShown[(int) gmsBrowse_DN] =
+         ! g_themeIsShown[(int) gmsBrowse_DN];
 
-#  drawMaps ();
+   drawMaps ();
 }
 
 
+//---------------------------------------------
+// politicalOceansCallback
+//
+// Description:
+//---------------------------------------------
+static void politicalOceansCallback 
+                  (Widget    pbWidget,
+                   XtPointer client_data,
+                   XtPointer cbs)
 
-# ***********************************************
-# PROCEDURE NAME: main ... sort of ...
-#
-# DESCRIPTION:
-#    Executing commands begins here ...
-# ***********************************************
-puts "Begin - DCW Flat Browse Demo"
+{
+   g_themeIsShown[(int) gmsBrowse_PO] =
+         ! g_themeIsShown[(int) gmsBrowse_PO];
 
-load Tcl2GMS/libtcltogms[info sharedlibextension]
+   drawMaps ();
+}
 
-label .usr_info_1 -text "info here"
-label .usr_info_2 -text "$count"
-label .position   -text "<lat> <long>"
-
-canvas .mapDrawingArea -width $g_width -height $g_height
-
-menu .menu_bar
-
-createLayout .menu_bar
-
-set orange_oval [.mapDrawingArea create oval 0 0 50 50 -fill orange]
-set blue_line [.mapDrawingArea create line 50 50 100 100 -fill blue -width 2]
-
-grid .mapDrawingArea -row 0 -column 0
-grid .usr_info_1     -row 1 -column 0
-grid .usr_info_2     -row 1 -column 1
-grid .position       -row 1 -column 2
-
-#  XtRealizeWidget (topLevel);
-
-#  ptrToDisplay = XtDisplay (g_mapDrawingArea);
-
-#  ptrToScreen = XtScreen (g_mapDrawingArea);
-
-#  valuesOfGC.foreground = WhitePixelOfScreen (ptrToScreen);
-
-#  theGC = XCreateGC
-#             (ptrToDisplay,
-#              RootWindowOfScreen (ptrToScreen),
-#              GCForeground,
-#              &valuesOfGC);
-
-#  allocateColors ();
-
-#  XtAppMainLoop (theAppContext);
-   
-puts "End - DCW Flat Broswe"
