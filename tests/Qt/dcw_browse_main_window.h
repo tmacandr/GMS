@@ -19,7 +19,27 @@ public:
 
 public slots:
 
-   void exit_action_slot();
+   void exit();
+
+   void zoom_in();
+
+   void zoom_out();
+
+   void move_north();
+
+   void move_south();
+
+   void move_east();
+
+   void move_west();
+
+   void show_lib_ref();
+
+   void show_population();
+
+   void show_drainage();
+
+   void show_polit_ocean();
 
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;

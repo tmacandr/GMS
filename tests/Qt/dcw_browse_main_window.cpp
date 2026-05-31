@@ -56,7 +56,57 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
     connect(ui->actionExit,
             &QAction::triggered,
             this,
-            &dcw_browse_Main_Window::exit_action_slot);
+            &dcw_browse_Main_Window::exit);
+
+    connect(ui->actionZoom_in,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::zoom_in);
+
+    connect(ui->actionZoom_out,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::zoom_out);
+
+    connect(ui->actionMove_North,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::move_north);
+
+    connect(ui->actionMove_South,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::move_south);
+
+    connect(ui->actionMove_East,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::move_east);
+
+    connect(ui->actionMove_West,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::move_west);
+
+    connect(ui->actionLibRef,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_lib_ref);
+
+    connect(ui->actionPopulation,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_population);
+
+    connect(ui->actionDrainage,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_drainage);
+
+    connect(ui->actionPolit_Ocean,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_polit_ocean);
 }
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
@@ -70,9 +120,59 @@ dcw_browse_Main_Window::~dcw_browse_Main_Window()
     delete ui;
 }
 
-void dcw_browse_Main_Window::exit_action_slot()
+void dcw_browse_Main_Window::exit()
 {
    std::exit(0);
+}
+
+void dcw_browse_Main_Window::zoom_in()
+{
+    std::cout << "Zoom in\n";
+}
+
+void dcw_browse_Main_Window::zoom_out()
+{
+    std::cout << "Zoom out\n";
+}
+
+void dcw_browse_Main_Window::move_north()
+{
+    std::cout << "Move North\n";
+}
+
+void dcw_browse_Main_Window::move_south()
+{
+    std::cout << "Move South\n";
+}
+
+void dcw_browse_Main_Window::move_east()
+{
+    std::cout << "Move East\n";
+}
+
+void dcw_browse_Main_Window::move_west()
+{
+    std::cout << "Move West\n";
+}
+
+void dcw_browse_Main_Window::show_lib_ref()
+{
+    std::cout << "Show LibRef\n";
+}
+
+void dcw_browse_Main_Window::show_population()
+{
+    std::cout << "Show Population\n";
+}
+
+void dcw_browse_Main_Window::show_drainage()
+{
+    std::cout << "Show Drainage\n";
+}
+
+void dcw_browse_Main_Window::show_polit_ocean()
+{
+    std::cout << "Show Polit-Ocean\n";
 }
 
 /* EOF */
