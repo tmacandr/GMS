@@ -164,21 +164,49 @@ void dcw_browse_Main_Window::move_west()
 void dcw_browse_Main_Window::show_lib_ref()
 {
     std::cout << "Show LibRef\n";
+
+    if ( not theme_info_dialog )
+    {
+        theme_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_population()
 {
     std::cout << "Show Population\n";
+
+    if ( not theme_info_dialog )
+    {
+        theme_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_drainage()
 {
     std::cout << "Show Drainage\n";
+
+    if ( not theme_info_dialog )
+    {
+        theme_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_polit_ocean()
 {
     std::cout << "Show Polit-Ocean\n";
+
+    if ( not theme_info_dialog )
+    {
+        theme_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    theme_info_dialog->show();
 }
 
 /* EOF */
