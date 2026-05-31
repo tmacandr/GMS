@@ -111,6 +111,12 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
 {
+    if (theme_info_dialog)
+    {
+        delete theme_info_dialog;
+        theme_info_dialog = nullptr;
+    }
+
     if (map_window)
     {
         delete map_window;
