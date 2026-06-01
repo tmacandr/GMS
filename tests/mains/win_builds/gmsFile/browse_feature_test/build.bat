@@ -4,7 +4,7 @@ rem # FILE: build.bat
 rem #
 rem # DESCRIPTION:
 rem #    Script that invokes Visual Studio NMAKE on 'build.mak' to compile and
-rem #    link browse_dv.cpp test.
+rem #    link browse_feature.cpp test.
 rem #
 rem # RUN:
 rem #   build.bat
