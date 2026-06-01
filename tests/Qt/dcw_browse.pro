@@ -19,9 +19,9 @@ INCLUDEPATH += "../../C_source/include/gmsAdrgFile"
 INCLUDEPATH += "../../C_source/include/gmsFile"
 INCLUDEPATH += "../../C_source/include/gmsGraphics"
 
-LIBS += -L../../unixBuild/lib -lGmsFile
 LIBS += -L../../unixBuild/lib -lGmsAdrgFile
 LIBS += -L../../unixBuild/lib -lGmsGraph
+LIBS += -L../../unixBuild/lib -lGmsFile
 
 SOURCES += \
     main.cpp \

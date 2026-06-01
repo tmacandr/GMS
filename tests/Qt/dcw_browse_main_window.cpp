@@ -134,36 +134,50 @@ void dcw_browse_Main_Window::exit()
 void dcw_browse_Main_Window::zoom_in()
 {
     std::cout << "Zoom in\n";
+
+    map_window->zoom(IN);
 }
 
 void dcw_browse_Main_Window::zoom_out()
 {
     std::cout << "Zoom out\n";
+
+    map_window->zoom(OUT);
 }
 
 void dcw_browse_Main_Window::move_north()
 {
     std::cout << "Move North\n";
+
+    map_window->move(NORTH);
 }
 
 void dcw_browse_Main_Window::move_south()
 {
     std::cout << "Move South\n";
+
+    map_window->move(SOUTH);
 }
 
 void dcw_browse_Main_Window::move_east()
 {
     std::cout << "Move East\n";
+
+    map_window->move(EAST);
 }
 
 void dcw_browse_Main_Window::move_west()
 {
     std::cout << "Move West\n";
+
+    map_window->move(WEST);
 }
 
 void dcw_browse_Main_Window::show_lib_ref()
 {
     std::cout << "Show LibRef\n";
+
+    map_window->move(NORTH);
 
     if ( not theme_info_dialog )
     {

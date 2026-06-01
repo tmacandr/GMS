@@ -29,10 +29,9 @@ void Theme_Info_Dialog_Window::update(const std::string theme_data)
 {
     QPlainTextEdit *te = ui->theme_info_text_area;
 
-    if (te)
-    {
-        std::cout << "found text-edit widget\n";
-    }
+    QString qs = QString::fromStdString(theme_data);
+
+    te->setPlainText(qs);
 }
 
 /* EOF */
