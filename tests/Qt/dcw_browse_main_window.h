@@ -32,6 +32,7 @@ public slots:
 
    void exit();
 
+   // Ctrl
    void zoom_in();
 
    void zoom_out();
@@ -44,6 +45,7 @@ public slots:
 
    void move_west();
 
+   // Themes
    void show_lib_ref();
 
    void show_population();
@@ -52,12 +54,29 @@ public slots:
 
    void show_polit_ocean();
 
+   // Tables
+   void show_database_header();
+
+   void show_library_attributes();
+
+   void show_coverage_attributes();
+
+   void show_data_quality();
+
+   void show_geographic_reference();
+
+   void show_library_header();
+
+   // Tile Ref
+   void show_SOAMAFR();
+
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
 
     DCW_Browse *map_window = nullptr;
 
-    Theme_Info_Dialog_Window *theme_info_dialog = nullptr;
+    // NEED TO RENAME this class ... files!
+    Theme_Info_Dialog_Window *table_info_dialog = nullptr;
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
 

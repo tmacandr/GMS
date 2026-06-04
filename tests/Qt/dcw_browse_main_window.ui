@@ -49,9 +49,28 @@
     <addaction name="actionDrainage"/>
     <addaction name="actionPolit_Ocean"/>
    </widget>
+   <widget class="QMenu" name="menuTables">
+    <property name="title">
+     <string>Tables</string>
+    </property>
+    <addaction name="actionDatabase_Header"/>
+    <addaction name="actionLibrary_Attributes"/>
+    <addaction name="actionCoverage_Attributes"/>
+    <addaction name="actionData_Quality"/>
+    <addaction name="actionGeographic_Reference"/>
+    <addaction name="actionLibrary_Header"/>
+   </widget>
+   <widget class="QMenu" name="menuTileRef">
+    <property name="title">
+     <string>TileRef</string>
+    </property>
+    <addaction name="actionSOAMAFR"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCtrl"/>
    <addaction name="menuThemes"/>
+   <addaction name="menuTables"/>
+   <addaction name="menuTileRef"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
@@ -90,23 +109,70 @@
    </property>
   </action>
   <action name="actionLibRef">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>LibRef</string>
    </property>
   </action>
   <action name="actionPopulation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Population</string>
    </property>
   </action>
   <action name="actionDrainage">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Drainage</string>
    </property>
   </action>
   <action name="actionPolit_Ocean">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Polit_Ocean</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR">
+   <property name="text">
+    <string>SOAMAFR</string>
+   </property>
+  </action>
+  <action name="actionDatabase_Header">
+   <property name="text">
+    <string>Database Header</string>
+   </property>
+  </action>
+  <action name="actionLibrary_Attributes">
+   <property name="text">
+    <string>Library Attributes</string>
+   </property>
+  </action>
+  <action name="actionCoverage_Attributes">
+   <property name="text">
+    <string>Coverage Attributes</string>
+   </property>
+  </action>
+  <action name="actionData_Quality">
+   <property name="text">
+    <string>Data Quality</string>
+   </property>
+  </action>
+  <action name="actionGeographic_Reference">
+   <property name="text">
+    <string>Geographic Reference</string>
+   </property>
+  </action>
+  <action name="actionLibrary_Header">
+   <property name="text">
+    <string>Library Header</string>
    </property>
   </action>
  </widget>

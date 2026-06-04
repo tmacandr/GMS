@@ -107,14 +107,49 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
             &QAction::triggered,
             this,
             &dcw_browse_Main_Window::show_polit_ocean);
+
+    connect(ui->actionDatabase_Header,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_database_header);
+
+    connect(ui->actionLibrary_Attributes,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_library_attributes);
+
+    connect(ui->actionCoverage_Attributes,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_coverage_attributes);
+
+    connect(ui->actionData_Quality,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_data_quality);
+
+    connect(ui->actionGeographic_Reference,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_geographic_reference);
+
+    connect(ui->actionLibrary_Header,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_library_header);
+
+    connect(ui->actionSOAMAFR,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_SOAMAFR);
 }
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
 {
-    if (theme_info_dialog)
+    if (table_info_dialog)
     {
-        delete theme_info_dialog;
-        theme_info_dialog = nullptr;
+        delete table_info_dialog;
+        table_info_dialog = nullptr;
     }
 
     if (map_window)
@@ -178,49 +213,98 @@ void dcw_browse_Main_Window::show_lib_ref()
     std::cout << "Show LibRef\n";
 
     map_window->move(NORTH);
-
-    if ( not theme_info_dialog )
-    {
-        theme_info_dialog = new Theme_Info_Dialog_Window(this);
-    }
-
-    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_population()
 {
     std::cout << "Show Population\n";
-
-    if ( not theme_info_dialog )
-    {
-        theme_info_dialog = new Theme_Info_Dialog_Window(this);
-    }
-
-    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_drainage()
 {
     std::cout << "Show Drainage\n";
-
-    if ( not theme_info_dialog )
-    {
-        theme_info_dialog = new Theme_Info_Dialog_Window(this);
-    }
-
-    theme_info_dialog->show();
 }
 
 void dcw_browse_Main_Window::show_polit_ocean()
 {
     std::cout << "Show Polit-Ocean\n";
+}
 
-    if ( not theme_info_dialog )
-    {
-        theme_info_dialog = new Theme_Info_Dialog_Window(this);
+void dcw_browse_Main_Window::show_database_header()
+{
+    std::cout << "show_database_header\n";
+
+    if ( not table_info_dialog )
+    {   
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
     }
 
-    theme_info_dialog->show();
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_library_attributes()
+{
+    std::cout << "show_library_attributes\n";
+
+    if ( not table_info_dialog )
+    {
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_coverage_attributes()
+{
+    std::cout << "show_coverage_attributes\n";
+
+    if ( not table_info_dialog )
+    {
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_data_quality()
+{
+    std::cout << "show_data_quality\n";
+
+    if ( not table_info_dialog )
+    {
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_geographic_reference()
+{
+    std::cout << "show_geographic_reference\n";
+
+    if ( not table_info_dialog )
+    {
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_library_header()
+{
+    std::cout << "show_library_header\n";
+
+    if ( not table_info_dialog )
+    {
+        table_info_dialog = new Theme_Info_Dialog_Window(this);
+    }
+
+    table_info_dialog->show();
+}
+
+void dcw_browse_Main_Window::show_SOAMAFR()
+{
+    std::cout << "show_SOAMAFR\n";
 }
 
 /* EOF */
