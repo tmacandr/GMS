@@ -45,10 +45,6 @@ public:
    void setMapState(const gmsBrowseThematicType which_map,
                     const bool                  is_clicked);
 
-   void drawMaps ();
-
-   void clearMapArea();
-
    void zoom(const ZOOM_T zoom);
 
    void move(const DIRECTION_T dir);
@@ -58,6 +54,10 @@ protected:
    void paintEvent(QPaintEvent *event) override;
 
 private:
+
+   void drawMaps ();
+
+   void clearMapArea();
 
    void drawLibRef ();
 

@@ -26,7 +26,25 @@ DCW_Browse::DCW_Browse(QWidget *parent)
    : QWidget(parent)
 
 {
-   gmsSetMapZoomFactor(14000.0);
+   std::cout << "------------------ DCW_Browse - begin ---------\n";
+
+   if (g_theBrowseMap == NULL)
+   {
+      #if 0
+      g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
+
+      if ( not g_theBrowseMap )
+      {
+          std::cout << "***> ERROR - allocate browse map fail\n";
+
+          std::exit(99);
+      }
+      #endif
+   }
+
+   //gmsSetMapZoomFactor(14000.0);
+
+   std::cout << "------------------ DCW_Browse - end ---------\n";
 }
 
 DCW_Browse::~DCW_Browse()
@@ -44,7 +62,7 @@ void DCW_Browse::setMapState
 {
     g_themeIsShown[which_map] = is_clicked;
 
-    drawMaps();
+    update();
 }
 
 //---------------------------------------------
@@ -55,7 +73,7 @@ void DCW_Browse::setMapState
 void DCW_Browse::clearMapArea ()
 
 {
-    std::cout << "clearMapArea\n";
+    std::cout << "clearMapArea - begin\n";
 
     QPainter painter(this);
 
@@ -76,16 +94,10 @@ void DCW_Browse::clearMapArea ()
 // Description:
 //---------------------------------------------
 void DCW_Browse::drawMaps ()
-
 {
-   std::cout << "drawMaps\n";
+   std::cout << "-------------- drawMaps - begin ----------\n";
 
    clearMapArea ();
-
-   if (g_theBrowseMap == NULL)
-   {
-      g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
-   }
 
    if (g_themeIsShown[gmsBrowse_LibRef])
       drawLibRef ();
@@ -101,9 +113,7 @@ void DCW_Browse::drawMaps ()
 
    drawLatLongGrid ();
 
-   update();
-
-   std::cout << "drawMaps - end\n";
+   std::cout << "------------------ drawMaps - end -------\n";
 }
 
 
@@ -115,17 +125,27 @@ void DCW_Browse::drawMaps ()
 void DCW_Browse::drawLibRef()
 
 {
-   std::cout << "drawLibRef- begin\n";
+   std::cout << "drawLibRef - begin\n";
 
+#if 0
    gms_2D_ScreenImageType tempImage;
 
+   std::cout << "DLR - A\n";
+
+   if ( not g_theBrowseMap )
+   {
+       std::cout << "***> ERROR - browse map is NULL\n";
+       std::exit(89);
+   }
+
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_LibRef);
+
+   std::cout << "DLR - B\n";
 
    drawImage
       (Qt::yellow,
        tempImage);
-
-   update();
+#endif
 
    std::cout << "drawLibRef- end\n";
 }
@@ -140,7 +160,7 @@ void DCW_Browse::drawDrainage()
 
 {
    std::cout << "drawDrainage - begin\n";
-
+#if 0
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_DN);
@@ -148,8 +168,7 @@ void DCW_Browse::drawDrainage()
    drawImage
       (Qt::blue,
        tempImage);
-
-   update();
+#endif
 
    std::cout << "drawDrainage- end\n";
 }
@@ -165,6 +184,7 @@ void DCW_Browse::drawPoliticalAndOceans()
 {
    std::cout << "drawPoliticalAndOceans - begin\n";
 
+#if 0
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_PO);
@@ -172,8 +192,7 @@ void DCW_Browse::drawPoliticalAndOceans()
    drawImage
       (Qt::red,
        tempImage);
-
-   update();
+#endif
 
    std::cout << "drawPoliticalAndOceans - end\n";
 }
@@ -188,8 +207,6 @@ void DCW_Browse::drawPopulatedPlaces ()
 
 {
    std::cout << "Not implemented\n";
-
-   update();
 }
 
 
@@ -203,6 +220,7 @@ void DCW_Browse::drawLatLongGrid ()
 {
    std::cout << "drawLatLongGrid - begin\n";
 
+#if 0
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetLatitudeGrid();
@@ -216,8 +234,7 @@ void DCW_Browse::drawLatLongGrid ()
    drawImage
       (Qt::green,
        tempImage);
-
-   update();
+#endif
 
    std::cout << "drawLatLongGrid - end\n";
 }
@@ -236,7 +253,8 @@ void DCW_Browse::drawImage
 {
    std::cout << "drawImage - begin\n";
 
-   int i, j;
+   int i;
+   int j;
 
    QPainter painter(this);
 
@@ -290,8 +308,6 @@ void DCW_Browse::drawIndependentPoints
 
    std::cout << "Not implemented\n";
 
-   update();
-
    std::cout << "drawIndependentPoints - end\n";
 }
 
@@ -305,7 +321,7 @@ void DCW_Browse::drawIndependentPoints
 //---------------------------------------------
 void DCW_Browse::paintEvent(QPaintEvent *event)
 {
-   std::cout << "paintEvent - begin\n";
+   std::cout << "vvvvvvvvvvvvvvvv paintEvent - begin vvvvvvvvvvvvvvvv\n";
 
    Q_UNUSED(event);
 
@@ -316,7 +332,7 @@ void DCW_Browse::paintEvent(QPaintEvent *event)
 
    drawMaps ();
 
-   std::cout << "paintEvent - end\n";
+   std::cout << "^^^^^^^^^^^^^^^^ paintEvent - end ^^^^^^^^^^^^^^^^^^\n";
 }
 
 
@@ -336,7 +352,7 @@ void DCW_Browse::zoom(const ZOOM_T zoom)
        gmsZoomOut (g_zoomAmount);
    }
 
-   drawMaps ();
+   update();
 }
 
 
@@ -364,7 +380,7 @@ void DCW_Browse::move(const DIRECTION_T dir)
       gmsSet_Y_Rotation (g_rotationDeg);
    }
 
-   drawMaps ();
+   update();
 }
 
 /* EOF */
