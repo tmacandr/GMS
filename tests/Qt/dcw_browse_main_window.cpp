@@ -212,22 +212,44 @@ void dcw_browse_Main_Window::show_lib_ref()
 {
     std::cout << "Show LibRef\n";
 
-    map_window->move(NORTH);
+    QAction *lr_button = ui->actionLibRef;
+
+    bool state = lr_button->isChecked();
+
+    map_window->setMapState(gmsBrowse_LibRef, state);
 }
 
 void dcw_browse_Main_Window::show_population()
 {
     std::cout << "Show Population\n";
+
+    QAction *pp_button = ui->actionPopulation;
+
+    bool state = pp_button->isChecked();
+
+    map_window->setMapState(gmsBrowse_PP, state);
 }
 
 void dcw_browse_Main_Window::show_drainage()
 {
     std::cout << "Show Drainage\n";
+
+    QAction *dn_button = ui->actionDrainage;
+
+    bool state = dn_button->isChecked();
+
+    map_window->setMapState(gmsBrowse_DN, state);
 }
 
 void dcw_browse_Main_Window::show_polit_ocean()
 {
     std::cout << "Show Polit-Ocean\n";
+
+    QAction *po_button = ui->actionPolit_Ocean;
+
+    bool state = po_button->isChecked();
+
+    map_window->setMapState(gmsBrowse_PO, state);
 }
 
 void dcw_browse_Main_Window::show_database_header()

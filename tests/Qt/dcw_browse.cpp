@@ -206,7 +206,7 @@ void DCW_Browse::drawPoliticalAndOceans()
 void DCW_Browse::drawPopulatedPlaces ()
 
 {
-   std::cout << "Not implemented\n";
+   std::cout << "draw Populated Places - Not implemented\n";
 }
 
 
