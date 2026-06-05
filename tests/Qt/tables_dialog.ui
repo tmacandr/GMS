@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Theme_Info_Dialog_Window</class>
- <widget class="QDialog" name="Theme_Info_Dialog_Window">
+ <class>Tables_Dialog_Window</class>
+ <widget class="QDialog" name="Tables_Dialog_Window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="theme_info_buttonBox">
+  <widget class="QDialogButtonBox" name="table_info_buttonBox">
    <property name="geometry">
     <rect>
      <x>-40</x>
@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="theme_info_text_area">
+  <widget class="QPlainTextEdit" name="table_info_text_area">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -46,9 +46,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>theme_info_buttonBox</sender>
+   <sender>table_info_buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Theme_Info_Dialog_Window</receiver>
+   <receiver>Tables_Dialog_Window</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -62,9 +62,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>theme_info_buttonBox</sender>
+   <sender>table_info_buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Theme_Info_Dialog_Window</receiver>
+   <receiver>Tables_Dialog_Window</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -13,7 +13,7 @@
 
 #include <QMainWindow>
 
-#include "themes_info_dialog.h"
+#include "tables_dialog.h"
 #include "dcw_browse.h"
 
 QT_BEGIN_NAMESPACE
@@ -45,7 +45,7 @@ public slots:
 
    void move_west();
 
-   // Themes
+   // Map Themes
    void show_lib_ref();
 
    void show_population();
@@ -75,8 +75,7 @@ private:
 
     DCW_Browse *map_window = nullptr;
 
-    // NEED TO RENAME this class ... files!
-    Theme_Info_Dialog_Window *table_info_dialog = nullptr;
+    Tables_Dialog_Window *table_info_dialog = nullptr;
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
 

@@ -1,35 +1,35 @@
 //-------------------------------------------------------------------------
-// File : themes_info_dialog.cpp
+// File : tables_dialog.cpp
 // Date : 26-May-26 : initial definition
 //
 // Description:
-//    Manage display of DCW "theme" data to the dialog pop-up.
+//    Manage display of DCW "tables" of map info to the dialog pop-up.
 //-------------------------------------------------------------------------
 #include <iostream>
 
 #include <QPlainTextEdit>
 
-#include "themes_info_dialog.h"
+#include "tables_dialog.h"
 
-Theme_Info_Dialog_Window::Theme_Info_Dialog_Window(QWidget *parent)
+Tables_Dialog_Window::Tables_Dialog_Window(QWidget *parent)
 
    : QDialog(parent),
-     ui(new Ui_Theme_Info_Dialog_Window)
+     ui(new Ui_Tables_Dialog_Window)
 
 {
     ui->setupUi(this);
 }
 
-Theme_Info_Dialog_Window::~Theme_Info_Dialog_Window()
+Tables_Dialog_Window::~Tables_Dialog_Window()
 {
     delete ui;
 }
 
-void Theme_Info_Dialog_Window::update(const std::string theme_data)
+void Tables_Dialog_Window::update(const std::string table_data)
 {
-    QPlainTextEdit *te = ui->theme_info_text_area;
+    QPlainTextEdit *te = ui->table_info_text_area;
 
-    QString qs = QString::fromStdString(theme_data);
+    QString qs = QString::fromStdString(table_data);
 
     te->setPlainText(qs);
 }

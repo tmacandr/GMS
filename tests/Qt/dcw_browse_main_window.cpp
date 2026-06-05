@@ -236,7 +236,7 @@ void dcw_browse_Main_Window::show_database_header()
 
     if ( not table_info_dialog )
     {   
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
@@ -248,7 +248,7 @@ void dcw_browse_Main_Window::show_library_attributes()
 
     if ( not table_info_dialog )
     {
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
@@ -260,7 +260,7 @@ void dcw_browse_Main_Window::show_coverage_attributes()
 
     if ( not table_info_dialog )
     {
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
@@ -272,7 +272,7 @@ void dcw_browse_Main_Window::show_data_quality()
 
     if ( not table_info_dialog )
     {
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
@@ -284,7 +284,7 @@ void dcw_browse_Main_Window::show_geographic_reference()
 
     if ( not table_info_dialog )
     {
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
@@ -296,7 +296,7 @@ void dcw_browse_Main_Window::show_library_header()
 
     if ( not table_info_dialog )
     {
-        table_info_dialog = new Theme_Info_Dialog_Window(this);
+        table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
