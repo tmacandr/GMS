@@ -26,17 +26,17 @@ LIBS += -L../../unixBuild/lib -lGmsFile
 SOURCES += \
     main.cpp \
     dcw_browse_main_window.cpp \
-    themes_info_dialog.cpp \
+    tables_dialog.cpp \
     dcw_browse.cpp
 
 HEADERS += \
     dcw_browse_main_window.h \
-    themes_info_dialog.h \
+    tables_dialog.h \
     dcw_browse.h
 
 FORMS += \
     dcw_browse_main_window.ui \
-    themes_info_dialog.ui
+    tables_dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
