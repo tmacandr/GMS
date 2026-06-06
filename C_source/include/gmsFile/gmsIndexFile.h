@@ -52,7 +52,7 @@
 
    typedef struct _indexRecordType
    {
-       long byteOffset;
+       int  byteOffset;
        int  numBytes;
    } indexRecordType;
 
