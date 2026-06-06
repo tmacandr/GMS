@@ -143,7 +143,7 @@
 
        private:
 
-          void              *theBrowseMap;
+          void              *theBrowseMap = nullptr;
 
           gmsEarthModelType theModel;
 
