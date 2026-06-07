@@ -103,8 +103,13 @@ gmsNodeClass::gmsNodeClass
                                kindOfNode);
 
    if (ptrToNewNodes->endTbl == NULL)
-      {
-       sprintf(errMsg, "*** ERROR : 'gmsGetNodeTable' : %s failed\n",
+   {
+       // Regional libraries should have END tables, but LIBREF and not
+       // all 'browse' attribute include an END tables.  See Section 2.3
+       // about (Entity) Node Tables.
+       sprintf(errMsg,
+               "===> WARNING - gmsNodeClass\n"
+               "===>         - 'gmsGetNodeTable' : get %s failed\n",
                nodeTblName);
 
        gmsWriteDebug (errMsg);
@@ -112,7 +117,7 @@ gmsNodeClass::gmsNodeClass
        gmsNodeClass::theNode = NULL;
 
        return;
-      }
+   }
 
    if (whichModel == gmsFlat)
       {
