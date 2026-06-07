@@ -38,7 +38,9 @@ class DCW_Browse : public QWidget
 
 public:
 
-   DCW_Browse(QWidget *parent = nullptr);
+   DCW_Browse
+      (const std::string earth_model,
+       QWidget           *parent = nullptr);
 
    ~DCW_Browse();
 

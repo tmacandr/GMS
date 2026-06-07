@@ -29,7 +29,9 @@
 //    Constructor as entry point to create the GUI/Window
 //    of the application.
 //========================================================
-dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
+dcw_browse_Main_Window::dcw_browse_Main_Window
+                           (const std::string earth_model,
+                            QWidget *parent)
 
     : QMainWindow(parent),
       ui(new Ui::dcw_browse_Main_Window)
@@ -41,7 +43,7 @@ dcw_browse_Main_Window::dcw_browse_Main_Window(QWidget *parent)
 
     setCentralWidget(central);
 
-    map_window = new DCW_Browse(this);
+    map_window = new DCW_Browse(earth_model, this);
 
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
 

@@ -25,7 +25,10 @@ class dcw_browse_Main_Window : public QMainWindow
     Q_OBJECT
 
 public:
-    dcw_browse_Main_Window(QWidget *parent = nullptr);
+    dcw_browse_Main_Window
+          (const std::string earth_model,
+           QWidget *parent = nullptr);
+
     ~dcw_browse_Main_Window();
 
 public slots:

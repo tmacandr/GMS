@@ -19,9 +19,11 @@
 #include <QPolygonF>
 
 #include "dcw_browse.h"
+#include <gmsDcwUtilities.h>
 
-
-DCW_Browse::DCW_Browse(QWidget *parent)
+DCW_Browse::DCW_Browse
+               (const std::string earth_model,
+                QWidget           *parent)
 
    : QWidget(parent)
 
@@ -30,7 +32,11 @@ DCW_Browse::DCW_Browse(QWidget *parent)
 
    if ( not g_theBrowseMap )
    {
-       g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
+       gmsEarthModelType model;
+
+       model = toEarthModel(earth_model);
+
+       g_theBrowseMap = new gmsBrowseMapClass (model);
 
        if ( not g_theBrowseMap )
        {
