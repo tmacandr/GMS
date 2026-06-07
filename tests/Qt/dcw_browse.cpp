@@ -28,22 +28,31 @@ DCW_Browse::DCW_Browse(QWidget *parent)
 {
    std::cout << "------------------ DCW_Browse - begin ---------\n";
 
-   g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
-
    if ( not g_theBrowseMap )
    {
-       std::cout << "***> ERROR - allocate browse map fail\n";
+       g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
 
-       std::exit(99);
+       if ( not g_theBrowseMap )
+       {
+           std::cout << "***> ERROR - allocate browse map fail\n";
+
+           std::exit(99);
+       }
+
+       gmsSetMapZoomFactor(14000.0);
    }
-
-   gmsSetMapZoomFactor(14000.0);
 
    std::cout << "------------------ DCW_Browse - end ---------\n";
 }
 
 DCW_Browse::~DCW_Browse()
 {
+   if (g_theBrowseMap)
+   {
+       delete g_theBrowseMap;
+
+       g_theBrowseMap = nullptr;
+   }
 }
 
 //---------------------------------------------
@@ -122,25 +131,19 @@ void DCW_Browse::drawLibRef()
 {
    std::cout << "drawLibRef - begin\n";
 
-   #if 0
-   gms_2D_ScreenImageType tempImage;
-
-   std::cout << "DLR - A\n";
-
    if ( not g_theBrowseMap )
    {
        std::cout << "***> ERROR - browse map is NULL\n";
        std::exit(89);
    }
 
+   gms_2D_ScreenImageType tempImage;
+
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_LibRef);
 
-   std::cout << "DLR - B\n";
-
    drawImage
-      (Qt::yellow,
-       tempImage);
-   #endif
+       (Qt::darkMagenta,
+        tempImage);
 
    std::cout << "drawLibRef- end\n";
 }
