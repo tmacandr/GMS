@@ -133,7 +133,8 @@ nodeTableType *gmsGetNodeTable
 
    if (node_fd == (FILE *) NULL)
       {
-       printf("---> ERROR : unable to open NODE file: %s\n",
+       printf("***> ERROR - gmsGetNodeTable\n"
+              "***>       - unable to open NODE file: %s\n",
               nodeTableFilePath);
 
        return (nodeTableType *) NULL;
@@ -303,7 +304,8 @@ static void buildNodeTable
 
    else
       {
-       printf("*** ERROR : unknown theme for NODE table\n");
+       printf("*** ERROR - buildNodeTable - numRecords\n"
+              "***       - unknown theme for NODE table\n");
 
        return;
       }
@@ -351,9 +353,10 @@ static void buildNodeTable
               gmsReadInteger (node_fd);
           }
 
-       else if (theNodeTbl->kindOfNode == gmsThemeNode)
+       else
           {
-           printf("*** ERROR : unknown theme for NODE table\n");
+           printf("*** ERROR - buildNodeTable - fgn-key and face\n"
+                  "***>      - unknown theme for NODE table\n");
 
            return;
           }
