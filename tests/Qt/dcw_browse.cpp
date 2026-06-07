@@ -218,7 +218,6 @@ void DCW_Browse::drawLatLongGrid ()
 {
    std::cout << "drawLatLongGrid - begin\n";
 
-#if 0
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetLatitudeGrid();
@@ -232,7 +231,6 @@ void DCW_Browse::drawLatLongGrid ()
    drawImage
       (Qt::green,
        tempImage);
-#endif
 
    std::cout << "drawLatLongGrid - end\n";
 }
