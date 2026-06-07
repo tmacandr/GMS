@@ -14,6 +14,7 @@
 //        21-Feb-00 : 'gmsReadxxx' utils fail on SUN.  Memory mis-align
 //        03-Mar-00 : look for dcw_path.txt in current working dir too
 //        10-Mar-26 : DCW/VPF only has signed short, int, float, double
+//        06-Jun-26 : Per previous comment, no 'long'.  Add exit on find fail
 //
 // Description:
 //    Utilities that support the "Geographic Map System" (GMS) being
@@ -30,6 +31,8 @@
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------*/
+
+#include <iostream>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,8 +53,6 @@
 #define bytesPerShort sizeof(short)
 
 #define bytesPerInt   sizeof(int)
-
-#define bytesPerLong  sizeof(long)
 
 #define bytesPerFlt   sizeof(float)
 
@@ -560,7 +561,7 @@ bool gmsDirectoryExists
 
       return gmsFileExists(dirName);
 
-   #else
+   #else // WINDOWS
 
             BOOL   wasSuccessful;
             char   currentDir[128];
@@ -627,18 +628,18 @@ char *gmsGetDcwFullPath
 
 {
       static char *whichLibrary = NULL;
-      static char tempPath[512];
-      static char fullPath[1024];
+      static char tempPath[512] = { 0 };
+      static char fullPath[1024] = { 0 };
 
    if (VPF_File_Root == NULL)
-      {
+   {
        VPF_File_Root = buildVpfFileRoot();
-      }
+   }
 
    if (whichLibrary == NULL)
-      {
+   {
        whichLibrary = gmsGetDcwLibrary(VPF_File_Root);
-      }
+   }
 
    sprintf(tempPath, "%s", whichFile);
 
@@ -652,6 +653,15 @@ char *gmsGetDcwFullPath
            VPF_File_Root,
            whichLibrary,
            tempPath);
+
+   bool found = gmsFileExists(fullPath);
+
+   if (not found)
+   {
+       std::cout << "***> ERROR - gmsGetDcwFullPath\n";
+       std::cout << "***>       - file " << fullPath << " not found\n";
+       std::exit(101);
+   }
 
    return fullPath;
 }
@@ -673,8 +683,8 @@ char *gmsGetBrowseFullPath
                   (const char *whichFile)
 
 {
-      static char tempPath[512];
-      static char fullPath[1024];
+      static char tempPath[512]  = { 0 };
+      static char fullPath[1024] = { 0 };
 
    sprintf(tempPath, "%s", whichFile);
 
@@ -685,12 +695,21 @@ char *gmsGetBrowseFullPath
    #endif
 
    if (VPF_File_Root == NULL)
-      {
+   {
        VPF_File_Root = buildVpfFileRoot();
-      }
+   }
 
    sprintf(fullPath,
            "%s/BROWSE/%s", VPF_File_Root, tempPath);
+
+   bool found = gmsFileExists(fullPath);
+
+   if (not found)
+   {
+       std::cout << "***> ERROR - gmsGetBrowseFullPath\n";
+       std::cout << "***>       - file " << fullPath << " not found\n";
+       std::exit(101);
+   }
 
    return fullPath;
 }
@@ -713,20 +732,29 @@ char *gmsGetBrowseFullPath
 char *getDhtFile (void)
 
 {
-         static char DhtFile[256];
+         static char DhtFile[256] = { 0 };
          static char *theAnswer = NULL;
 
    if (theAnswer == NULL)
-      {
+   {
        if (VPF_File_Root == NULL)
-          {
+       {
            VPF_File_Root = buildVpfFileRoot();
-          }
+       }
 
        sprintf(DhtFile, "%s/DHT", VPF_File_Root);
 
        theAnswer = DhtFile;
-      }
+   }
+
+   bool found = gmsFileExists(theAnswer);
+
+   if (not found)
+   {
+       std::cout << "***> ERROR - getDhtFile\n";
+       std::cout << "***>       - file " << theAnswer << " not found\n";
+       std::exit(101);
+   }
 
    return theAnswer;
 }
@@ -749,20 +777,29 @@ char *getDhtFile (void)
 char *getLatFile (void)
 
 {
-         static char LatFile[256];
+         static char LatFile[256] = { 0 };
          static char *theAnswer = NULL;
 
    if (theAnswer == NULL)
-      {
+   {
        if (VPF_File_Root == NULL)
-          {
+       {
            VPF_File_Root = buildVpfFileRoot();
-          }
+       }
 
        sprintf(LatFile, "%s/LAT", VPF_File_Root);
 
        theAnswer = LatFile;
-      }
+   }
+
+   bool found = gmsFileExists(theAnswer);
+
+   if (not found)
+   {
+       std::cout << "***> ERROR - getLatFile\n";
+       std::cout << "***>       - file " << theAnswer << " not found\n";
+       std::exit(101);
+   }
 
    return theAnswer;
 }
@@ -926,8 +963,7 @@ static char *gmsGetDcwLibrary
 //    files are located on the current system.
 //    The following protocol is used:
 //
-//       1) If in a UNIX environment, the
-//          environmental variable "DCW_PATH"
+//       1) The environment, variable "DCW_PATH"
 //          is examined.  If it has been
 //          defined, it specifies the path
 //          to the DCW files.
@@ -956,7 +992,7 @@ static char *gmsGetDcwLibrary
 static char *buildVpfFileRoot(void)
 
 {
-         static char thePath[512];
+         static char thePath[512] = { 0 };
          #define     Num_Path_Files 10
          char        *pathFiles[Num_Path_Files] =
                         {
@@ -975,32 +1011,21 @@ static char *buildVpfFileRoot(void)
          int         i;
          FILE        *fd;
 
-   //#ifdef IS_UNIX
-
          char        *envPtr;
 
-      envPtr = getenv("DCW_PATH");
+   envPtr = getenv("DCW_PATH");
 
-      if (envPtr != NULL)
-         {
-          sprintf(thePath, "%s", envPtr);
+   if (envPtr != NULL)
+   {
+       sprintf(thePath, "%s", envPtr);
 
-          return thePath;
-         }
+       return thePath;
+   }
 
-   //#endif
 
    for (i = 0; i < Num_Path_Files; i++)
-      {
-       #ifdef IS_UNIX
-
-          sprintf(thePath, "%s", pathFiles[i]);
-
-       #else
-
-          sprintf(thePath, "C:%s", pathFiles[i]);
-
-       #endif
+   {
+       sprintf(thePath, "%s", pathFiles[i]);
 
        fileExists = gmsFileExists(thePath);
 
@@ -1048,7 +1073,12 @@ static char *buildVpfFileRoot(void)
    // All checks failed.*/
    // Go 'default'.     */
    //-------------------*/
-   sprintf(thePath, "/DCW");
+   std::cout << "***> ERROR - DCW Library not found\n";
 
-   return thePath;
+   std::exit(100);
+
+   return NULL;
 }
+
+/* EOF */
+
