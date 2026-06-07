@@ -6,6 +6,7 @@
 //       11-Jan-00 : moved file utils to 'gmsFileNameUtilities'
 //       22-Jan-00 : clean up the 'allocate/free' utilities.
 //       04-Feb-00 : added utils to get RNG and FAC tbls from EDG name
+//       07-Jun-26 : add util to convert 'string' to 'gmsEarthModelType'
 //
 // Description:
 //    Defines utilites to assist the GMS "Chart Graphics" toolkit.
@@ -14,6 +15,8 @@
 //---------------------------------------------------------------------------
 
 #ifndef GMS_DCW_UTILS
+
+   #include <string>
 
    #include <gmsTypesAndConstants.h>
    #include <gmsEdgeTable.h>
@@ -191,5 +194,13 @@
                              (int center_x,
                               int center_y,
                               int radius);
+
+   //-----------------------------------------------------*/
+   // toEarthModel
+   //
+   // Description:
+   //    Convert string to 'gmsEarthModelType'.
+   //-----------------------------------------------------*/
+   gmsEarthModelType toEarthModel(const std::string model);
 
 #endif

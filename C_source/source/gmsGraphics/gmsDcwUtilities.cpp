@@ -6,6 +6,7 @@
 //       11-Jan-00 : moved file utils to 'gmsFileNameUtilities'
 //       22-Jan-00 : clean up the 'allocate/free' utilities.
 //       04-Feb-00 : added utils to get RNG and FAC tbls from EDG name
+//       07-Jun-26 : add util to convert 'string' to 'gmsEarthModelType'
 //
 // Description:
 //    Defines utilites to assist the GMS "Chart Graphics" toolkit.
@@ -14,6 +15,8 @@
 //---------------------------------------------------------------------------*/
 
 #include <string.h>
+#include <iostream>
+
 #include <math.h>  // this must come first ... or the compiler blows */
 #include <gmsDcwUtilities.h>
 #include <gmsUtilities.h>
@@ -685,10 +688,30 @@ gms_2D_ScreenImageType gmsDraw_2D_Circle
    return theCircle;
 }
 
+//-----------------------------------------------------*/
+// toEarthModel
+//
+// Description:
+//    Convert string to 'gmsEarthModelType'.
+//-----------------------------------------------------*/
+gmsEarthModelType toEarthModel(const std::string model)
+{
+    if (model == "flat")
+       return gmsFlat;
+    else if (model == "sphere")
+       return gmsSphere;
+    else if (model == "ellipse")
+       return gmsEllipsoid;
+    else
+    {
+        std::cout << "***> ERROR - toEarthModel\n"
+                  << "***>       - Invalid Earth model specified\n"
+                  << "***>       - " << model << " is unknown form\n"
+                  << "***>       - Default to 'flat' earth model\n";
+ 
+        return gmsFlat;
+    } 
+}
 
-           //------------------------*/
-           //    Local Functions
-           //------------------------*/
-
-
+/* EOF */
 
