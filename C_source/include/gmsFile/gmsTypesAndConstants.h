@@ -7,6 +7,7 @@
  *       21-Dec-99 : moved enum lists of (browse and regional) themes here
  *       21-Dec-99 : added subtile and file-type enumerations
  *       07-Jan-00 : re-order enums in 'gmsDcwFileType', add more 'doc'
+ *       07-Jun-26 : remove 'static' on 'const' items
  *
  * Description:
  *    Common types and useful constants.
@@ -189,23 +190,23 @@
    /*-------------------------------------------------------
     *                   General Constants:
     *-------------------------------------------------------*/
-   static const float Max_Lat  = 90.00f;
+   const float Max_Lat  = 90.00f;
 
-   static const float Max_Long = 180.00f;
+   const float Max_Long = 180.00f;
 
-   static const float Min_Lat  = -90.00f;
+   const float Min_Lat  = -90.00f;
 
-   static const float Min_Long = -180.00f;
+   const float Min_Long = -180.00f;
 
-   static const double PI = 3.1415926535;
+   const double PI = 3.1415926535;
 
-   static const double degToRad = PI / 180.00;
+   const double degToRad = PI / 180.00;
 
-   static const double radToDeg = 180.00 / PI;
+   const double radToDeg = 180.00 / PI;
 
-   static const double Meters_Per_Km = 1000.0;
+   const double Meters_Per_Km = 1000.0;
 
-   static const double Km_Per_Meter = 0.001;
+   const double Km_Per_Meter = 0.001;
 
 
    /*-------------------------------------------------------
@@ -221,32 +222,33 @@
     *     Datum Geodetic Code= WGE
     *     Projection Name    = ROBINSON
     *-------------------------------------------------------*/
-   static const float Semi_Major_Axis_Meters = 6378137.0f;
+   const float Semi_Major_Axis_Meters = 6378137.0f;
 
-   static const float a_squared = 
-                         Semi_Major_Axis_Meters * Semi_Major_Axis_Meters;
+   const float a_squared = Semi_Major_Axis_Meters * Semi_Major_Axis_Meters;
 
-   static const float Semi_Minor_Axis_Meters = 6356752.0f;
+   const float Semi_Minor_Axis_Meters = 6356752.0f;
 
-   static const float b_squared =
-                         Semi_Minor_Axis_Meters * Semi_Minor_Axis_Meters;
+   const float b_squared = Semi_Minor_Axis_Meters * Semi_Minor_Axis_Meters;
 
-   static const float Axis_Ratio_Sqrd = b_squared / a_squared;
+   const float Axis_Ratio_Sqrd = b_squared / a_squared;
 
-   static const float Earth_Flattening =
+   const float Earth_Flattening =
              (Semi_Major_Axis_Meters - Semi_Minor_Axis_Meters) /
                          Semi_Major_Axis_Meters;
 
-   static const float f = Earth_Flattening;
+   const float f = Earth_Flattening;
 
-   static const float f_squared = f * f;
+   const float f_squared = f * f;
 
-   static const float First_Eccentricity = 0.081819791f; /* by hand */
+   const float First_Eccentricity = 0.081819791f; /* by hand */
 
-   static const float epsilon = First_Eccentricity;
+   const float epsilon = First_Eccentricity;
 
-   static const float First_Eccent_Sqrd = 2 * f - f_squared;
+   const float First_Eccent_Sqrd = 2 * f - f_squared;
 
-   static const float epsilon_sqrd = First_Eccent_Sqrd;
+   const float epsilon_sqrd = First_Eccent_Sqrd;
 
 #endif
+
+/* EOF */
+
