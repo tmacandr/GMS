@@ -163,12 +163,12 @@ void gmsPrintIndexRecord
    for (i = 0;
         i < theIndexTable->numberRecordsInTable;
         i++)
-      {
-       printf("  %d \t %ld \t\t %d\n",
+   {
+       printf("  %d \t %d \t\t %d\n",
               i,
               theIndexTable->indexList[i].byteOffset,
               theIndexTable->indexList[i].numBytes);
-      }
+   }
 
    printf("______________________________\n");
 }
@@ -212,10 +212,9 @@ static void buildIndexRecord
        numChars);
 
    for (i = 0; i < theIndexTable->numberRecordsInTable; i++)
-      {
-       theIndexTable->indexList[i].byteOffset =
-          (long) gmsReadInteger (index_fd);
+   {
+       theIndexTable->indexList[i].byteOffset = gmsReadInteger (index_fd);
 
        theIndexTable->indexList[i].numBytes = gmsReadInteger (index_fd);
-      }
+   }
 }
