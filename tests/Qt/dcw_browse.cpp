@@ -28,21 +28,16 @@ DCW_Browse::DCW_Browse(QWidget *parent)
 {
    std::cout << "------------------ DCW_Browse - begin ---------\n";
 
-   if (g_theBrowseMap == NULL)
+   g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
+
+   if ( not g_theBrowseMap )
    {
-      #if 0
-      g_theBrowseMap = new gmsBrowseMapClass (gmsEllipsoid);
+       std::cout << "***> ERROR - allocate browse map fail\n";
 
-      if ( not g_theBrowseMap )
-      {
-          std::cout << "***> ERROR - allocate browse map fail\n";
-
-          std::exit(99);
-      }
-      #endif
+       std::exit(99);
    }
 
-   //gmsSetMapZoomFactor(14000.0);
+   gmsSetMapZoomFactor(14000.0);
 
    std::cout << "------------------ DCW_Browse - end ---------\n";
 }
@@ -127,7 +122,7 @@ void DCW_Browse::drawLibRef()
 {
    std::cout << "drawLibRef - begin\n";
 
-#if 0
+   #if 0
    gms_2D_ScreenImageType tempImage;
 
    std::cout << "DLR - A\n";
@@ -145,7 +140,7 @@ void DCW_Browse::drawLibRef()
    drawImage
       (Qt::yellow,
        tempImage);
-#endif
+   #endif
 
    std::cout << "drawLibRef- end\n";
 }

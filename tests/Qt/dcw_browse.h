@@ -92,7 +92,7 @@ private:
 
    double            g_rotationDeg = 20.0;
 
-   gmsBrowseMapClass *g_theBrowseMap;
+   gmsBrowseMapClass *g_theBrowseMap = nullptr;
 
    double            g_zoomAmount = 5000.0;
 
@@ -100,5 +100,5 @@ private:
 
 #endif
 
-/* EOR */
+/* EOF */
 
