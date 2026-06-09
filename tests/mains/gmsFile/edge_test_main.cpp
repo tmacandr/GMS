@@ -4,12 +4,15 @@
 //        11-Aug-99 : made a version to run on SUN.
 //        12-Oct-99 : expanded due to major mods to "gmsEdgeTable"
 //        17-Nov-99 : use utils for path to VPF files
+//        09-Jun-26 : exit if EDG file not found (in DCW directory)
 //
 // Description:
 //    Console application to process "edge" data from the DCW library.
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------*/
+
+#include <cstdlib>
 
 #include <stdio.h>
 #include <gmsUtilities.h>
@@ -68,6 +71,12 @@ static void performEdgeTest
    printf("---> Edge Table %s:\n", fileName);
 
    theEDG = gmsGetEdgeTable (fileName);
+
+   if ( ! theEDG )
+   {
+       printf("***> ERROR - EDG table is NULL\n");
+       std::exit(1);
+   }
 
    gmsPrintEdgeTable (theEDG);
 

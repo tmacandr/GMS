@@ -1,12 +1,15 @@
 //----------------------------------------------------------------------------*/
 // File : edge_test_2.c
 // Date : 15-Dec-99 : initial definition.  Evolve from first edge test
+//        09-Jun-26 : exit if EDG file not found (in DCW directory)
 //
 // Description:
 //    Console application to process "edge" data from the DCW library.
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------*/
+
+#include <cstdlib>
 
 #include <stdio.h>
 #include <gmsUtilities.h>
@@ -65,6 +68,12 @@ static void performEdgeTest
    printf("---> Edge Table %s:\n", fileName);
 
    theEDG = gmsGetEdgeTable (fileName);
+
+   if ( ! theEDG )
+   {
+       printf("***> ERROR - EDG table is NULL\n");
+       std::exit(1);
+   }
 
    gmsPrintEdgeTable (theEDG);
 
