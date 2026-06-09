@@ -3,12 +3,15 @@
 // Date : 25-Aug-99 : initial defintion
 //        15-Sep-99 : still working it due to redesign of interface
 //        17-Nov-99 : use utils to get full path to VPF files
+//        09-Jun-26 : Exit if feature table (file) not found
 //
 // Description:
 //    Console application to exercise the "Feature Table" utilities.
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------*/
+
+#include <cstdlib>
 
 #include <stdio.h>
 #include <gmsUtilities.h>
@@ -59,6 +62,12 @@ int main (int  argc,
                                 (tempRec.theme,
                                  tempRec.featureFileName,
                                  tempRec.feature);
+
+       if ( ! tempRec.theFT )
+       {
+           printf("***> ERROR - Feature Table not found\n");
+           std::exit(1);
+       }
 
        gmsPrintFeatureTable (tempRec.theFT);
 
