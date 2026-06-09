@@ -164,7 +164,7 @@ void DCW_Browse::drawDrainage()
 
 {
    std::cout << "drawDrainage - begin\n";
-#if 0
+
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_DN);
@@ -172,7 +172,6 @@ void DCW_Browse::drawDrainage()
    drawImage
       (Qt::blue,
        tempImage);
-#endif
 
    std::cout << "drawDrainage- end\n";
 }
@@ -188,7 +187,6 @@ void DCW_Browse::drawPoliticalAndOceans()
 {
    std::cout << "drawPoliticalAndOceans - begin\n";
 
-#if 0
    gms_2D_ScreenImageType tempImage;
 
    tempImage = g_theBrowseMap->gmsGetBrowseMapImage (gmsBrowse_PO);
@@ -196,7 +194,6 @@ void DCW_Browse::drawPoliticalAndOceans()
    drawImage
       (Qt::red,
        tempImage);
-#endif
 
    std::cout << "drawPoliticalAndOceans - end\n";
 }
