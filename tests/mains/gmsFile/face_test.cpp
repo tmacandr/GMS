@@ -2,12 +2,15 @@
 // File : face_test.c
 // Date : 21-Sep-99 : initial defintion
 //        17-Nov-99 : use utils for full path to VPF files
+//        08-Jun-26 : Add exit if FACE file not found
 //
 // Description:
 //    Console application to exercise the "Face-Table" utilities.
 //
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------*/
+
+#include <cstdlib>
 
 #include <stdio.h>
 #include <gmsUtilities.h>
@@ -99,6 +102,12 @@ static void performFaceTest
    printf("---> Face Table : %s\n", fileName);
 
    facTbl = gmsGetFaceTable (fileName);
+
+   if ( ! facTbl )
+   {
+       printf("***> ERROR - FACE Table not found\n");
+       std::exit(1);
+   }
 
    gmsPrintFaceTable (facTbl);
 
