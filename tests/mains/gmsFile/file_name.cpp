@@ -119,6 +119,12 @@ static void performTest
               {
                name = gmsGetThemeDirName ( (gmsThematicType) i);
 
+               if ( ! name )
+               {
+                   printf("***> ERROR - get theme dir name NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                printf("%d) %s\n", i, name);
               }
 
@@ -134,6 +140,12 @@ static void performTest
               {
                name = gmsGetSubtileDirName ( (gmsSubtileType) i);
 
+               if ( ! name )
+               {
+                   printf("***> ERROR - get subTile dir name NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                printf("%d) %s\n", i, name);
               }
 
@@ -147,13 +159,19 @@ static void performTest
 
            for (i = 0; i < Num_Themes; i++)
               for (j = 0; j < Num_DCW_Files; j++)
-                 {
+              {
                   name = gmsGetRegionalFileName
                                ( (gmsThematicType) i,
                                  (gmsDcwFileType) j);
 
+                  if ( ! name )
+                  {
+                      printf("***> ERROR - get regional name NULL - fail\n");
+                      exit(EXIT_FAILURE);
+                  }
+
                   printf("%s\n", name);
-                 }
+              }
 
            break;
           }
@@ -169,11 +187,23 @@ static void performTest
 
                theme = gmsGetThemeDirName ( (gmsThematicType) i);
 
+               if ( ! theme )
+               {
+                   printf("***> ERROR - theme dir name is NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                for (j = 0; j < Num_DCW_Files; j++)
-                  {
+               {
                    name = gmsGetRegionalFileName
                                 ( (gmsThematicType) i,
                                   (gmsDcwFileType) j);
+
+                   if ( ! name )
+                   {
+                       printf("***> ERROR - regional file name is NULL - fail\n");
+                       exit(EXIT_FAILURE);
+                   }
 
                    count = gmsCountNumberOfThemeFiles
                                 ( (gmsThematicType) i,
@@ -193,12 +223,18 @@ static void performTest
            printf("Browse Dir Name:\n");
 
            for (i = 0; i < Num_Browse_Themes; i++)
-              {
+           {
                name = gmsGetBrowseDirName
                             ( (gmsBrowseThematicType) i);
 
+                if ( ! name )
+                {
+                    printf("***> ERROR - get browse dir name NULL - fail\n");
+                    exit(EXIT_FAILURE);
+                }
+
                printf("%d) %s\n", i, name);
-              }
+           }
 
            break;
           }
@@ -214,6 +250,12 @@ static void performTest
                   name = gmsGetBrowseFileName
                                ( (gmsBrowseThematicType) i,
                                  (gmsDcwFileType) j);
+
+                  if ( ! name )
+                  {
+                      printf("***> ERROR - get browse FILE name NULL - fail\n");
+                      exit(EXIT_FAILURE);
+                  }
 
                   printf("%s\n", name);
                  }
@@ -231,11 +273,23 @@ static void performTest
                theme = gmsGetBrowseDirName
                             ( (gmsBrowseThematicType) i);
 
+               if ( ! theme )
+               {
+                   printf("***> ERROR - get browse dir name for count NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                for (j = 0; j < Num_DCW_Files; j++)
                   {
                    name = gmsGetBrowseFileName
                                ( (gmsBrowseThematicType) i,
                                  (gmsDcwFileType) j);
+
+                   if ( ! name )
+                   {
+                       printf("***> ERROR - get browse file name - count NULL - fail\n");
+                       exit(EXIT_FAILURE);
+                   }
 
                    count = gmsCountNumberOfBrowseFiles
                                 ( (gmsBrowseThematicType) i,
@@ -258,9 +312,21 @@ static void performTest
               {
                name = gmsGetThemeDirName ( (gmsThematicType) i);
 
+               if ( ! name )
+               {
+                   printf("***> ERROR - get theme dir name for lists NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                printf("THEME ===> %s\n", name);
 
                fileList = gmsGetListOfThemeFiles ( (gmsThematicType) i);
+
+               if ( ! fileList )
+               {
+                   printf("***> ERROR - get list of theme files NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
 
                gmsPrintListOfThemeFiles (fileList);
 
@@ -282,12 +348,24 @@ static void performTest
               {
                name = gmsGetThemeDirName ( (gmsThematicType) i);
 
+               if ( ! name )
+               {
+                   printf("***> ERROR - get theme dir name for TILE - NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                printf("THEME ===> %s\n", name);
 
                fileList = gmsGetListOfTileFiles
                              ((gmsThematicType) i,
                               Long_Tile,
                               Lat_Tile);
+
+               if ( ! fileList )
+               {
+                   printf("***> ERROR - get list of Tiles NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
 
                gmsPrintListOfThemeFiles (fileList);
 
@@ -314,6 +392,12 @@ static void performTest
                browseList = gmsGetListOfBrowseFiles
                                ( (gmsBrowseThematicType) i);
 
+               if ( ! browseList )
+               {
+                   printf("***> ERROR - get browse list NULL - fail\n");
+                   exit(EXIT_FAILURE);
+               }
+
                gmsPrintListOfBrowseFiles (browseList);
 
                gmsFreeListOfBrowseFiles (&browseList);
@@ -330,3 +414,6 @@ static void performTest
           }
       }
 }
+
+/* EOF */
+
