@@ -32,158 +32,65 @@ DCW_Library_Mgr::DCW_Library_Mgr
                      const gmsEarthModelType model,
                      const std::string       root_directory);
 {
-   theGrid.~gmsLatLongGridClass();
+    const double initialZoomFactor = 3000.0;
+
+    gmsSetMapZoomFactor (initialZoomFactor);
+
+    gmsMoveFlatMap (gmsMoveNorth, (3 * g_moveAmount));
+
+    gmsMoveFlatMap (gmsMoveEast, (4 * g_moveAmount));
 }
+
 
 DCW_Library_Mgr::~DCW_Library_Mgr()
 {
-}
-
-void DCW_Library_Mgr::zoom(const ZOOM_T zoom)
-{
-}
-
-void DCW_Library_Mgr::move(const DIRECTION_T dir)
-{
+   theGrid.~gmsLatLongGridClass();
 }
 
 
-//-------------------------------------------------
-// WndProc
-//
-// Desciption:
-//    Callback routine to handle events to the
-//    window.
-//-------------------------------------------------
-void WndProc
-                           (HWND   windowHandle,
-                            UINT   theMsg,
-                            WPARAM wParam,
-                            LPARAM lParam)
-
+void DCW_Library_Mgr::zoom(const std::string z)
 {
-         LRESULT theResult = 0;
-
-   switch (theMsg)
-      {
-       case WM_CREATE:
-          {
-                    const double initialZoomFactor = 3000.0;
-
-           gmsSetMapZoomFactor (initialZoomFactor);
-
-           gmsMoveFlatMap (gmsMoveNorth, (3 * g_moveAmount));
-
-           gmsMoveFlatMap (gmsMoveEast, (4 * g_moveAmount));
-
-           break;
-          }
-
-       case WM_SIZE:
-          {
-           g_width = LOWORD (lParam);
-
-           g_height = HIWORD (lParam);
-
-           gmsSetWindowDimensions
-              (g_width,
-               g_height);
-
-           break;
-          }
-
-      case WM_PAINT:
-         {
-          performPaint ();
-
-          break;
-         }
+    if (z == "in")
+    {
+        gmsZoomIn (g_zoomAmount);
+    }
+    else
+    {
+        gmsZoomOut(g_zoomAmount);
+    }
 }
 
-
-//-------------------------------------------------
-// parseMenuButton
-//
-// Desciption:
-//    Routine to parse the selections from the
-//    main menu bar.
-//-------------------------------------------------
-static void parseMenuButton
-               (int whichCommand)
-
+void DCW_Library_Mgr::move(const std::string dir)
 {
-   switch (whichCommand)
-      {
-       case ID_FILE_SAVE_AS:
-          {
-           doScreenCapture ();
+    if (dir == "north")
+    {
+        gmsMoveFlatMap (gmsMoveNorth, g_moveAmount);
+    }
+    else if (dir == "sourth")
+    {
+        gmsMoveFlatMap (gmsMoveSouth, g_moveAmount);
+    }
+    else if (dir == "east")
+    {
+        gmsMoveFlatMap (gmsMoveEast, g_moveAmount);
+    }
+    else if (dir == "west")
+    {
+        gmsMoveFlatMap (gmsMoveWest, g_moveAmount);
+    }
+    else if (dir == "neutral")
+    {
+        gmsResetToNeutralOrientation();
+    }
+    else
+    {
+        std::cout << "***> ERROR - move\n"
+                  << "***>       - Uknown direction: " << dir << "\n";
+    }
+}
 
-           break;
-          }
-
-       case ID_Set_Font:
-          {
-           setNewFont ();
-
-           break;
-          }
-
-       case ID_FILE_EXIT:
-          {
-           PostQuitMessage (0);
-
-           break;
-          }
-
-       case ID_ZOOM_IN:
-          {
-           gmsZoomIn (g_zoomAmount);
-
-           break;
-          }
-
-       case ID_ZOOM_OUT:
-          {
-           gmsZoomOut(g_zoomAmount);
-
-           break;
-          }
-
-       case ID_MOVE_NORTH:
-          {
-           gmsMoveFlatMap (gmsMoveNorth, g_moveAmount);
-
-           break;
-          }
-
-       case ID_MOVE_SOUTH:
-          {
-           gmsMoveFlatMap (gmsMoveSouth, g_moveAmount);
-
-           break;
-          }
-
-       case ID_MOVE_EAST:
-          {
-           gmsMoveFlatMap (gmsMoveEast, g_moveAmount);
-
-           break;
-          }
-
-       case ID_MOVE_WEST:
-          {
-           gmsMoveFlatMap (gmsMoveWest, g_moveAmount);
-
-           break;
-          }
-
-       case ID_NEUTRAL_ORIENTATION:
-          {
-           gmsResetToNeutralOrientation();
-
-           break;
-          }
-
+void What_Are_These()
+{
        case ID_ZOOM_DIALOG:
           {
            if (g_zoomDlgHandle == (HWND) 0)
@@ -215,7 +122,10 @@ static void parseMenuButton
 
            break;
           }
+}
 
+void DCW_Library_Mgr::set_map_state(const std::string NNN)
+{
        case ID_LatLongGrid_OnOff:
           {
            g_latLongGridIsShown = ! g_latLongGridIsShown;
@@ -273,21 +183,15 @@ static void parseMenuButton
           }
 
        default:
-          {
-           MessageBoxA
-             (NULL,
-              "Unknown selection",
-              "Not Implemented?",
-              MB_OK);
+       {
+           std::cout << "***> ERROR - FIX ME\n"
+                     << "***>       - Uknown selection\n";
 
            break;
-          }
-      }
+       }
+    }
 
-   InvalidateRect
-      (g_windowHandle, 
-       NULL,  // the whole rectangle
-       TRUE); // erase?
+    update();
 }
 
 
@@ -349,10 +253,7 @@ static BOOL CALLBACK dlgProcZoomControl
 
                gmsSetMapZoomFactor (newZoomFactor);
 
-               InvalidateRect
-                  (g_windowHandle, 
-                   NULL,  // the whole rectangle
-                   TRUE); // erase?
+               update();
 
                break;
               }
@@ -430,10 +331,7 @@ static BOOL CALLBACK dlgProcMoveControl
 
                sscanf(charBuffer, "%f", &g_moveAmount);
 
-               InvalidateRect
-                  (g_windowHandle, 
-                   NULL,  // the whole rectangle
-                   TRUE); // erase?
+               update();
 
                break;
               }
@@ -457,7 +355,7 @@ static BOOL CALLBACK dlgProcMoveControl
 
 
 //-------------------------------------------------
-// performPaint
+// paint 
 //
 // Desciption:
 //    Routine to "paint" the graphics into the
@@ -465,42 +363,53 @@ static BOOL CALLBACK dlgProcMoveControl
 //    WM_PAINT event.  This indicates that the
 //    "canvas" needs to be refreshed.
 //-------------------------------------------------
-static void performPaint()
-
+void DCW_Library_Mgr::paintEvent(QPaintEvent *event)
 {
-       HDC         hDC;
-       PAINTSTRUCT paintStruct;
+   Q_UNUSED(event);
 
-   hDC = BeginPaint (g_windowHandle, &paintStruct);
+   int w = width();
+   int h = height();
 
+   gmsSetWindowDimensions(w, h);
+
+   drawMaps ();
+}
+
+//-------------------------------------------------
+// drawMaps
+//
+// Desciption:
+//    Draws each of the selected LIBRARY items to
+//    the canvas.
+//-------------------------------------------------
+void DCW_Library_Mgr::drawMaps()
+{
    if (g_handleToCurrentFont != (HFONT) 0)
       SelectObject (hDC, g_handleToCurrentFont);
 
    if (g_PO_polygonsAreShown)
-      draw_PO_Polygons (hDC);
+      draw_PO_Polygons ();
 
    if (g_DN_polygonsAreShown)
-      draw_DN_Polygons (hDC);
+      draw_DN_Polygons ();
 
    if (g_DN_linesAreShown)
-      draw_DN_Lines (hDC);
+      draw_DN_Lines ();
 
    if (g_HY_linesAreShown)
-      draw_HY_Lines (hDC);
+      draw_HY_Lines ();
 
    if (g_mapLinesAreShown)
-      drawMapLines (hDC);
+      drawMapLines ();
 
    if (g_textIsShown)
-      drawTextOfMap (hDC);
+      drawTextOfMap ();
 
    if (g_citiesAreShown)
-      drawCitiesOfMap (hDC);
+      drawCitiesOfMap ();
 
    if (g_latLongGridIsShown)
-      drawLatLongGrid (hDC);
-
-   EndPaint (g_windowHandle, &paintStruct);
+      drawLatLongGrid ();
 }
 
 
@@ -509,14 +418,11 @@ static void performPaint()
 //
 // Desciption:
 //-------------------------------------------------
-static void drawIndependentPoints
-               (HDC                       hDC,
-                COLORREF                  whichColor,
+void DCW_Library_Mgr::drawIndependentPoints
+               (Qt::GlobalColor           whichColor,
                 gms_2D_ScreenPolylineType thePoints)
 
 {
-         HPEN      newPen;
-         HGDIOBJ   oldPen;
          const int onePixelWide = 0;
          int       i;
 
@@ -528,14 +434,14 @@ static void drawIndependentPoints
    oldPen = SelectObject (hDC, newPen);
 
    for (i = 0; i < thePoints.numPoints; i++)
-      {
+   {
        Rectangle
           (hDC,
            thePoints.points[i].x,
            thePoints.points[i].y,
            thePoints.points[i].x + 4,
            thePoints.points[i].y + 4);
-      }
+   }
 
    SelectObject (hDC, oldPen);
 
@@ -548,10 +454,9 @@ static void drawIndependentPoints
 //
 // Desciption:
 //-------------------------------------------------
-static void annotateMap
-               (HDC                 hDC,
-                COLORREF            whichColor,
-                gmsMapTextArrayType theText)
+static void DCW_Library_Mgr::annotateMap
+                                (Qt::GlobalColor     whichColor,
+                                 gmsMapTextArrayType theText)
 
 {
       int i;
@@ -572,92 +477,43 @@ static void annotateMap
 // drawImage
 //
 // Desciption:
+//    Duplicate of what's in 'dcw_browse.cpp'.
 //-------------------------------------------------
-static void drawImage
-               (HDC                    hDC,
-                COLORREF               whichColor,
-                gms_2D_ScreenImageType mapImage)
-
+void DCW_Library_Mgr::drawImage
+               (Qt::GlobalColor        whichColor,
+                gms_2D_ScreenImageType theImage)
 {
-         int       i, j;
-         HPEN      newPen;
-         HGDIOBJ   oldPen;
-         const int onePixelWide = 0;
+   std::cout << "library - drawImage - begin\n";
 
-   newPen = CreatePen
-               (PS_SOLID,
-                onePixelWide,
-                whichColor);
+   int i;
+   int j;
 
-   oldPen = SelectObject (hDC, newPen);
+   QPainter painter(this);
 
-   for (i = 0; i < mapImage.numLines; i++)
-      for (j = 0; j < (mapImage.imageLines[i].numPoints - 1); j++)
-         {
-          if (gmsIsVisibleLine
-                 (mapImage.imageLines[i].points[j],
-                  mapImage.imageLines[i].points[j + 1]) )
-             {
-              MoveToEx
-                 (hDC,
-                  mapImage.imageLines[i].points[j].x,
-                  mapImage.imageLines[i].points[j].y,
-                  NULL);
+   painter.setPen(whichColor);
 
-              LineTo
-                 (hDC,
-                  mapImage.imageLines[i].points[j + 1].x,
-                  mapImage.imageLines[i].points[j + 1].y);
-             }
-         }
+   for (i = 0; i < theImage.numLines; i++)
+   {
+      for (j = 0; j < (theImage.imageLines[i].numPoints - 1); j++)
+      {
+          // is this still needed?
+          bool is_visible = gmsIsVisibleLine
+                               (theImage.imageLines[i].points[j],
+                                theImage.imageLines[i].points[j + 1]); 
 
-   SelectObject (hDC, oldPen);
+          if (is_visible)
+          {
+              QLine line(theImage.imageLines[i].points[j].x,
+                         theImage.imageLines[i].points[j].y,
+                         theImage.imageLines[i].points[j + 1].x,
+                         theImage.imageLines[i].points[j + 1].y);
 
-   DeleteObject (newPen);
-}
+              painter.drawLine(line);
+          }
+      }
+   }
 
-
-//-------------------------------------------------
-// drawImage
-//
-// Desciption:
-//-------------------------------------------------
-static void drawUncheckedImage
-               (HDC                    hDC,
-                COLORREF               whichColor,
-                gms_2D_ScreenImageType mapImage)
-
-{
-         int       i, j;
-         HPEN      newPen;
-         HGDIOBJ   oldPen;
-         const int onePixelWide = 0;
-
-   newPen = CreatePen
-               (PS_SOLID,
-                onePixelWide,
-                whichColor);
-
-   oldPen = SelectObject (hDC, newPen);
-
-   for (i = 0; i < mapImage.numLines; i++)
-      for (j = 0; j < (mapImage.imageLines[i].numPoints - 1); j++)
-         {
-          MoveToEx
-             (hDC,
-              mapImage.imageLines[i].points[j].x,
-              mapImage.imageLines[i].points[j].y,
-              NULL);
-
-          LineTo
-             (hDC,
-              mapImage.imageLines[i].points[j + 1].x,
-              mapImage.imageLines[i].points[j + 1].y);
-         }
-
-   SelectObject (hDC, oldPen);
-
-   DeleteObject (newPen);
+   std::cout << "library - drawImage - end\n";
 }
 
 
@@ -667,9 +523,8 @@ static void drawUncheckedImage
 // Desciption:
 //-------------------------------------------------
 static void drawPolygonImage
-               (HDC                    hDC,
-                COLORREF               borderColor,
-                COLORREF               fillColor,
+               (Qt::GlobalColor        borderColor,
+                Qt::GlobalColor        fillColor,
                 gms_2D_ScreenImageType mapImage)
 
 {
@@ -697,12 +552,12 @@ static void drawPolygonImage
    oldBrush = SelectObject (hDC, newBrush);
 
    for (i = 0; i < mapImage.numLines; i++)
-      {
+   {
        Polygon
           (hDC,
            (POINT *) mapImage.imageLines[i].points,
            mapImage.imageLines[i].numPoints);
-       }
+   }
 
    SelectObject (hDC, oldBrush);
 
@@ -719,9 +574,7 @@ static void drawPolygonImage
 //
 // Desciption:
 //-------------------------------------------------
-static void drawMapLines
-               (HDC hDC)
-
+void DCW_Library_Mgr::drawMapLines()
 {
          int                    i;
          int                    numMaps;
@@ -733,14 +586,14 @@ static void drawMapLines
                               numMaps);
 
    for (i = 0; i < numMaps; i++)
-      {
+   {
        mapImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
           (hDC,
            RED,
            mapImage);
-      }
+   }
 }
 
 
@@ -749,9 +602,7 @@ static void drawMapLines
 //
 // Desciption:
 //-------------------------------------------------
-static void draw_PO_Polygons
-               (HDC hDC)
-
+void DCW_Library_Mgr::draw_PO_Polygons()
 {
          int                    i;
          int                    numPolygonObjs;
@@ -761,15 +612,15 @@ static void draw_PO_Polygons
    ptrToPolygonObjs = theTileMap.gmsGetTile_PO_Polygons (numPolygonObjs);
 
    for (i = 0; i < numPolygonObjs; i++)
-      {
+   {
        polygonImage = ptrToPolygonObjs[i]->gmsGetLandAreas ();
 
        drawPolygonImage
           (hDC,
-           DARK_GREEN,
-           DARK_GREEN,
+           DARK_Qt::green,
+           DARK_Qt::green,
            polygonImage);
-      }
+   }
 }
 
 
@@ -778,9 +629,7 @@ static void draw_PO_Polygons
 //
 // Desciption:
 //-------------------------------------------------
-static void draw_DN_Polygons
-               (HDC hDC)
-
+void DCW_Library_Mgr::draw_DN_Polygons()
 {
          int                    i;
          int                    numPolygonObjs;
@@ -790,7 +639,7 @@ static void draw_DN_Polygons
    ptrToPolygonObjs = theTileMap.gmsGetTile_DN_Polygons (numPolygonObjs);
 
    for (i = 0; i < numPolygonObjs; i++)
-      {
+   {
        theImage = ptrToPolygonObjs[i]->gmsGetInlandWaterAreas ();
 
        drawPolygonImage
@@ -798,7 +647,7 @@ static void draw_DN_Polygons
            DODGER_BLUE,
            DODGER_BLUE,
            theImage);
-      }
+   }
 }
 
 
@@ -807,9 +656,7 @@ static void draw_DN_Polygons
 //
 // Desciption:
 //-------------------------------------------------
-static void draw_DN_Lines
-               (HDC hDC)
-
+void DCW_Library_Mgr::draw_DN_Lines()
 {
          int                    i;
          int                    numMaps;
@@ -821,14 +668,14 @@ static void draw_DN_Lines
                               numMaps);
 
    for (i = 0; i < numMaps; i++)
-      {
+   {
        theImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
           (hDC,
            BLUE,
            theImage);
-      }
+   }
 }
 
 
@@ -837,9 +684,7 @@ static void draw_DN_Lines
 //
 // Desciption:
 //-------------------------------------------------
-static void draw_HY_Lines
-               (HDC hDC)
-
+void DCW_Library_Mgr::draw_HY_Lines()
 {
          int                    i;
          int                    numMaps;
@@ -851,14 +696,14 @@ static void draw_HY_Lines
                               numMaps);
 
    for (i = 0; i < numMaps; i++)
-      {
+   {
        theImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
           (hDC,
            YELLOW,
            theImage);
-      }
+   }
 }
 
 
@@ -867,9 +712,7 @@ static void draw_HY_Lines
 //
 // Desciption:
 //-------------------------------------------------
-static void drawTextOfMap
-               (HDC hDC)
-
+void DCW_Library_Mgr::drawTextOfMap()
 {
          int                  i;
          int                  numMaps;
@@ -881,7 +724,7 @@ static void drawTextOfMap
                               numMaps);
 
    for (i = 0; i < numMaps; i++)
-      {
+   {
        textData = ptrToText[i]->gmsGetTextItems ();
 
        textData.numTextRecords = textData.numTextRecords / 2;
@@ -890,7 +733,7 @@ static void drawTextOfMap
           (hDC,
            BLACK,
            textData);
-      }
+   }
 }
 
 
@@ -899,9 +742,7 @@ static void drawTextOfMap
 //
 // Desciption:
 //-------------------------------------------------
-static void drawCitiesOfMap
-               (HDC hDC)
-
+void DCW_Library_Mgr::drawCitiesOfMap()
 {
          int                       i;
          int                       numObjs;
@@ -913,14 +754,14 @@ static void drawCitiesOfMap
                               numObjs);
 
    for (i = 0; i < numObjs; i++)
-      {
+   {
        nodeImage = ptrToNodes[i]->gmsGetNodePoints ();
 
        drawIndependentPoints
           (hDC,
            BLACK,
            nodeImage);
-      }
+   }
 
          int                  numMaps;
          gmsTextClass         **ptrToText;
@@ -931,14 +772,14 @@ static void drawCitiesOfMap
                               numMaps);
 
    for (i = 0; i < numMaps; i++)
-      {
+   {
        textData = ptrToText[i]->gmsGetTextItems ();
 
        annotateMap
           (hDC,
            BLACK,
            textData);
-      }
+   }
 }
 
 
@@ -949,30 +790,21 @@ static void drawCitiesOfMap
 //    Routine that draws lat/long lines to enhance
 //    the ellipsoid aspect of the globe.
 //-------------------------------------------------
-static void drawLatLongGrid
-               (HDC hDC)
+static void drawLatLongGrid ()
 
 {
          gms_2D_ScreenImageType gridImage;
 
-   //
-   // Draw the Latitude grid lines
-   //
    gridImage = theGrid.gmsGetLatitudeGrid();
 
-   drawUncheckedImage
-      (hDC,
-       GREEN,
+   drawImage
+      (Qt::green,
        gridImage);
 
-   //
-   // Draw the longitude grid lines
-   //
    gridImage = theGrid.gmsGetLongitudeGrid();
 
-   drawUncheckedImage
-      (hDC,
-       GREEN,
+   drawImage
+      (Qt::green,
        gridImage);
 }
 
@@ -982,71 +814,8 @@ static void drawLatLongGrid
 //
 // Desciption:
 //-------------------------------------------------
-static void doScreenCapture ()
-
+void DCW_Library_Mgr::doScreenCapture ()
 {
-         static bool          isInitialized = false;
-         static OPENFILENAMEA infoFromSaveAsDlg; // Regular ASCII
-         static char          *fileFilter   =
-            { "Bitmap Files (*.dib)\0*.dib\0 GIF Files (*.gif)\0*.gif\0\0" };
-         static char          *defExtension = { "dib" };
-         static char          fileName[MAX_PATH];
-         static char          fileTitle[MAX_PATH];
-         static BOOL          dlgIsOk;
-
-   if ( ! isInitialized )
-      {
-       ZeroMemory
-          ( (void *) &infoFromSaveAsDlg,
-            sizeof(infoFromSaveAsDlg) );
-
-       infoFromSaveAsDlg.lStructSize       = sizeof (OPENFILENAMEA);
-       infoFromSaveAsDlg.hwndOwner         = g_windowHandle;
-       infoFromSaveAsDlg.hInstance         = NULL;
-       infoFromSaveAsDlg.lpstrFilter       = fileFilter;
-       infoFromSaveAsDlg.lpstrCustomFilter = NULL;
-       infoFromSaveAsDlg.nMaxCustFilter    = 0;
-       infoFromSaveAsDlg.nFilterIndex      = 0;;
-       infoFromSaveAsDlg.lpstrFile         = NULL;
-       infoFromSaveAsDlg.nMaxFile          = MAX_PATH;
-       infoFromSaveAsDlg.lpstrFileTitle    = NULL;
-       infoFromSaveAsDlg.nMaxFileTitle     = MAX_PATH;
-       infoFromSaveAsDlg.lpstrInitialDir   = NULL;
-       infoFromSaveAsDlg.lpstrTitle        = NULL;
-       infoFromSaveAsDlg.Flags             = 0;
-       infoFromSaveAsDlg.nFileOffset       = 0;
-       infoFromSaveAsDlg.nFileExtension    = 0;
-       infoFromSaveAsDlg.lpstrDefExt       = defExtension;
-       infoFromSaveAsDlg.lCustData         = (LONG) 0;
-       infoFromSaveAsDlg.lpfnHook          = NULL;
-       infoFromSaveAsDlg.lpTemplateName    = NULL;
-
-       isInitialized = true;
-      }
-
-   infoFromSaveAsDlg.lpstrFile      = fileName;
-   infoFromSaveAsDlg.lpstrFileTitle = fileTitle;
-
-   dlgIsOk = GetSaveFileNameA (&infoFromSaveAsDlg);
-
-   if ( ! dlgIsOk )
-      {
-       return;  // i.e. CANCEL
-      }
-
-   {
-         gmsBitmapClass theBitmap(g_windowHandle);
-
-    theBitmap.gmsSaveBitmap (fileName);
-
-    theBitmap.gmsPrintContentsOfBitmap("C:\\Temp\\test_bitmap.txt");
-   }
-
-   MessageBoxA
-      (NULL,
-       fileName,  // <--- full path + file name
-       fileTitle, // <--- file name only
-       MB_OK);
 }
 
 
@@ -1055,8 +824,7 @@ static void doScreenCapture ()
 //
 // Desciption:
 //-------------------------------------------------
-static void setNewFont ()
-
+void DCW_Library_Mgr::setNewFont ()
 {
          static bool       isInitialized = false;
          static CHOOSEFONT infoFromFontDlg;
@@ -1066,7 +834,7 @@ static void setNewFont ()
          BOOL              dlgIsOk;
 
    if ( ! isInitialized )
-      {
+   {
        infoFromFontDlg.lStructSize            = sizeof(infoFromFontDlg);
        infoFromFontDlg.hwndOwner              = g_windowHandle;
        infoFromFontDlg.hDC                    = NULL; 
@@ -1101,9 +869,9 @@ static void setNewFont ()
    dlgIsOk = ChooseFont (&infoFromFontDlg);
 
    if ( ! dlgIsOk )
-      {
+   {
        return;  // i.e. CANCEL
-      }
+   }
 
    handleToNewFont = CreateFontIndirect (&logFont);
 

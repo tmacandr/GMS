@@ -89,6 +89,11 @@ private:
    void drawPolygonImage();
 
    void drawLatLongGrid();
+
+   void drawImage
+           (Qt::GlobalColor        whichColor,
+            gms_2D_ScreenImageType theImage);
+
 };
 
 #endif // DCW_LIBRARY_MGR_
