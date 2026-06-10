@@ -32,8 +32,6 @@ DCW_Browse::DCW_Browse
 
    if ( not g_theBrowseMap )
    {
-       gmsEarthModelType model;
-
        model = toEarthModel(earth_model);
 
        g_theBrowseMap = new gmsBrowseMapClass (model);
@@ -246,9 +244,7 @@ void DCW_Browse::drawLatLongGrid ()
 //---------------------------------------------
 void DCW_Browse::drawImage
                (Qt::GlobalColor        whichColor,
-                gms_2D_ScreenImageType theImage,
-                bool                   isChecked)
-
+                gms_2D_ScreenImageType theImage)
 {
    std::cout << "drawImage - begin\n";
 
@@ -263,18 +259,12 @@ void DCW_Browse::drawImage
    {
       for (j = 0; j < (theImage.imageLines[i].numPoints - 1); j++)
       {
-          if ( ! isChecked )
-          {
-              QLine line(theImage.imageLines[i].points[j].x,
-                         theImage.imageLines[i].points[j].y,
-                         theImage.imageLines[i].points[j + 1].x,
-                         theImage.imageLines[i].points[j + 1].y);
+          // is this still needed?
+          bool is_visible = gmsIsVisibleLine
+                               (theImage.imageLines[i].points[j],
+                                theImage.imageLines[i].points[j + 1]);
 
-              painter.drawLine(line);
-          }
-          else if (gmsIsVisibleLine
-                         (theImage.imageLines[i].points[j],
-                          theImage.imageLines[i].points[j + 1]) )
+          if (is_visible)
           {
               QLine line(theImage.imageLines[i].points[j].x,
                          theImage.imageLines[i].points[j].y,
@@ -340,9 +330,9 @@ void DCW_Browse::paintEvent(QPaintEvent *event)
 //
 // Description:
 //---------------------------------------------
-void DCW_Browse::zoom(const ZOOM_T zoom)
+void DCW_Browse::zoom(const std::string z)
 {
-   if (zoom == IN)
+   if (z == "in")
    {
        gmsZoomIn (g_zoomAmount);
    }
@@ -360,23 +350,29 @@ void DCW_Browse::zoom(const ZOOM_T zoom)
 //
 // Description:
 //---------------------------------------------
-void DCW_Browse::move(const DIRECTION_T dir)
+void DCW_Browse::move(const std::string dir)
 {
-   if (dir == NORTH)
+   if (model == gmsFlat)
    {
-      gmsSet_X_Rotation (g_rotationDeg);
    }
-   else if (dir == SOUTH)
+   else // sphere or ellipse
    {
-      gmsSet_X_Rotation (-g_rotationDeg);
-   }
-   else if (dir == EAST)
-   {
-      gmsSet_Y_Rotation (-g_rotationDeg);
-   }
-   else
-   {
-      gmsSet_Y_Rotation (g_rotationDeg);
+       if (dir == "north")
+       {
+          gmsSet_X_Rotation (g_rotationDeg);
+       }
+       else if (dir == "south")
+       {
+          gmsSet_X_Rotation (-g_rotationDeg);
+       }
+       else if (dir == "east")
+       {
+          gmsSet_Y_Rotation (-g_rotationDeg);
+       }
+       else
+       {
+          gmsSet_Y_Rotation (g_rotationDeg);
+       }
    }
 
    update();

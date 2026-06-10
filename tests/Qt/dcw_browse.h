@@ -18,20 +18,6 @@
 #include <gmsUtilities.h>
 
 
-typedef enum
-         {
-            IN,
-            OUT
-         } ZOOM_T;
-
-typedef enum
-         {
-            NORTH,
-            SOUTH,
-            EAST,
-            WEST
-         } DIRECTION_T;
-
 class DCW_Browse : public QWidget
 {
     Q_OBJECT
@@ -47,9 +33,9 @@ public:
    void setMapState(const gmsBrowseThematicType which_map,
                     const bool                  is_clicked);
 
-   void zoom(const ZOOM_T zoom);
+   void zoom(const std::string z);
 
-   void move(const DIRECTION_T dir);
+   void move(const std::string dir);
 
 protected:
 
@@ -75,22 +61,23 @@ private:
 
    void drawImage
            (Qt::GlobalColor        whichColor,
-            gms_2D_ScreenImageType theImage,
-            bool                   isChecked = true);
+            gms_2D_ScreenImageType theImage);
 
    void drawIndependentPoints
            (Qt::GlobalColor           whichColor,
             gms_2D_ScreenPolylineType thePoints);
 
-   bool      g_themeIsShown[Num_Browse_Themes] = { false,
-                                                   false,
-                                                   false,
-                                                   false,
-                                                   false,
-                                                   false,
-                                                   false,
-                                                   false,
-                                                   true }; // LibRef
+   gmsEarthModelType model;
+
+   bool g_themeIsShown[Num_Browse_Themes] = { false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              true }; // LibRef
 
    double            g_rotationDeg = 20.0;
 
