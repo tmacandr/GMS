@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// File : dcw_library_mgr.h
+// File : dcw_library_mgr.cpp
 // Date : 08-Jun-26 : initial definition - evolve from "soamafr_demo.cpp"
 //
 // Description:
@@ -13,13 +13,18 @@
 // Copyright (c) 1999-2026, Timothy MacAndrew, all rights reserved
 //----------------------------------------------------------------------------
 
+#include <iostream>
+
 #include <stdio.h>
+
+#include <QPainter>
+#include <QPaintEvent>
+#include <QPointF>
+#include <QPolygonF>
 
 #include "dcw_library_mgr.h"
 
-#include <gmsColors.h>
 #include <gmsDebugUtil.h>
-#include <gmsBitmapClass.h>
 #include <gmsLatLongGridClass.h>
 #include <gmsTileClass.h>
 #include <gmsMapStateMgr.h>
@@ -30,8 +35,16 @@
 DCW_Library_Mgr::DCW_Library_Mgr
                     (const std::string       lib_name,
                      const gmsEarthModelType model,
-                     const std::string       root_directory);
+                     const std::string       root_directory,
+                     QWidget                 *parent)
+
+   : QWidget(parent)
+
 {
+    Q_UNUSED(lib_name);
+    Q_UNUSED(model);
+    Q_UNUSED(root_directory);
+
     const double initialZoomFactor = 3000.0;
 
     gmsSetMapZoomFactor (initialZoomFactor);
@@ -44,7 +57,9 @@ DCW_Library_Mgr::DCW_Library_Mgr
 
 DCW_Library_Mgr::~DCW_Library_Mgr()
 {
+   #if 0
    theGrid.~gmsLatLongGridClass();
+   #endif
 }
 
 
@@ -58,6 +73,8 @@ void DCW_Library_Mgr::zoom(const std::string z)
     {
         gmsZoomOut(g_zoomAmount);
     }
+
+    update();
 }
 
 void DCW_Library_Mgr::move(const std::string dir)
@@ -87,8 +104,20 @@ void DCW_Library_Mgr::move(const std::string dir)
         std::cout << "***> ERROR - move\n"
                   << "***>       - Uknown direction: " << dir << "\n";
     }
+
+    update();
 }
 
+void DCW_Library_Mgr::set_map_feature
+           (const MAP_FEATURE_T feature,
+            const bool          state)
+{
+    featureIsShown[feature] = state;
+
+    update();
+}
+
+#if 0
 void What_Are_These()
 {
        case ID_ZOOM_DIALOG:
@@ -123,234 +152,34 @@ void What_Are_These()
            break;
           }
 }
+#endif
 
-void DCW_Library_Mgr::set_map_state(const std::string NNN)
+//-----------------------------------------------
+// FUNCTION: set_zoom_factor 
+//
+// DESCRIPTION:
+//    Resets the zoom factor.
+//-----------------------------------------------
+void DCW_Library_Mgr::set_zoom_factor(const double newZoomFactor)
 {
-       case ID_LatLongGrid_OnOff:
-          {
-           g_latLongGridIsShown = ! g_latLongGridIsShown;
-
-           break;
-          }
-
-       case ID_Map_Borders_OnOff:
-          {
-           g_mapLinesAreShown = ! g_mapLinesAreShown;
-
-           break;
-          }
-
-       case ID_PO_Polygons_OnOff:
-          {
-           g_PO_polygonsAreShown = ! g_PO_polygonsAreShown;
-
-           break;
-          }
-
-       case ID_DN_Polygons_OnOff:
-          {
-           g_DN_polygonsAreShown = ! g_DN_polygonsAreShown;
-
-           break;
-          }
-
-       case ID_DN_Lines_OnOff:
-          {
-           g_DN_linesAreShown = ! g_DN_linesAreShown;
-
-           break;
-          }
-
-       case ID_Text_OnOff:
-          {
-           g_textIsShown = ! g_textIsShown;
-
-           break;
-          }
-
-       case ID_Cities_OnOff:
-          {
-           g_citiesAreShown = ! g_citiesAreShown;
-
-           break;
-          }
-
-       case ID_HY_OnOff:
-          {
-           g_HY_linesAreShown = ! g_HY_linesAreShown;
-
-           break;
-          }
-
-       default:
-       {
-           std::cout << "***> ERROR - FIX ME\n"
-                     << "***>       - Uknown selection\n";
-
-           break;
-       }
-    }
+    gmsSetMapZoomFactor (newZoomFactor);
 
     update();
 }
 
 
-//-------------------------------------------------
-// dlgProcZoomControl
+//-----------------------------------------------
+// FUNCTION: set_move_factor 
 //
-// Desciption:
-//    This routine is the callback for the "Zoom-
-//    Control-Dialog".  The operator is allowed to
-//    enter a zoom-factor.  This routine catches
-//    the input and sets the new zoom factor.
-//-------------------------------------------------
-static BOOL CALLBACK dlgProcZoomControl
-                           (HWND   dialogHandle,
-                            UINT   message,
-                            WPARAM wParam,
-                            LPARAM lParam)
-
+// DESCRIPTION:
+//    Resets the distance used for map 'move'
+//    operations.
+//-----------------------------------------------
+void DCW_Library_Mgr::set_move_factor(const float newMoveFactor)
 {
-         const int maxNumChars = 16;
-         char      charBuffer[maxNumChars];
-         UINT      numChars;
-         double    newZoomFactor;
+    g_moveAmount = newMoveFactor;
 
-   if (message == WM_INITDIALOG)
-      {
-       sprintf(charBuffer, "%.2lf", g_zoomAmount);
-
-       SetDlgItemTextA
-          (dialogHandle,
-           IDC_Zoom_Factor_Text,
-           charBuffer);
-
-       return TRUE;
-      }
-
-   else if (message == WM_CLOSE)
-      {
-       DestroyWindow (dialogHandle);
-
-       g_zoomDlgHandle = (HWND) 0;
-
-       return TRUE;
-      }
-
-   else if (message == WM_COMMAND)
-      {
-       switch LOWORD(wParam)
-          {
-           case ID_OK_Zoom_Ctrl:
-              {
-               numChars = GetDlgItemTextA
-                             (dialogHandle,
-                              IDC_Zoom_Factor_Text,
-                              charBuffer,
-                              maxNumChars - 1);
-
-               sscanf(charBuffer, "%lf", &newZoomFactor);
-
-               gmsSetMapZoomFactor (newZoomFactor);
-
-               update();
-
-               break;
-              }
-
-           case ID_CANCEL_Zoom_Ctrl:
-           case IDCANCEL:
-              {
-               DestroyWindow (dialogHandle);
-
-               g_zoomDlgHandle = (HWND) 0;
-
-               break;
-              }
-          }
-
-       return TRUE;
-      }
-
-   return FALSE;
-}
-
-
-//-------------------------------------------------
-// dlgProcMoveControl
-//
-// Desciption:
-//    This routine is the callback for the
-//    "Features-->Text" dialog.  The operator is
-//    allowed to specify the text features to be
-//    drawn on the map.
-//-------------------------------------------------
-static BOOL CALLBACK dlgProcMoveControl
-                           (HWND   dialogHandle,
-                            UINT   message,
-                            WPARAM wParam,
-                            LPARAM lParam)
-
-{
-         const int maxNumChars = 16;
-         char      charBuffer[maxNumChars];
-         UINT      numChars;
-
-   if (message == WM_INITDIALOG)
-      {
-       sprintf(charBuffer, "%.2f", g_moveAmount);
-
-       SetDlgItemTextA
-          (dialogHandle,
-           IDC_Move_Value_Text,
-           charBuffer);
-
-       return TRUE;
-      }
-
-   else if (message == WM_CLOSE)
-      {
-       DestroyWindow (dialogHandle);
-
-       g_moveDlgHandle = (HWND) 0;
-
-       return TRUE;
-      }
-
-   else if (message == WM_COMMAND)
-      {
-       switch LOWORD(wParam)
-          {
-           case ID_OK_Move:
-              {
-               numChars = GetDlgItemTextA
-                             (dialogHandle,
-                              IDC_Move_Value_Text,
-                              charBuffer,
-                              maxNumChars - 1);
-
-               sscanf(charBuffer, "%f", &g_moveAmount);
-
-               update();
-
-               break;
-              }
-
-           case ID_CANCEL_Move:
-           case IDCANCEL:
-              {
-               DestroyWindow (dialogHandle);
-
-               g_moveDlgHandle = (HWND) 0;
-
-               break;
-              }
-          }
-
-       return TRUE;
-      }
-
-   return FALSE;
+    update();
 }
 
 
@@ -372,7 +201,7 @@ void DCW_Library_Mgr::paintEvent(QPaintEvent *event)
 
    gmsSetWindowDimensions(w, h);
 
-   drawMaps ();
+   drawMaps();
 }
 
 //-------------------------------------------------
@@ -384,31 +213,33 @@ void DCW_Library_Mgr::paintEvent(QPaintEvent *event)
 //-------------------------------------------------
 void DCW_Library_Mgr::drawMaps()
 {
+   #if 0
    if (g_handleToCurrentFont != (HFONT) 0)
       SelectObject (hDC, g_handleToCurrentFont);
+   #endif
 
-   if (g_PO_polygonsAreShown)
+   if (featureIsShown[PO_polygons])
       draw_PO_Polygons ();
 
-   if (g_DN_polygonsAreShown)
+   if (featureIsShown[DN_polygons])
       draw_DN_Polygons ();
 
-   if (g_DN_linesAreShown)
+   if (featureIsShown[DN_lines])
       draw_DN_Lines ();
 
-   if (g_HY_linesAreShown)
+   if (featureIsShown[HY_lines])
       draw_HY_Lines ();
 
-   if (g_mapLinesAreShown)
+   if (featureIsShown[mapLines])
       drawMapLines ();
 
-   if (g_textIsShown)
+   if (featureIsShown[text])
       drawTextOfMap ();
 
-   if (g_citiesAreShown)
+   if (featureIsShown[cities])
       drawCitiesOfMap ();
 
-   if (g_latLongGridIsShown)
+   if (featureIsShown[latLongGrid])
       drawLatLongGrid ();
 }
 
@@ -423,6 +254,9 @@ void DCW_Library_Mgr::drawIndependentPoints
                 gms_2D_ScreenPolylineType thePoints)
 
 {
+Q_UNUSED(whichColor);
+Q_UNUSED(thePoints);
+   #if 0
          const int onePixelWide = 0;
          int       i;
 
@@ -446,6 +280,7 @@ void DCW_Library_Mgr::drawIndependentPoints
    SelectObject (hDC, oldPen);
 
    DeleteObject (newPen);
+   #endif
 }
 
 
@@ -454,11 +289,15 @@ void DCW_Library_Mgr::drawIndependentPoints
 //
 // Desciption:
 //-------------------------------------------------
-static void DCW_Library_Mgr::annotateMap
-                                (Qt::GlobalColor     whichColor,
-                                 gmsMapTextArrayType theText)
+void DCW_Library_Mgr::annotateMap
+                         (Qt::GlobalColor     whichColor,
+                          gmsMapTextArrayType theText)
 
 {
+Q_UNUSED(whichColor);
+Q_UNUSED(theText);
+
+   #if 0
       int i;
 
    for (i = 0; i < theText.numTextRecords; i++)
@@ -470,6 +309,7 @@ static void DCW_Library_Mgr::annotateMap
            theText.textRecords[i].theString,
            theText.textRecords[i].numChars);
       }
+   #endif
 }
 
 
@@ -522,12 +362,17 @@ void DCW_Library_Mgr::drawImage
 //
 // Desciption:
 //-------------------------------------------------
-static void drawPolygonImage
+void drawPolygonImage
                (Qt::GlobalColor        borderColor,
                 Qt::GlobalColor        fillColor,
                 gms_2D_ScreenImageType mapImage)
 
 {
+Q_UNUSED(borderColor);
+Q_UNUSED(fillColor);
+Q_UNUSED(mapImage);
+
+   #if 0
          int       i;
          HPEN      newPen;
          HGDIOBJ   oldPen;
@@ -566,6 +411,7 @@ static void drawPolygonImage
    SelectObject (hDC, oldPen);
 
    DeleteObject (newPen);
+   #endif
 }
 
 
@@ -576,6 +422,7 @@ static void drawPolygonImage
 //-------------------------------------------------
 void DCW_Library_Mgr::drawMapLines()
 {
+   #if 0
          int                    i;
          int                    numMaps;
          gmsMapClass            **ptrToMaps;
@@ -590,10 +437,10 @@ void DCW_Library_Mgr::drawMapLines()
        mapImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
-          (hDC,
-           RED,
+          (Qt::red,
            mapImage);
    }
+   #endif
 }
 
 
@@ -604,6 +451,7 @@ void DCW_Library_Mgr::drawMapLines()
 //-------------------------------------------------
 void DCW_Library_Mgr::draw_PO_Polygons()
 {
+   #if 0
          int                    i;
          int                    numPolygonObjs;
          gms_PO_PolygonMapClass **ptrToPolygonObjs;
@@ -616,11 +464,11 @@ void DCW_Library_Mgr::draw_PO_Polygons()
        polygonImage = ptrToPolygonObjs[i]->gmsGetLandAreas ();
 
        drawPolygonImage
-          (hDC,
-           DARK_Qt::green,
+          (DARK_Qt::green,
            DARK_Qt::green,
            polygonImage);
    }
+   #endif
 }
 
 
@@ -631,6 +479,7 @@ void DCW_Library_Mgr::draw_PO_Polygons()
 //-------------------------------------------------
 void DCW_Library_Mgr::draw_DN_Polygons()
 {
+   #if 0
          int                    i;
          int                    numPolygonObjs;
          gms_DN_PolygonMapClass **ptrToPolygonObjs;
@@ -643,11 +492,11 @@ void DCW_Library_Mgr::draw_DN_Polygons()
        theImage = ptrToPolygonObjs[i]->gmsGetInlandWaterAreas ();
 
        drawPolygonImage
-          (hDC,
-           DODGER_BLUE,
-           DODGER_BLUE,
+          (Qt::blue,
+           Qt::blue,
            theImage);
    }
+   #endif
 }
 
 
@@ -658,6 +507,7 @@ void DCW_Library_Mgr::draw_DN_Polygons()
 //-------------------------------------------------
 void DCW_Library_Mgr::draw_DN_Lines()
 {
+   #if 0
          int                    i;
          int                    numMaps;
          gmsMapClass            **ptrToMaps;
@@ -672,10 +522,10 @@ void DCW_Library_Mgr::draw_DN_Lines()
        theImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
-          (hDC,
-           BLUE,
+          (Qt::magenta,
            theImage);
    }
+   #endif
 }
 
 
@@ -686,6 +536,7 @@ void DCW_Library_Mgr::draw_DN_Lines()
 //-------------------------------------------------
 void DCW_Library_Mgr::draw_HY_Lines()
 {
+   #if 0
          int                    i;
          int                    numMaps;
          gmsMapClass            **ptrToMaps;
@@ -700,10 +551,10 @@ void DCW_Library_Mgr::draw_HY_Lines()
        theImage = ptrToMaps[i]->gmsGetMapImage ();
 
        drawImage
-          (hDC,
-           YELLOW,
+          (Qt::yellow,
            theImage);
    }
+   #endif
 }
 
 
@@ -714,6 +565,7 @@ void DCW_Library_Mgr::draw_HY_Lines()
 //-------------------------------------------------
 void DCW_Library_Mgr::drawTextOfMap()
 {
+   #if 0
          int                  i;
          int                  numMaps;
          gmsTextClass         **ptrToText;
@@ -727,13 +579,14 @@ void DCW_Library_Mgr::drawTextOfMap()
    {
        textData = ptrToText[i]->gmsGetTextItems ();
 
+       // what's this?
        textData.numTextRecords = textData.numTextRecords / 2;
 
        annotateMap
-          (hDC,
-           BLACK,
+          (Qt::black,
            textData);
    }
+   #endif
 }
 
 
@@ -744,6 +597,7 @@ void DCW_Library_Mgr::drawTextOfMap()
 //-------------------------------------------------
 void DCW_Library_Mgr::drawCitiesOfMap()
 {
+   #if 0
          int                       i;
          int                       numObjs;
          gmsNodeClass              **ptrToNodes;
@@ -758,8 +612,7 @@ void DCW_Library_Mgr::drawCitiesOfMap()
        nodeImage = ptrToNodes[i]->gmsGetNodePoints ();
 
        drawIndependentPoints
-          (hDC,
-           BLACK,
+          (Qt::black,
            nodeImage);
    }
 
@@ -776,10 +629,10 @@ void DCW_Library_Mgr::drawCitiesOfMap()
        textData = ptrToText[i]->gmsGetTextItems ();
 
        annotateMap
-          (hDC,
-           BLACK,
+          (Qt::black,
            textData);
    }
+   #endif
 }
 
 
@@ -790,9 +643,10 @@ void DCW_Library_Mgr::drawCitiesOfMap()
 //    Routine that draws lat/long lines to enhance
 //    the ellipsoid aspect of the globe.
 //-------------------------------------------------
-static void drawLatLongGrid ()
+void DCW_Library_Mgr::drawLatLongGrid ()
 
 {
+   #if 0
          gms_2D_ScreenImageType gridImage;
 
    gridImage = theGrid.gmsGetLatitudeGrid();
@@ -806,9 +660,10 @@ static void drawLatLongGrid ()
    drawImage
       (Qt::green,
        gridImage);
+   #endif
 }
 
-
+#if 0
 //-------------------------------------------------
 // doScreenCapture
 //
@@ -816,8 +671,9 @@ static void drawLatLongGrid ()
 //-------------------------------------------------
 void DCW_Library_Mgr::doScreenCapture ()
 {
+   std::cout << "===> doScreenCapture - NOT implemented\n";
 }
-
+#endif
 
 //-------------------------------------------------
 // setNewFont
@@ -826,6 +682,7 @@ void DCW_Library_Mgr::doScreenCapture ()
 //-------------------------------------------------
 void DCW_Library_Mgr::setNewFont ()
 {
+   #if 0
          static bool       isInitialized = false;
          static CHOOSEFONT infoFromFontDlg;
          static LOGFONT    logFont;
@@ -884,6 +741,7 @@ void DCW_Library_Mgr::setNewFont ()
        "Set Font",
        "Done",
        MB_OK);
+   #endif
 }
 
 /* EOF */

@@ -69,15 +69,18 @@ private:
 
    gmsEarthModelType model;
 
-   bool g_themeIsShown[Num_Browse_Themes] = { false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              false,
-                                              true }; // LibRef
+   bool g_themeIsShown[Num_Browse_Themes] =
+                 { 
+                     false, // CO - ONC Compilation Date
+                     false, // DV - Data Volume
+                     false, // DN - Drainage
+                     false, // GR - Geographic Reference
+                     false, // DA - Avail of Hypsographic Data
+                     false, // IN - ONC Index
+                     false, // PO - Political/Oceans
+                     false, // PP - Populated Places
+                     true   // LibRef
+                 };
 
    double            g_rotationDeg = 20.0;
 

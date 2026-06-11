@@ -15,6 +15,8 @@
 
 #include "tables_dialog.h"
 #include "dcw_browse.h"
+#include "dcw_library_mgr.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class dcw_browse_Main_Window; }
@@ -76,7 +78,9 @@ public slots:
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
 
-    DCW_Browse *map_window = nullptr;
+    DCW_Browse *browse_map         = nullptr;
+
+    DCW_Library_Mgr *lib_map       = nullptr;
 
     Tables_Dialog_Window *table_info_dialog = nullptr;
 };

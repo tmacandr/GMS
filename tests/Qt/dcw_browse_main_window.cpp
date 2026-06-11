@@ -43,11 +43,11 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
 
     setCentralWidget(central);
 
-    map_window = new DCW_Browse(earth_model, this);
+    browse_map = new DCW_Browse(earth_model, this);
 
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
 
-    splitter->addWidget(map_window);
+    splitter->addWidget(browse_map);
 
     splitter->setSizes({400, 100});
 
@@ -148,19 +148,30 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
 {
+    std::cout << "~~~ dcw_browse_Main_Window - Destructor - begin\n";
+
     if (table_info_dialog)
     {
         delete table_info_dialog;
         table_info_dialog = nullptr;
     }
 
-    if (map_window)
+    if (browse_map)
     {
-        delete map_window;
-        map_window = nullptr;
+        delete browse_map;
+        browse_map = nullptr;
+    }
+
+    if (lib_map)
+    {
+        delete lib_map;
+        lib_map = nullptr;
     }
 
     delete ui;
+    ui = nullptr;
+
+    std::cout << "~~~ dcw_browse_Main_Window - Destructor - end\n";
 }
 
 void dcw_browse_Main_Window::exit()
@@ -172,42 +183,42 @@ void dcw_browse_Main_Window::zoom_in()
 {
     std::cout << "Zoom in\n";
 
-    map_window->zoom("in");
+    browse_map->zoom("in");
 }
 
 void dcw_browse_Main_Window::zoom_out()
 {
     std::cout << "Zoom out\n";
 
-    map_window->zoom("out");
+    browse_map->zoom("out");
 }
 
 void dcw_browse_Main_Window::move_north()
 {
     std::cout << "Move North\n";
 
-    map_window->move("north");
+    browse_map->move("north");
 }
 
 void dcw_browse_Main_Window::move_south()
 {
     std::cout << "Move South\n";
 
-    map_window->move("south");
+    browse_map->move("south");
 }
 
 void dcw_browse_Main_Window::move_east()
 {
     std::cout << "Move East\n";
 
-    map_window->move("east");
+    browse_map->move("east");
 }
 
 void dcw_browse_Main_Window::move_west()
 {
     std::cout << "Move West\n";
 
-    map_window->move("west");
+    browse_map->move("west");
 }
 
 void dcw_browse_Main_Window::show_lib_ref()
@@ -218,7 +229,7 @@ void dcw_browse_Main_Window::show_lib_ref()
 
     bool state = lr_button->isChecked();
 
-    map_window->setMapState(gmsBrowse_LibRef, state);
+    browse_map->setMapState(gmsBrowse_LibRef, state);
 }
 
 void dcw_browse_Main_Window::show_population()
@@ -229,7 +240,7 @@ void dcw_browse_Main_Window::show_population()
 
     bool state = pp_button->isChecked();
 
-    map_window->setMapState(gmsBrowse_PP, state);
+    browse_map->setMapState(gmsBrowse_PP, state);
 }
 
 void dcw_browse_Main_Window::show_drainage()
@@ -240,7 +251,7 @@ void dcw_browse_Main_Window::show_drainage()
 
     bool state = dn_button->isChecked();
 
-    map_window->setMapState(gmsBrowse_DN, state);
+    browse_map->setMapState(gmsBrowse_DN, state);
 }
 
 void dcw_browse_Main_Window::show_polit_ocean()
@@ -251,7 +262,7 @@ void dcw_browse_Main_Window::show_polit_ocean()
 
     bool state = po_button->isChecked();
 
-    map_window->setMapState(gmsBrowse_PO, state);
+    browse_map->setMapState(gmsBrowse_PO, state);
 }
 
 void dcw_browse_Main_Window::show_database_header()

@@ -18,8 +18,24 @@
 #include <string>
 
 #include <gmsTypesAndConstants.h>
+#include <gmsTextClass.h>
 
 #include <QWidget>
+
+
+typedef enum
+{
+    mapLines,
+    PO_polygons,
+    DN_polygons,
+    DN_lines,
+    text,
+    cities,
+    HY_lines,
+    latLongGrid,
+    //-------------//
+    NUM_MAP_FEATURES
+} MAP_FEATURE_T;
 
 
 class DCW_Library_Mgr  : public QWidget
@@ -29,13 +45,63 @@ class DCW_Library_Mgr  : public QWidget
 public:
     DCW_Library_Mgr(const std::string       lib_name,
                     const gmsEarthModelType model,
-                    const std::string       root_directory);
+                    const std::string       root_directory,
+                    QWidget                 *parent = nullptr);
 
     ~DCW_Library_Mgr();
 
-   void zoom(const ZOOM_T zoom);
 
-   void move(const DIRECTION_T dir);
+   //-----------------------------------------------
+   // FUNCTION: zoom 
+   //
+   // DESCRIPTION:
+   //    Zoom "in" or "out" on center point of map
+   //-----------------------------------------------
+   void zoom(const std::string zoom);
+
+
+   //-----------------------------------------------
+   // FUNCTION: set_zoom_factor 
+   //
+   // DESCRIPTION:
+   //    Resets the zoom factor.
+   //-----------------------------------------------
+   void set_zoom_factor(const double newZoomFactor);
+
+
+   //-----------------------------------------------
+   // FUNCTION: move
+   //
+   // DESCRIPTION:
+   //    Move center point of map to:
+   //           "north"
+   //           "south"
+   //           "east"
+   //           "west"
+   //           "neutral"
+   //-----------------------------------------------
+   void move(const std::string dir);
+
+
+   //-----------------------------------------------
+   // FUNCTION: set_move_factor 
+   //
+   // DESCRIPTION:
+   //    Resets the distance used for map 'move'
+   //    operations.
+   //-----------------------------------------------
+   void set_move_factor(const float newMoveFactor);
+
+
+   //-----------------------------------------------
+   // FUNCTION: set_map_feature
+   //
+   // DESCRIPTION:
+   //    Set the specified map feature ON or OFF.
+   //-----------------------------------------------
+   void set_map_feature
+           (const MAP_FEATURE_T feature,
+            const bool          state);
 
 protected:
 
@@ -46,19 +112,24 @@ private:
    int g_width  = 0;
    int g_height = 0;
 
-   const double deltaDegrees = 15.0;
+   const double            deltaDegrees = 15.0;
    const gmsEarthModelType g_earthModel = gmsFlat;
    float                   g_moveAmount = 2.0f;
    double                  g_zoomAmount = 1000.0;
-   bool                    g_mapLinesAreShown    = true;
-   bool                    g_PO_polygonsAreShown = false;
-   bool                    g_DN_polygonsAreShown = false;
-   bool                    g_DN_linesAreShown    = false;
-   bool                    g_textIsShown         = false;
-   bool                    g_citiesAreShown      = false;
-   bool                    g_HY_linesAreShown    = false;
 
-   void drawMap();
+   bool featureIsShown[NUM_MAP_FEATURES] =
+            {
+                false, // mapLines
+                false, // PO_polygons
+                false, // DN_polygons
+                false, // DN_lines
+                false, // text
+                false, // cities
+                false, // HY_lines
+                false  // latLongGrid
+            };
+
+   void drawMaps();
 
    void clearMapArea();
 
@@ -86,13 +157,24 @@ private:
 
    void setNewFont ();
 
-   void drawPolygonImage();
+   void drawPolygonImage
+           (Qt::GlobalColor        borderColor,
+            Qt::GlobalColor        fillColor,
+            gms_2D_ScreenImageType mapImage);
 
    void drawLatLongGrid();
 
    void drawImage
            (Qt::GlobalColor        whichColor,
             gms_2D_ScreenImageType theImage);
+
+   void drawIndependentPoints
+           (Qt::GlobalColor           whichColor,
+            gms_2D_ScreenPolylineType thePoints);
+
+   void annotateMap
+           (Qt::GlobalColor     whichColor,
+            gmsMapTextArrayType theText);
 
 };
 
