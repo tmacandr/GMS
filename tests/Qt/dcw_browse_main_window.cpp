@@ -140,10 +140,155 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
             this,
             &dcw_browse_Main_Window::show_library_header);
 
-    connect(ui->actionSOAMAFR,
+    // NOAMER Library
+    connect(ui->actionNOAMER_Map_Lines,
             &QAction::triggered,
             this,
-            &dcw_browse_Main_Window::show_SOAMAFR);
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Political_Oceans,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Drainage_Polygons,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Drainage_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Text,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Cities,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    connect(ui->actionNOAMER_Hypsographic,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_NOAMER);
+
+    // EURNASIA Library
+    connect(ui->actionEURNASIA_Map_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Political_Oceans,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Drainage_Polygons,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Drainage_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Text,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Cities,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    connect(ui->actionEURNASIA_Hypsographic,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_EURNASIA);
+
+    // SOAMAFR Library
+    connect(ui->actionSOAMAFR_Map_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Political_Oceans,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Drainage_Polygons,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Drainage_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Text,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Cities,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    connect(ui->actionSOAMAFR_Hypsographic,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SOAMAFR);
+
+    // SASAUS Library
+    connect(ui->actionSASAUS_Map_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Political_Oceans,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Drainage_Polygons,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Drainage_Lines,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Text,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Cities,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    connect(ui->actionSASAUS_Hypsographic,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_SASAUS);
+
+    // LibRef Lat/Long Grid
+    connect(ui->actionTileRef_Lat_Long_Grid,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_LibRef_LatLong);
 }
 
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
@@ -162,10 +307,28 @@ dcw_browse_Main_Window::~dcw_browse_Main_Window()
         browse_map = nullptr;
     }
 
-    if (lib_map)
+    if (NOAMER_map)
     {
-        delete lib_map;
-        lib_map = nullptr;
+        delete NOAMER_map;
+        NOAMER_map = nullptr;
+    }
+
+    if (EURNASIA_map)
+    {
+        delete EURNASIA_map;
+        EURNASIA_map = nullptr;
+    }
+
+    if (SOAMAFR_map)
+    {
+        delete SOAMAFR_map;
+        SOAMAFR_map = nullptr;
+    }
+
+    if (SASAUS_map)
+    {
+        delete SASAUS_map;
+        SASAUS_map = nullptr;
     }
 
     delete ui;
@@ -337,9 +500,29 @@ void dcw_browse_Main_Window::show_library_header()
     table_info_dialog->show();
 }
 
-void dcw_browse_Main_Window::show_SOAMAFR()
+void dcw_browse_Main_Window::process_NOAMER()
 {
-    std::cout << "show_SOAMAFR\n";
+    std::cout << "process_NOAMER - NOT IMPLEMENTED\n";
+}
+
+void dcw_browse_Main_Window::process_EURNASIA()
+{
+    std::cout << "process_EURNASIA - NOT IMPLEMENTED\n";
+}
+
+void dcw_browse_Main_Window::process_SOAMAFR()
+{
+    std::cout << "process_SOAMAFR - NOT IMPLEMENTED\n";
+}
+
+void dcw_browse_Main_Window::process_SASAUS()
+{
+    std::cout << "process_SASAUS - NOT IMPLEMENTED\n";
+}
+
+void dcw_browse_Main_Window::process_LibRef_LatLong()
+{
+    std::cout << "process_LibRef_LatLong - NOT IMPLEMENTED\n";
 }
 
 /* EOF */

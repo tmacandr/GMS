@@ -64,7 +64,59 @@
     <property name="title">
      <string>TileRef</string>
     </property>
-    <addaction name="actionSOAMAFR"/>
+    <widget class="QMenu" name="menuSOAMAFR">
+     <property name="title">
+      <string>SOAMAFR</string>
+     </property>
+     <addaction name="actionSOAMAFR_Map_Lines"/>
+     <addaction name="actionSOAMAFR_Political_Oceans"/>
+     <addaction name="actionSOAMAFR_Drainage_Polygons"/>
+     <addaction name="actionSOAMAFR_Drainage_Lines"/>
+     <addaction name="actionSOAMAFR_Text"/>
+     <addaction name="actionSOAMAFR_Cities"/>
+     <addaction name="actionSOAMAFR_Hypsographic"/>
+    </widget>
+    <widget class="QMenu" name="menuNOAMER">
+     <property name="title">
+      <string>NOAMER</string>
+     </property>
+     <addaction name="actionNOAMER_Map_Lines"/>
+     <addaction name="actionNOAMER_Political_Oceans"/>
+     <addaction name="actionNOAMER_Drainage_Polygons"/>
+     <addaction name="actionNOAMER_Drainage_Lines"/>
+     <addaction name="actionNOAMER_Text"/>
+     <addaction name="actionNOAMER_Cities"/>
+     <addaction name="actionNOAMER_Hypsographic"/>
+    </widget>
+    <widget class="QMenu" name="menuEURNASIA">
+     <property name="title">
+      <string>EURNASIA</string>
+     </property>
+     <addaction name="actionEURNASIA_Map_Lines"/>
+     <addaction name="actionEURNASIA_Political_Oceans"/>
+     <addaction name="actionEURNASIA_Drainage_Polygons"/>
+     <addaction name="actionEURNASIA_Drainage_Lines"/>
+     <addaction name="actionEURNASIA_Text"/>
+     <addaction name="actionEURNASIA_Cities"/>
+     <addaction name="actionEURNASIA_Hypsographic"/>
+    </widget>
+    <widget class="QMenu" name="menuSASAUS">
+     <property name="title">
+      <string>SASAUS</string>
+     </property>
+     <addaction name="actionSASAUS_Map_Lines"/>
+     <addaction name="actionSASAUS_Political_Oceans"/>
+     <addaction name="actionSASAUS_Drainage_Polygons"/>
+     <addaction name="actionSASAUS_Drainage_Lines"/>
+     <addaction name="actionSASAUS_Text"/>
+     <addaction name="actionSASAUS_Cities"/>
+     <addaction name="actionSASAUS_Hypsographic"/>
+    </widget>
+    <addaction name="menuNOAMER"/>
+    <addaction name="menuEURNASIA"/>
+    <addaction name="menuSOAMAFR"/>
+    <addaction name="menuSASAUS"/>
+    <addaction name="actionTileRef_Lat_Long_Grid"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCtrl"/>
@@ -140,11 +192,6 @@
     <string>Polit_Ocean</string>
    </property>
   </action>
-  <action name="actionSOAMAFR">
-   <property name="text">
-    <string>SOAMAFR</string>
-   </property>
-  </action>
   <action name="actionDatabase_Header">
    <property name="text">
     <string>Database Header</string>
@@ -173,6 +220,156 @@
   <action name="actionLibrary_Header">
    <property name="text">
     <string>Library Header</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Map_Lines">
+   <property name="text">
+    <string>Map Lines</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Political_Oceans">
+   <property name="text">
+    <string>Political/Ocean</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Drainage_Polygons">
+   <property name="text">
+    <string>Drainage Polygons</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Text">
+   <property name="text">
+    <string>Text</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Cities">
+   <property name="text">
+    <string>Cities</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Hypsographic">
+   <property name="text">
+    <string>Hypsographic</string>
+   </property>
+  </action>
+  <action name="actionLat_Long_Grid">
+   <property name="text">
+    <string>Lat/Long Grid</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Map_Lines">
+   <property name="text">
+    <string>Map Lines</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Map_Lines">
+   <property name="text">
+    <string>Map Lines</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Map_Lines">
+   <property name="text">
+    <string>Map Lines</string>
+   </property>
+  </action>
+  <action name="actionTileRef_Lat_Long_Grid">
+   <property name="text">
+    <string>Lat/Long Grid</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Political_Oceans">
+   <property name="text">
+    <string>Polit/Ocean</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Drainage_Polygons">
+   <property name="text">
+    <string>Drainage Polygons</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Text">
+   <property name="text">
+    <string>Text</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Cities">
+   <property name="text">
+    <string>Cities</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Hypsographic">
+   <property name="text">
+    <string>Hypsographic</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Political_Oceans">
+   <property name="text">
+    <string>Political/Oceans</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Drainage_Lines">
+   <property name="text">
+    <string>Drainage Lines</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Drainage_Polygons">
+   <property name="text">
+    <string>Drainage Polygons</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Text">
+   <property name="text">
+    <string>Text</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Cities">
+   <property name="text">
+    <string>Cities</string>
+   </property>
+  </action>
+  <action name="actionEURNASIA_Hypsographic">
+   <property name="text">
+    <string>Hypsographic</string>
+   </property>
+  </action>
+  <action name="actionNOAMER_Drainage_Lines">
+   <property name="text">
+    <string>Drainage Lines</string>
+   </property>
+  </action>
+  <action name="actionSOAMAFR_Drainage_Lines">
+   <property name="text">
+    <string>Drainage Lines</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Political_Oceans">
+   <property name="text">
+    <string>Political/Oceans</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Drainage_Polygons">
+   <property name="text">
+    <string>Drainage Polygons</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Drainage_Lines">
+   <property name="text">
+    <string>Drainage Lines</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Text">
+   <property name="text">
+    <string>Text</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Cities">
+   <property name="text">
+    <string>Cities</string>
+   </property>
+  </action>
+  <action name="actionSASAUS_Hypsographic">
+   <property name="text">
+    <string>Hypsographic</string>
    </property>
   </action>
  </widget>

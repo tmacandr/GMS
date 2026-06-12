@@ -72,15 +72,29 @@ public slots:
 
    void show_library_header();
 
-   // Tile Ref
-   void show_SOAMAFR();
+   // Tile Ref Options
+   void process_NOAMER();
+
+   void process_EURNASIA();
+
+   void process_SOAMAFR();
+
+   void process_SASAUS();
+
+   void process_LibRef_LatLong();
 
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
 
     DCW_Browse *browse_map         = nullptr;
 
-    DCW_Library_Mgr *lib_map       = nullptr;
+    DCW_Library_Mgr *NOAMER_map    = nullptr;
+
+    DCW_Library_Mgr *EURNASIA_map  = nullptr;
+
+    DCW_Library_Mgr *SOAMAFR_map   = nullptr;
+
+    DCW_Library_Mgr *SASAUS_map    = nullptr;
 
     Tables_Dialog_Window *table_info_dialog = nullptr;
 };
