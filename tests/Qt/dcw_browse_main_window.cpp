@@ -90,6 +90,11 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
             this,
             &dcw_browse_Main_Window::move_west);
 
+    connect(ui->action_Lat_Long_Grid,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::show_lat_long_grid);
+
     connect(ui->actionLibRef,
             &QAction::triggered,
             this,
@@ -384,6 +389,17 @@ void dcw_browse_Main_Window::move_west()
     browse_map->move("west");
 }
 
+void dcw_browse_Main_Window::show_lat_long_grid()
+{
+    std::cout << "Lat/Long Grid\n";
+
+    QAction *llg_button = ui->action_Lat_Long_Grid;
+
+    bool state = llg_button->isChecked();
+
+    browse_map->setLongLongGridState(state);
+}
+
 void dcw_browse_Main_Window::show_lib_ref()
 {
     std::cout << "Show LibRef\n";
@@ -522,7 +538,22 @@ void dcw_browse_Main_Window::process_SASAUS()
 
 void dcw_browse_Main_Window::process_LibRef_LatLong()
 {
-    std::cout << "process_LibRef_LatLong - NOT IMPLEMENTED\n";
+    std::cout << "process_LibRef_LatLong - begin\n";
+
+    if ( ! SOAMAFR_map )
+    {
+        SOAMAFR_map = new DCW_Library_Mgr("SAMAFR",
+                                          gmsFlat,
+                                          this);
+    }
+
+    QAction *llg_button = ui->actionTileRef_Lat_Long_Grid;
+
+    bool state = llg_button->isChecked();
+
+    SOAMAFR_map->set_map_feature(latLongGrid, state);
+
+    std::cout << "process_LibRef_LatLong - end\n";
 }
 
 /* EOF */

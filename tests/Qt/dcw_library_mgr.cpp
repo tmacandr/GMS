@@ -35,31 +35,46 @@
 DCW_Library_Mgr::DCW_Library_Mgr
                     (const std::string       lib_name,
                      const gmsEarthModelType model,
-                     const std::string       root_directory,
                      QWidget                 *parent)
 
    : QWidget(parent)
 
 {
+    std::cout << "DCW_Library_Mgr - constructor - begin\n";
+
     Q_UNUSED(lib_name);
-    Q_UNUSED(model);
-    Q_UNUSED(root_directory);
 
     const double initialZoomFactor = 3000.0;
 
     gmsSetMapZoomFactor (initialZoomFactor);
 
-    gmsMoveFlatMap (gmsMoveNorth, (3 * g_moveAmount));
+    theGrid = new gmsLatLongGridClass (deltaDegrees, model);
 
-    gmsMoveFlatMap (gmsMoveEast, (4 * g_moveAmount));
+    theTileMap = new gmsTileClass(model, // earth model
+                                  'N',   // longTileId
+                                  'G');  // latTileId
+
+    //gmsMoveFlatMap (gmsMoveNorth, (3 * g_moveAmount));
+
+    //gmsMoveFlatMap (gmsMoveEast, (4 * g_moveAmount));
+
+    std::cout << "DCW_Library_Mgr - constructor - end\n";
 }
 
 
 DCW_Library_Mgr::~DCW_Library_Mgr()
 {
-   #if 0
-   theGrid.~gmsLatLongGridClass();
-   #endif
+    if (theGrid)
+    {
+        delete theGrid;
+        theGrid = nullptr;
+    }
+
+    if (theTileMap)
+    {
+        delete theTileMap;
+        theTileMap = nullptr;
+    }
 }
 
 
@@ -112,9 +127,13 @@ void DCW_Library_Mgr::set_map_feature
            (const MAP_FEATURE_T feature,
             const bool          state)
 {
+    std::cout << "set_map_feature - begin\n";
+
     featureIsShown[feature] = state;
 
     update();
+
+    std::cout << "set_map_feature - end\n";
 }
 
 #if 0
@@ -646,21 +665,23 @@ void DCW_Library_Mgr::drawCitiesOfMap()
 void DCW_Library_Mgr::drawLatLongGrid ()
 
 {
-   #if 0
-         gms_2D_ScreenImageType gridImage;
+   std::cout << "drawLatLongGrid - begin\n";
 
-   gridImage = theGrid.gmsGetLatitudeGrid();
+   gms_2D_ScreenImageType gridImage;
+
+   gridImage = theGrid->gmsGetLatitudeGrid();
+
+   drawImage
+      (Qt::green,
+       gridImage);
+
+   gridImage = theGrid->gmsGetLongitudeGrid();
 
    drawImage
       (Qt::green,
        gridImage);
 
-   gridImage = theGrid.gmsGetLongitudeGrid();
-
-   drawImage
-      (Qt::green,
-       gridImage);
-   #endif
+   std::cout << "drawLatLongGrid - end\n";
 }
 
 #if 0

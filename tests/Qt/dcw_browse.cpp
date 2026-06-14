@@ -59,6 +59,21 @@ DCW_Browse::~DCW_Browse()
    }
 }
 
+
+//---------------------------------------------
+// setLongLongGridState
+//
+// Description:
+//---------------------------------------------
+void DCW_Browse::setLongLongGridState
+                    (const bool is_clicked)
+{
+    g_latLongGridIsOn = is_clicked;
+
+    update();
+}
+
+
 //---------------------------------------------
 // setMapState
 //
@@ -119,7 +134,8 @@ void DCW_Browse::drawMaps ()
    if (g_themeIsShown[gmsBrowse_PP])
       drawPopulatedPlaces ();
 
-   drawLatLongGrid ();
+   if (g_latLongGridIsOn)
+      drawLatLongGrid ();
 
    std::cout << "------------------ drawMaps - end -------\n";
 }

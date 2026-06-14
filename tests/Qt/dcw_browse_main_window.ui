@@ -48,6 +48,8 @@
     <addaction name="actionPopulation"/>
     <addaction name="actionDrainage"/>
     <addaction name="actionPolit_Ocean"/>
+    <addaction name="separator"/>
+    <addaction name="action_Lat_Long_Grid"/>
    </widget>
    <widget class="QMenu" name="menuTables">
     <property name="title">
@@ -370,6 +372,17 @@
   <action name="actionSASAUS_Hypsographic">
    <property name="text">
     <string>Hypsographic</string>
+   </property>
+  </action>
+  <action name="action_Lat_Long_Grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Lat/Long Grid</string>
    </property>
   </action>
  </widget>

@@ -19,6 +19,8 @@
 
 #include <gmsTypesAndConstants.h>
 #include <gmsTextClass.h>
+#include <gmsLatLongGridClass.h>
+#include <gmsTileClass.h>
 
 #include <QWidget>
 
@@ -45,8 +47,7 @@ class DCW_Library_Mgr  : public QWidget
 public:
     DCW_Library_Mgr(const std::string       lib_name,
                     const gmsEarthModelType model,
-                    const std::string       root_directory,
-                    QWidget                 *parent = nullptr);
+                    QWidget                 *parent);
 
     ~DCW_Library_Mgr();
 
@@ -128,6 +129,10 @@ private:
                 false, // HY_lines
                 false  // latLongGrid
             };
+
+   gmsLatLongGridClass     *theGrid = nullptr;
+
+   gmsTileClass            *theTileMap = nullptr;
 
    void drawMaps();
 

@@ -30,6 +30,8 @@ public:
 
    ~DCW_Browse();
 
+   void setLongLongGridState(const bool is_clicked);
+
    void setMapState(const gmsBrowseThematicType which_map,
                     const bool                  is_clicked);
 
@@ -69,6 +71,8 @@ private:
 
    gmsEarthModelType model;
 
+   bool g_latLongGridIsOn = true;
+
    bool g_themeIsShown[Num_Browse_Themes] =
                  { 
                      false, // CO - ONC Compilation Date
@@ -79,7 +83,7 @@ private:
                      false, // IN - ONC Index
                      false, // PO - Political/Oceans
                      false, // PP - Populated Places
-                     true   // LibRef
+                     false  // LibRef
                  };
 
    double            g_rotationDeg = 20.0;

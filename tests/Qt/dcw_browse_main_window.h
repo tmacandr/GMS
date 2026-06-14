@@ -59,6 +59,8 @@ public slots:
 
    void show_polit_ocean();
 
+   void show_lat_long_grid();
+
    // Tables
    void show_database_header();
 
