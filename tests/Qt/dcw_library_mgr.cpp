@@ -98,7 +98,7 @@ void DCW_Library_Mgr::move(const std::string dir)
     {
         gmsMoveFlatMap (gmsMoveNorth, g_moveAmount);
     }
-    else if (dir == "sourth")
+    else if (dir == "south")
     {
         gmsMoveFlatMap (gmsMoveSouth, g_moveAmount);
     }

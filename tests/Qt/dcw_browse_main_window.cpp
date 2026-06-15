@@ -31,7 +31,7 @@
 //========================================================
 dcw_browse_Main_Window::dcw_browse_Main_Window
                            (const std::string earth_model,
-                            QWidget *parent)
+                            QWidget           *parent)
 
     : QMainWindow(parent),
       ui(new Ui::dcw_browse_Main_Window)
@@ -43,7 +43,9 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
 
     setCentralWidget(central);
 
-    browse_map = new DCW_Browse(earth_model, this);
+    browse_map = new DCW_Browse(this);
+
+    browse_map->init_browse_map(earth_model);
 
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
 
@@ -312,32 +314,11 @@ dcw_browse_Main_Window::~dcw_browse_Main_Window()
         browse_map = nullptr;
     }
 
-    if (NOAMER_map)
+    if (ui)
     {
-        delete NOAMER_map;
-        NOAMER_map = nullptr;
+        delete ui;
+        ui = nullptr;
     }
-
-    if (EURNASIA_map)
-    {
-        delete EURNASIA_map;
-        EURNASIA_map = nullptr;
-    }
-
-    if (SOAMAFR_map)
-    {
-        delete SOAMAFR_map;
-        SOAMAFR_map = nullptr;
-    }
-
-    if (SASAUS_map)
-    {
-        delete SASAUS_map;
-        SASAUS_map = nullptr;
-    }
-
-    delete ui;
-    ui = nullptr;
 
     std::cout << "~~~ dcw_browse_Main_Window - Destructor - end\n";
 }
@@ -397,7 +378,7 @@ void dcw_browse_Main_Window::show_lat_long_grid()
 
     bool state = llg_button->isChecked();
 
-    browse_map->setLongLongGridState(state);
+    browse_map->set_browse_lat_long_grid_state(state);
 }
 
 void dcw_browse_Main_Window::show_lib_ref()
@@ -408,7 +389,7 @@ void dcw_browse_Main_Window::show_lib_ref()
 
     bool state = lr_button->isChecked();
 
-    browse_map->setMapState(gmsBrowse_LibRef, state);
+    browse_map->set_browse_state(gmsBrowse_LibRef, state);
 }
 
 void dcw_browse_Main_Window::show_population()
@@ -419,7 +400,7 @@ void dcw_browse_Main_Window::show_population()
 
     bool state = pp_button->isChecked();
 
-    browse_map->setMapState(gmsBrowse_PP, state);
+    browse_map->set_browse_state(gmsBrowse_PP, state);
 }
 
 void dcw_browse_Main_Window::show_drainage()
@@ -430,7 +411,7 @@ void dcw_browse_Main_Window::show_drainage()
 
     bool state = dn_button->isChecked();
 
-    browse_map->setMapState(gmsBrowse_DN, state);
+    browse_map->set_browse_state(gmsBrowse_DN, state);
 }
 
 void dcw_browse_Main_Window::show_polit_ocean()
@@ -441,7 +422,7 @@ void dcw_browse_Main_Window::show_polit_ocean()
 
     bool state = po_button->isChecked();
 
-    browse_map->setMapState(gmsBrowse_PO, state);
+    browse_map->set_browse_state(gmsBrowse_PO, state);
 }
 
 void dcw_browse_Main_Window::show_database_header()
@@ -540,6 +521,7 @@ void dcw_browse_Main_Window::process_LibRef_LatLong()
 {
     std::cout << "process_LibRef_LatLong - begin\n";
 
+#if 0
     if ( ! SOAMAFR_map )
     {
         SOAMAFR_map = new DCW_Library_Mgr("SAMAFR",
@@ -552,6 +534,7 @@ void dcw_browse_Main_Window::process_LibRef_LatLong()
     bool state = llg_button->isChecked();
 
     SOAMAFR_map->set_map_feature(latLongGrid, state);
+#endif
 
     std::cout << "process_LibRef_LatLong - end\n";
 }

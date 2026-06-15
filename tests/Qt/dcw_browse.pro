@@ -27,14 +27,12 @@ SOURCES += \
     main.cpp \
     dcw_browse_main_window.cpp \
     tables_dialog.cpp \
-    dcw_browse.cpp \
-    dcw_library_mgr.cpp
+    dcw_browse.cpp
 
 HEADERS += \
     dcw_browse_main_window.h \
     tables_dialog.h \
-    dcw_browse.h \
-    dcw_library_mgr.h
+    dcw_browse.h
 
 FORMS += \
     dcw_browse_main_window.ui \
