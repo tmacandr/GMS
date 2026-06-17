@@ -22,13 +22,13 @@
 #include "ui_dcw_browse_main_window.h"
 
 
-//========================================================
+//==========================================================
 // METHOD: dcw_browse_Main_Window
 //
 // DESCRIPTION:
 //    Constructor as entry point to create the GUI/Window
 //    of the application.
-//========================================================
+//==========================================================
 dcw_browse_Main_Window::dcw_browse_Main_Window
                            (const std::string earth_model,
                             QWidget           *parent)
@@ -37,267 +37,166 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
       ui(new Ui::dcw_browse_Main_Window)
 
 {
+    std::cout << "----------- dcw_browse_Main_Window - begin ------\n";
+
     ui->setupUi(this);
 
     QWidget *central = ui->centralwidget;
 
     setCentralWidget(central);
 
+std::cout << "123\n";
+
+    QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
+
+std::cout << "123\n";
+
     browse_map = new DCW_Browse(this);
 
     browse_map->init_browse_map(earth_model);
 
-    QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
-
     splitter->addWidget(browse_map);
+
+std::cout << "123\n";
 
     splitter->setSizes({400, 100});
 
     QHBoxLayout *layout = new QHBoxLayout(central);
 
+std::cout << "123\n";
+
     layout->addWidget(splitter);
+
+std::cout << "123\n";
 
     connect(ui->actionExit,
             &QAction::triggered,
             this,
             &dcw_browse_Main_Window::exit);
 
-    connect(ui->actionZoom_in,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::zoom_in);
+    const unsigned int NUM_MAP_CTRL_BUTTONS = 6;
 
-    connect(ui->actionZoom_out,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::zoom_out);
+    const QAction* map_ctrl_buttons[NUM_MAP_CTRL_BUTTONS] =
+                     {
+                         ui->actionZoom_in,
+                         ui->actionZoom_out,
+                         ui->actionMove_North,
+                         ui->actionMove_South,
+                         ui->actionMove_East,
+                         ui->actionMove_West
+                     };
 
-    connect(ui->actionMove_North,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::move_north);
+std::cout << "123\n";
 
-    connect(ui->actionMove_South,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::move_south);
+    for (unsigned int i = 0; i < NUM_MAP_CTRL_BUTTONS; i++)
+    {
+        connect(map_ctrl_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_map_ctrl_button_click);
+    }
 
-    connect(ui->actionMove_East,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::move_east);
+    const unsigned int NUM_BROWSE_MAP_BUTTONS = 5;
 
-    connect(ui->actionMove_West,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::move_west);
+    const QAction* browse_map_buttons[NUM_BROWSE_MAP_BUTTONS] =
+                     {
+                         ui->action_Lat_Long_Grid,
+                         ui->actionLibRef,
+                         ui->actionPopulation,
+                         ui->actionDrainage,
+                         ui->actionPolit_Ocean
+                     };
 
-    connect(ui->action_Lat_Long_Grid,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_lat_long_grid);
+std::cout << "123\n";
 
-    connect(ui->actionLibRef,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_lib_ref);
+    for (unsigned int i = 0; i < NUM_BROWSE_MAP_BUTTONS; i++)
+    {
+        connect(browse_map_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_browse_map_button_click);
+    }
 
-    connect(ui->actionPopulation,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_population);
+std::cout << "123\n";
 
-    connect(ui->actionDrainage,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_drainage);
+    const unsigned int NUM_TABLE_BUTTONS = 6;
 
-    connect(ui->actionPolit_Ocean,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_polit_ocean);
+    const QAction* table_buttons[NUM_TABLE_BUTTONS] =
+                     {
+                         ui->actionDatabase_Header,
+                         ui->actionLibrary_Attributes,
+                         ui->actionCoverage_Attributes,
+                         ui->actionData_Quality,
+                         ui->actionGeographic_Reference,
+                         ui->actionLibrary_Header
+                     };
 
-    connect(ui->actionDatabase_Header,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_database_header);
+    for (unsigned int i = 0; i < NUM_TABLE_BUTTONS; i++)
+    {
+        connect(table_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_table_button_click);
+    }
 
-    connect(ui->actionLibrary_Attributes,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_library_attributes);
+std::cout << "123\n";
 
-    connect(ui->actionCoverage_Attributes,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_coverage_attributes);
+    // Tile-Ref Maps
+    const unsigned int NUM_TILE_REF_MAP_BUTTONS = 29;
 
-    connect(ui->actionData_Quality,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_data_quality);
+    const QAction* tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
+                     {
+                         ui->actionNOAMER_Map_Lines,
+                         ui->actionNOAMER_Political_Oceans,
+                         ui->actionNOAMER_Drainage_Polygons,
+                         ui->actionNOAMER_Drainage_Lines,
+                         ui->actionNOAMER_Text,
+                         ui->actionNOAMER_Cities,
+                         ui->actionNOAMER_Hypsographic,
+                         ui->actionEURNASIA_Map_Lines,
+                         ui->actionEURNASIA_Political_Oceans,
+                         ui->actionEURNASIA_Drainage_Polygons,
+                         ui->actionEURNASIA_Drainage_Lines,
+                         ui->actionEURNASIA_Text,
+                         ui->actionEURNASIA_Cities,
+                         ui->actionEURNASIA_Hypsographic,
+                         ui->actionSOAMAFR_Map_Lines,
+                         ui->actionSOAMAFR_Political_Oceans,
+                         ui->actionSOAMAFR_Drainage_Polygons,
+                         ui->actionSOAMAFR_Drainage_Lines,
+                         ui->actionSOAMAFR_Text,
+                         ui->actionSOAMAFR_Cities,
+                         ui->actionSOAMAFR_Hypsographic,
+                         ui->actionSASAUS_Map_Lines,
+                         ui->actionSASAUS_Political_Oceans,
+                         ui->actionSASAUS_Drainage_Polygons,
+                         ui->actionSASAUS_Drainage_Lines,
+                         ui->actionSASAUS_Text,
+                         ui->actionSASAUS_Cities,
+                         ui->actionSASAUS_Hypsographic,
+                         ui->actionTileRef_Lat_Long_Grid
+                     };
 
-    connect(ui->actionGeographic_Reference,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_geographic_reference);
+std::cout << "123\n";
 
-    connect(ui->actionLibrary_Header,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::show_library_header);
+    for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
+    {
+        connect(tile_ref_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_TileRef_button_click);
+    }
 
-    // NOAMER Library
-    connect(ui->actionNOAMER_Map_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Political_Oceans,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Drainage_Polygons,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Drainage_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Text,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Cities,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    connect(ui->actionNOAMER_Hypsographic,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_NOAMER);
-
-    // EURNASIA Library
-    connect(ui->actionEURNASIA_Map_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Political_Oceans,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Drainage_Polygons,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Drainage_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Text,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Cities,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    connect(ui->actionEURNASIA_Hypsographic,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_EURNASIA);
-
-    // SOAMAFR Library
-    connect(ui->actionSOAMAFR_Map_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Political_Oceans,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Drainage_Polygons,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Drainage_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Text,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Cities,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    connect(ui->actionSOAMAFR_Hypsographic,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SOAMAFR);
-
-    // SASAUS Library
-    connect(ui->actionSASAUS_Map_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Political_Oceans,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Drainage_Polygons,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Drainage_Lines,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Text,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Cities,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    connect(ui->actionSASAUS_Hypsographic,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_SASAUS);
-
-    // LibRef Lat/Long Grid
-    connect(ui->actionTileRef_Lat_Long_Grid,
-            &QAction::triggered,
-            this,
-            &dcw_browse_Main_Window::process_LibRef_LatLong);
+    std::cout << "----------- dcw_browse_Main_Window - end -------\n";
 }
 
+
+//==========================================================
+// FUNCTION: ~dcw_browse_Main_Window
+//
+// DESCRIPTION:
+//    Destructor operator
+//==========================================================
 dcw_browse_Main_Window::~dcw_browse_Main_Window()
 {
     std::cout << "~~~ dcw_browse_Main_Window - Destructor - begin\n";
@@ -323,204 +222,175 @@ dcw_browse_Main_Window::~dcw_browse_Main_Window()
     std::cout << "~~~ dcw_browse_Main_Window - Destructor - end\n";
 }
 
+
+//==========================================================
+// FUNCTION: 
+//
+// DESCRIPTION:
+//==========================================================
 void dcw_browse_Main_Window::exit()
 {
    std::exit(0);
 }
 
-void dcw_browse_Main_Window::zoom_in()
+
+//==========================================================
+// FUNCTION: process_map_ctrl_button_click
+//
+// DESCRIPTION:
+//    Callback function (aka 'slot') to handle map control
+//    opertaions:
+//              zoom in | out
+//              move north | south | east | west
+//==========================================================
+void dcw_browse_Main_Window::process_map_ctrl_button_click()
 {
-    std::cout << "Zoom in\n";
+    QAction *which_action = qobject_cast<QAction*>(sender());
 
-    browse_map->zoom("in");
-}
+    if ( not which_action )
+    {
+        std::cout << "***> ERROR - process_map_ctrl_button_click\n"
+                  << "***>       - QAction for event is NULL\n";
 
-void dcw_browse_Main_Window::zoom_out()
-{
-    std::cout << "Zoom out\n";
-
-    browse_map->zoom("out");
-}
-
-void dcw_browse_Main_Window::move_north()
-{
-    std::cout << "Move North\n";
-
-    browse_map->move("north");
-}
-
-void dcw_browse_Main_Window::move_south()
-{
-    std::cout << "Move South\n";
-
-    browse_map->move("south");
-}
-
-void dcw_browse_Main_Window::move_east()
-{
-    std::cout << "Move East\n";
-
-    browse_map->move("east");
-}
-
-void dcw_browse_Main_Window::move_west()
-{
-    std::cout << "Move West\n";
-
-    browse_map->move("west");
-}
-
-void dcw_browse_Main_Window::show_lat_long_grid()
-{
-    std::cout << "Lat/Long Grid\n";
-
-    QAction *llg_button = ui->action_Lat_Long_Grid;
-
-    bool state = llg_button->isChecked();
-
-    browse_map->set_browse_lat_long_grid_state(state);
-}
-
-void dcw_browse_Main_Window::show_lib_ref()
-{
-    std::cout << "Show LibRef\n";
-
-    QAction *lr_button = ui->actionLibRef;
-
-    bool state = lr_button->isChecked();
-
-    browse_map->set_browse_state(gmsBrowse_LibRef, state);
-}
-
-void dcw_browse_Main_Window::show_population()
-{
-    std::cout << "Show Population\n";
-
-    QAction *pp_button = ui->actionPopulation;
-
-    bool state = pp_button->isChecked();
-
-    browse_map->set_browse_state(gmsBrowse_PP, state);
-}
-
-void dcw_browse_Main_Window::show_drainage()
-{
-    std::cout << "Show Drainage\n";
-
-    QAction *dn_button = ui->actionDrainage;
-
-    bool state = dn_button->isChecked();
-
-    browse_map->set_browse_state(gmsBrowse_DN, state);
-}
-
-void dcw_browse_Main_Window::show_polit_ocean()
-{
-    std::cout << "Show Polit-Ocean\n";
-
-    QAction *po_button = ui->actionPolit_Ocean;
-
-    bool state = po_button->isChecked();
-
-    browse_map->set_browse_state(gmsBrowse_PO, state);
-}
-
-void dcw_browse_Main_Window::show_database_header()
-{
-    std::cout << "show_database_header\n";
-
-    if ( not table_info_dialog )
-    {   
-        table_info_dialog = new Tables_Dialog_Window(this);
+        return;
     }
 
-    table_info_dialog->show();
+    if ( browse_map )
+    {
+        if (which_action == ui->actionZoom_in)
+        {
+            browse_map->zoom("in");
+        }
+        else if (which_action == ui->actionZoom_out)
+        {
+            browse_map->zoom("out");
+        }
+        else if (which_action == ui->actionMove_North)
+        {
+            browse_map->move("north");
+        }
+        else if (which_action == ui->actionMove_South)
+        {
+            browse_map->move("south");
+        }
+        else if (which_action == ui->actionMove_East)
+        {
+            browse_map->move("east");
+        }
+        else if (which_action == ui->actionMove_West)
+        {
+            browse_map->move("west");
+        }
+        else
+        {
+            std::cout << "***> ERROR - process_map_ctrl_button_click\n"
+                      << "***>       - Unknown action\n";
+        }
+    }
 }
 
-void dcw_browse_Main_Window::show_library_attributes()
-{
-    std::cout << "show_library_attributes\n";
 
+//==========================================================
+// FUNCTION: process_browse_map_button_click
+//
+// DESCRIPTION:
+//    Callback to handle selection of one of the 'browse'
+//    buttons:
+//             LibRef
+//             Population
+//             Drainage
+//             Political/Ocean
+//             Lat/Long Grid
+//==========================================================
+void dcw_browse_Main_Window::process_browse_map_button_click()
+{
+    QAction *which_action = qobject_cast<QAction*>(sender());
+
+    bool state = which_action->isChecked();
+
+    if (which_action == ui->action_Lat_Long_Grid)
+    {
+        browse_map->set_browse_lat_long_grid_state(state);
+    }
+    else if (which_action == ui->actionLibRef)
+    {
+        browse_map->set_browse_state(gmsBrowse_LibRef, state);
+    }
+    else if (which_action == ui->actionPopulation)
+    {
+        browse_map->set_browse_state(gmsBrowse_PP, state);
+    }
+    else if (which_action == ui->actionDrainage)
+    {
+        browse_map->set_browse_state(gmsBrowse_DN, state);
+    }
+    else if (which_action == ui->actionPolit_Ocean)
+    {
+        browse_map->set_browse_state(gmsBrowse_PO, state);
+    }
+}
+
+
+//==========================================================
+// FUNCTION: process_table_button_click
+//
+// DESCRIPTION:
+//==========================================================
+void dcw_browse_Main_Window::process_table_button_click()
+{
     if ( not table_info_dialog )
     {
         table_info_dialog = new Tables_Dialog_Window(this);
     }
 
     table_info_dialog->show();
-}
 
-void dcw_browse_Main_Window::show_coverage_attributes()
-{
-    std::cout << "show_coverage_attributes\n";
+    QAction *which_action = qobject_cast<QAction*>(sender());
 
-    if ( not table_info_dialog )
+    if ( not which_action )
     {
-        table_info_dialog = new Tables_Dialog_Window(this);
+        std::cout << "***> ERROR - process_table_button_click\n"
+                  << "***>       - QAction for event is NULL\n";
+
+        return;
     }
 
-    table_info_dialog->show();
-}
-
-void dcw_browse_Main_Window::show_data_quality()
-{
-    std::cout << "show_data_quality\n";
-
-    if ( not table_info_dialog )
+    if ( browse_map )
     {
-        table_info_dialog = new Tables_Dialog_Window(this);
+        if (which_action == ui->actionDatabase_Header)
+        {
+        }
+        else if (which_action == ui->actionLibrary_Attributes)
+        {
+        }
+        else if (which_action == ui->actionCoverage_Attributes)
+        {
+        }
+        else if (which_action == ui->actionData_Quality)
+        {
+        }
+        else if (which_action == ui->actionGeographic_Reference)
+        {
+        }
+        else if (which_action == ui->actionLibrary_Header)
+        {
+        }
+        else
+        {
+            std::cout << "***> ERROR - process_table_button_click\n"
+                      << "***>       - Unknown QAction\n";
+        }
     }
-
-    table_info_dialog->show();
 }
 
-void dcw_browse_Main_Window::show_geographic_reference()
+
+//==========================================================
+// FUNCTION: process_TileRef_button_click
+//
+// DESCRIPTION:
+//==========================================================
+void dcw_browse_Main_Window::process_TileRef_button_click()
 {
-    std::cout << "show_geographic_reference\n";
-
-    if ( not table_info_dialog )
-    {
-        table_info_dialog = new Tables_Dialog_Window(this);
-    }
-
-    table_info_dialog->show();
-}
-
-void dcw_browse_Main_Window::show_library_header()
-{
-    std::cout << "show_library_header\n";
-
-    if ( not table_info_dialog )
-    {
-        table_info_dialog = new Tables_Dialog_Window(this);
-    }
-
-    table_info_dialog->show();
-}
-
-void dcw_browse_Main_Window::process_NOAMER()
-{
-    std::cout << "process_NOAMER - NOT IMPLEMENTED\n";
-}
-
-void dcw_browse_Main_Window::process_EURNASIA()
-{
-    std::cout << "process_EURNASIA - NOT IMPLEMENTED\n";
-}
-
-void dcw_browse_Main_Window::process_SOAMAFR()
-{
-    std::cout << "process_SOAMAFR - NOT IMPLEMENTED\n";
-}
-
-void dcw_browse_Main_Window::process_SASAUS()
-{
-    std::cout << "process_SASAUS - NOT IMPLEMENTED\n";
-}
-
-void dcw_browse_Main_Window::process_LibRef_LatLong()
-{
-    std::cout << "process_LibRef_LatLong - begin\n";
-
 #if 0
     if ( ! SOAMAFR_map )
     {
@@ -535,8 +405,6 @@ void dcw_browse_Main_Window::process_LibRef_LatLong()
 
     SOAMAFR_map->set_map_feature(latLongGrid, state);
 #endif
-
-    std::cout << "process_LibRef_LatLong - end\n";
 }
 
 /* EOF */

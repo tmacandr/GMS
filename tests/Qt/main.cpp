@@ -36,6 +36,8 @@ static void show_usage();
 //-------------------------------------------------------- 
 int main(int argc, char *argv[])
 {
+    std::cout << "---> dcw_browse - begin\n";
+
     if (argc != 2)
     {
         show_usage();
@@ -57,7 +59,7 @@ int main(int argc, char *argv[])
 
 
 //--------------------------------------------------------
-// FUNCTION: main
+// FUNCTION: show_usage
 //
 // DESCRIPTION:
 //    Invoked for invalid arg count.  The parse of the
@@ -69,7 +71,7 @@ static void show_usage()
               << "***> USAGE:\n"
               << "***>    dcw_browse <flat | sphere | ellipse>\n"
               << "***> EXAMPLE:\n"
-              << "***>     dcw_brose ellipse\n";
+              << "***>     dcw_browse ellipse\n";
 }
 
 /* EOF */

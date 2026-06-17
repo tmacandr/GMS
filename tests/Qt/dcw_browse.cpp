@@ -31,6 +31,12 @@
 #include "dcw_browse.h"
 #include <gmsDcwUtilities.h>
 
+
+//==========================================================
+// METHOD: 
+//
+// DESCRIPTION:
+//==========================================================
 DCW_Browse::DCW_Browse(QWidget *parent)
 
    : QWidget(parent)
@@ -41,6 +47,12 @@ DCW_Browse::DCW_Browse(QWidget *parent)
     std::cout << "------------------ DCW_Browse - end ---------\n";
 }
 
+
+//==========================================================
+// METHOD: 
+//
+// DESCRIPTION:
+//==========================================================
 DCW_Browse::~DCW_Browse()
 {
    std::cout << "------------------ ~DCW_Browse - begin ---------\n";
@@ -73,6 +85,11 @@ DCW_Browse::~DCW_Browse()
 }
 
 
+//==========================================================
+// METHOD: 
+//
+// DESCRIPTION:
+//==========================================================
 void DCW_Browse::init_browse_map
                     (const std::string earth_model)
 {
@@ -302,8 +319,6 @@ void DCW_Browse::draw_browse_maps ()
 {
    std::cout << "-------------- draw_browse_maps - begin ----------\n";
 
-   clearMapArea ();
-
    if (g_browse_theme_is_shown[gmsBrowse_LibRef])
       draw_browse_LibRef ();
 
@@ -518,8 +533,6 @@ void DCW_Browse::set_tile_ref_zoom_factor(const double newZoomFactor)
 void DCW_Browse::set_tile_ref_move_factor(const float newMoveFactor)
 {
     g_tile_ref_moveAmount = newMoveFactor;
-
-    update();
 }
 
 
@@ -1085,6 +1098,8 @@ void DCW_Browse::paintEvent(QPaintEvent *event)
    int h = height();
 
    gmsSetWindowDimensions(w, h);
+
+   clearMapArea ();
 
    draw_browse_maps ();
 

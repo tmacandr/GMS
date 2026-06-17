@@ -36,60 +36,20 @@ public slots:
 
    void exit();
 
-   // Ctrl
-   void zoom_in();
+   void process_map_ctrl_button_click();
 
-   void zoom_out();
+   void process_browse_map_button_click();
 
-   void move_north();
+   void process_table_button_click();
 
-   void move_south();
-
-   void move_east();
-
-   void move_west();
-
-   // Map Themes
-   void show_lib_ref();
-
-   void show_population();
-
-   void show_drainage();
-
-   void show_polit_ocean();
-
-   void show_lat_long_grid();
-
-   // Tables
-   void show_database_header();
-
-   void show_library_attributes();
-
-   void show_coverage_attributes();
-
-   void show_data_quality();
-
-   void show_geographic_reference();
-
-   void show_library_header();
-
-   // Tile Ref Options
-   void process_NOAMER();
-
-   void process_EURNASIA();
-
-   void process_SOAMAFR();
-
-   void process_SASAUS();
-
-   void process_LibRef_LatLong();
+   void process_TileRef_button_click();
 
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
 
-    DCW_Browse *browse_map         = nullptr;
+    DCW_Browse                 *browse_map = nullptr;
 
-    Tables_Dialog_Window *table_info_dialog = nullptr;
+    Tables_Dialog_Window       *table_info_dialog = nullptr;
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
 
