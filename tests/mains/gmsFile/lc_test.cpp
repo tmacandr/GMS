@@ -20,7 +20,7 @@
 //                 FCS         - Feature class schema table
 //                 INT.VDT     - Integer value description table
 //
-//    The tile subdirectories all contain the following two types of files:
+//    The tile subdirectories all contain the following types of files:
 //
 //                 EBR - Edge bounding rectangle
 //                 EDG - Edge table
