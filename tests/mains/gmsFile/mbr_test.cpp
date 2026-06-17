@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------*/
-// File : mbr_test.c
+// File : mbr_test.cpp
 // Date : 20-Sep-99 : initial defintion
 //        17-Nov-99 : use utils to get path to VPF files
 //
