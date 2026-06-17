@@ -124,9 +124,9 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
     }
 
     // Tile-Ref Maps
-    const unsigned int NUM_TILE_REF_MAP_BUTTONS = 29;
+    const unsigned int NUM_TILE_REF_MAP_BUTTONS = 7;
 
-    const QAction* tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
+    const QAction* NOAMER_tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
                      {
                          ui->actionNOAMER_Map_Lines,
                          ui->actionNOAMER_Political_Oceans,
@@ -135,6 +135,18 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
                          ui->actionNOAMER_Text,
                          ui->actionNOAMER_Cities,
                          ui->actionNOAMER_Hypsographic,
+                     };
+
+    for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
+    {
+        connect(NOAMER_tile_ref_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_NOAMER_button_click);
+    }
+
+    const QAction* EURNASIA_tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
+                     {
                          ui->actionEURNASIA_Map_Lines,
                          ui->actionEURNASIA_Political_Oceans,
                          ui->actionEURNASIA_Drainage_Polygons,
@@ -142,6 +154,18 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
                          ui->actionEURNASIA_Text,
                          ui->actionEURNASIA_Cities,
                          ui->actionEURNASIA_Hypsographic,
+                     };
+
+    for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
+    {
+        connect(EURNASIA_tile_ref_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_EURNASIA_button_click);
+    }
+
+    const QAction* SOAMAFR_tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
+                     {
                          ui->actionSOAMAFR_Map_Lines,
                          ui->actionSOAMAFR_Political_Oceans,
                          ui->actionSOAMAFR_Drainage_Polygons,
@@ -149,6 +173,18 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
                          ui->actionSOAMAFR_Text,
                          ui->actionSOAMAFR_Cities,
                          ui->actionSOAMAFR_Hypsographic,
+                     };
+
+    for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
+    {
+        connect(SOAMAFR_tile_ref_buttons[i],
+                &QAction::triggered,
+                this,
+                &dcw_browse_Main_Window::process_SOAMAFR_button_click);
+    }
+
+    const QAction* SASAUS_tile_ref_buttons[NUM_TILE_REF_MAP_BUTTONS] =
+                     {
                          ui->actionSASAUS_Map_Lines,
                          ui->actionSASAUS_Political_Oceans,
                          ui->actionSASAUS_Drainage_Polygons,
@@ -156,16 +192,20 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
                          ui->actionSASAUS_Text,
                          ui->actionSASAUS_Cities,
                          ui->actionSASAUS_Hypsographic,
-                         ui->actionTileRef_Lat_Long_Grid
                      };
 
     for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
     {
-        connect(tile_ref_buttons[i],
+        connect(SASAUS_tile_ref_buttons[i],
                 &QAction::triggered,
                 this,
-                &dcw_browse_Main_Window::process_TileRef_button_click);
+                &dcw_browse_Main_Window::process_SASAUS_button_click);
     }
+
+    connect(ui->actionTileRef_Lat_Long_Grid,
+            &QAction::triggered,
+            this,
+            &dcw_browse_Main_Window::process_TileRef_lat_long_button_click);
 
     std::cout << "----------- dcw_browse_Main_Window - end -------\n";
 }
@@ -365,18 +405,96 @@ void dcw_browse_Main_Window::process_table_button_click()
 
 
 //==========================================================
-// FUNCTION: process_TileRef_button_click
+// FUNCTION: process_NOAMER_button_click
 //
 // DESCRIPTION:
 //==========================================================
-void dcw_browse_Main_Window::process_TileRef_button_click()
+void dcw_browse_Main_Window::process_NOAMER_button_click()
 {
 #if 0
-    if ( ! SOAMAFR_map )
+    QAction *which_action = qobject_cast<QAction*>(sender());
+
+    if ( which_action == ui->actionNOAMER_Map_Lines,
+                         ui->actionNOAMER_Political_Oceans,
+                         ui->actionNOAMER_Drainage_Polygons,
+                         ui->actionNOAMER_Drainage_Lines,
+                         ui->actionNOAMER_Text,
+                         ui->actionNOAMER_Cities,
+                         ui->actionNOAMER_Hypsographic,
+#endif
+}
+
+
+//==========================================================
+// FUNCTION: process_EURNASIA_button_click
+//
+// DESCRIPTION:
+//==========================================================
+void dcw_browse_Main_Window::process_EURNASIA_button_click()
+{
+#if 0
+    QAction *which_action = qobject_cast<QAction*>(sender());
+
+    if ( which_action == 
+                         ui->actionEURNASIA_Map_Lines,
+                         ui->actionEURNASIA_Political_Oceans,
+                         ui->actionEURNASIA_Drainage_Polygons,
+                         ui->actionEURNASIA_Drainage_Lines,
+                         ui->actionEURNASIA_Text,
+                         ui->actionEURNASIA_Cities,
+                         ui->actionEURNASIA_Hypsographic,
+#endif
+}
+
+
+//==========================================================
+// FUNCTION: process_SOAMAFR_button_click
+//
+// DESCRIPTION:
+//==========================================================
+void dcw_browse_Main_Window::process_SOAMAFR_button_click()
+{
+#if 0
+    QAction *which_action = qobject_cast<QAction*>(sender());
+
+    if ( which_action == 
+                         ui->actionSOAMAFR_Map_Lines,
+                         ui->actionSOAMAFR_Political_Oceans,
+                         ui->actionSOAMAFR_Drainage_Polygons,
+                         ui->actionSOAMAFR_Drainage_Lines,
+                         ui->actionSOAMAFR_Text,
+                         ui->actionSOAMAFR_Cities,
+                         ui->actionSOAMAFR_Hypsographic,
+#endif
+}
+
+
+//==========================================================
+// FUNCTION: process_SASAUS_button_click
+//
+// DESCRIPTION:
+//==========================================================
+void dcw_browse_Main_Window::process_SASAUS_button_click()
+{
+#if 0
+    QAction *which_action = qobject_cast<QAction*>(sender());
+
+    if ( which_action == 
+                         ui->actionSASAUS_Map_Lines,
+                         ui->actionSASAUS_Political_Oceans,
+                         ui->actionSASAUS_Drainage_Polygons,
+                         ui->actionSASAUS_Drainage_Lines,
+                         ui->actionSASAUS_Text,
+                         ui->actionSASAUS_Cities,
+                         ui->actionSASAUS_Hypsographic,
+                         ui->actionTileRef_Lat_Long_Grid)
+
+    if ( ! tile_ref_maps[SASAUS])
     {
-        SOAMAFR_map = new DCW_Library_Mgr("SAMAFR",
-                                          gmsFlat,
-                                          this);
+        tile_ref_maps[SASAUS] = new DCW_Library_Mgr
+                                       ("SASAUS",
+                                        gmsFlat,
+                                        this);
     }
 
     QAction *llg_button = ui->actionTileRef_Lat_Long_Grid;
@@ -385,6 +503,11 @@ void dcw_browse_Main_Window::process_TileRef_button_click()
 
     SOAMAFR_map->set_map_feature(latLongGrid, state);
 #endif
+}
+
+void dcw_browse_Main_Window::process_TileRef_lat_long_button_click()
+{
+   //ui->actionTileRef_Lat_Long_Grid
 }
 
 /* EOF */

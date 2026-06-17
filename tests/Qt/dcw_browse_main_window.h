@@ -42,7 +42,15 @@ public slots:
 
    void process_table_button_click();
 
-   void process_TileRef_button_click();
+   void process_NOAMER_button_click();
+
+   void process_EURNASIA_button_click();
+
+   void process_SOAMAFR_button_click();
+
+   void process_SASAUS_button_click();
+
+   void process_TileRef_lat_long_button_click();
 
 private:
     Ui::dcw_browse_Main_Window *ui = nullptr;
@@ -50,6 +58,13 @@ private:
     DCW_Browse                 *browse_map = nullptr;
 
     Tables_Dialog_Window       *table_info_dialog = nullptr;
+
+    gmsLatLongGridClass        *tile_ref_grid = nullptr;
+
+    gmsTileClass               *theTileMap = nullptr;
+
+    gmsTileClass               *tile_ref_maps[NUM_TILE_REF_MAPS] = { nullptr };
+                        
 };
 #endif // DCW_BROWSE_MAIN_WINDOW_H
 
