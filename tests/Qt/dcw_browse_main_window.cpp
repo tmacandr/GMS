@@ -45,11 +45,7 @@ dcw_browse_Main_Window::dcw_browse_Main_Window
 
     setCentralWidget(central);
 
-std::cout << "123\n";
-
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
-
-std::cout << "123\n";
 
     browse_map = new DCW_Browse(this);
 
@@ -57,17 +53,11 @@ std::cout << "123\n";
 
     splitter->addWidget(browse_map);
 
-std::cout << "123\n";
-
     splitter->setSizes({400, 100});
 
     QHBoxLayout *layout = new QHBoxLayout(central);
 
-std::cout << "123\n";
-
     layout->addWidget(splitter);
-
-std::cout << "123\n";
 
     connect(ui->actionExit,
             &QAction::triggered,
@@ -85,8 +75,6 @@ std::cout << "123\n";
                          ui->actionMove_East,
                          ui->actionMove_West
                      };
-
-std::cout << "123\n";
 
     for (unsigned int i = 0; i < NUM_MAP_CTRL_BUTTONS; i++)
     {
@@ -107,8 +95,6 @@ std::cout << "123\n";
                          ui->actionPolit_Ocean
                      };
 
-std::cout << "123\n";
-
     for (unsigned int i = 0; i < NUM_BROWSE_MAP_BUTTONS; i++)
     {
         connect(browse_map_buttons[i],
@@ -116,8 +102,6 @@ std::cout << "123\n";
                 this,
                 &dcw_browse_Main_Window::process_browse_map_button_click);
     }
-
-std::cout << "123\n";
 
     const unsigned int NUM_TABLE_BUTTONS = 6;
 
@@ -138,8 +122,6 @@ std::cout << "123\n";
                 this,
                 &dcw_browse_Main_Window::process_table_button_click);
     }
-
-std::cout << "123\n";
 
     // Tile-Ref Maps
     const unsigned int NUM_TILE_REF_MAP_BUTTONS = 29;
@@ -176,8 +158,6 @@ std::cout << "123\n";
                          ui->actionSASAUS_Hypsographic,
                          ui->actionTileRef_Lat_Long_Grid
                      };
-
-std::cout << "123\n";
 
     for (unsigned int i = 0; i < NUM_TILE_REF_MAP_BUTTONS; i++)
     {
