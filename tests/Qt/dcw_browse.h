@@ -53,7 +53,6 @@ typedef enum
     text,
     cities,
     HY_lines,
-    latLongGrid,
     //-------------//
     NUM_TILE_REF_FEATURES
 } TILE_REF_FEATURE_T;
@@ -82,12 +81,17 @@ public:
               (const TILE_REF_MAP_T    map,
                const gmsEarthModelType model);
 
+   void init_tile_ref_lat_long_grid
+              (const gmsEarthModelType model);
+
    void set_tile_ref_move_factor(const float newMoveFactor);
 
    void set_tile_ref_map_feature
               (const TILE_REF_MAP_T     map,
                const TILE_REF_FEATURE_T feature,
                const bool               state);
+
+   void set_tile_ref_lat_long_grid(const bool state);
 
    void set_tile_ref_zoom_factor(const double newZoomFactor);
 
@@ -154,17 +158,9 @@ private:
    float                   g_tile_ref_moveAmount = 2.0f;
    double                  g_tile_ref_zoomAmount = 1000.0;
 
-   bool tile_ref_featureIsShown[NUM_TILE_REF_FEATURES] =
-            {
-                false, // mapLines
-                false, // PO_polygons
-                false, // DN_polygons
-                false, // DN_lines
-                false, // text
-                false, // cities
-                false, // HY_lines
-                false  // latLongGrid
-            };
+   bool tile_ref_featureIsShown[NUM_TILE_REF_MAPS][NUM_TILE_REF_FEATURES];
+
+   bool tile_ref_lat_long_grid_is_shown = false;
 
    gmsLatLongGridClass     *tile_ref_lat_long_grid = nullptr;
 
@@ -184,19 +180,19 @@ private:
 
    void dlg_tile_ref_ProcMoveControl();
 
-   void draw_tile_ref_MapLines();
+   void draw_tile_ref_MapLines(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_PO_Polygons();
+   void draw_tile_ref_PO_Polygons(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_DN_Polygons();
+   void draw_tile_ref_DN_Polygons(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_DN_Lines();
+   void draw_tile_ref_DN_Lines(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_HY_Lines();
+   void draw_tile_ref_HY_Lines(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_TextOfMap();
+   void draw_tile_ref_TextOfMap(const TILE_REF_MAP_T map);
 
-   void draw_tile_ref_CitiesOfMap();
+   void draw_tile_ref_CitiesOfMap(const TILE_REF_MAP_T map);
 
    void setNewFont ();
 

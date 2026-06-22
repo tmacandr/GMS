@@ -44,6 +44,14 @@ DCW_Browse::DCW_Browse(QWidget *parent)
 {
     std::cout << "------------------ DCW_Browse - begin ---------\n";
 
+    for (unsigned int m = 0; m < NUM_TILE_REF_MAPS; m++)
+    {
+        for (unsigned int t = 0; t < NUM_TILE_REF_FEATURES; t++)
+        {
+            tile_ref_featureIsShown[m][t] = false;
+        }
+    }
+
     std::cout << "------------------ DCW_Browse - end ---------\n";
 }
 
@@ -71,13 +79,13 @@ DCW_Browse::~DCW_Browse()
        tile_ref_lat_long_grid = nullptr;
    }
 
-   for (unsigned int i = 0; i < NUM_TILE_REF_MAPS; i++)
+   for (unsigned int m = 0; m < NUM_TILE_REF_MAPS; m++)
    {
-       if (tile_ref_map[i])
+       if (tile_ref_map[m])
        {
-           delete tile_ref_map[i];
+           delete tile_ref_map[m];
 
-           tile_ref_map[i] = nullptr;
+           tile_ref_map[m] = nullptr;
        }
    }
 
@@ -86,7 +94,7 @@ DCW_Browse::~DCW_Browse()
 
 
 //==========================================================
-// METHOD: 
+// METHOD: init_browse_map 
 //
 // DESCRIPTION:
 //==========================================================
@@ -155,29 +163,46 @@ void DCW_Browse::init_tile_ref_map
 
     gmsSetMapZoomFactor (initialZoomFactor);
 
+    init_tile_ref_lat_long_grid(model);
+
+    if ( not tile_ref_map[map] )
+    {
+        tile_ref_map[map] = new gmsTileClass
+                                   (model, // earth model
+                                    'N',   // longTileId
+                                    'G');  // latTileId
+
+        //gmsMoveFlatMap (gmsMoveNorth, (3 * g_tile_ref_moveAmount));
+
+        //gmsMoveFlatMap (gmsMoveEast, (4 * g_tile_ref_moveAmount));
+    }
+
+    std::cout << "init_tile_ref_map - end\n";
+}
+
+
+//---------------------------------------------
+// init_tile_ref_lat_long_grid 
+//
+// Description:
+//---------------------------------------------
+void DCW_Browse::init_tile_ref_lat_long_grid
+                       (const gmsEarthModelType model)
+{
+    std::cout << "init_tile_ref_lat_long_grid - begin\n";
+
     if ( not tile_ref_lat_long_grid )
     {
+        const double initialZoomFactor = 3000.0;
+
+        gmsSetMapZoomFactor (initialZoomFactor);
+
         tile_ref_lat_long_grid = new gmsLatLongGridClass
                                            (tile_ref_deltaDegrees,
                                             model);
     }
 
-    if ( tile_ref_map[map] )
-    {
-        std::cout << "***> ERROR - Tile ref map already defined\n";
-        return;
-    }
-
-    tile_ref_map[map] = new gmsTileClass
-                               (model, // earth model
-                                'N',   // longTileId
-                                'G');  // latTileId
-
-    //gmsMoveFlatMap (gmsMoveNorth, (3 * g_tile_ref_moveAmount));
-
-    //gmsMoveFlatMap (gmsMoveEast, (4 * g_tile_ref_moveAmount));
-
-    std::cout << "init_tile_ref_map - end\n";
+    std::cout << "init_tile_ref_lat_long_grid - end\n";
 }
 
 
@@ -195,11 +220,24 @@ void DCW_Browse::set_tile_ref_map_feature
 
     Q_UNUSED(map);
 
-    tile_ref_featureIsShown[feature] = state;
+    tile_ref_featureIsShown[map][feature] = state;
 
     update();
 
     std::cout << "set_tile_ref_map_feature - end\n";
+}
+
+
+//--------------------------------------------- 
+// set_tile_ref_lat_long_grid 
+//
+// Description:
+//---------------------------------------------
+void DCW_Browse::set_tile_ref_lat_long_grid(const bool state)
+{
+    tile_ref_lat_long_grid_is_shown = state;
+
+    update();
 }
 
 
@@ -545,34 +583,45 @@ void DCW_Browse::set_tile_ref_move_factor(const float newMoveFactor)
 //-------------------------------------------------
 void DCW_Browse::draw_tile_ref_maps()
 {
+   std::cout << "---> draw_tile_ref_maps - begin\n";
+
    #if 0
    if (g_handleToCurrentFont != (HFONT) 0)
       SelectObject (hDC, g_handleToCurrentFont);
    #endif
 
-   if (tile_ref_featureIsShown[PO_polygons])
-      draw_tile_ref_PO_Polygons ();
+   TILE_REF_MAP_T m;
 
-   if (tile_ref_featureIsShown[DN_polygons])
-      draw_tile_ref_DN_Polygons ();
+   for (unsigned int i = 0; i < NUM_TILE_REF_MAPS; i++)
+   {
+       m = (TILE_REF_MAP_T) i;
 
-   if (tile_ref_featureIsShown[DN_lines])
-      draw_tile_ref_DN_Lines ();
+       if (tile_ref_featureIsShown[m][mapLines])
+          draw_tile_ref_MapLines (m);
 
-   if (tile_ref_featureIsShown[HY_lines])
-      draw_tile_ref_HY_Lines ();
+       if (tile_ref_featureIsShown[m][PO_polygons])
+          draw_tile_ref_PO_Polygons (m);
 
-   if (tile_ref_featureIsShown[mapLines])
-      draw_tile_ref_MapLines ();
+       if (tile_ref_featureIsShown[m][DN_polygons])
+          draw_tile_ref_DN_Polygons (m);
 
-   if (tile_ref_featureIsShown[text])
-      draw_tile_ref_TextOfMap ();
+       if (tile_ref_featureIsShown[m][DN_lines])
+          draw_tile_ref_DN_Lines (m);
 
-   if (tile_ref_featureIsShown[cities])
-      draw_tile_ref_CitiesOfMap ();
+       if (tile_ref_featureIsShown[m][HY_lines])
+          draw_tile_ref_HY_Lines (m);
 
-   if (tile_ref_featureIsShown[latLongGrid])
+       if (tile_ref_featureIsShown[m][text])
+          draw_tile_ref_TextOfMap (m);
+
+       if (tile_ref_featureIsShown[m][cities])
+          draw_tile_ref_CitiesOfMap (m);
+   }
+
+   if (tile_ref_lat_long_grid_is_shown)
       draw_tile_ref_LatLongGrid ();
+
+   std::cout << "---> draw_tile_ref_maps - end\n";
 }
 
 
@@ -694,7 +743,7 @@ void DCW_Browse::drawImage
 //
 // Desciption:
 //-------------------------------------------------
-void drawPolygonImage
+void DCW_Browse::drawPolygonImage
                (Qt::GlobalColor        borderColor,
                 Qt::GlobalColor        fillColor,
                 gms_2D_ScreenImageType mapImage)
@@ -752,17 +801,16 @@ Q_UNUSED(mapImage);
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_MapLines()
+void DCW_Browse::draw_tile_ref_MapLines(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                    i;
-         int                    numMaps;
+         int                    numMaps = 0;
          gmsMapClass            **ptrToMaps;
          gms_2D_ScreenImageType mapImage;
 
-   ptrToMaps = theTileMap.gmsGetTileMaps
-                             (gms_PO,
-                              numMaps);
+   ptrToMaps = tile_ref_map[map]->gmsGetTileMaps
+                                     (gms_PO,
+                                      numMaps);
 
    for (i = 0; i < numMaps; i++)
    {
@@ -772,7 +820,6 @@ void DCW_Browse::draw_tile_ref_MapLines()
           (Qt::red,
            mapImage);
    }
-   #endif
 }
 
 
@@ -781,26 +828,25 @@ void DCW_Browse::draw_tile_ref_MapLines()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_PO_Polygons()
+void DCW_Browse::draw_tile_ref_PO_Polygons(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                    i;
-         int                    numPolygonObjs;
-         gms_PO_PolygonMapClass **ptrToPolygonObjs;
+         int                    numPolygonObjs     = 0;
+         gms_PO_PolygonMapClass **ptrToPolygonObjs = nullptr;
          gms_2D_ScreenImageType polygonImage;
 
-   ptrToPolygonObjs = theTileMap.gmsGetTile_PO_Polygons (numPolygonObjs);
+   ptrToPolygonObjs = tile_ref_map[map]->gmsGetTile_PO_Polygons
+                                             (numPolygonObjs);
 
    for (i = 0; i < numPolygonObjs; i++)
    {
        polygonImage = ptrToPolygonObjs[i]->gmsGetLandAreas ();
 
        drawPolygonImage
-          (DARK_Qt::green,
-           DARK_Qt::green,
+          (Qt::blue,
+           Qt::green,
            polygonImage);
    }
-   #endif
 }
 
 
@@ -809,26 +855,25 @@ void DCW_Browse::draw_tile_ref_PO_Polygons()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_DN_Polygons()
+void DCW_Browse::draw_tile_ref_DN_Polygons(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                    i;
-         int                    numPolygonObjs;
-         gms_DN_PolygonMapClass **ptrToPolygonObjs;
+         int                    numPolygonObjs     = 0;
+         gms_DN_PolygonMapClass **ptrToPolygonObjs = nullptr;
          gms_2D_ScreenImageType theImage;
 
-   ptrToPolygonObjs = theTileMap.gmsGetTile_DN_Polygons (numPolygonObjs);
+   ptrToPolygonObjs = tile_ref_map[map]->gmsGetTile_DN_Polygons
+                                            (numPolygonObjs);
 
    for (i = 0; i < numPolygonObjs; i++)
    {
        theImage = ptrToPolygonObjs[i]->gmsGetInlandWaterAreas ();
 
        drawPolygonImage
-          (Qt::blue,
+          (Qt::yellow,
            Qt::blue,
            theImage);
    }
-   #endif
 }
 
 
@@ -837,17 +882,16 @@ void DCW_Browse::draw_tile_ref_DN_Polygons()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_DN_Lines()
+void DCW_Browse::draw_tile_ref_DN_Lines(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                    i;
-         int                    numMaps;
-         gmsMapClass            **ptrToMaps;
+         int                    numMaps     = 0;
+         gmsMapClass            **ptrToMaps = nullptr;
          gms_2D_ScreenImageType theImage;
 
-   ptrToMaps = theTileMap.gmsGetTileMaps
-                             (gms_DN,
-                              numMaps);
+   ptrToMaps = tile_ref_map[map]->gmsGetTileMaps
+                                     (gms_DN,
+                                      numMaps);
 
    for (i = 0; i < numMaps; i++)
    {
@@ -857,7 +901,6 @@ void DCW_Browse::draw_tile_ref_DN_Lines()
           (Qt::magenta,
            theImage);
    }
-   #endif
 }
 
 
@@ -866,27 +909,25 @@ void DCW_Browse::draw_tile_ref_DN_Lines()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_HY_Lines()
+void DCW_Browse::draw_tile_ref_HY_Lines(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                    i;
-         int                    numMaps;
-         gmsMapClass            **ptrToMaps;
+         int                    numMaps     = 0;
+         gmsMapClass            **ptrToMaps = nullptr;
          gms_2D_ScreenImageType theImage;
 
-   ptrToMaps = theTileMap.gmsGetTileMaps
-                             (gms_HY,
-                              numMaps);
+   ptrToMaps = tile_ref_map[map]->gmsGetTileMaps
+                                     (gms_HY,
+                                      numMaps);
 
    for (i = 0; i < numMaps; i++)
    {
-       theImage = ptrToMaps[i]->gmsGetMapImage ();
+       theImage = ptrToMaps[i]->gmsGetMapImage();
 
        drawImage
           (Qt::yellow,
            theImage);
    }
-   #endif
 }
 
 
@@ -895,17 +936,16 @@ void DCW_Browse::draw_tile_ref_HY_Lines()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_TextOfMap()
+void DCW_Browse::draw_tile_ref_TextOfMap(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                  i;
          int                  numMaps;
          gmsTextClass         **ptrToText;
          gmsMapTextArrayType textData;
 
-   ptrToText = theTileMap.gmsGetTileText
-                             (gms_PO,
-                              numMaps);
+   ptrToText = tile_ref_map[map]->gmsGetTileText
+                                     (gms_PO,
+                                      numMaps);
 
    for (i = 0; i < numMaps; i++)
    {
@@ -918,7 +958,6 @@ void DCW_Browse::draw_tile_ref_TextOfMap()
           (Qt::black,
            textData);
    }
-   #endif
 }
 
 
@@ -927,17 +966,16 @@ void DCW_Browse::draw_tile_ref_TextOfMap()
 //
 // Desciption:
 //-------------------------------------------------
-void DCW_Browse::draw_tile_ref_CitiesOfMap()
+void DCW_Browse::draw_tile_ref_CitiesOfMap(const TILE_REF_MAP_T map)
 {
-   #if 0
          int                       i;
-         int                       numObjs;
-         gmsNodeClass              **ptrToNodes;
+         int                       numObjs      = 0;
+         gmsNodeClass              **ptrToNodes = nullptr;
          gms_2D_ScreenPolylineType nodeImage;
 
-   ptrToNodes = theTileMap.gmsGetTileNodes
-                             (gms_PO,
-                              numObjs);
+   ptrToNodes = tile_ref_map[map]->gmsGetTileNodes
+                                      (gms_PO,
+                                       numObjs);
 
    for (i = 0; i < numObjs; i++)
    {
@@ -948,13 +986,13 @@ void DCW_Browse::draw_tile_ref_CitiesOfMap()
            nodeImage);
    }
 
-         int                  numMaps;
-         gmsTextClass         **ptrToText;
+         int                  numMaps     = 0;
+         gmsTextClass         **ptrToText = nullptr;
          gmsMapTextArrayType textData;
 
-   ptrToText = theTileMap.gmsGetTileText
-                             (gms_PP,
-                              numMaps);
+   ptrToText = tile_ref_map[map]->gmsGetTileText
+                                     (gms_PP,
+                                      numMaps);
 
    for (i = 0; i < numMaps; i++)
    {
@@ -964,7 +1002,6 @@ void DCW_Browse::draw_tile_ref_CitiesOfMap()
           (Qt::black,
            textData);
    }
-   #endif
 }
 
 
@@ -978,25 +1015,31 @@ void DCW_Browse::draw_tile_ref_CitiesOfMap()
 void DCW_Browse::draw_tile_ref_LatLongGrid ()
 
 {
-#if 0
    std::cout << "draw_tile_ref_LatLongGrid - begin\n";
 
    gms_2D_ScreenImageType gridImage;
 
-   gridImage = theGrid->gmsGetLatitudeGrid();
+std::cout << "DTRLLG 1\n";
+
+   gridImage = tile_ref_lat_long_grid->gmsGetLatitudeGrid();
+
+std::cout << "DTRLLG 1\n";
 
    drawImage
       (Qt::green,
        gridImage);
 
-   gridImage = theGrid->gmsGetLongitudeGrid();
+std::cout << "DTRLLG 1\n";
+
+   gridImage = tile_ref_lat_long_grid->gmsGetLongitudeGrid();
+
+std::cout << "DTRLLG 1\n";
 
    drawImage
       (Qt::green,
        gridImage);
 
    std::cout << "draw_tile_ref_LatLongGrid - end\n";
-#endif
 }
 
 #if 0

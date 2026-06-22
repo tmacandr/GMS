@@ -379,21 +379,27 @@ void dcw_browse_Main_Window::process_table_button_click()
     {
         if (which_action == ui->actionDatabase_Header)
         {
+            std::cout << "===> Database Header - not implemented\n";
         }
         else if (which_action == ui->actionLibrary_Attributes)
         {
+            std::cout << "===> Library Attributes - not implemented\n";
         }
         else if (which_action == ui->actionCoverage_Attributes)
         {
+            std::cout << "===> Coverage Attributes - not implemented\n";
         }
         else if (which_action == ui->actionData_Quality)
         {
+            std::cout << "===> Data Quality - not implemented\n";
         }
         else if (which_action == ui->actionGeographic_Reference)
         {
+            std::cout << "===> Geographic Reference - not implemented\n";
         }
         else if (which_action == ui->actionLibrary_Header)
         {
+            std::cout << "===> Library Header - not implemented\n";
         }
         else
         {
@@ -411,17 +417,57 @@ void dcw_browse_Main_Window::process_table_button_click()
 //==========================================================
 void dcw_browse_Main_Window::process_NOAMER_button_click()
 {
-#if 0
-    QAction *which_action = qobject_cast<QAction*>(sender());
+    QAction            *which_action;
+    TILE_REF_FEATURE_T which_feature;
+    bool               state;
+    
+    std::cout << "---> process_NOAMER_button_click - begin\n";
 
-    if ( which_action == ui->actionNOAMER_Map_Lines,
-                         ui->actionNOAMER_Political_Oceans,
-                         ui->actionNOAMER_Drainage_Polygons,
-                         ui->actionNOAMER_Drainage_Lines,
-                         ui->actionNOAMER_Text,
-                         ui->actionNOAMER_Cities,
-                         ui->actionNOAMER_Hypsographic,
-#endif
+    browse_map->init_tile_ref_map(NOAMER, gmsFlat);
+
+    which_action = qobject_cast<QAction*>(sender());
+
+    state = which_action->isChecked();
+
+    if ( which_action == ui->actionNOAMER_Map_Lines)
+    {
+        which_feature = mapLines;
+    }   
+    else if ( which_action == ui->actionNOAMER_Political_Oceans )
+    {
+        which_feature = PO_polygons;
+    }   
+    else if ( which_action == ui->actionNOAMER_Drainage_Polygons )
+    {
+        which_feature = DN_polygons;
+    }   
+    else if ( which_action == ui->actionNOAMER_Drainage_Lines )
+    {
+        which_feature = DN_lines;
+    }   
+    else if ( which_action == ui->actionNOAMER_Text )
+    {
+        which_feature = text;
+    }   
+    else if ( which_action == ui->actionNOAMER_Cities )
+    {
+        which_feature = cities;
+    }   
+    else if ( which_action == ui->actionNOAMER_Hypsographic )
+    {
+        which_feature = HY_lines;
+    }   
+    else
+    {
+        std::cout << "***> ERROR - process_NOAMER_button_click\n"
+                  << "***>       - Unknown menut button\n";
+                  
+        return;
+    }
+    
+    browse_map->set_tile_ref_map_feature(NOAMER, which_feature, state);
+
+    std::cout << "---> process_NOAMER_button_click - end\n";
 }
 
 
@@ -432,18 +478,57 @@ void dcw_browse_Main_Window::process_NOAMER_button_click()
 //==========================================================
 void dcw_browse_Main_Window::process_EURNASIA_button_click()
 {
-#if 0
-    QAction *which_action = qobject_cast<QAction*>(sender());
+    QAction            *which_action;
+    TILE_REF_FEATURE_T which_feature;
+    bool               state;
 
-    if ( which_action == 
-                         ui->actionEURNASIA_Map_Lines,
-                         ui->actionEURNASIA_Political_Oceans,
-                         ui->actionEURNASIA_Drainage_Polygons,
-                         ui->actionEURNASIA_Drainage_Lines,
-                         ui->actionEURNASIA_Text,
-                         ui->actionEURNASIA_Cities,
-                         ui->actionEURNASIA_Hypsographic,
-#endif
+    std::cout << "---> process_EURNASIA_button_click - begin\n";
+
+    browse_map->init_tile_ref_map(EURNASIA, gmsFlat);
+
+    which_action = qobject_cast<QAction*>(sender());
+
+    state = which_action->isChecked();
+
+    if ( which_action == ui->actionEURNASIA_Map_Lines)
+    {
+        which_feature = mapLines;
+    }
+    else if ( which_action == ui->actionEURNASIA_Political_Oceans )
+    {
+        which_feature = PO_polygons;
+    }
+    else if ( which_action == ui->actionEURNASIA_Drainage_Polygons )
+    {
+        which_feature = DN_polygons;
+    }
+    else if ( which_action == ui->actionEURNASIA_Drainage_Lines )
+    {
+        which_feature = DN_lines;
+    }
+    else if ( which_action == ui->actionEURNASIA_Text )
+    {
+        which_feature = text;
+    }
+    else if ( which_action == ui->actionEURNASIA_Cities )
+    {
+        which_feature = cities;
+    }
+    else if ( which_action == ui->actionEURNASIA_Hypsographic )
+    {
+        which_feature = HY_lines;
+    }
+    else
+    {
+        std::cout << "***> ERROR - process_EURNASIA_button_click\n"
+                  << "***>       - Unknown menut button\n";
+
+        return;
+    }
+
+    browse_map->set_tile_ref_map_feature(EURNASIA, which_feature, state);
+
+    std::cout << "---> process_EURNASIA_button_click - end\n";
 }
 
 
@@ -454,18 +539,57 @@ void dcw_browse_Main_Window::process_EURNASIA_button_click()
 //==========================================================
 void dcw_browse_Main_Window::process_SOAMAFR_button_click()
 {
-#if 0
-    QAction *which_action = qobject_cast<QAction*>(sender());
+    QAction            *which_action;
+    TILE_REF_FEATURE_T which_feature;
+    bool               state;
 
-    if ( which_action == 
-                         ui->actionSOAMAFR_Map_Lines,
-                         ui->actionSOAMAFR_Political_Oceans,
-                         ui->actionSOAMAFR_Drainage_Polygons,
-                         ui->actionSOAMAFR_Drainage_Lines,
-                         ui->actionSOAMAFR_Text,
-                         ui->actionSOAMAFR_Cities,
-                         ui->actionSOAMAFR_Hypsographic,
-#endif
+    std::cout << "---> process_SOAMAFR_button_click - begin\n";
+
+    browse_map->init_tile_ref_map(SOAMAFR, gmsFlat);
+
+    which_action = qobject_cast<QAction*>(sender());
+
+    state = which_action->isChecked();
+
+    if ( which_action == ui->actionSOAMAFR_Map_Lines)
+    {
+        which_feature = mapLines;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Political_Oceans )
+    {
+        which_feature = PO_polygons;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Drainage_Polygons )
+    {
+        which_feature = DN_polygons;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Drainage_Lines )
+    {
+        which_feature = DN_lines;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Text )
+    {
+        which_feature = text;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Cities )
+    {
+        which_feature = cities;
+    }
+    else if ( which_action == ui->actionSOAMAFR_Hypsographic )
+    {
+        which_feature = HY_lines;
+    }
+    else
+    {
+        std::cout << "***> ERROR - process_SOAMAFR_button_click\n"
+                  << "***>       - Unknown menut button\n";
+
+        return;
+    }
+
+    browse_map->set_tile_ref_map_feature(SOAMAFR, which_feature, state);
+
+    std::cout << "---> process_SOAMAFR_button_click - end\n";
 }
 
 
@@ -476,38 +600,81 @@ void dcw_browse_Main_Window::process_SOAMAFR_button_click()
 //==========================================================
 void dcw_browse_Main_Window::process_SASAUS_button_click()
 {
-#if 0
-    QAction *which_action = qobject_cast<QAction*>(sender());
+    QAction            *which_action;
+    TILE_REF_FEATURE_T which_feature;
+    bool               state;
+    
+    std::cout << "---> process_SASAUS_button_click - begin\n";
 
-    if ( which_action == 
-                         ui->actionSASAUS_Map_Lines,
-                         ui->actionSASAUS_Political_Oceans,
-                         ui->actionSASAUS_Drainage_Polygons,
-                         ui->actionSASAUS_Drainage_Lines,
-                         ui->actionSASAUS_Text,
-                         ui->actionSASAUS_Cities,
-                         ui->actionSASAUS_Hypsographic,
-                         ui->actionTileRef_Lat_Long_Grid)
+    browse_map->init_tile_ref_map(SASAUS, gmsFlat);
 
-    if ( ! tile_ref_maps[SASAUS])
+    which_action = qobject_cast<QAction*>(sender());
+
+    state = which_action->isChecked();
+
+    if ( which_action == ui->actionSASAUS_Map_Lines)
     {
-        tile_ref_maps[SASAUS] = new DCW_Library_Mgr
-                                       ("SASAUS",
-                                        gmsFlat,
-                                        this);
+        which_feature = mapLines;
+    }   
+    else if ( which_action == ui->actionSASAUS_Political_Oceans )
+    {
+        which_feature = PO_polygons;
+    }   
+    else if ( which_action == ui->actionSASAUS_Drainage_Polygons )
+    {
+        which_feature = DN_polygons;
+    }   
+    else if ( which_action == ui->actionSASAUS_Drainage_Lines )
+    {
+        which_feature = DN_lines;
+    }   
+    else if ( which_action == ui->actionSASAUS_Text )
+    {
+        which_feature = text;
+    }   
+    else if ( which_action == ui->actionSASAUS_Cities )
+    {
+        which_feature = cities;
+    }   
+    else if ( which_action == ui->actionSASAUS_Hypsographic )
+    {
+        which_feature = HY_lines;
+    }   
+    else
+    {
+        std::cout << "***> ERROR - process_SASAUS_button_click\n"
+                  << "***>       - Unknown menut button\n";
+                  
+        return;
     }
+    
+    browse_map->set_tile_ref_map_feature(SASAUS, which_feature, state);
 
-    QAction *llg_button = ui->actionTileRef_Lat_Long_Grid;
-
-    bool state = llg_button->isChecked();
-
-    SOAMAFR_map->set_map_feature(latLongGrid, state);
-#endif
+    std::cout << "---> process_SASAUS_button_click - end\n";
 }
 
+
+//==========================================================
+// FUNCTION: process_TileRef_lat_long_button_click
+//
+// DESCRIPTION:
+//    Callback (slot) invoked when the Tile-Ref-->LatLong
+//    button is selected.
+//
+//    Sets the 'tile-ref' setting for the Lat/Long grid
+//    based on user setting (clicked or not).
+//==========================================================
 void dcw_browse_Main_Window::process_TileRef_lat_long_button_click()
 {
-   //ui->actionTileRef_Lat_Long_Grid
+    std::cout << "---> process_TileRef_lat_long_button_click - begin\n";
+
+    browse_map->init_tile_ref_lat_long_grid(gmsFlat);
+
+    bool state = ui->actionTileRef_Lat_Long_Grid->isChecked();
+
+    browse_map->set_tile_ref_lat_long_grid(state);
+
+    std::cout << "---> process_TileRef_lat_long_button_click - end\n";
 }
 
 /* EOF */
